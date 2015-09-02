@@ -29,6 +29,10 @@ public struct Path: StringLiteralConvertible, CustomStringConvertible, Hashable,
         return (_path as NSString).pathComponents.map { Path($0) }
     }
     
+    public var standardized: Path {
+        return Path((self._path as NSString).stringByStandardizingPath)
+    }
+    
     public init() {
         _path = "/"
     }
