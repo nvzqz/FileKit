@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Path: StringLiteralConvertible, Indexable {
+public struct Path: StringLiteralConvertible, CustomStringConvertible, Indexable {
     
     // MARK: - Path
     
@@ -53,6 +53,12 @@ public struct Path: StringLiteralConvertible, Indexable {
     
     public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         _path = value
+    }
+    
+    // MARK: - CustomStringConvertible
+    
+    public var description: String {
+        return _path
     }
     
     // MARK: - Indexable
