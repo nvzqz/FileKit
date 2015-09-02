@@ -33,6 +33,14 @@ public struct Path: StringLiteralConvertible, CustomStringConvertible, Hashable,
         return Path((self._path as NSString).stringByStandardizingPath)
     }
     
+    public var isAbsolute: Bool {
+        return _path.hasPrefix(Path.Separator)
+    }
+    
+    public var isRelative: Bool {
+        return !isAbsolute
+    }
+    
     public init() {
         _path = "/"
     }
