@@ -18,6 +18,10 @@ public struct Path: StringLiteralConvertible {
     
     private var _path: String
     
+    public var components: [Path] {
+        return (_path as NSString).pathComponents.map { Path($0) }
+    }
+    
     public init() {
         _path = "/"
     }
