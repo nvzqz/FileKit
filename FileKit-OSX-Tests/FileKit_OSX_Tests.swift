@@ -7,7 +7,29 @@
 //
 
 import XCTest
+import FileKit
 
 class FileKit_OSX_Tests: XCTestCase {
+    
+    func testPathStringLiteralConvertible() {
+        let a  = "/Users" as Path
+        let b: Path = "/Users"
+        let c = Path("/Users")
+        XCTAssertTrue(a == b)
+        XCTAssertTrue(a == c)
+        XCTAssertTrue(b == c)
+    }
+    
+    func testFileStringLiteralConvertible() {
+        let a: File = "~/Desktop"
+        let b: Path = "~/Desktop"
+        XCTAssertEqual(a.path, b)
+    }
+    
+    func testStandardizingPath() {
+        let a: Path = "~/.."
+        let b: Path = "/Users"
+        XCTAssertEqual(a.standardized, b.standardized)
+    }
     
 }
