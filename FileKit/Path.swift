@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Path: StringLiteralConvertible, CustomStringConvertible, Indexable {
+public struct Path: StringLiteralConvertible, CustomStringConvertible, Hashable, Indexable {
     
     // MARK: - Path
     
@@ -61,6 +61,12 @@ public struct Path: StringLiteralConvertible, CustomStringConvertible, Indexable
         return _path
     }
     
+    // MARK: - Hashable
+    
+    public var hashValue: Int {
+        return _path.hashValue
+    }
+    
     // MARK: - Indexable
     
     public var startIndex: Int {
@@ -76,3 +82,11 @@ public struct Path: StringLiteralConvertible, CustomStringConvertible, Indexable
     }
     
 }
+
+// MARK: - Operators
+
+public func == (lhs: Path, rhs: Path) -> Bool {
+    return lhs._path == rhs._path
+}
+
+
