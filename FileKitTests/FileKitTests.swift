@@ -7,7 +7,14 @@
 //
 
 import XCTest
+import FileKit
 
 class FileKitTests: XCTestCase {
+    
+    func testStandardizingPath() {
+        let a: Path = "~/.."
+        let b: Path = "/Users"
+        XCTAssertEqual(a.standardized, b.standardized)
+    }
     
 }
