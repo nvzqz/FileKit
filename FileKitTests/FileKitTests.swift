@@ -17,4 +17,10 @@ class FileKitTests: XCTestCase {
         XCTAssertEqual(a.standardized, b.standardized)
     }
     
+    func testFileStringLiteralConvertible() {
+        let a: File = "~/Desktop"
+        let b: Path = "~/Desktop"
+        XCTAssertEqual(a.path, b)
+    }
+    
 }

@@ -8,12 +8,32 @@
 
 import Foundation
 
-public class File {
+public class File: StringLiteralConvertible {
+    
+    // MARK: - File
     
     public var path: Path
     
     public init(path: Path) {
         self.path = path
+    }
+    
+    // MARK: - StringLiteralConvertible
+    
+    public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
+    
+    public typealias UnicodeScalarLiteralType = StringLiteralType
+    
+    public required init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+        path = Path(value)
+    }
+    
+    public required init(stringLiteral value: StringLiteralType) {
+        path = Path(value)
+    }
+    
+    public required init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+        path = Path(value)
     }
     
 }
