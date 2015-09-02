@@ -12,7 +12,7 @@ public struct Path: StringLiteralConvertible, Indexable {
     
     // MARK: - Path
     
-    public static let separator = "/"
+    public static let Separator = "/"
     
     
     
