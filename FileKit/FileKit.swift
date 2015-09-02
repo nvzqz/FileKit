@@ -18,6 +18,10 @@ public class File: StringLiteralConvertible {
         self.path = path
     }
     
+    func delete() throws {
+        try NSFileManager.defaultManager().removeItemAtPath(path._path)
+    }
+    
     func moveToPath(path: Path) throws {
         try NSFileManager.defaultManager().moveItemAtPath(path._path, toPath: path._path)
         self.path = path
