@@ -12,6 +12,10 @@ public struct Path: StringLiteralConvertible {
     
     // MARK: - Path
     
+    public static let separator = "/"
+    
+    
+    
     private var _path: String
     
     public init() {
