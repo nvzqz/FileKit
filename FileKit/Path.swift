@@ -22,6 +22,10 @@ public struct Path: StringLiteralConvertible {
         _path = "/"
     }
     
+    public init(_ path: String) {
+        self._path = path
+    }
+    
     // MARK: - StringLiteralConvertible
     
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
