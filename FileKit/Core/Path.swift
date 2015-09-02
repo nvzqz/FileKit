@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Path: StringLiteralConvertible, CustomStringConvertible, Hashable, Indexable {
+public struct Path: StringLiteralConvertible, CustomStringConvertible, RawRepresentable, Hashable, Indexable {
     
     // MARK: - Path
     
@@ -70,6 +70,16 @@ public struct Path: StringLiteralConvertible, CustomStringConvertible, Hashable,
     // MARK: - CustomStringConvertible
     
     public var description: String {
+        return _path
+    }
+    
+    // MARK: - RawRepresentable
+    
+    public init(rawValue: String) {
+        _path = rawValue
+    }
+    
+    public var rawValue: String {
         return _path
     }
     
