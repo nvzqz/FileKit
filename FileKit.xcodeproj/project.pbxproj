@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		5204B7BA1B968B8600AA473F /* FileKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5204B7B91B968B8600AA473F /* FileKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5204B7C21B968DD200AA473F /* FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C11B968DD200AA473F /* FileKit.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5204B7B61B968B8600AA473F /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5204B7B91B968B8600AA473F /* FileKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileKit.h; sourceTree = "<group>"; };
 		5204B7BB1B968B8600AA473F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5204B7C11B968DD200AA473F /* FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileKit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 			isa = PBXGroup;
 			children = (
 				5204B7B91B968B8600AA473F /* FileKit.h */,
+				5204B7C11B968DD200AA473F /* FileKit.swift */,
 				5204B7BB1B968B8600AA473F /* Info.plist */,
 			);
 			path = FileKit;
@@ -90,6 +93,7 @@
 		5204B7AD1B968B8600AA473F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Nikolai Vazquez";
 				TargetAttributes = {
@@ -130,6 +134,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5204B7C21B968DD200AA473F /* FileKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +228,7 @@
 		5204B7BF1B968B8600AA473F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -235,12 +241,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FileKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		5204B7C01B968B8600AA473F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -275,6 +283,7 @@
 				5204B7C01B968B8600AA473F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
