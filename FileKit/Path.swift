@@ -14,7 +14,14 @@ public struct Path: StringLiteralConvertible, Indexable {
     
     public static let Separator = "/"
     
-    
+    public static var CurrentWorkingDirectory: Path {
+        get {
+            return Path(NSFileManager.defaultManager().currentDirectoryPath)
+        }
+        set {
+            NSFileManager.defaultManager().changeCurrentDirectoryPath(newValue._path)
+        }
+    }
     
     private var _path: String
     
