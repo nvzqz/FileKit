@@ -7,8 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5204B84E1B96B83800AA473F /* FileKit-OSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 5204B84D1B96B83800AA473F /* FileKit-OSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5204B85B1B96B85E00AA473F /* FileKit-iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 5204B85A1B96B85E00AA473F /* FileKit-iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5204B84E1B96B83800AA473F /* FileKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5204B84D1B96B83800AA473F /* FileKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5263A8F91B96B8EC00635A93 /* FileKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5204B84D1B96B83800AA473F /* FileKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5263A8FA1B96B94900635A93 /* FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C11B968DD200AA473F /* FileKit.swift */; settings = {ASSET_TAGS = (); }; };
+		5263A8FB1B96B94A00635A93 /* FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C11B968DD200AA473F /* FileKit.swift */; settings = {ASSET_TAGS = (); }; };
+		5263A8FC1B96B94D00635A93 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* Path.swift */; settings = {ASSET_TAGS = (); }; };
+		5263A8FD1B96B94D00635A93 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* Path.swift */; settings = {ASSET_TAGS = (); }; };
+		5263A8FE1B96B95000635A93 /* String+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7E51B96ADA100AA473F /* String+FileKit.swift */; settings = {ASSET_TAGS = (); }; };
+		5263A8FF1B96B95100635A93 /* String+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7E51B96ADA100AA473F /* String+FileKit.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -16,11 +22,9 @@
 		5204B7C31B968E8000AA473F /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		5204B7E51B96ADA100AA473F /* String+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+FileKit.swift"; sourceTree = "<group>"; };
 		5204B84B1B96B83800AA473F /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5204B84D1B96B83800AA473F /* FileKit-OSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FileKit-OSX.h"; sourceTree = "<group>"; };
+		5204B84D1B96B83800AA473F /* FileKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileKit.h; sourceTree = "<group>"; };
 		5204B84F1B96B83800AA473F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5204B8581B96B85E00AA473F /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5204B85A1B96B85E00AA473F /* FileKit-iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FileKit-iOS.h"; sourceTree = "<group>"; };
-		5204B85C1B96B85E00AA473F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,8 +49,6 @@
 			isa = PBXGroup;
 			children = (
 				5204B7B81B968B8600AA473F /* FileKit */,
-				5204B84C1B96B83800AA473F /* FileKit-OSX */,
-				5204B8591B96B85E00AA473F /* FileKit-iOS */,
 				5204B7B71B968B8600AA473F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,6 +67,8 @@
 			children = (
 				5204B7E31B96AD2300AA473F /* Core */,
 				5204B7E41B96AD3400AA473F /* Extensions */,
+				5204B84D1B96B83800AA473F /* FileKit.h */,
+				5204B84F1B96B83800AA473F /* Info.plist */,
 			);
 			path = FileKit;
 			sourceTree = "<group>";
@@ -75,7 +79,7 @@
 				5204B7C11B968DD200AA473F /* FileKit.swift */,
 				5204B7C31B968E8000AA473F /* Path.swift */,
 			);
-			name = Core;
+			path = Core;
 			sourceTree = "<group>";
 		};
 		5204B7E41B96AD3400AA473F /* Extensions */ = {
@@ -83,25 +87,7 @@
 			children = (
 				5204B7E51B96ADA100AA473F /* String+FileKit.swift */,
 			);
-			name = Extensions;
-			sourceTree = "<group>";
-		};
-		5204B84C1B96B83800AA473F /* FileKit-OSX */ = {
-			isa = PBXGroup;
-			children = (
-				5204B84D1B96B83800AA473F /* FileKit-OSX.h */,
-				5204B84F1B96B83800AA473F /* Info.plist */,
-			);
-			path = "FileKit-OSX";
-			sourceTree = "<group>";
-		};
-		5204B8591B96B85E00AA473F /* FileKit-iOS */ = {
-			isa = PBXGroup;
-			children = (
-				5204B85A1B96B85E00AA473F /* FileKit-iOS.h */,
-				5204B85C1B96B85E00AA473F /* Info.plist */,
-			);
-			path = "FileKit-iOS";
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -111,7 +97,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5204B84E1B96B83800AA473F /* FileKit-OSX.h in Headers */,
+				5204B84E1B96B83800AA473F /* FileKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,7 +105,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5204B85B1B96B85E00AA473F /* FileKit-iOS.h in Headers */,
+				5263A8F91B96B8EC00635A93 /* FileKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +206,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5263A8FE1B96B95000635A93 /* String+FileKit.swift in Sources */,
+				5263A8FC1B96B94D00635A93 /* Path.swift in Sources */,
+				5263A8FA1B96B94900635A93 /* FileKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +216,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5263A8FF1B96B95100635A93 /* String+FileKit.swift in Sources */,
+				5263A8FD1B96B94D00635A93 /* Path.swift in Sources */,
+				5263A8FB1B96B94A00635A93 /* FileKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,7 +318,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "FileKit-OSX/Info.plist";
+				INFOPLIST_FILE = FileKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FileKit;
@@ -344,7 +336,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "FileKit-OSX/Info.plist";
+				INFOPLIST_FILE = FileKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FileKit;
@@ -361,7 +353,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "FileKit-iOS/Info.plist";
+				INFOPLIST_FILE = FileKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -381,7 +373,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "FileKit-iOS/Info.plist";
+				INFOPLIST_FILE = FileKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -413,6 +405,7 @@
 				5204B8521B96B83800AA473F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5204B85D1B96B85E00AA473F /* Build configuration list for PBXNativeTarget "FileKit-iOS" */ = {
 			isa = XCConfigurationList;
@@ -421,6 +414,7 @@
 				5204B85F1B96B85E00AA473F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
