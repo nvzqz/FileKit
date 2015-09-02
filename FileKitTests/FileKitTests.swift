@@ -29,4 +29,14 @@ class FileKitTests: XCTestCase {
         XCTAssertEqual(a.path, b)
     }
     
+    func testCreatingNewFile() {
+        let a: Path = "~/Desktop/test1.txt"
+        XCTAssertTrue(File(path: a.standardized).createFile())
+    }
+    
+    func testWritingStringToFile() {
+        let a: Path = "~/Desktop/test2.txt"
+        XCTAssertTrue(File(path: a.standardized).write("this is a test"))
+    }
+    
 }
