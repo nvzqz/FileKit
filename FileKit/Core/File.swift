@@ -1,5 +1,5 @@
 //
-//  FileKit.swift
+//  File.swift
 //  FileKit
 //
 //  Created by Nikolai Vazquez on 9/1/15.
