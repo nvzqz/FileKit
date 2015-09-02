@@ -12,6 +12,7 @@
 		5204B7C41B968E8000AA473F /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* Path.swift */; settings = {ASSET_TAGS = (); }; };
 		5204B7DB1B9696B600AA473F /* FileKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7DA1B9696B600AA473F /* FileKitTests.swift */; };
 		5204B7DD1B9696B600AA473F /* FileKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5204B7B61B968B8600AA473F /* FileKit.framework */; settings = {ASSET_TAGS = (); }; };
+		5204B7E61B96ADA100AA473F /* String+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7E51B96ADA100AA473F /* String+FileKit.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,7 @@
 		5204B7D81B9696B600AA473F /* FileKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FileKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5204B7DA1B9696B600AA473F /* FileKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileKitTests.swift; sourceTree = "<group>"; };
 		5204B7DC1B9696B600AA473F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5204B7E51B96ADA100AA473F /* String+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+FileKit.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,9 +78,9 @@
 			isa = PBXGroup;
 			children = (
 				5204B7B91B968B8600AA473F /* FileKit.h */,
-				5204B7C11B968DD200AA473F /* FileKit.swift */,
-				5204B7C31B968E8000AA473F /* Path.swift */,
 				5204B7BB1B968B8600AA473F /* Info.plist */,
+				5204B7E31B96AD2300AA473F /* Core */,
+				5204B7E41B96AD3400AA473F /* Extensions */,
 			);
 			path = FileKit;
 			sourceTree = "<group>";
@@ -90,6 +92,23 @@
 				5204B7DC1B9696B600AA473F /* Info.plist */,
 			);
 			path = FileKitTests;
+			sourceTree = "<group>";
+		};
+		5204B7E31B96AD2300AA473F /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				5204B7C11B968DD200AA473F /* FileKit.swift */,
+				5204B7C31B968E8000AA473F /* Path.swift */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		5204B7E41B96AD3400AA473F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5204B7E51B96ADA100AA473F /* String+FileKit.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5204B7E61B96ADA100AA473F /* String+FileKit.swift in Sources */,
 				5204B7C41B968E8000AA473F /* Path.swift in Sources */,
 				5204B7C21B968DD200AA473F /* FileKit.swift in Sources */,
 			);
@@ -397,6 +417,7 @@
 				5204B7E11B9696B600AA473F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
