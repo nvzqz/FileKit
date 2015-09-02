@@ -18,6 +18,16 @@ public class File: StringLiteralConvertible {
         self.path = path
     }
     
+    func createFile() -> Bool {
+        return NSFileManager.defaultManager().createFileAtPath(
+            path._path, contents: nil, attributes: nil)
+    }
+    
+    func createDirectory() -> Bool {
+        return (try? NSFileManager.defaultManager().createDirectoryAtPath(
+            path._path, withIntermediateDirectories: true, attributes: nil)) != nil
+    }
+    
     func delete() throws {
         try NSFileManager.defaultManager().removeItemAtPath(path._path)
     }
