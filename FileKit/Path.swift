@@ -8,12 +8,32 @@
 
 import Foundation
 
-public struct Path {
+public struct Path: StringLiteralConvertible {
+    
+    // MARK: - Path
     
     private var _path: String
     
     public init() {
         _path = "/"
+    }
+    
+    // MARK: - StringLiteralConvertible
+    
+    public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
+    
+    public typealias UnicodeScalarLiteralType = StringLiteralType
+    
+    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+        _path = value
+    }
+    
+    public init(stringLiteral value: StringLiteralType) {
+        _path = value
+    }
+    
+    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+        _path = value
     }
     
 }
