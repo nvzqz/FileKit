@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Path: StringLiteralConvertible {
+public struct Path: StringLiteralConvertible, Indexable {
     
     // MARK: - Path
     
@@ -46,6 +46,20 @@ public struct Path: StringLiteralConvertible {
     
     public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         _path = value
+    }
+    
+    // MARK: - Indexable
+    
+    public var startIndex: Int {
+        return components.startIndex
+    }
+    
+    public var endIndex: Int {
+        return components.endIndex
+    }
+    
+    public subscript(index: Int) -> Path {
+        return components[index]
     }
     
 }
