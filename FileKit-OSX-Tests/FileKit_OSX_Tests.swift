@@ -32,4 +32,14 @@ class FileKit_OSX_Tests: XCTestCase {
         XCTAssertEqual(a.standardized, b.standardized)
     }
     
+    func testFileCreation() {
+        let f = File(path: "/Users/nvzqz/Desktop/test.txt")
+        XCTAssertTrue(f.createFile())
+    }
+    
+    func testFileWriting() {
+        let file = File(path: "/Users/nvzqz/Desktop/string.txt")
+        XCTAssertTrue(file.write("test string"))
+    }
+    
 }
