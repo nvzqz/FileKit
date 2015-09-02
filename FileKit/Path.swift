@@ -10,4 +10,10 @@ import Foundation
 
 struct Path {
     
+    private var _path: String
+    
+    init() {
+        _path = "/"
+    }
+    
 }
