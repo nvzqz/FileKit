@@ -18,6 +18,11 @@ public class File: StringLiteralConvertible {
         self.path = path
     }
     
+    func moveToPath(path: Path) throws {
+        try NSFileManager.defaultManager().moveItemAtPath(path._path, toPath: path._path)
+        self.path = path
+    }
+    
     // MARK: - StringLiteralConvertible
     
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
