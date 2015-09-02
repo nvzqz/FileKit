@@ -10,4 +10,10 @@ import Foundation
 
 class File {
     
+    var path: Path
+    
+    init(path: Path) {
+        self.path = path
+    }
+    
 }
