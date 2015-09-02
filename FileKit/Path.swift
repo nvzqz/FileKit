@@ -23,7 +23,7 @@ public struct Path: StringLiteralConvertible, CustomStringConvertible, Hashable,
         }
     }
     
-    private var _path: String
+    internal var _path: String
     
     public var components: [Path] {
         return (_path as NSString).pathComponents.map { Path($0) }
