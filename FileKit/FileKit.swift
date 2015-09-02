@@ -8,11 +8,11 @@
 
 import Foundation
 
-class File {
+public class File {
     
-    var path: Path
+    public var path: Path
     
-    init(path: Path) {
+    public init(path: Path) {
         self.path = path
     }
     

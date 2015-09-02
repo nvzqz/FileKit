@@ -8,11 +8,11 @@
 
 import Foundation
 
-struct Path {
+public struct Path {
     
     private var _path: String
     
-    init() {
+    public init() {
         _path = "/"
     }
     
