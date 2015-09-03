@@ -30,6 +30,8 @@ import FileKit
 
 class FileKitTests: XCTestCase {
     
+    // MARK: - Path
+    
     func testPathStringLiteralConvertible() {
         let a  = "/Users" as Path
         let b: Path = "/Users"
@@ -37,12 +39,6 @@ class FileKitTests: XCTestCase {
         XCTAssertTrue(a == b)
         XCTAssertTrue(a == c)
         XCTAssertTrue(b == c)
-    }
-    
-    func testFileStringLiteralConvertible() {
-        let a: File = "~/Desktop"
-        let b: Path = "~/Desktop"
-        XCTAssertEqual(a.path, b)
     }
     
     func testStandardizingPath() {
@@ -54,6 +50,26 @@ class FileKitTests: XCTestCase {
     func testPathSubscript() {
         let path = "~/Library/Preferences" as Path
         XCTAssertEqual(path[1], "Library")
+    }
+    
+    func testAddingPaths() {
+        let a: Path = "~/Desktop"
+        let b: Path = "Files"
+        XCTAssertEqual(a + b, "~/Desktop/Files")
+    }
+    
+    func testPathPlusEquals() {
+        var a: Path = "~/Desktop"
+        a += "Files"
+        XCTAssertEqual(a, "~/Desktop/Files")
+    }
+    
+    // MARK: - File
+    
+    func testFileStringLiteralConvertible() {
+        let a: File = "~/Desktop"
+        let b: Path = "~/Desktop"
+        XCTAssertEqual(a.path, b)
     }
     
     func testFileCreation() {

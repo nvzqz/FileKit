@@ -140,7 +140,7 @@ public func == (lhs: Path, rhs: Path) -> Bool {
     return lhs._path == rhs._path
 }
 
-func + (lhs: Path, rhs: Path) -> Path {
+public func + (lhs: Path, rhs: Path) -> Path {
     switch (lhs._path.hasSuffix(Path.Separator), rhs._path.hasPrefix(Path.Separator)) {
     case (true, true):
         return Path("\(lhs._path)\(rhs._path.substringFromIndex(rhs._path.startIndex.successor()))")
@@ -149,6 +149,10 @@ func + (lhs: Path, rhs: Path) -> Path {
     default:
         return Path("\(lhs._path)\(rhs._path)")
     }
+}
+
+public func += (inout lhs: Path, rhs: Path) {
+    lhs = lhs + rhs
 }
 
 // MARK: - Paths
