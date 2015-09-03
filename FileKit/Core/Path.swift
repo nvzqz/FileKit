@@ -28,10 +28,11 @@
 import Foundation
 
 public struct Path: StringLiteralConvertible,
-                    CustomStringConvertible,
                     RawRepresentable,
                     Hashable,
-                    Indexable {
+                    Indexable,
+                    CustomStringConvertible,
+                    CustomDebugStringConvertible {
     
     // MARK: - Path
     
@@ -107,12 +108,6 @@ public struct Path: StringLiteralConvertible,
         _path = value
     }
     
-    // MARK: - CustomStringConvertible
-    
-    public var description: String {
-        return _path
-    }
-    
     // MARK: - RawRepresentable
     
     public init(rawValue: String) {
@@ -141,6 +136,18 @@ public struct Path: StringLiteralConvertible,
     
     public subscript(index: Int) -> Path {
         return components[index]
+    }
+    
+    // MARK: - CustomStringConvertible
+    
+    public var description: String {
+        return _path
+    }
+    
+    // MARK: - CustomDebugStringConvertible
+    
+    public var debugDescription: String {
+        return "Path: \(_path.debugDescription)"
     }
     
 }
