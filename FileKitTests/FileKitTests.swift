@@ -47,6 +47,17 @@ class FileKitTests: XCTestCase {
         XCTAssertEqual(a.standardized, b.standardized)
     }
     
+    func testPathParent() {
+        let a: Path = "/"
+        let b: Path = a + "Users"
+        XCTAssertEqual(a, b.parent)
+    }
+    
+    func testPathChildren() {
+        let p: Path = "/Users"
+        XCTAssertNotEqual(p.children, [])
+    }
+    
     func testPathSubscript() {
         let path = "~/Library/Preferences" as Path
         XCTAssertEqual(path[1], "Library")

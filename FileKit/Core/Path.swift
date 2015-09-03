@@ -70,6 +70,17 @@ public struct Path: StringLiteralConvertible,
         return !isAbsolute
     }
     
+    public var parent: Path {
+        return Path((_path as NSString).stringByDeletingLastPathComponent)
+    }
+    
+    public var children: [Path] {
+        if let paths = try? NSFileManager.defaultManager().contentsOfDirectoryAtPath(_path) {
+            return paths.map { self + Path($0) }
+        }
+        return []
+    }
+    
     public init() {
         _path = "/"
     }
