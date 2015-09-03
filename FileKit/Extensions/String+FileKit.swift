@@ -11,7 +11,7 @@ import Foundation
 extension String {
 
     init(path: Path) {
-        self.init(path._path)
+        self.init(path.rawValue)
     }
 
 }

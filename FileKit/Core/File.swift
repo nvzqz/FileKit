@@ -19,7 +19,7 @@ public class File: StringLiteralConvertible {
     }
     
     public func read() -> NSData? {
-        return NSFileManager.defaultManager().contentsAtPath(path._path)
+        return NSFileManager.defaultManager().contentsAtPath(path.rawValue)
     }
     
     public func read() -> String? {
@@ -30,30 +30,30 @@ public class File: StringLiteralConvertible {
     }
     
     public func write(data: NSData) -> Bool {
-        return data.writeToFile(path._path, atomically: true)
+        return data.writeToFile(path.rawValue, atomically: true)
     }
     
     public func write(string: String) -> Bool {
         return (try? string.writeToFile(
-            path._path, atomically: true, encoding: NSUTF8StringEncoding)) != nil
+            path.rawValue, atomically: true, encoding: NSUTF8StringEncoding)) != nil
     }
     
     public func createFile() -> Bool {
         return NSFileManager.defaultManager().createFileAtPath(
-            path._path, contents: nil, attributes: nil)
+            path.rawValue, contents: nil, attributes: nil)
     }
     
     public func createDirectory() -> Bool {
         return (try? NSFileManager.defaultManager().createDirectoryAtPath(
-            path._path, withIntermediateDirectories: true, attributes: nil)) != nil
+            path.rawValue, withIntermediateDirectories: true, attributes: nil)) != nil
     }
     
     public func delete() throws {
-        try NSFileManager.defaultManager().removeItemAtPath(path._path)
+        try NSFileManager.defaultManager().removeItemAtPath(path.rawValue)
     }
     
     public func moveToPath(path: Path) throws {
-        try NSFileManager.defaultManager().moveItemAtPath(path._path, toPath: path._path)
+        try NSFileManager.defaultManager().moveItemAtPath(path.rawValue, toPath: path.rawValue)
         self.path = path
     }
     
