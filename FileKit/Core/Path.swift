@@ -90,6 +90,10 @@ public struct Path: StringLiteralConvertible,
         self._path = path
     }
     
+    mutating func standardize() {
+        self = self.standardized
+    }
+    
     // MARK: - StringLiteralConvertible
     
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
