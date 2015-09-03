@@ -132,4 +132,92 @@ func + (lhs: Path, rhs: Path) -> Path {
     }
 }
 
+// MARK: - Paths
+
+extension Path {
+    
+    public static var UserHome: Path {
+        return Path(NSHomeDirectory())
+    }
+    
+    public static var UserTemporary: Path {
+        return Path(NSTemporaryDirectory())
+    }
+    
+    public static var UserCaches: Path {
+        return pathInUserDomain(.CachesDirectory)
+    }
+    
+    #if os(OSX)
+    
+    public static var UserApplications: Path {
+        return pathInUserDomain(.ApplicationDirectory)
+    }
+    
+    public static var UserApplicationSupport: Path {
+        return pathInUserDomain(.ApplicationSupportDirectory)
+    }
+    
+    public static var UserDesktop: Path {
+        return pathInUserDomain(.DesktopDirectory)
+    }
+    
+    public static var UserDocuments: Path {
+        return pathInUserDomain(.DocumentDirectory)
+    }
+    
+    public static var UserDownloads: Path {
+        return pathInUserDomain(.DownloadsDirectory)
+    }
+    
+    public static var UserLibrary: Path {
+        return pathInUserDomain(.LibraryDirectory)
+    }
+    
+    public static var UserMovies: Path {
+        return pathInUserDomain(.MoviesDirectory)
+    }
+    
+    public static var UserMusic: Path {
+        return pathInUserDomain(.MusicDirectory)
+    }
+    
+    public static var UserPictures: Path {
+        return pathInSystemDomain(.PicturesDirectory)
+    }
+    
+    public static var SystemApplications: Path {
+        return pathInSystemDomain(.ApplicationDirectory)
+    }
+    
+    public static var SystemApplicationSupport: Path {
+        return pathInSystemDomain(.ApplicationSupportDirectory)
+    }
+    
+    public static var SystemLibrary: Path {
+        return pathInSystemDomain(.LibraryDirectory)
+    }
+    
+    public static var SystemCoreServices: Path {
+        return pathInSystemDomain(.CoreServiceDirectory)
+    }
+    
+    #endif
+    
+    private static func pathInUserDomain(directory: NSSearchPathDirectory) -> Path {
+        return pathsInDomains(directory, .UserDomainMask)[0]
+    }
+    
+    private static func pathInSystemDomain(directory: NSSearchPathDirectory) -> Path {
+        return pathsInDomains(directory, .SystemDomainMask)[0]
+    }
+    
+    private static func pathsInDomains(directory: NSSearchPathDirectory,
+        _ domainMask: NSSearchPathDomainMask) -> [Path] {
+            let paths = NSSearchPathForDirectoriesInDomains(directory, domainMask, true)
+            return paths.map { Path($0) }
+    }
+    
+}
+
 
