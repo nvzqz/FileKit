@@ -8,7 +8,11 @@
 
 import Foundation
 
-public struct Path: StringLiteralConvertible, CustomStringConvertible, RawRepresentable, Hashable, Indexable {
+public struct Path: StringLiteralConvertible,
+                    CustomStringConvertible,
+                    RawRepresentable,
+                    Hashable,
+                    Indexable {
     
     // MARK: - Path
     
@@ -31,6 +35,12 @@ public struct Path: StringLiteralConvertible, CustomStringConvertible, RawRepres
     
     public var standardized: Path {
         return Path((self._path as NSString).stringByStandardizingPath)
+    }
+    
+    public var absolute: Path {
+        return self.isAbsolute ?
+            self.standardized  :
+            (Path.CurrentWorkingDirectory + self).standardized
     }
     
     public var isAbsolute: Bool {
