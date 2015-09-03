@@ -32,6 +32,11 @@ class FileKit_OSX_Tests: XCTestCase {
         XCTAssertEqual(a.standardized, b.standardized)
     }
     
+    func testPathSubscript() {
+        let path = "~/Library/Preferences" as Path
+        XCTAssertEqual(path[1], "Library")
+    }
+    
     func testFileCreation() {
         let f = File(path: "/Users/nvzqz/Desktop/test.txt")
         XCTAssertTrue(f.createFile())
