@@ -18,7 +18,7 @@ public struct Path: StringLiteralConvertible,
     
     public static let Separator = "/"
     
-    public static var CurrentWorkingDirectory: Path {
+    public static var Current: Path {
         get {
             return Path(NSFileManager.defaultManager().currentDirectoryPath)
         }
@@ -40,7 +40,7 @@ public struct Path: StringLiteralConvertible,
     public var absolute: Path {
         return self.isAbsolute ?
             self.standardized  :
-            (Path.CurrentWorkingDirectory + self).standardized
+            (Path.Current + self).standardized
     }
     
     public var isAbsolute: Bool {
