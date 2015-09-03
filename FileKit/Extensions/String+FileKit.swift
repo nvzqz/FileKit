@@ -8,10 +8,6 @@
 
 import Foundation
 
-extension String {
-
-    init(path: Path) {
-        self.init(path.rawValue)
-    }
+public extension String {
 
 }
