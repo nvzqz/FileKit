@@ -183,6 +183,12 @@ public postfix func % (path: Path) -> Path {
     return path.standardized
 }
 
+postfix operator .. {}
+
+public postfix func .. (path: Path) -> Path {
+    return path.parent
+}
+
 // MARK: - Paths
 
 extension Path {
