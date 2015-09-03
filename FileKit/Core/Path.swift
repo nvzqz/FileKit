@@ -177,6 +177,12 @@ public func += (inout lhs: Path, rhs: Path) {
     lhs = lhs + rhs
 }
 
+postfix operator % {}
+
+public postfix func % (path: Path) -> Path {
+    return path.standardized
+}
+
 // MARK: - Paths
 
 extension Path {

@@ -75,6 +75,11 @@ class FileKitTests: XCTestCase {
         XCTAssertEqual(a, "~/Desktop/Files")
     }
     
+    func testPathOperators() {
+        let p: Path = "~"
+        XCTAssertEqual(p.standardized, p%)
+    }
+    
     // MARK: - File
     
     func testFileStringLiteralConvertible() {
