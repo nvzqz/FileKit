@@ -1,6 +1,6 @@
 //
-//  FileKit_OSX_Tests.swift
-//  FileKit-OSX-Tests
+//  FileKitTests.swift
+//  FileKitTests
 //
 //  Created by Nikolai Vazquez on 9/2/15.
 //  Copyright © 2015 Nikolai Vazquez. All rights reserved.
@@ -9,7 +9,7 @@
 import XCTest
 import FileKit
 
-class FileKit_OSX_Tests: XCTestCase {
+class FileKitTests: XCTestCase {
     
     func testPathStringLiteralConvertible() {
         let a  = "/Users" as Path
