@@ -51,4 +51,14 @@ public extension FKFileType {
         try path.deleteFile()
     }
     
+    public mutating func moveToPath(path: FKPath) throws {
+        do {
+            let manager = NSFileManager.defaultManager()
+            try manager.moveItemAtPath(self.path.rawValue, toPath: path.rawValue)
+            self.path = path
+        } catch {
+            throw FKError.MoveFile
+        }
+    }
+    
 }
