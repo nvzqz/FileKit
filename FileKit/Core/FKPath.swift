@@ -111,6 +111,15 @@ public struct FKPath: StringLiteralConvertible,
         }
     }
     
+    public func deleteFile() throws {
+        do {
+            let manager = NSFileManager.defaultManager()
+            try manager.removeItemAtPath(_path)
+        } catch {
+            throw FKError.DeleteFile
+        }
+    }
+    
     // MARK: - StringLiteralConvertible
     
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
