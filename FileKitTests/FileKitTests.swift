@@ -77,7 +77,9 @@ class FileKitTests: XCTestCase {
     
     func testPathOperators() {
         let p: FKPath = "~"
-        XCTAssertEqual(p.standardized, p%)
+        let ps = p.standardized
+        XCTAssertEqual(ps, p•)
+        XCTAssertEqual(ps.parent, ps^)
     }
     
 }

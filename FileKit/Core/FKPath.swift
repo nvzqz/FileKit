@@ -203,15 +203,15 @@ public func += (inout lhs: FKPath, rhs: FKPath) {
     lhs = lhs + rhs
 }
 
-postfix operator % {}
+postfix operator • {}
 
-public postfix func % (path: FKPath) -> FKPath {
+public postfix func • (path: FKPath) -> FKPath {
     return path.standardized
 }
 
-postfix operator .. {}
+postfix operator ^ {}
 
-public postfix func .. (path: FKPath) -> FKPath {
+public postfix func ^ (path: FKPath) -> FKPath {
     return path.parent
 }
 
