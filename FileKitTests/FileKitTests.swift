@@ -33,68 +33,68 @@ class FileKitTests: XCTestCase {
     // MARK: - Path
     
     func testPathStringLiteralConvertible() {
-        let a  = "/Users" as Path
-        let b: Path = "/Users"
-        let c = Path("/Users")
+        let a  = "/Users" as FKPath
+        let b: FKPath = "/Users"
+        let c = FKPath("/Users")
         XCTAssertTrue(a == b)
         XCTAssertTrue(a == c)
         XCTAssertTrue(b == c)
     }
     
     func testStandardizingPath() {
-        let a: Path = "~/.."
-        let b: Path = "/Users"
+        let a: FKPath = "~/.."
+        let b: FKPath = "/Users"
         XCTAssertEqual(a.standardized, b.standardized)
     }
     
     func testPathParent() {
-        let a: Path = "/"
-        let b: Path = a + "Users"
+        let a: FKPath = "/"
+        let b: FKPath = a + "Users"
         XCTAssertEqual(a, b.parent)
     }
     
     func testPathChildren() {
-        let p: Path = "/Users"
+        let p: FKPath = "/Users"
         XCTAssertNotEqual(p.children, [])
     }
     
     func testPathSubscript() {
-        let path = "~/Library/Preferences" as Path
+        let path = "~/Library/Preferences" as FKPath
         XCTAssertEqual(path[1], "Library")
     }
     
     func testAddingPaths() {
-        let a: Path = "~/Desktop"
-        let b: Path = "Files"
+        let a: FKPath = "~/Desktop"
+        let b: FKPath = "Files"
         XCTAssertEqual(a + b, "~/Desktop/Files")
     }
     
     func testPathPlusEquals() {
-        var a: Path = "~/Desktop"
+        var a: FKPath = "~/Desktop"
         a += "Files"
         XCTAssertEqual(a, "~/Desktop/Files")
     }
     
     func testPathOperators() {
-        let p: Path = "~"
+        let p: FKPath = "~"
         XCTAssertEqual(p.standardized, p%)
     }
     
     // MARK: - File
     
     func testFileStringLiteralConvertible() {
-        let a: File = "~/Desktop"
-        let b: Path = "~/Desktop"
+        let a: FKFile = "~/Desktop"
+        let b: FKPath = "~/Desktop"
         XCTAssertEqual(a.path, b)
     }
     
     func testFileCreation() {
-        let f = File(path: "/Users/nvzqz/Desktop/test.txt")
+        let f = FKFile(path: "/Users/nvzqz/Desktop/test.txt")
         XCTAssertTrue(f.createFile())
     }
     
     func testFileWriting() {
-        let file = File(path: "/Users/nvzqz/Desktop/string.txt")
+        let file = FKFile(path: "/Users/nvzqz/Desktop/string.txt")
         XCTAssertTrue(file.write("test string"))
     }
     

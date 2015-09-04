@@ -1,5 +1,5 @@
 //
-//  Path.swift
+//  FKPath.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -27,20 +27,20 @@
 
 import Foundation
 
-public struct Path: StringLiteralConvertible,
-                    RawRepresentable,
-                    Hashable,
-                    Indexable,
-                    CustomStringConvertible,
-                    CustomDebugStringConvertible {
+public struct FKPath: StringLiteralConvertible,
+                      RawRepresentable,
+                      Hashable,
+                      Indexable,
+                      CustomStringConvertible,
+                      CustomDebugStringConvertible {
     
-    // MARK: - Path
+    // MARK: - FKPath
     
     public static let Separator = "/"
     
-    public static var Current: Path {
+    public static var Current: FKPath {
         get {
-            return Path(NSFileManager.defaultManager().currentDirectoryPath)
+        return FKPath(NSFileManager.defaultManager().currentDirectoryPath)
         }
         set {
             NSFileManager.defaultManager().changeCurrentDirectoryPath(newValue._path)
@@ -49,35 +49,35 @@ public struct Path: StringLiteralConvertible,
     
     private var _path: String
     
-    public var components: [Path] {
-        return (_path as NSString).pathComponents.map { Path($0) }
+    public var components: [FKPath] {
+        return (_path as NSString).pathComponents.map { FKPath($0) }
     }
     
-    public var standardized: Path {
-        return Path((self._path as NSString).stringByStandardizingPath)
+    public var standardized: FKPath {
+        return FKPath((self._path as NSString).stringByStandardizingPath)
     }
     
-    public var absolute: Path {
+    public var absolute: FKPath {
         return self.isAbsolute ?
             self.standardized  :
-            (Path.Current + self).standardized
+            (FKPath.Current + self).standardized
     }
     
     public var isAbsolute: Bool {
-        return _path.hasPrefix(Path.Separator)
+        return _path.hasPrefix(FKPath.Separator)
     }
     
     public var isRelative: Bool {
         return !isAbsolute
     }
     
-    public var parent: Path {
-        return Path((_path as NSString).stringByDeletingLastPathComponent)
+    public var parent: FKPath {
+        return FKPath((_path as NSString).stringByDeletingLastPathComponent)
     }
     
-    public var children: [Path] {
+    public var children: [FKPath] {
         if let paths = try? NSFileManager.defaultManager().contentsOfDirectoryAtPath(_path) {
-            return paths.map { self + Path($0) }
+            return paths.map { self + FKPath($0) }
         }
         return []
     }
@@ -90,8 +90,12 @@ public struct Path: StringLiteralConvertible,
         self._path = path
     }
     
-    mutating func standardize() {
+    public mutating func standardize() {
         self = self.standardized
+    }
+    
+    public func createFile() throws {
+        
     }
     
     // MARK: - StringLiteralConvertible
@@ -138,7 +142,7 @@ public struct Path: StringLiteralConvertible,
         return components.endIndex
     }
     
-    public subscript(index: Int) -> Path {
+    public subscript(index: Int) -> FKPath {
         return components[index]
     }
     
@@ -158,121 +162,121 @@ public struct Path: StringLiteralConvertible,
 
 // MARK: - Operators
 
-public func == (lhs: Path, rhs: Path) -> Bool {
+public func == (lhs: FKPath, rhs: FKPath) -> Bool {
     return lhs._path == rhs._path
 }
 
-public func + (lhs: Path, rhs: Path) -> Path {
-    switch (lhs._path.hasSuffix(Path.Separator), rhs._path.hasPrefix(Path.Separator)) {
+public func + (lhs: FKPath, rhs: FKPath) -> FKPath {
+    switch (lhs._path.hasSuffix(FKPath.Separator), rhs._path.hasPrefix(FKPath.Separator)) {
     case (true, true):
-        return Path("\(lhs._path)\(rhs._path.substringFromIndex(rhs._path.startIndex.successor()))")
+        return FKPath("\(lhs._path)\(rhs._path.substringFromIndex(rhs._path.startIndex.successor()))")
     case (false, false):
-        return Path("\(lhs._path)\(Path.Separator)\(rhs._path)")
+        return FKPath("\(lhs._path)\(FKPath.Separator)\(rhs._path)")
     default:
-        return Path("\(lhs._path)\(rhs._path)")
+        return FKPath("\(lhs._path)\(rhs._path)")
     }
 }
 
-public func += (inout lhs: Path, rhs: Path) {
+public func += (inout lhs: FKPath, rhs: FKPath) {
     lhs = lhs + rhs
 }
 
 postfix operator % {}
 
-public postfix func % (path: Path) -> Path {
+public postfix func % (path: FKPath) -> FKPath {
     return path.standardized
 }
 
 postfix operator .. {}
 
-public postfix func .. (path: Path) -> Path {
+public postfix func .. (path: FKPath) -> FKPath {
     return path.parent
 }
 
-// MARK: - Paths
+// MARK: - FKPaths
 
-extension Path {
+extension FKPath {
     
-    public static var UserHome: Path {
-        return Path(NSHomeDirectory())
+    public static var UserHome: FKPath {
+        return FKPath(NSHomeDirectory())
     }
     
-    public static var UserTemporary: Path {
-        return Path(NSTemporaryDirectory())
+    public static var UserTemporary: FKPath {
+        return FKPath(NSTemporaryDirectory())
     }
     
-    public static var UserCaches: Path {
+    public static var UserCaches: FKPath {
         return pathInUserDomain(.CachesDirectory)
     }
     
     #if os(OSX)
     
-    public static var UserApplications: Path {
+    public static var UserApplications: FKPath {
         return pathInUserDomain(.ApplicationDirectory)
     }
     
-    public static var UserApplicationSupport: Path {
+    public static var UserApplicationSupport: FKPath {
         return pathInUserDomain(.ApplicationSupportDirectory)
     }
     
-    public static var UserDesktop: Path {
+    public static var UserDesktop: FKPath {
         return pathInUserDomain(.DesktopDirectory)
     }
     
-    public static var UserDocuments: Path {
+    public static var UserDocuments: FKPath {
         return pathInUserDomain(.DocumentDirectory)
     }
     
-    public static var UserDownloads: Path {
+    public static var UserDownloads: FKPath {
         return pathInUserDomain(.DownloadsDirectory)
     }
     
-    public static var UserLibrary: Path {
+    public static var UserLibrary: FKPath {
         return pathInUserDomain(.LibraryDirectory)
     }
     
-    public static var UserMovies: Path {
+    public static var UserMovies: FKPath {
         return pathInUserDomain(.MoviesDirectory)
     }
     
-    public static var UserMusic: Path {
+    public static var UserMusic: FKPath {
         return pathInUserDomain(.MusicDirectory)
     }
     
-    public static var UserPictures: Path {
+    public static var UserPictures: FKPath {
         return pathInSystemDomain(.PicturesDirectory)
     }
     
-    public static var SystemApplications: Path {
+    public static var SystemApplications: FKPath {
         return pathInSystemDomain(.ApplicationDirectory)
     }
     
-    public static var SystemApplicationSupport: Path {
+    public static var SystemApplicationSupport: FKPath {
         return pathInSystemDomain(.ApplicationSupportDirectory)
     }
     
-    public static var SystemLibrary: Path {
+    public static var SystemLibrary: FKPath {
         return pathInSystemDomain(.LibraryDirectory)
     }
     
-    public static var SystemCoreServices: Path {
+    public static var SystemCoreServices: FKPath {
         return pathInSystemDomain(.CoreServiceDirectory)
     }
     
     #endif
     
-    private static func pathInUserDomain(directory: NSSearchPathDirectory) -> Path {
+    private static func pathInUserDomain(directory: NSSearchPathDirectory) -> FKPath {
         return pathsInDomains(directory, .UserDomainMask)[0]
     }
     
-    private static func pathInSystemDomain(directory: NSSearchPathDirectory) -> Path {
+    private static func pathInSystemDomain(directory: NSSearchPathDirectory) -> FKPath {
         return pathsInDomains(directory, .SystemDomainMask)[0]
     }
     
     private static func pathsInDomains(directory: NSSearchPathDirectory,
-        _ domainMask: NSSearchPathDomainMask) -> [Path] {
+        _ domainMask: NSSearchPathDomainMask) -> [FKPath] {
             let paths = NSSearchPathForDirectoriesInDomains(directory, domainMask, true)
-            return paths.map { Path($0) }
+            return paths.map { FKPath($0) }
     }
     
 }

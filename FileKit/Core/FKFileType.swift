@@ -8,13 +8,13 @@
 
 import Foundation
 
-public protocol FileType {
+public protocol FKFileType {
     
     typealias DataType
     
-    var path: Path { get set }
+    var path: FKPath { get set }
     
-    init(path: Path)
+    init(path: FKPath)
     
     func read() throws -> DataType
     

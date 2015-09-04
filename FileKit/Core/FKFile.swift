@@ -27,13 +27,13 @@
 
 import Foundation
 
-public class File: StringLiteralConvertible {
+public class FKFile: StringLiteralConvertible {
     
     // MARK: - File
     
-    public var path: Path
+    public var path: FKPath
     
-    public init(path: Path) {
+    public init(path: FKPath) {
         self.path = path
     }
     
@@ -71,7 +71,7 @@ public class File: StringLiteralConvertible {
         try NSFileManager.defaultManager().removeItemAtPath(path.rawValue)
     }
     
-    public func moveToPath(path: Path) throws {
+    public func moveToPath(path: FKPath) throws {
         try NSFileManager.defaultManager().moveItemAtPath(path.rawValue, toPath: path.rawValue)
         self.path = path
     }
@@ -83,15 +83,15 @@ public class File: StringLiteralConvertible {
     public typealias UnicodeScalarLiteralType = StringLiteralType
     
     public required init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
-        path = Path(value)
+        path = FKPath(value)
     }
     
     public required init(stringLiteral value: StringLiteralType) {
-        path = Path(value)
+        path = FKPath(value)
     }
     
     public required init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
-        path = Path(value)
+        path = FKPath(value)
     }
     
 }
