@@ -1,5 +1,5 @@
 //
-//  FileType.swift
+//  FKErrorType.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -27,16 +27,10 @@
 
 import Foundation
 
-public protocol FKFileType {
-    
-    typealias DataType
-    
-    var path: FKPath { get set }
-    
-    init(path: FKPath)
-    
-    func read() throws -> DataType
-    
-    func write(data: DataType) throws
-    
+public enum FKError: ErrorType {
+    case CreateFile
+    case DeleteFile
+    case ReadFromFile
+    case WriteToFile
+    case MoveFile
 }

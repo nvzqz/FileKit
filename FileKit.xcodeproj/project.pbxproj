@@ -19,6 +19,8 @@
 		5263A9091B96BA3D00635A93 /* FileKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5204B84B1B96B83800AA473F /* FileKit.framework */; };
 		52BF6BA81B992AD500F07E13 /* FKFileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BA71B992AD500F07E13 /* FKFileType.swift */; settings = {ASSET_TAGS = (); }; };
 		52BF6BA91B992AD500F07E13 /* FKFileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BA71B992AD500F07E13 /* FKFileType.swift */; settings = {ASSET_TAGS = (); }; };
+		52BF6BB11B99322000F07E13 /* FKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FKError.swift */; settings = {ASSET_TAGS = (); }; };
+		52BF6BB21B99322000F07E13 /* FKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FKError.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +45,7 @@
 		5263A9061B96BA3D00635A93 /* FileKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileKitTests.swift; sourceTree = "<group>"; };
 		5263A9081B96BA3D00635A93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52BF6BA71B992AD500F07E13 /* FKFileType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKFileType.swift; sourceTree = "<group>"; };
+		52BF6BB01B99322000F07E13 /* FKError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +110,7 @@
 				52BF6BA71B992AD500F07E13 /* FKFileType.swift */,
 				5204B7C11B968DD200AA473F /* FKFile.swift */,
 				5204B7C31B968E8000AA473F /* FKPath.swift */,
+				52BF6BB01B99322000F07E13 /* FKError.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -275,6 +279,7 @@
 			files = (
 				5263A8FE1B96B95000635A93 /* String+FileKit.swift in Sources */,
 				5263A8FC1B96B94D00635A93 /* FKPath.swift in Sources */,
+				52BF6BB11B99322000F07E13 /* FKError.swift in Sources */,
 				5263A8FA1B96B94900635A93 /* FKFile.swift in Sources */,
 				52BF6BA81B992AD500F07E13 /* FKFileType.swift in Sources */,
 			);
@@ -286,6 +291,7 @@
 			files = (
 				5263A8FF1B96B95100635A93 /* String+FileKit.swift in Sources */,
 				5263A8FD1B96B94D00635A93 /* FKPath.swift in Sources */,
+				52BF6BB21B99322000F07E13 /* FKError.swift in Sources */,
 				5263A8FB1B96B94A00635A93 /* FKFile.swift in Sources */,
 				52BF6BA91B992AD500F07E13 /* FKFileType.swift in Sources */,
 			);
