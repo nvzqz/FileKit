@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		5204B84E1B96B83800AA473F /* FileKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5204B84D1B96B83800AA473F /* FileKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5263A8F91B96B8EC00635A93 /* FileKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5204B84D1B96B83800AA473F /* FileKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5263A8FA1B96B94900635A93 /* FKFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C11B968DD200AA473F /* FKFile.swift */; };
-		5263A8FB1B96B94A00635A93 /* FKFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C11B968DD200AA473F /* FKFile.swift */; };
 		5263A8FC1B96B94D00635A93 /* FKPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* FKPath.swift */; };
 		5263A8FD1B96B94D00635A93 /* FKPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* FKPath.swift */; };
 		5263A8FE1B96B95000635A93 /* String+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7E51B96ADA100AA473F /* String+FileKit.swift */; };
@@ -34,7 +32,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5204B7C11B968DD200AA473F /* FKFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKFile.swift; sourceTree = "<group>"; };
 		5204B7C31B968E8000AA473F /* FKPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKPath.swift; sourceTree = "<group>"; };
 		5204B7E51B96ADA100AA473F /* String+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+FileKit.swift"; sourceTree = "<group>"; };
 		5204B84B1B96B83800AA473F /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				52BF6BA71B992AD500F07E13 /* FKFileType.swift */,
-				5204B7C11B968DD200AA473F /* FKFile.swift */,
 				5204B7C31B968E8000AA473F /* FKPath.swift */,
 				52BF6BB01B99322000F07E13 /* FKError.swift */,
 			);
@@ -280,7 +276,6 @@
 				5263A8FE1B96B95000635A93 /* String+FileKit.swift in Sources */,
 				5263A8FC1B96B94D00635A93 /* FKPath.swift in Sources */,
 				52BF6BB11B99322000F07E13 /* FKError.swift in Sources */,
-				5263A8FA1B96B94900635A93 /* FKFile.swift in Sources */,
 				52BF6BA81B992AD500F07E13 /* FKFileType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -292,7 +287,6 @@
 				5263A8FF1B96B95100635A93 /* String+FileKit.swift in Sources */,
 				5263A8FD1B96B94D00635A93 /* FKPath.swift in Sources */,
 				52BF6BB21B99322000F07E13 /* FKError.swift in Sources */,
-				5263A8FB1B96B94A00635A93 /* FKFile.swift in Sources */,
 				52BF6BA91B992AD500F07E13 /* FKFileType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

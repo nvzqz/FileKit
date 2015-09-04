@@ -30,7 +30,7 @@ import FileKit
 
 class FileKitTests: XCTestCase {
     
-    // MARK: - Path
+    // MARK: - FKPath
     
     func testPathStringLiteralConvertible() {
         let a  = "/Users" as FKPath
@@ -78,24 +78,6 @@ class FileKitTests: XCTestCase {
     func testPathOperators() {
         let p: FKPath = "~"
         XCTAssertEqual(p.standardized, p%)
-    }
-    
-    // MARK: - File
-    
-    func testFileStringLiteralConvertible() {
-        let a: FKFile = "~/Desktop"
-        let b: FKPath = "~/Desktop"
-        XCTAssertEqual(a.path, b)
-    }
-    
-    func testFileCreation() {
-        let f = FKFile(path: "/Users/nvzqz/Desktop/test.txt")
-        XCTAssertTrue(f.createFile())
-    }
-    
-    func testFileWriting() {
-        let file = FKFile(path: "/Users/nvzqz/Desktop/string.txt")
-        XCTAssertTrue(file.write("test string"))
     }
     
 }
