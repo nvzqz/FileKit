@@ -40,3 +40,15 @@ public protocol FKFileType {
     func write(data: DataType) throws
     
 }
+
+public extension FKFileType {
+    
+    public func create() throws {
+        try path.createFile()
+    }
+    
+    public func delete() throws {
+        try path.deleteFile()
+    }
+    
+}
