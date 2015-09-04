@@ -27,30 +27,50 @@
 
 import Foundation
 
+/// A type that repressents a filesystem file.
 public protocol FKFileType {
     
+    /// The type for which the file reads and writes data.
     typealias DataType
     
+    /// The file's filesystem path.
     var path: FKPath { get set }
     
     init(path: FKPath)
     
+    /// Reads the file and returns its data.
     func read() throws -> DataType
     
+    /// Writes data to the file.
     func write(data: DataType) throws
     
 }
 
 public extension FKFileType {
     
+    /// Creates the file.
+    ///
+    /// Throws an error if the file cannot be created.
+    ///
+    /// - Throws: `FKError.CreateFile`
+    ///
     public func create() throws {
         try path.createFile()
     }
     
+    /// Deletes the file.
     public func delete() throws {
         try path.deleteFile()
     }
     
+    /// Moves the file to a path.
+    ///
+    /// Changes the path property to the given path.
+    ///
+    /// Throws an error if the file cannot be moved.
+    ///
+    /// - Throws: `FKError.MoveFile`
+    ///
     public mutating func moveToPath(path: FKPath) throws {
         do {
             let manager = NSFileManager.defaultManager()

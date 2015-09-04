@@ -26,7 +26,12 @@
 //
 
 import Foundation
+import CoreLocation
 
+/// A representation of a filesystem path.
+///
+/// An FKPath instance lets you manage files in a much easier way.
+///
 public struct FKPath: StringLiteralConvertible,
                       RawRepresentable,
                       Hashable,
@@ -36,8 +41,10 @@ public struct FKPath: StringLiteralConvertible,
     
     // MARK: - FKPath
     
+    /// The standard separator for path components.
     public static let Separator = "/"
     
+    /// The path of the program's current working directory.
     public static var Current: FKPath {
         get {
         return FKPath(NSFileManager.defaultManager().currentDirectoryPath)
@@ -47,34 +54,48 @@ public struct FKPath: StringLiteralConvertible,
         }
     }
     
+    /// The stored path property.
     private var _path: String
     
+    /// The components of the path.
     public var components: [FKPath] {
         return (_path as NSString).pathComponents.map { FKPath($0) }
     }
     
+    /// A new path created by removing extraneous components from the path.
     public var standardized: FKPath {
         return FKPath((self._path as NSString).stringByStandardizingPath)
     }
     
+    /// A new path created by making the path absolute.
+    ///
+    /// If the path begins with "`/`", then the standardized path is returned.
+    /// Otherwise, the path is assumed to be relative to the current working
+    /// directory and the standardized version of the path added to the current
+    /// working directory is returned.
+    ///
     public var absolute: FKPath {
         return self.isAbsolute ?
             self.standardized  :
             (FKPath.Current + self).standardized
     }
     
+    /// Returns true if the path begins with "`/`".
     public var isAbsolute: Bool {
         return _path.hasPrefix(FKPath.Separator)
     }
     
+    /// Returns true if the path does not begin with "`/`".
     public var isRelative: Bool {
         return !isAbsolute
     }
     
+    /// The path's parent path.
     public var parent: FKPath {
         return FKPath((_path as NSString).stringByDeletingLastPathComponent)
     }
     
+    /// The path's children paths.
     public var children: [FKPath] {
         if let paths = try? NSFileManager.defaultManager().contentsOfDirectoryAtPath(_path) {
             return paths.map { self + FKPath($0) }
@@ -82,18 +103,27 @@ public struct FKPath: StringLiteralConvertible,
         return []
     }
     
+    /// Initializes a path to "`/`".
     public init() {
         _path = "/"
     }
     
+    /// Initializes a path to the string's value.
     public init(_ path: String) {
         self._path = path
     }
     
+    /// Standardizes the path.
     public mutating func standardize() {
         self = self.standardized
     }
     
+    /// Creates a file at path.
+    ///
+    /// Throws an error if the file cannot be created.
+    ///
+    /// - Throws: `FKError.CreateFile`
+    ///
     public func createFile() throws {
         let manager = NSFileManager.defaultManager()
         if !manager.createFileAtPath(_path, contents: nil, attributes: nil) {
@@ -101,6 +131,12 @@ public struct FKPath: StringLiteralConvertible,
         }
     }
     
+    /// Creates a directory at the path.
+    ///
+    /// Throws an error if the directory cannot be created.
+    ///
+    /// - Throws: `FKError.CreateFile`
+    ///
     public func createDirectory() throws {
         do {
             let manager = NSFileManager.defaultManager()
@@ -111,6 +147,12 @@ public struct FKPath: StringLiteralConvertible,
         }
     }
     
+    /// Deletes the file or directory at the path.
+    ///
+    /// Throws an error if the file or directory cannot be deleted.
+    ///
+    /// - Throws: `FKError.DeleteFile`
+    ///
     public func deleteFile() throws {
         do {
             let manager = NSFileManager.defaultManager()
@@ -188,6 +230,11 @@ public func == (lhs: FKPath, rhs: FKPath) -> Bool {
     return lhs._path == rhs._path
 }
 
+/// Concatenates two `FKPath` instances and returns the result.
+///
+///     let systemLibrary: FKPath = "/System/Library"
+///     print(systemLib + "Fonts")  // "/System/Library/Fonts"
+///
 public func + (lhs: FKPath, rhs: FKPath) -> FKPath {
     switch (lhs._path.hasSuffix(FKPath.Separator), rhs._path.hasPrefix(FKPath.Separator)) {
     case (true, true):
@@ -205,12 +252,14 @@ public func += (inout lhs: FKPath, rhs: FKPath) {
 
 postfix operator • {}
 
+/// Returns the standardized version of the path.
 public postfix func • (path: FKPath) -> FKPath {
     return path.standardized
 }
 
 postfix operator ^ {}
 
+/// Returns the path's parent path.
 public postfix func ^ (path: FKPath) -> FKPath {
     return path.parent
 }
@@ -219,68 +268,85 @@ public postfix func ^ (path: FKPath) -> FKPath {
 
 extension FKPath {
     
+    /// Returns the path to the user's or application's home directory,
+    /// depending on the platform.
     public static var UserHome: FKPath {
         return FKPath(NSHomeDirectory())
     }
     
+    /// Returns the path to the user's temporary directory.
     public static var UserTemporary: FKPath {
         return FKPath(NSTemporaryDirectory())
     }
     
+    /// Returns the path to the user's caches directory.
     public static var UserCaches: FKPath {
         return pathInUserDomain(.CachesDirectory)
     }
     
     #if os(OSX)
     
+    /// Returns the path to the user's applications directory.
     public static var UserApplications: FKPath {
         return pathInUserDomain(.ApplicationDirectory)
     }
     
+    /// Returns the path to the user's application support directory.
     public static var UserApplicationSupport: FKPath {
         return pathInUserDomain(.ApplicationSupportDirectory)
     }
     
+    /// Returns the path to the user's desktop directory.
     public static var UserDesktop: FKPath {
         return pathInUserDomain(.DesktopDirectory)
     }
     
+    /// Returns the path to the user's documents directory.
     public static var UserDocuments: FKPath {
         return pathInUserDomain(.DocumentDirectory)
     }
     
+    /// Returns the path to the user's downloads directory.
     public static var UserDownloads: FKPath {
         return pathInUserDomain(.DownloadsDirectory)
     }
     
+    /// Returns the path to the user's library directory.
     public static var UserLibrary: FKPath {
         return pathInUserDomain(.LibraryDirectory)
     }
     
+    /// Returns the path to the user's movies directory.
     public static var UserMovies: FKPath {
         return pathInUserDomain(.MoviesDirectory)
     }
     
+    /// Returns the path to the user's music directory.
     public static var UserMusic: FKPath {
         return pathInUserDomain(.MusicDirectory)
     }
     
+    /// Returns the path to the user's pictures directory.
     public static var UserPictures: FKPath {
         return pathInSystemDomain(.PicturesDirectory)
     }
     
+    /// Returns the path to the system's applications directory.
     public static var SystemApplications: FKPath {
         return pathInSystemDomain(.ApplicationDirectory)
     }
     
+    /// Returns the path to the system's application support directory.
     public static var SystemApplicationSupport: FKPath {
         return pathInSystemDomain(.ApplicationSupportDirectory)
     }
     
+    /// Returns the path to the system's library directory.
     public static var SystemLibrary: FKPath {
         return pathInSystemDomain(.LibraryDirectory)
     }
     
+    /// Returns the path to the system's core services directory.
     public static var SystemCoreServices: FKPath {
         return pathInSystemDomain(.CoreServiceDirectory)
     }

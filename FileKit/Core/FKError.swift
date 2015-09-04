@@ -27,10 +27,21 @@
 
 import Foundation
 
+/// An error that can be thrown by FileKit.
 public enum FKError: ErrorType {
+    
+    /// A file could not be created.
     case CreateFile
+    
+    /// A file could not be deleted.
     case DeleteFile
+    
+    /// A file could not be read from.
     case ReadFromFile
+    
+    /// A file could not be written to.
     case WriteToFile
+    
+    /// A file could not be moved.
     case MoveFile
 }
