@@ -75,9 +75,9 @@ public struct FKPath: StringLiteralConvertible,
     /// working directory is returned.
     ///
     public var absolute: FKPath {
-        return self.isAbsolute ?
-            self.standardized  :
-            (FKPath.Current + self).standardized
+        return self.isAbsolute
+            ? self.standardized
+            : (FKPath.Current + self).standardized
     }
     
     /// Returns true if the path begins with "`/`".
@@ -328,7 +328,7 @@ extension FKPath {
     
     /// Returns the path to the user's pictures directory.
     public static var UserPictures: FKPath {
-        return pathInSystemDomain(.PicturesDirectory)
+        return pathInUserDomain(.PicturesDirectory)
     }
     
     /// Returns the path to the system's applications directory.
