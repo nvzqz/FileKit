@@ -95,7 +95,20 @@ public struct FKPath: StringLiteralConvertible,
     }
     
     public func createFile() throws {
-        
+        let manager = NSFileManager.defaultManager()
+        if !manager.createFileAtPath(_path, contents: nil, attributes: nil) {
+            throw FKError.CreateFile
+        }
+    }
+    
+    public func createDirectory() throws {
+        do {
+            let manager = NSFileManager.defaultManager()
+            try manager.createDirectoryAtPath(
+                _path, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            throw FKError.CreateFile
+        }
     }
     
     // MARK: - StringLiteralConvertible
