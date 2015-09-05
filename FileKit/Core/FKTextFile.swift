@@ -27,23 +27,20 @@
 
 import Foundation
 
-public class FKTextFile: FKFileType {
-    
-    /// The text file's filesystem path.
-    public var path: FKPath
+public class FKTextFile: FKFile<String> {
     
     /// The text file's string encoding.
     public var encoding: NSStringEncoding = NSUTF8StringEncoding
     
     public required init(path: FKPath) {
-        self.path = path
+        super.init(path: path)
     }
     
     /// Returns a string from a text file.
     ///
     /// - Throws: `FKError.ReadFromFileFail`
     ///
-    public func read() throws -> String {
+    public override func read() throws -> String {
         do {
             return try String(contentsOfFile: path.rawValue)
         } catch {
@@ -59,7 +56,7 @@ public class FKTextFile: FKFileType {
     ///
     /// - Throws: `FKError.WriteToFileFail`
     ///
-    public func write(data: String) throws {
+    public override func write(data: String) throws {
         try write(data, atomically: true)
     }
     
