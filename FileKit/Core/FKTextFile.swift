@@ -41,7 +41,7 @@ public class FKTextFile: FKFileType {
         do {
             return try String(contentsOfFile: path.rawValue)
         } catch {
-            throw FKError.ReadFromFile
+            throw FKError.ReadFromFileFail
         }
     }
     
@@ -53,7 +53,7 @@ public class FKTextFile: FKFileType {
         do {
             try data.writeToFile(path.rawValue, atomically: atomically, encoding: encoding)
         } catch {
-            throw FKError.WriteToFile
+            throw FKError.WriteToFileFail
         }
     }
     

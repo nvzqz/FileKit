@@ -127,7 +127,7 @@ public struct FKPath: StringLiteralConvertible,
     public func createFile() throws {
         let manager = NSFileManager.defaultManager()
         if !manager.createFileAtPath(_path, contents: nil, attributes: nil) {
-            throw FKError.CreateFile
+            throw FKError.CreateFileFail
         }
     }
     
@@ -143,7 +143,7 @@ public struct FKPath: StringLiteralConvertible,
             try manager.createDirectoryAtPath(
                 _path, withIntermediateDirectories: true, attributes: nil)
         } catch {
-            throw FKError.CreateFile
+            throw FKError.CreateFileFail
         }
     }
     
@@ -158,7 +158,7 @@ public struct FKPath: StringLiteralConvertible,
             let manager = NSFileManager.defaultManager()
             try manager.removeItemAtPath(_path)
         } catch {
-            throw FKError.DeleteFile
+            throw FKError.DeleteFileFail
         }
     }
     

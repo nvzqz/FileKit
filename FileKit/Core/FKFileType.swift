@@ -77,7 +77,7 @@ public extension FKFileType {
             try manager.moveItemAtPath(self.path.rawValue, toPath: path.rawValue)
             self.path = path
         } catch {
-            throw FKError.MoveFile
+            throw FKError.MoveFileFail
         }
     }
     

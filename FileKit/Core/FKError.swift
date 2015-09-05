@@ -31,17 +31,17 @@ import Foundation
 public enum FKError: ErrorType {
     
     /// A file could not be created.
-    case CreateFile
+    case CreateFileFail
     
     /// A file could not be deleted.
-    case DeleteFile
+    case DeleteFileFail
     
     /// A file could not be read from.
-    case ReadFromFile
+    case ReadFromFileFail
     
     /// A file could not be written to.
-    case WriteToFile
+    case WriteToFileFail
     
     /// A file could not be moved.
-    case MoveFile
+    case MoveFileFail
 }
