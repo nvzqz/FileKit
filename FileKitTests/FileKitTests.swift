@@ -160,6 +160,30 @@ class FileKitTests: XCTestCase {
         }
     }
     
+    // MARK: - String+FileKit
     
+    let sf = FKFile<String>(path: FKPath.UserDesktop + "filekit_stringtest.txt")
+    
+    func testStringInitializationFromPath() {
+        do {
+            let message = "Testing string init..."
+            try sf.write(message)
+            let contents = try String(contentsOfPath: sf.path)
+            XCTAssertEqual(contents, message)
+        } catch {
+            XCTFail()
+        }
+    }
+    
+    func testStringWriting() {
+        do {
+            let message = "Testing string writing..."
+            try message.writeToPath(sf.path)
+            let contents = try String(contentsOfPath: sf.path)
+            XCTAssertEqual(contents, message)
+        } catch {
+            XCTFail()
+        }
+    }
     
 }
