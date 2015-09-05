@@ -104,12 +104,21 @@ class FileKitTests: XCTestCase {
     
     // MARK: - FKTextFile
     
-    let f = FKTextFile(path: FKPath.UserDesktop + "filekit_test.txt")
+    let tf = FKTextFile(path: FKPath.UserDesktop + "filekit_test.txt")
     
     func testTextFileExists() {
         do {
-            try f.create()
-            XCTAssertTrue(f.exists)
+            try tf.create()
+            XCTAssertTrue(tf.exists)
+        } catch {
+            XCTFail()
+        }
+    }
+    
+    func testWriteToFile() {
+        do {
+            try tf.write("This is some test.")
+            try tf.write("This is another test.", atomically: false)
         } catch {
             XCTFail()
         }
@@ -119,12 +128,12 @@ class FileKitTests: XCTestCase {
         do {
             let text = "FileKit Test"
             
-            try text |> f
-            var contents = try f.read()
+            try text |> tf
+            var contents = try tf.read()
             XCTAssertTrue(contents.hasSuffix(text))
             
-            try text |>> f
-            contents = try f.read()
+            try text |>> tf
+            contents = try tf.read()
             XCTAssertTrue(contents.hasSuffix(text + "\n" + text))
             
         } catch {

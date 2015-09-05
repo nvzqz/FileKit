@@ -29,14 +29,20 @@ import Foundation
 
 public class FKTextFile: FKFileType {
     
+    /// The text file's filesystem path.
     public var path: FKPath
     
+    /// The text file's string encoding.
     public var encoding: NSStringEncoding = NSUTF8StringEncoding
     
     public required init(path: FKPath) {
         self.path = path
     }
     
+    /// Returns a string from a text file.
+    ///
+    /// - Throws: `FKError.ReadFromFileFail`
+    ///
     public func read() throws -> String {
         do {
             return try String(contentsOfFile: path.rawValue)
@@ -45,13 +51,32 @@ public class FKTextFile: FKFileType {
         }
     }
     
+    /// Writes a string to a text file using the file's encoding.
+    ///
+    /// Writing is done atomically by default.
+    ///
+    /// - Parameter data: The string to be written to the text file.
+    ///
+    /// - Throws: `FKError.WriteToFileFail`
+    ///
     public func write(data: String) throws {
         try write(data, atomically: true)
     }
     
-    public func write(data: String, atomically: Bool) throws {
+    /// Writes a string to a text file using the file's encoding.
+    ///
+    /// - Parameter data: The string to be written to the text file.
+    ///
+    /// - Parameter atomically: If `true`, the string is written to an auxiliary
+    ///                         file that is then renamed to the file. If
+    ///                         `false`, the string is written to the text file
+    ///                         directly.
+    ///
+    /// - Throws: `FKError.WriteToFileFail`
+    ///
+    public func write(data: String, atomically useAuxiliaryFile: Bool) throws {
         do {
-            try data.writeToFile(path.rawValue, atomically: atomically, encoding: encoding)
+            try data.writeToFile(path.rawValue, atomically: useAuxiliaryFile, encoding: encoding)
         } catch {
             throw FKError.WriteToFileFail
         }
@@ -64,10 +89,18 @@ public class FKTextFile: FKFileType {
 infix operator |>  {}
 infix operator |>> {}
 
+/// Writes a string to a text file.
+///
+/// - Throws: `FKError.WriteToFileFail`
+///
 public func |> (data: String, file: FKTextFile) throws {
     try file.write(data)
 }
 
+/// Appends a string to a text file.
+///
+/// - Throws: `FKError.ReadFromFileFail`, `FKError.WriteToFileFail`
+///
 public func |>> (data: String, file: FKTextFile) throws {
     let contents = try file.read()
     try contents + "\n" + data |> file
