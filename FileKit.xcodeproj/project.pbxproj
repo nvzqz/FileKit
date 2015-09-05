@@ -18,6 +18,8 @@
 		523C33941B9B757300AB70E4 /* FKWritable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33901B9B757300AB70E4 /* FKWritable.swift */; settings = {ASSET_TAGS = (); }; };
 		523C33991B9B764600AB70E4 /* FKDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33981B9B764600AB70E4 /* FKDataType.swift */; settings = {ASSET_TAGS = (); }; };
 		523C339A1B9B764600AB70E4 /* FKDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33981B9B764600AB70E4 /* FKDataType.swift */; settings = {ASSET_TAGS = (); }; };
+		523C33A11B9B772A00AB70E4 /* FKFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A01B9B772A00AB70E4 /* FKFile.swift */; settings = {ASSET_TAGS = (); }; };
+		523C33A21B9B772A00AB70E4 /* FKFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A01B9B772A00AB70E4 /* FKFile.swift */; settings = {ASSET_TAGS = (); }; };
 		5263A8F91B96B8EC00635A93 /* FileKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5204B84D1B96B83800AA473F /* FileKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5263A8FC1B96B94D00635A93 /* FKPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* FKPath.swift */; };
 		5263A8FD1B96B94D00635A93 /* FKPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* FKPath.swift */; };
@@ -53,6 +55,7 @@
 		523C338F1B9B757300AB70E4 /* FKReadable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKReadable.swift; sourceTree = "<group>"; };
 		523C33901B9B757300AB70E4 /* FKWritable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKWritable.swift; sourceTree = "<group>"; };
 		523C33981B9B764600AB70E4 /* FKDataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKDataType.swift; sourceTree = "<group>"; };
+		523C33A01B9B772A00AB70E4 /* FKFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKFile.swift; sourceTree = "<group>"; };
 		5263A9041B96BA3D00635A93 /* FileKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FileKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5263A9061B96BA3D00635A93 /* FileKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileKitTests.swift; sourceTree = "<group>"; };
 		5263A9081B96BA3D00635A93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -120,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				52BF6BA71B992AD500F07E13 /* FKFileType.swift */,
+				523C33A01B9B772A00AB70E4 /* FKFile.swift */,
 				523C33771B9A7EFC00AB70E4 /* FKTextFile.swift */,
 				523C337A1B9B68D600AB70E4 /* FKDictionaryFile.swift */,
 				5204B7C31B968E8000AA473F /* FKPath.swift */,
@@ -301,6 +305,7 @@
 				52BF6BB11B99322000F07E13 /* FKError.swift in Sources */,
 				52BF6BA81B992AD500F07E13 /* FKFileType.swift in Sources */,
 				523C33931B9B757300AB70E4 /* FKWritable.swift in Sources */,
+				523C33A11B9B772A00AB70E4 /* FKFile.swift in Sources */,
 				523C337B1B9B68D600AB70E4 /* FKDictionaryFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,6 +322,7 @@
 				52BF6BB21B99322000F07E13 /* FKError.swift in Sources */,
 				52BF6BA91B992AD500F07E13 /* FKFileType.swift in Sources */,
 				523C33941B9B757300AB70E4 /* FKWritable.swift in Sources */,
+				523C33A21B9B772A00AB70E4 /* FKFile.swift in Sources */,
 				523C337C1B9B68D600AB70E4 /* FKDictionaryFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
