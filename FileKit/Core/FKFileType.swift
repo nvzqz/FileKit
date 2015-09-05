@@ -57,7 +57,7 @@ public extension FKFileType {
     ///
     /// Throws an error if the file cannot be created.
     ///
-    /// - Throws: `FKError.CreateFile`
+    /// - Throws: `FKError.CreateFileFail`
     ///
     public func create() throws {
         try path.createFile()
@@ -74,7 +74,7 @@ public extension FKFileType {
     ///
     /// Throws an error if the file cannot be moved.
     ///
-    /// - Throws: `FKError.MoveFile`
+    /// - Throws: `FKError.MoveFileFail`
     ///
     public mutating func moveToPath(path: FKPath) throws {
         do {

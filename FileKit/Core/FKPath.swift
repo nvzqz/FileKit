@@ -128,7 +128,7 @@ public struct FKPath: StringLiteralConvertible,
     ///
     /// Throws an error if the file cannot be created.
     ///
-    /// - Throws: `FKError.CreateFile`
+    /// - Throws: `FKError.CreateFileFail`
     ///
     public func createFile() throws {
         let manager = NSFileManager.defaultManager()
@@ -141,7 +141,7 @@ public struct FKPath: StringLiteralConvertible,
     ///
     /// Throws an error if the directory cannot be created.
     ///
-    /// - Throws: `FKError.CreateFile`
+    /// - Throws: `FKError.CreateFileFail`
     ///
     public func createDirectory() throws {
         do {
@@ -157,7 +157,7 @@ public struct FKPath: StringLiteralConvertible,
     ///
     /// Throws an error if the file or directory cannot be deleted.
     ///
-    /// - Throws: `FKError.DeleteFile`
+    /// - Throws: `FKError.DeleteFileFail`
     ///
     public func deleteFile() throws {
         do {
