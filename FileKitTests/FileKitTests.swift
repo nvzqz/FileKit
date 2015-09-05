@@ -65,7 +65,12 @@ class FileKitTests: XCTestCase {
     
     func testPathSubscript() {
         let path = "~/Library/Preferences" as FKPath
-        XCTAssertEqual(path[1], "Library")
+        
+        let a = path[0]
+        XCTAssertEqual(a, "~")
+        
+        let b = path[2]
+        XCTAssertEqual(b, path)
     }
     
     func testAddingPaths() {

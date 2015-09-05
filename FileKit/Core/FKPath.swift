@@ -47,7 +47,7 @@ public struct FKPath: StringLiteralConvertible,
     /// The path of the program's current working directory.
     public static var Current: FKPath {
         get {
-        return FKPath(NSFileManager.defaultManager().currentDirectoryPath)
+            return FKPath(NSFileManager.defaultManager().currentDirectoryPath)
         }
         set {
             NSFileManager.defaultManager().changeCurrentDirectoryPath(newValue._path)
@@ -213,7 +213,15 @@ public struct FKPath: StringLiteralConvertible,
     }
     
     public subscript(index: Int) -> FKPath {
-        return components[index]
+        if index < 0 || index >= components.count {
+            fatalError("FKPath index out of range")
+        } else {
+            var result = components.first!
+            for i in 1 ..< index + 1 {
+                result += components[i]
+            }
+            return result
+        }
     }
     
     // MARK: - CustomStringConvertible
