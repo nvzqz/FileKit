@@ -47,6 +47,11 @@ class FileKitTests: XCTestCase {
         XCTAssertEqual(a.standardized, b.standardized)
     }
     
+    func testPathIsDirectory() {
+        let d = FKPath.SystemApplications
+        XCTAssertTrue(d.isDirectory)
+    }
+    
     func testPathParent() {
         let a: FKPath = "/"
         let b: FKPath = a + "Users"
@@ -80,6 +85,18 @@ class FileKitTests: XCTestCase {
         let ps = p.standardized
         XCTAssertEqual(ps, p•)
         XCTAssertEqual(ps.parent, ps^)
+    }
+    
+    // MARK: - FKTextFile
+    
+    func testTextFileExists() {
+        do {
+            let f = FKTextFile(path: FKPath.UserDesktop + "filekit_test.txt")
+            try f.create()
+            XCTAssertTrue(f.exists)
+        } catch {
+            XCTFail()
+        }
     }
     
 }

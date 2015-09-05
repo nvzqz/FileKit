@@ -48,6 +48,11 @@ public protocol FKFileType {
 
 public extension FKFileType {
     
+    /// True if the file exists.
+    public var exists: Bool {
+        return NSFileManager.defaultManager().fileExistsAtPath(path.rawValue)
+    }
+    
     /// Creates the file.
     ///
     /// Throws an error if the file cannot be created.

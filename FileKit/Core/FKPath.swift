@@ -90,6 +90,12 @@ public struct FKPath: StringLiteralConvertible,
         return !isAbsolute
     }
     
+    public var isDirectory: Bool {
+        var isDirectory: ObjCBool = false
+        return NSFileManager.defaultManager()
+            .fileExistsAtPath(_path, isDirectory: &isDirectory) && isDirectory
+    }
+    
     /// The path's parent path.
     public var parent: FKPath {
         return FKPath((_path as NSString).stringByDeletingLastPathComponent)
