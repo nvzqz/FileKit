@@ -36,9 +36,19 @@ class FileKitTests: XCTestCase {
         let a  = "/Users" as FKPath
         let b: FKPath = "/Users"
         let c = FKPath("/Users")
-        XCTAssertTrue(a == b)
-        XCTAssertTrue(a == c)
-        XCTAssertTrue(b == c)
+        XCTAssertEqual(a, b)
+        XCTAssertEqual(a, c)
+        XCTAssertEqual(b, c)
+    }
+    
+    func testPathEquality() {
+        let a: FKPath = "~"
+        let b: FKPath = "~/"
+        let c: FKPath = "~//"
+        let d: FKPath = "~/./"
+        XCTAssertEqual(a, b)
+        XCTAssertEqual(a, c)
+        XCTAssertEqual(a, d)
     }
     
     func testStandardizingPath() {

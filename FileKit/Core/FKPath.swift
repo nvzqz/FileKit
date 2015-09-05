@@ -241,7 +241,7 @@ public struct FKPath: StringLiteralConvertible,
 // MARK: - Operators
 
 public func == (lhs: FKPath, rhs: FKPath) -> Bool {
-    return lhs._path == rhs._path
+    return lhs.standardized._path == rhs.standardized._path
 }
 
 /// Concatenates two `FKPath` instances and returns the result.
