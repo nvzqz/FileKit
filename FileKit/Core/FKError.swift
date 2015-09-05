@@ -30,6 +30,9 @@ import Foundation
 /// An error that can be thrown by FileKit.
 public enum FKError: ErrorType {
     
+    /// A file does not exist.
+    case FileDoesNotExist
+    
     /// A file could not be created.
     case CreateFileFail
     
