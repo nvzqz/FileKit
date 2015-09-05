@@ -115,7 +115,7 @@ class FileKitTests: XCTestCase {
         }
     }
     
-    func testWriteToFile() {
+    func testWriteToTextFile() {
         do {
             try tf.write("This is some test.")
             try tf.write("This is another test.", atomically: false)
@@ -124,7 +124,7 @@ class FileKitTests: XCTestCase {
         }
     }
     
-    func testFileOperators() {
+    func testTextFileOperators() {
         do {
             let text = "FileKit Test"
             
@@ -140,5 +140,26 @@ class FileKitTests: XCTestCase {
             XCTFail()
         }
     }
+    
+    // MARK: - FKDictionaryFile
+    
+    let df = FKDictionaryFile(path: FKPath.UserDesktop + "filekit_test.plist")
+    
+    func testWriteToDictionaryFile() {
+        do {
+            let dict = NSMutableDictionary()
+            dict["FileKit"] = true
+            dict["Hello"] = "World"
+            
+            try df.write(dict)
+            let contents = try df.read()
+            XCTAssertEqual(contents, dict)
+            
+        } catch {
+            XCTFail()
+        }
+    }
+    
+    
     
 }
