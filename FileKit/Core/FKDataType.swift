@@ -27,8 +27,18 @@
 
 import Foundation
 
-public protocol FKDataType: FKReadable, FKWritable {
+public typealias FKDataType = protocol<FKReadable, FKWritable>
+
+public protocol FKReadable {
     
-    init()
+    init(contentsOfPath path: FKPath) throws
     
 }
+
+public protocol FKWritable {
+    
+    func writeToPath(path: FKPath) throws
+    
+}
+
+
