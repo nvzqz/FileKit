@@ -89,11 +89,29 @@ class FileKitTests: XCTestCase {
     
     // MARK: - FKTextFile
     
+    let f = FKTextFile(path: FKPath.UserDesktop + "filekit_test.txt")
+    
     func testTextFileExists() {
         do {
-            let f = FKTextFile(path: FKPath.UserDesktop + "filekit_test.txt")
             try f.create()
             XCTAssertTrue(f.exists)
+        } catch {
+            XCTFail()
+        }
+    }
+    
+    func testFileOperators() {
+        do {
+            let text = "FileKit Test"
+            
+            try text |> f
+            var contents = try f.read()
+            XCTAssertTrue(contents.hasSuffix(text))
+            
+            try text |>> f
+            contents = try f.read()
+            XCTAssertTrue(contents.hasSuffix(text + "\n" + text))
+            
         } catch {
             XCTFail()
         }

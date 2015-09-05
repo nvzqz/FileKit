@@ -58,3 +58,19 @@ public class FKTextFile: FKFileType {
     }
     
 }
+
+// MARK: - Operators
+
+infix operator |>  {}
+infix operator |>> {}
+
+public func |> (data: String, file: FKTextFile) throws {
+    try file.write(data)
+}
+
+public func |>> (data: String, file: FKTextFile) throws {
+    let contents = try file.read()
+    try contents + "\n" + data |> file
+}
+
+
