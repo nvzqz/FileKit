@@ -27,6 +27,10 @@
 
 import Foundation
 
+/// A representation of a filesystem file of a given data type.
+///
+/// - Precondition: The data type must conform to `FKDataType`.
+///
 public class FKFile<DataType: FKDataType>: FKFileType {
     
     /// The file's filesystem path.

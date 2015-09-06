@@ -27,14 +27,17 @@
 
 import Foundation
 
+/// A type that can be used to read and write `FKFile` instances.
 public typealias FKDataType = protocol<FKReadable, FKWritable>
 
+/// A type that can be used to read `FKFile` instances.
 public protocol FKReadable {
     
     init(contentsOfPath path: FKPath) throws
     
 }
 
+/// A type that can be used to write `FKFile` instances.
 public protocol FKWritable {
     
     func writeToPath(path: FKPath) throws

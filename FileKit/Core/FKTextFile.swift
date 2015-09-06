@@ -27,6 +27,10 @@
 
 import Foundation
 
+/// A representation of a filesystem text file.
+///
+/// The data type is `String`.
+///
 public class FKTextFile: FKFile<String> {
     
     /// The text file's string encoding.
@@ -36,10 +40,6 @@ public class FKTextFile: FKFile<String> {
         super.init(path: path)
     }
     
-    /// Returns a string from a text file.
-    ///
-    /// - Throws: `FKError.ReadFromFileFail`
-    ///
     public override func read() throws -> String {
         do {
             return try String(contentsOfFile: path.rawValue)

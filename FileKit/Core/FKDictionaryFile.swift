@@ -27,6 +27,10 @@
 
 import Foundation
 
+/// A representation of a filesystem dictionary file.
+///
+/// Dictionaries are written and read as Apple's .plist format.
+///
 public class FKDictionaryFile: FKFileType {
     
     /// The dictionary file's filesystem path.
