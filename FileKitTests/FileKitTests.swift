@@ -106,6 +106,10 @@ class FileKitTests: XCTestCase {
     
     let tf = FKTextFile(path: FKPath.UserDesktop + "filekit_test.txt")
     
+    func testTextFileExtension() {
+        XCTAssertEqual(tf.pathExtension, "txt")
+    }
+    
     func testTextFileExists() {
         do {
             try tf.create()

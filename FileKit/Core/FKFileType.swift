@@ -48,6 +48,11 @@ public protocol FKFileType {
 
 public extension FKFileType {
     
+    /// The file's filesystem path extension.
+    public final var pathExtension: String {
+        return (path.rawValue as NSString).pathExtension
+    }
+    
     /// True if the file exists.
     public var exists: Bool {
         return NSFileManager.defaultManager().fileExistsAtPath(path.rawValue)
