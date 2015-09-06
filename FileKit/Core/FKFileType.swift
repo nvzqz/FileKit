@@ -28,7 +28,7 @@
 import Foundation
 
 /// A type that repressents a filesystem file.
-public protocol FKFileType {
+public protocol FKFileType: CustomStringConvertible, CustomDebugStringConvertible {
     
     /// The type for which the file reads and writes data.
     typealias DataType
@@ -91,4 +91,19 @@ public extension FKFileType {
         }
     }
     
+    
+    // Mark: - CustomStringConvertible
+    
+    public var description: String {
+        return String(self.dynamicType) + ": (" + path.description + ")"
+    }
+    
+    // MARK: - CustomDebugStringConvertible
+    
+    public var debugDescription: String {
+        return String(self.dynamicType) + ": (" + path.debugDescription + ")"
+    }
+    
 }
+
+
