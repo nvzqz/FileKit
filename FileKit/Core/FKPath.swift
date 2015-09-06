@@ -66,6 +66,11 @@ public struct FKPath: StringLiteralConvertible,
         return FKPath((self._path as NSString).stringByStandardizingPath)
     }
     
+    /// A new path created by resolving all symlinks and standardizing the path.
+    public var resolved: FKPath {
+        return FKPath((self._path as NSString).stringByResolvingSymlinksInPath)
+    }
+    
     /// A new path created by making the path absolute.
     ///
     /// If the path begins with "`/`", then the standardized path is returned.
@@ -121,6 +126,11 @@ public struct FKPath: StringLiteralConvertible,
     /// Standardizes the path.
     public mutating func standardize() {
         self = self.standardized
+    }
+    
+    /// Resolves the path's symlinks and standardizes it.
+    public mutating func resolve() {
+        self = self.resolved
     }
     
     /// Creates a file at path.
