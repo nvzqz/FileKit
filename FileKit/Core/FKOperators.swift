@@ -30,13 +30,12 @@ import Foundation
 // MARK: - FKFileType
 
 infix operator |> {}
-infix operator <| {}
 
-/// Writes a string to a text file.
+/// Writes data to a file.
 ///
 /// - Throws: `FKError.WriteToFileFail`
 ///
-public func |> (data: String, file: FKTextFile) throws {
+public func |> <FileType: FKFileType>(data: FileType.DataType, file: FileType) throws {
     try file.write(data)
 }
 
