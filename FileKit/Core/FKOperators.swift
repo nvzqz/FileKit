@@ -47,11 +47,16 @@ infix operator |>> {}
 
 /// Appends a string to a text file.
 ///
-/// - Throws: `FKError.ReadFromFileFail`, `FKError.WriteToFileFail`
+/// If the text file can't be read from, such in the case that it doesn't exist,
+/// then it will try to write the data directly to the file.
 ///
-public func |>> (data: String, file: FKTextFile) throws {
-    let contents = try file.read()
-    try contents + "\n" + data |> file
+/// - Throws: `FKError.WriteToFileFail`
+///
+public func |>> (var data: String, file: FKTextFile) throws {
+    if let contents = try? file.read() {
+        data = contents + "\n" + data
+    }
+    try data |> file
 }
 
 

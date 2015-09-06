@@ -94,6 +94,7 @@ public struct FKPath: StringLiteralConvertible,
         return !isAbsolute
     }
     
+    /// Returns true if the path points to a directory.
     public var isDirectory: Bool {
         var isDirectory: ObjCBool = false
         return NSFileManager.defaultManager()
