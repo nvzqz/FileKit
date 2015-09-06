@@ -26,7 +26,6 @@
 //
 
 import Foundation
-import CoreLocation
 
 /// A representation of a filesystem path.
 ///
@@ -236,46 +235,6 @@ public struct FKPath: StringLiteralConvertible,
         return "Path: \(_path.debugDescription)"
     }
     
-}
-
-// MARK: - Operators
-
-public func == (lhs: FKPath, rhs: FKPath) -> Bool {
-    return lhs.standardized._path == rhs.standardized._path
-}
-
-/// Concatenates two `FKPath` instances and returns the result.
-///
-///     let systemLibrary: FKPath = "/System/Library"
-///     print(systemLib + "Fonts")  // "/System/Library/Fonts"
-///
-public func + (lhs: FKPath, rhs: FKPath) -> FKPath {
-    switch (lhs._path.hasSuffix(FKPath.Separator), rhs._path.hasPrefix(FKPath.Separator)) {
-    case (true, true):
-        return FKPath("\(lhs._path)\(rhs._path.substringFromIndex(rhs._path.startIndex.successor()))")
-    case (false, false):
-        return FKPath("\(lhs._path)\(FKPath.Separator)\(rhs._path)")
-    default:
-        return FKPath("\(lhs._path)\(rhs._path)")
-    }
-}
-
-public func += (inout lhs: FKPath, rhs: FKPath) {
-    lhs = lhs + rhs
-}
-
-postfix operator • {}
-
-/// Returns the standardized version of the path.
-public postfix func • (path: FKPath) -> FKPath {
-    return path.standardized
-}
-
-postfix operator ^ {}
-
-/// Returns the path's parent path.
-public postfix func ^ (path: FKPath) -> FKPath {
-    return path.parent
 }
 
 // MARK: - FKPaths

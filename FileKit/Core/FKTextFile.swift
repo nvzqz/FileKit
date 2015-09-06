@@ -81,26 +81,4 @@ public class FKTextFile: FKFile<String> {
     
 }
 
-// MARK: - Operators
-
-infix operator |>  {}
-infix operator |>> {}
-
-/// Writes a string to a text file.
-///
-/// - Throws: `FKError.WriteToFileFail`
-///
-public func |> (data: String, file: FKTextFile) throws {
-    try file.write(data)
-}
-
-/// Appends a string to a text file.
-///
-/// - Throws: `FKError.ReadFromFileFail`, `FKError.WriteToFileFail`
-///
-public func |>> (data: String, file: FKTextFile) throws {
-    let contents = try file.read()
-    try contents + "\n" + data |> file
-}
-
 
