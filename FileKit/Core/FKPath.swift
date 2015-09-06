@@ -243,7 +243,7 @@ public struct FKPath: StringLiteralConvertible,
     // MARK: - CustomDebugStringConvertible
     
     public var debugDescription: String {
-        return "Path: \(_path.debugDescription)"
+        return String(self.dynamicType) + ": " + _path.debugDescription
     }
     
 }
