@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5204B84E1B96B83800AA473F /* FileKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5204B84D1B96B83800AA473F /* FileKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		523C33781B9A7EFC00AB70E4 /* FKTextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33771B9A7EFC00AB70E4 /* FKTextFile.swift */; settings = {ASSET_TAGS = (); }; };
 		523C33791B9A7EFC00AB70E4 /* FKTextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33771B9A7EFC00AB70E4 /* FKTextFile.swift */; settings = {ASSET_TAGS = (); }; };
 		523C337B1B9B68D600AB70E4 /* FKDictionaryFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C337A1B9B68D600AB70E4 /* FKDictionaryFile.swift */; settings = {ASSET_TAGS = (); }; };
@@ -18,7 +17,6 @@
 		523C33A21B9B772A00AB70E4 /* FKFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A01B9B772A00AB70E4 /* FKFile.swift */; settings = {ASSET_TAGS = (); }; };
 		523C33A71B9B894A00AB70E4 /* FKOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A61B9B894A00AB70E4 /* FKOperators.swift */; settings = {ASSET_TAGS = (); }; };
 		523C33A81B9B894A00AB70E4 /* FKOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A61B9B894A00AB70E4 /* FKOperators.swift */; settings = {ASSET_TAGS = (); }; };
-		5263A8F91B96B8EC00635A93 /* FileKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5204B84D1B96B83800AA473F /* FileKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5263A8FC1B96B94D00635A93 /* FKPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* FKPath.swift */; };
 		5263A8FD1B96B94D00635A93 /* FKPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* FKPath.swift */; };
 		5263A8FE1B96B95000635A93 /* String+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7E51B96ADA100AA473F /* String+FileKit.swift */; };
@@ -45,7 +43,6 @@
 		5204B7C31B968E8000AA473F /* FKPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKPath.swift; sourceTree = "<group>"; };
 		5204B7E51B96ADA100AA473F /* String+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+FileKit.swift"; sourceTree = "<group>"; };
 		5204B84B1B96B83800AA473F /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5204B84D1B96B83800AA473F /* FileKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileKit.h; sourceTree = "<group>"; };
 		5204B84F1B96B83800AA473F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5204B8581B96B85E00AA473F /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		523C33771B9A7EFC00AB70E4 /* FKTextFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKTextFile.swift; sourceTree = "<group>"; };
@@ -110,7 +107,6 @@
 			children = (
 				5204B7E31B96AD2300AA473F /* Core */,
 				5204B7E41B96AD3400AA473F /* Extensions */,
-				5204B84D1B96B83800AA473F /* FileKit.h */,
 				5204B84F1B96B83800AA473F /* Info.plist */,
 			);
 			path = FileKit;
@@ -155,7 +151,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5204B84E1B96B83800AA473F /* FileKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +158,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5263A8F91B96B8EC00635A93 /* FileKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
