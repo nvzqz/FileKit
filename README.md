@@ -7,17 +7,78 @@
          alt="Platform">
     <img src="https://img.shields.io/badge/language-swift-orange.svg"
          alt="Language">
+    <a href="https://github.com/Carthage/Carthage">
+        <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"
+             alt="Carthage">
+    </a>
     <img src="https://img.shields.io/badge/license-MIT-000000.svg"
          alt="License">
 </p>
 
 <p align="center">
-    <a href="#usage">Usage</a>
+    <a href="#installation">Installation</a>
+  • <a href="#usage">Usage</a>
   • <a href="#license">License</a>
 </p>
 
 
 FileKit is a Swift framework that allows for simple and expressive file management.
+
+## Installation
+
+### Compatibility
+
+FileKit currently only supports Swift 2.0 and Xcode 7.
+
+- Xcode
+    - Version:  **7.0 Beta 6** (haven't tested previous betas)
+    - Language: **Swift 2.0**
+- OS X
+    - Compatible With:   **OS X 10.11**
+    - Deployment Target: **OS X 10.9**
+- iOS
+    - Compatible With:   **iOS 9.0**
+    - Deployment Target: **iOS 8.0**
+
+### Install Using CocoaPods
+[CocoaPods](https://cocoapods.org/) is a centralized dependency manager for
+Objective-C and Swift. Go [here](https://guides.cocoapods.org/using/index.html)
+to learn more.
+
+1. Add the project to your [Podfile](https://guides.cocoapods.org/using/the-podfile.html).
+
+    ```
+    use_frameworks!
+
+    pod 'FileKit', '~> 1.0.0'
+    ```
+
+2. Run `pod install` and open the `.xcworkspace` file to launch Xcode.
+
+3. Import the FileKit framework.
+
+    ```swift
+    import FileKit
+    ```
+
+### Install Using Carthage
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency
+manager for Objective-C and Swift.
+
+1. Add the project to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
+
+    ```
+    github "nvzqz/FileKit"
+    ```
+
+2. Run `carthage update` and follow [the additional steps](https://github.com/Carthage/Carthage#getting-started)
+   in order to add FileKit to your project.
+
+3. Import the FileKit framework.
+
+    ```swift
+    import FileKit
+    ```
 
 ## Usage
 
