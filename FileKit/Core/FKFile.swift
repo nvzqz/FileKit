@@ -36,6 +36,7 @@ public class FKFile<DataType: FKDataType>: FKFileType {
     /// The file's filesystem path.
     public var path: FKPath
     
+    /// Initializes a file from a path.
     required public init(path: FKPath) {
         self.path = path
     }

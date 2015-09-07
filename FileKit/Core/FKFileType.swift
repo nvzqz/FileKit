@@ -36,6 +36,7 @@ public protocol FKFileType: CustomStringConvertible, CustomDebugStringConvertibl
     /// The file's filesystem path.
     var path: FKPath { get set }
     
+    /// Initializes a file from a path.
     init(path: FKPath)
     
     /// Reads the file and returns its data.

@@ -36,10 +36,12 @@ public class FKTextFile: FKFile<String> {
     /// The text file's string encoding.
     public var encoding: NSStringEncoding = NSUTF8StringEncoding
     
+    /// Initializes a text file from a path.
     public required init(path: FKPath) {
         super.init(path: path)
     }
     
+    /// Reads a string from the text file's path.
     public override func read() throws -> String {
         do {
             return try String(contentsOfFile: path.rawValue)

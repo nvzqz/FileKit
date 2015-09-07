@@ -83,6 +83,7 @@ public func + (lhs: FKPath, rhs: FKPath) -> FKPath {
     }
 }
 
+/// Appends the right path to the left path.
 public func += (inout lhs: FKPath, rhs: FKPath) {
     lhs = lhs + rhs
 }
@@ -91,6 +92,9 @@ public func += (inout lhs: FKPath, rhs: FKPath) {
 postfix operator • {}
 
 /// Returns the standardized version of the path.
+///
+/// Can be typed with alt+8.
+///
 @warn_unused_result public postfix func • (path: FKPath) -> FKPath {
     return path.standardized
 }

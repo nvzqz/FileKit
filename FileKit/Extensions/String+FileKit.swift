@@ -29,6 +29,7 @@ import Foundation
 
 extension String: FKDataType {
     
+    /// Initializes a string from a path.
     public init(contentsOfPath path: FKPath) throws {
         do {
             self = try NSString(contentsOfFile: path.rawValue,
@@ -38,6 +39,7 @@ extension String: FKDataType {
         }
     }
     
+    /// Writes the string to a path.
     public func writeToPath(path: FKPath) throws {
         do {
             try self.writeToFile(path.rawValue,

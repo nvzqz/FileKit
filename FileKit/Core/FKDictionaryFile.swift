@@ -36,6 +36,7 @@ public class FKDictionaryFile: FKFileType {
     /// The dictionary file's filesystem path.
     public var path: FKPath
     
+    /// Initializes a dictionary file from a path.
     public required init(path: FKPath) {
         self.path = path
     }

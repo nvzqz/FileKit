@@ -225,44 +225,56 @@ public struct FKPath: StringLiteralConvertible,
     
     public typealias UnicodeScalarLiteralType = StringLiteralType
     
+    /// Initializes a path to the literal.
     public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         _path = value
     }
     
+    /// Initializes a path to the literal.
     public init(stringLiteral value: StringLiteralType) {
         _path = value
     }
     
+    /// Initializes a path to the literal.
     public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         _path = value
     }
     
     // MARK: - RawRepresentable
     
+    /// Initializes a path to the string value.
     public init(rawValue: String) {
         _path = rawValue
     }
     
+    /// The path's string value.
     public var rawValue: String {
         return _path
     }
     
     // MARK: - Hashable
     
+    /// The hash value of the path.
     public var hashValue: Int {
         return _path.hashValue
     }
     
     // MARK: - Indexable
     
+    /// The path's start index.
     public var startIndex: Int {
         return components.startIndex
     }
     
+    /// The path's end index; the successor of the last valid subscript argument.
     public var endIndex: Int {
         return components.endIndex
     }
     
+    /// The path's subscript. (read-only)
+    ///
+    /// - Returns: All of the path's elements up to and including the index.
+    ///
     public subscript(index: Int) -> FKPath {
         if index < 0 || index >= components.count {
             fatalError("FKPath index out of range")
@@ -277,12 +289,14 @@ public struct FKPath: StringLiteralConvertible,
     
     // MARK: - CustomStringConvertible
     
+    /// A textual representation of `self`.
     public var description: String {
         return _path
     }
     
     // MARK: - CustomDebugStringConvertible
     
+    /// A textual representation of `self`, suitable for debugging.
     public var debugDescription: String {
         return String(self.dynamicType) + ": " + _path.debugDescription
     }
