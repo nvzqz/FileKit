@@ -108,7 +108,7 @@ public func ~>> (lhs: FKPath, rhs: FKPath) throws {
 
 infix operator ~>! {}
 
-/// Forcefully creates a symlink of the left path at the right path by deleting
+/// Forcibly creates a symlink of the left path at the right path by deleting
 /// anything at the right path before creating the symlink.
 ///
 /// - Warning: If the symbolic link path already exists, it will be deleted.
