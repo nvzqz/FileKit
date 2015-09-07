@@ -146,6 +146,35 @@ public struct FKPath: StringLiteralConvertible,
         self = self.resolved
     }
     
+    /// Creates a symbolic link at a path that points to `self`.
+    ///
+    /// If the symbolic link path already exists and _is not_ a directory, an
+    /// error will be thrown and a link will not be created.
+    ///
+    /// If the symbolic link path already exists and _is_ a directory, the link
+    /// will be made to a file in that directory.
+    ///
+    /// - Throws: `FKError.FileDoesNotExist`, `FKError.CreateSymlinkFail`
+    ///
+    public func createSymlinkToPath(var path: FKPath) throws {
+        if self.exists {
+            if path.exists && !path.isDirectory {
+                throw FKError.CreateSymlinkFail
+            } else if path.isDirectory && !self.isDirectory {
+                path += self.components.last!
+            }
+            do {
+                let manager = NSFileManager.defaultManager()
+                try manager.createSymbolicLinkAtPath(
+                    path._path, withDestinationPath: self._path)
+            } catch {
+                throw FKError.CreateSymlinkFail
+            }
+        } else {
+            throw FKError.FileDoesNotExist
+        }
+    }
+    
     /// Creates a file at path.
     ///
     /// Throws an error if the file cannot be created.

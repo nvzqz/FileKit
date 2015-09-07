@@ -95,6 +95,24 @@ class FileKitTests: XCTestCase {
         XCTAssertEqual(a, "~/Desktop/Files")
     }
     
+    func testPathSymlinking() {
+        do {
+            let fileToLink = FKTextFile(path: FKPath.UserDesktop + "test.txt")
+            let symlinkPath = FKPath.UserDesktop + "test2.txt"
+            
+            let testData = "test data"
+            try testData |> fileToLink
+            
+            try symlinkPath.deleteFile()
+            try fileToLink.path.createSymlinkToPath(symlinkPath)
+            
+            let contents = try FKTextFile(path: symlinkPath).read()
+            XCTAssertEqual(contents, testData)
+        } catch {
+            XCTFail()
+        }
+    }
+    
     func testPathOperators() {
         let p: FKPath = "~"
         let ps = p.standardized
@@ -105,6 +123,10 @@ class FileKitTests: XCTestCase {
     // MARK: - FKTextFile
     
     let tf = FKTextFile(path: FKPath.UserDesktop + "filekit_test.txt")
+    
+    func testFileName() {
+        XCTAssertEqual(FKTextFile(path: "/Users/").name, "Users")
+    }
     
     func testTextFileExtension() {
         XCTAssertEqual(tf.pathExtension, "txt")

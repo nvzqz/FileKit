@@ -33,6 +33,9 @@ public enum FKError: ErrorType {
     /// A file does not exist.
     case FileDoesNotExist
     
+    /// A symbolic link could not be created.
+    case CreateSymlinkFail
+    
     /// A file could not be created.
     case CreateFileFail
     
