@@ -88,6 +88,64 @@ public func += (inout lhs: FKPath, rhs: FKPath) {
     lhs = lhs + rhs
 }
 
+infix operator +>> {}
+
+/// Copies the file at the left path to the right path.
+///
+/// Throws an error if the file at the left path could not be copied or if a file
+/// already exists at the right path.
+///
+/// - Throws: `FKError.FileDoesNotExist`, `FKError.CopyFileFail`
+///
+public func +>> (lhs: FKPath, rhs: FKPath) throws {
+    try lhs.copyFileToPath(rhs)
+}
+
+/// Copies a file to a path.
+///
+/// Throws an error if the file could not be copied or if a file already
+/// exists at the destination path.
+///
+/// - Throws: `FKError.FileDoesNotExist`, `FKError.CopyFileFail`
+///
+public func +>> <FileType: FKFileType>(lhs: FileType, rhs: FKPath) throws {
+    try lhs.copyToPath(rhs)
+}
+
+infix operator +>! {}
+
+/// Forcibly copies the file at the left path to the right path.
+///
+/// - Warning: If a file at the right path already exists, it will be deleted.
+///
+/// - Throws:
+///     - `FKError.DeleteFileFail`,
+///     - `FKError.FileDoesNotExist`,
+///     - `FKError.CreateSymlinkFail`
+///
+public func +>! (lhs: FKPath, rhs: FKPath) throws {
+    if rhs.exists {
+        try rhs.deleteFile()
+    }
+    try lhs +>> rhs
+}
+
+/// Forcibly copies a file to a path.
+///
+/// - Warning: If a file at the right path already exists, it will be deleted.
+///
+/// - Throws:
+///     - `FKError.DeleteFileFail`,
+///     - `FKError.FileDoesNotExist`,
+///     - `FKError.CreateSymlinkFail`
+///
+public func +>! <FileType: FKFileType>(lhs: FileType, rhs: FKPath) throws {
+    if rhs.exists {
+        try rhs.deleteFile()
+    }
+    try lhs +>> rhs
+}
+
 infix operator ~>> {}
 
 /// Creates a symlink of the left path at the right path.
