@@ -219,6 +219,21 @@ public struct FKPath: StringLiteralConvertible,
         }
     }
     
+    /// Copies the file at `self` to a path.
+    ///
+    /// Throws an error if the file at `self` could not be copied.
+    ///
+    /// - Throws: `FKError.CopyFileFail`
+    ///
+    public func copyFileToPath(path: FKPath) throws {
+        do {
+            let manager = NSFileManager.defaultManager()
+            try manager.copyItemAtPath(self.rawValue, toPath: path.rawValue)
+        } catch {
+            throw FKError.CopyFileFail
+        }
+    }
+    
     // MARK: - StringLiteralConvertible
     
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType

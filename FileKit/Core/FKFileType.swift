@@ -101,6 +101,15 @@ public extension FKFileType {
         }
     }
     
+    /// Copies the file to a path.
+    ///
+    /// Throws an error if the file could not be copied.
+    ///
+    /// - Throws: `FKError.CopyFileFail`
+    ///
+    public func copyToPath(path: FKPath) throws {
+        try path.copyFileToPath(path)
+    }
     
     // Mark: - CustomStringConvertible
     

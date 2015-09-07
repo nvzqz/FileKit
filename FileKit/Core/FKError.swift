@@ -50,4 +50,7 @@ public enum FKError: ErrorType {
     
     /// A file could not be moved.
     case MoveFileFail
+    
+    /// A file could not be copied.
+    case CopyFileFail
 }
