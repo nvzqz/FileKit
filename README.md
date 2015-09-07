@@ -156,7 +156,7 @@ var photos = FKPath.UserPictures + "My Photos"  // ~/Pictures/My Photos
 photos += "../My Other Photos"                  // ~/Pictures/My Photos/../My Other Photos
 ```
 
-##### `•` Operator
+##### `•` Operator (alt+8)
 
 Returns the standardized version of the path.
 
