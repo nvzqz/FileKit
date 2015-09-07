@@ -202,25 +202,32 @@ let path: FKPath = "~/Movies"
 path^ == "~"  // true
 ```
 
-##### `>>>` Operator
+##### `->>` Operator
+
+Moves the file at the left path to the right path.
+
+##### `->!` Operator
+
+Forcibly moves the file at the left path to the right path by deleting anything
+at the left path before moving the file.
+
+##### `+>>` Operator
+
+Copies the file at the left path to the right path.
+
+##### `+>!` Operator
+
+Forcibly copies the file at the left path to the right path by deleting anything
+at the left path before copying the file.
+
+##### `~>>` Operator
 
 Creates a symlink of the left path at the right path.
 
-The same as doing:
-```swift
-somePath.createSymlinkToPath(linkPath)
-```
+##### `~>!` Operator
 
-##### `>>!` Operator
-
-Forcefully creates a symlink of the left path at the right path by deleting
+Forcibly creates a symlink of the left path at the right path by deleting
 anything at the left path before creating the symlink.
-
-The same as doing:
-```swift
-linkPath.deleteFile()
-somePath >>> linkPath
-```
 
 ##### Subscripting
 
