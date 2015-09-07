@@ -221,16 +221,25 @@ public struct FKPath: StringLiteralConvertible,
     
     /// Copies the file at `self` to a path.
     ///
-    /// Throws an error if the file at `self` could not be copied.
+    /// Throws an error if the file at `self` could not be copied or if a file
+    /// already exists at the destination path.
     ///
-    /// - Throws: `FKError.CopyFileFail`
+    /// - Throws: `FKError.FileDoesNotExist`, `FKError.CopyFileFail`
     ///
     public func copyFileToPath(path: FKPath) throws {
-        do {
-            let manager = NSFileManager.defaultManager()
-            try manager.copyItemAtPath(self.rawValue, toPath: path.rawValue)
-        } catch {
-            throw FKError.CopyFileFail
+        if self.exists {
+            if !path.exists {
+                do {
+                    let manager = NSFileManager.defaultManager()
+                    try manager.copyItemAtPath(self.rawValue, toPath: path.rawValue)
+                } catch {
+                    throw FKError.CopyFileFail
+                }
+            } else {
+                throw FKError.CopyFileFail
+            }
+        } else {
+            throw FKError.FileDoesNotExist
         }
     }
     

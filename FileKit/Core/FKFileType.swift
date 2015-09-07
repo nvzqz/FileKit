@@ -103,9 +103,10 @@ public extension FKFileType {
     
     /// Copies the file to a path.
     ///
-    /// Throws an error if the file could not be copied.
+    /// Throws an error if the file could not be copied or if a file already
+    /// exists at the destination path.
     ///
-    /// - Throws: `FKError.CopyFileFail`
+    /// - Throws: `FKError.FileDoesNotExist`, `FKError.CopyFileFail`
     ///
     public func copyToPath(path: FKPath) throws {
         try path.copyFileToPath(path)
