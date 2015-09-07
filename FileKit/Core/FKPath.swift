@@ -94,6 +94,11 @@ public struct FKPath: StringLiteralConvertible,
         return !isAbsolute
     }
     
+    /// Returns true if a file exists at the path.
+    public var exists: Bool {
+        return NSFileManager.defaultManager().fileExistsAtPath(_path)
+    }
+    
     /// Returns true if the path points to a directory.
     public var isDirectory: Bool {
         var isDirectory: ObjCBool = false

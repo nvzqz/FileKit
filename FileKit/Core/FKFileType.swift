@@ -55,7 +55,7 @@ public extension FKFileType {
     
     /// True if the file exists.
     public var exists: Bool {
-        return NSFileManager.defaultManager().fileExistsAtPath(path.rawValue)
+        return path.exists
     }
     
     /// Creates the file.
