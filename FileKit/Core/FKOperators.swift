@@ -88,6 +88,70 @@ public func += (inout lhs: FKPath, rhs: FKPath) {
     lhs = lhs + rhs
 }
 
+
+infix operator >>> {}
+
+/// Moves the file at the left path to a path.
+///
+/// Throws an error if the file at the left path could not be moved or if a file
+/// already exists at the right path.
+///
+/// - Throws:
+///     - `FKError.FileDoesNotExist`,
+///     - `FKError.MoveFileFail`
+///
+public func >>> (lhs: FKPath, rhs: FKPath) throws {
+    try lhs.moveFileToPath(rhs)
+}
+
+/// Moves a file to a path.
+///
+/// Throws an error if the file could not be moved or if a file already
+/// exists at the destination path.
+///
+/// - Throws:
+///     - `FKError.FileDoesNotExist`,
+///     - `FKError.MoveFileFail`
+///
+public func >>> <FileType: FKFileType>(inout lhs: FileType, rhs: FKPath) throws {
+    try lhs.moveToPath(rhs)
+}
+
+infix operator >>! {}
+
+/// Forcibly moves the file at the left path to the right path.
+///
+/// - Warning: If a file at the right path already exists, it will be deleted.
+///
+/// - Throws:
+///     - `FKError.DeleteFileFail`,
+///     - `FKError.FileDoesNotExist`,
+///     - `FKError.CreateSymlinkFail`
+///
+public func >>! (lhs: FKPath, rhs: FKPath) throws {
+    if rhs.exists {
+        try rhs.deleteFile()
+    }
+    try lhs >>> rhs
+}
+
+/// Forcibly moves a file to a path.
+///
+/// - Warning: If a file at the right path already exists, it will be deleted.
+///
+/// - Throws:
+///     - `FKError.DeleteFileFail`,
+///     - `FKError.FileDoesNotExist`,
+///     - `FKError.CreateSymlinkFail`
+///
+public func >>! <FileType: FKFileType>(inout lhs: FileType, rhs: FKPath) throws {
+    if rhs.exists {
+        try rhs.deleteFile()
+    }
+    try lhs >>> rhs
+}
+
+
 infix operator +>> {}
 
 /// Copies the file at the left path to the right path.
@@ -106,7 +170,9 @@ public func +>> (lhs: FKPath, rhs: FKPath) throws {
 /// Throws an error if the file could not be copied or if a file already
 /// exists at the destination path.
 ///
-/// - Throws: `FKError.FileDoesNotExist`, `FKError.CopyFileFail`
+/// - Throws:
+///     - `FKError.FileDoesNotExist`,
+///     - `FKError.CopyFileFail`
 ///
 public func +>> <FileType: FKFileType>(lhs: FileType, rhs: FKPath) throws {
     try lhs.copyToPath(rhs)
