@@ -92,13 +92,8 @@ public extension FKFileType {
     /// - Throws: `FKError.MoveFileFail`
     ///
     public mutating func moveToPath(path: FKPath) throws {
-        do {
-            let manager = NSFileManager.defaultManager()
-            try manager.moveItemAtPath(self.path.rawValue, toPath: path.rawValue)
-            self.path = path
-        } catch {
-            throw FKError.MoveFileFail
-        }
+        try path.moveFileToPath(path)
+        self.path = path
     }
     
     /// Copies the file to a path.
