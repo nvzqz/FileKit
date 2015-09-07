@@ -88,7 +88,7 @@ public func += (inout lhs: FKPath, rhs: FKPath) {
     lhs = lhs + rhs
 }
 
-infix operator >>> {}
+infix operator ~>> {}
 
 /// Creates a symlink of the left path at the right path.
 ///
@@ -102,11 +102,11 @@ infix operator >>> {}
 ///     - `FKError.FileDoesNotExist`,
 ///     - `FKError.CreateSymlinkFail`
 ///
-public func >>> (lhs: FKPath, rhs: FKPath) throws {
+public func ~>> (lhs: FKPath, rhs: FKPath) throws {
     try lhs.createSymlinkToPath(rhs)
 }
 
-infix operator >>! {}
+infix operator ~>! {}
 
 /// Forcefully creates a symlink of the left path at the right path by deleting
 /// anything at the right path before creating the symlink.
@@ -118,11 +118,11 @@ infix operator >>! {}
 ///     - `FKError.FileDoesNotExist`,
 ///     - `FKError.CreateSymlinkFail`
 ///
-public func >>! (lhs: FKPath, rhs: FKPath) throws {
+public func ~>! (lhs: FKPath, rhs: FKPath) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
-    try lhs >>> rhs
+    try lhs ~>> rhs
 }
 
 postfix operator • {}
