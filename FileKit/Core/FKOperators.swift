@@ -230,6 +230,20 @@ public func ~>> (lhs: FKPath, rhs: FKPath) throws {
     try lhs.createSymlinkToPath(rhs)
 }
 
+/// Symlinks a file to a path.
+///
+/// If the path already exists and _is not_ a directory, an error will be
+/// thrown and a link will not be created.
+///
+/// If the path already exists and _is_ a directory, the link will be made
+/// to the file in that directory.
+///
+/// - Throws: `FKError.FileDoesNotExist`, `FKError.CreateSymlinkFail`
+///
+public func ~>> <FileType: FKFileType>(lhs: FileType, rhs: FKPath) throws {
+    try lhs.symlinkToPath(rhs)
+}
+
 infix operator ~>! {}
 
 /// Forcibly creates a symlink of the left path at the right path by deleting
@@ -243,6 +257,23 @@ infix operator ~>! {}
 ///     - `FKError.CreateSymlinkFail`
 ///
 public func ~>! (lhs: FKPath, rhs: FKPath) throws {
+    if rhs.exists {
+        try rhs.deleteFile()
+    }
+    try lhs ~>> rhs
+}
+
+/// Forcibly creates a symlink of a file at a path by deleting anything at the
+/// path before creating the symlink.
+///
+/// - Warning: If the path already exists, it will be deleted.
+///
+/// - Throws:
+///     - `FKError.DeleteFileFail`,
+///     - `FKError.FileDoesNotExist`,
+///     - `FKError.CreateSymlinkFail`
+///
+public func ~>! <FileType: FKFileType>(lhs: FileType, rhs: FKPath) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
