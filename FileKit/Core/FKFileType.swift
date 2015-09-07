@@ -107,6 +107,20 @@ public extension FKFileType {
         try path.copyFileToPath(path)
     }
     
+    /// Symlinks the file to a path.
+    ///
+    /// If the path already exists and _is not_ a directory, an error will be
+    /// thrown and a link will not be created.
+    ///
+    /// If the path already exists and _is_ a directory, the link will be made
+    /// to `self` in that directory.
+    ///
+    /// - Throws: `FKError.FileDoesNotExist`, `FKError.CreateSymlinkFail`
+    ///
+    public func symlinkToPath(path: FKPath) throws {
+        try path.createSymlinkToPath(path)
+    }
+    
     // Mark: - CustomStringConvertible
     
     public var description: String {
