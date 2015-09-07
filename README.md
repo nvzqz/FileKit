@@ -112,6 +112,7 @@ _`Separator`_       | `String`      | `"/"`
 `standardized`      | `FKPath`      | The path by removing extraneous components
 `resolved`          | `FKPath`      | The path by resolving all symlinks
 `absolute`          | `FKPath`      | The path as absolute (begins with `"/"`)
+`exists`            | `Bool`        | True if a file exists at the path
 `isAbsolute`        | `Bool`        | True if the path begins with `"/"`
 `isRelative`        | `Bool`        | True if the path does not begin with `"/"`
 `isDirectory`       | `Bool`        | True if the path refers to a directory
