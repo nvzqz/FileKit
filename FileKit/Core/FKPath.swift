@@ -58,7 +58,14 @@ public struct FKPath: StringLiteralConvertible,
     
     /// The components of the path.
     public var components: [FKPath] {
-        return (_path as NSString).pathComponents.map { FKPath($0) }
+        var result = [FKPath]()
+        for (index, component) in (_path as NSString).pathComponents.enumerate()
+        {
+            if index == 0 || component != "/" {
+                result.append(FKPath(component))
+            }
+        }
+        return result
     }
     
     /// A new path created by removing extraneous components from the path.
