@@ -7,6 +7,10 @@
          alt="Platform">
     <img src="https://img.shields.io/badge/language-swift-orange.svg"
          alt="Language">
+    <a href="https://cocoapods.org/">
+        <img src="https://img.shields.io/cocoapods/v/FileKit.svg"
+             alt="CocoaPods">
+    </a>
     <a href="https://github.com/Carthage/Carthage">
         <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"
              alt="Carthage">
