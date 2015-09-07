@@ -118,7 +118,7 @@ public extension FKFileType {
     /// - Throws: `FKError.FileDoesNotExist`, `FKError.CreateSymlinkFail`
     ///
     public func symlinkToPath(path: FKPath) throws {
-        try path.createSymlinkToPath(path)
+        try path.symlinkFileToPath(path)
     }
     
     // Mark: - CustomStringConvertible

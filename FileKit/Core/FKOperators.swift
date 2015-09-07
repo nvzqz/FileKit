@@ -227,7 +227,7 @@ infix operator ~>> {}
 ///     - `FKError.CreateSymlinkFail`
 ///
 public func ~>> (lhs: FKPath, rhs: FKPath) throws {
-    try lhs.createSymlinkToPath(rhs)
+    try lhs.symlinkFileToPath(rhs)
 }
 
 /// Symlinks a file to a path.

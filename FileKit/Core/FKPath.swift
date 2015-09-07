@@ -156,7 +156,7 @@ public struct FKPath: StringLiteralConvertible,
     ///
     /// - Throws: `FKError.FileDoesNotExist`, `FKError.CreateSymlinkFail`
     ///
-    public func createSymlinkToPath(var path: FKPath) throws {
+    public func symlinkFileToPath(var path: FKPath) throws {
         if self.exists {
             if path.exists && !path.isDirectory {
                 throw FKError.CreateSymlinkFail
