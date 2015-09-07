@@ -142,6 +142,29 @@ do {
 }
 ```
 
+##### New Symlinks
+
+A symbolic link can be created by calling `createSymlinkToPath(_:)` on an `FKPath`.
+
+```swift
+do {
+    let filePath = FKPath.UserDesktop + "text.txt"
+    try filePath.createFile()
+
+    let linkPath = FKPath.UserDesktop + "link.txt"
+    try filePath.createSymlinkToPath(linkPath)
+    print(linkPath.exists)  // true
+
+    let text = "If she weighs the same as a duck, she's made of wood."
+    try text |>  FKTextFile(path: filePath)
+
+    let contents = try FKTextFile(path: linkPath).read()
+    print(contents == text)  // true
+} catch {
+    print("Could not create symlink")
+}
+```
+
 ##### `+` Operator
 
 Appends two paths and returns the result
