@@ -48,6 +48,15 @@ public protocol FKFileType: CustomStringConvertible, CustomDebugStringConvertibl
 
 public extension FKFileType {
     
+    /// The file's name.
+    public var name: String {
+        if let name = path.components.last?.rawValue {
+            return name
+        } else {
+            return ""
+        }
+    }
+    
     /// The file's filesystem path extension.
     public final var pathExtension: String {
         return (path.rawValue as NSString).pathExtension
