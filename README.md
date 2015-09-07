@@ -201,6 +201,26 @@ let path: FKPath = "~/Movies"
 path^ == "~"  // true
 ```
 
+##### `>>>` Operator
+
+Creates a symlink of the left path at the right path.
+
+The same as doing:
+```swift
+somePath.createSymlinkToPath(linkPath)
+```
+
+##### `>>!` Operator
+
+Forcefully creates a symlink of the left path at the right path by deleting
+anything at the left path before creating the symlink.
+
+The same as doing:
+```swift
+linkPath.deleteFile()
+somePath >>> linkPath
+```
+
 ##### Subscripting
 
 Subscripting an `FKPath` will return all of its components up to and including

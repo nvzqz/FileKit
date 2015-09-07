@@ -88,6 +88,42 @@ public func += (inout lhs: FKPath, rhs: FKPath) {
     lhs = lhs + rhs
 }
 
+infix operator >>> {}
+
+/// Creates a symlink of the left path at the right path.
+///
+/// If the symbolic link path already exists and _is not_ a directory, an
+/// error will be thrown and a link will not be created.
+///
+/// If the symbolic link path already exists and _is_ a directory, the link
+/// will be made to a file in that directory.
+///
+/// - Throws:
+///     - `FKError.FileDoesNotExist`,
+///     - `FKError.CreateSymlinkFail`
+///
+public func >>> (lhs: FKPath, rhs: FKPath) throws {
+    try lhs.createSymlinkToPath(rhs)
+}
+
+infix operator >>! {}
+
+/// Forcefully creates a symlink of the left path at the right path by deleting
+/// anything at the right path before creating the symlink.
+///
+/// - Warning: If the symbolic link path already exists, it will be deleted.
+///
+/// - Throws: 
+///     - `FKError.DeleteFileFail`,
+///     - `FKError.FileDoesNotExist`,
+///     - `FKError.CreateSymlinkFail`
+///
+public func >>! (lhs: FKPath, rhs: FKPath) throws {
+    if rhs.exists {
+        try rhs.deleteFile()
+    }
+    try lhs >>> rhs
+}
 
 postfix operator • {}
 
