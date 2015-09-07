@@ -206,6 +206,10 @@ path^ == "~"  // true
 
 Moves the file at the left path to the right path.
 
+`FKPath` counterpart: **`moveFileToPath(_:)`**
+
+`FKFileType` counterpart: **`moveToPath(_:)`**
+
 ##### `->!` Operator
 
 Forcibly moves the file at the left path to the right path by deleting anything
@@ -215,6 +219,10 @@ at the left path before moving the file.
 
 Copies the file at the left path to the right path.
 
+`FKPath` counterpart: **`copyFileToPath(_:)`**
+
+`FKFileType` counterpart: **`copyToPath(_:)`**
+
 ##### `+>!` Operator
 
 Forcibly copies the file at the left path to the right path by deleting anything
@@ -223,6 +231,10 @@ at the left path before copying the file.
 ##### `~>>` Operator
 
 Creates a symlink of the left path at the right path.
+
+`FKPath` counterpart: **`symlinkFileToPath(_:)`**
+
+`FKFileType` counterpart: **`symlinkToPath(_:)`**
 
 ##### `~>!` Operator
 
