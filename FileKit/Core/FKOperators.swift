@@ -89,7 +89,7 @@ public func += (inout lhs: FKPath, rhs: FKPath) {
 }
 
 
-infix operator >>> {}
+infix operator ->> {}
 
 /// Moves the file at the left path to a path.
 ///
@@ -100,7 +100,7 @@ infix operator >>> {}
 ///     - `FKError.FileDoesNotExist`,
 ///     - `FKError.MoveFileFail`
 ///
-public func >>> (lhs: FKPath, rhs: FKPath) throws {
+public func ->> (lhs: FKPath, rhs: FKPath) throws {
     try lhs.moveFileToPath(rhs)
 }
 
@@ -113,11 +113,11 @@ public func >>> (lhs: FKPath, rhs: FKPath) throws {
 ///     - `FKError.FileDoesNotExist`,
 ///     - `FKError.MoveFileFail`
 ///
-public func >>> <FileType: FKFileType>(inout lhs: FileType, rhs: FKPath) throws {
+public func ->> <FileType: FKFileType>(inout lhs: FileType, rhs: FKPath) throws {
     try lhs.moveToPath(rhs)
 }
 
-infix operator >>! {}
+infix operator ->! {}
 
 /// Forcibly moves the file at the left path to the right path.
 ///
@@ -128,11 +128,11 @@ infix operator >>! {}
 ///     - `FKError.FileDoesNotExist`,
 ///     - `FKError.CreateSymlinkFail`
 ///
-public func >>! (lhs: FKPath, rhs: FKPath) throws {
+public func ->! (lhs: FKPath, rhs: FKPath) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
-    try lhs >>> rhs
+    try lhs ->> rhs
 }
 
 /// Forcibly moves a file to a path.
@@ -144,11 +144,11 @@ public func >>! (lhs: FKPath, rhs: FKPath) throws {
 ///     - `FKError.FileDoesNotExist`,
 ///     - `FKError.CreateSymlinkFail`
 ///
-public func >>! <FileType: FKFileType>(inout lhs: FileType, rhs: FKPath) throws {
+public func ->! <FileType: FKFileType>(inout lhs: FileType, rhs: FKPath) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
-    try lhs >>> rhs
+    try lhs ->> rhs
 }
 
 
