@@ -7,7 +7,7 @@
          alt="Platform">
     <img src="https://img.shields.io/badge/language-swift-orange.svg"
          alt="Language">
-    <a href="https://cocoapods.org/">
+    <a href="https://cocoapods.org/pods/FileKit">
         <img src="https://img.shields.io/cocoapods/v/FileKit.svg"
              alt="CocoaPods">
     </a>
