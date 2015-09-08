@@ -141,6 +141,24 @@ public struct FKPath: StringLiteralConvertible,
         self._path = path
     }
     
+    /// Find paths in `self` that match a condition.
+    ///
+    /// - Parameters:
+    ///     - searchDepth: How deep to search before exiting.
+    ///     - condition: If `true`, the path is added.
+    ///
+    public func findPaths(searchDepth depth: Int, condition: (FKPath) -> Bool) -> [FKPath] {
+        var paths = [FKPath]()
+        for child in self.children {
+            if condition(child) {
+                paths.append(child)
+            } else if depth != 0 {
+                paths += child.findPaths(searchDepth: depth - 1, condition: condition)
+            }
+        }
+        return paths
+    }
+    
     /// Standardizes the path.
     public mutating func standardize() {
         self = self.standardized
