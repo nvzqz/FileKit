@@ -60,7 +60,7 @@ public extension FKFileType {
     
     /// The file's filesystem path extension.
     public final var pathExtension: String {
-        return (path.rawValue as NSString).pathExtension
+        return path.pathExtension
     }
     
     /// True if the file exists.

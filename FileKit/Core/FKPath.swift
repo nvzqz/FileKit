@@ -113,6 +113,11 @@ public struct FKPath: StringLiteralConvertible,
             .fileExistsAtPath(_path, isDirectory: &isDirectory) && isDirectory
     }
     
+    /// The path's extension.
+    var pathExtension: String {
+        return (rawValue as NSString).pathExtension
+    }
+    
     /// The path's parent path.
     public var parent: FKPath {
         return FKPath((_path as NSString).stringByDeletingLastPathComponent)
