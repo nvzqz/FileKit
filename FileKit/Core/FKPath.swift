@@ -114,7 +114,7 @@ public struct FKPath: StringLiteralConvertible,
     }
     
     /// The path's extension.
-    var pathExtension: String {
+    public var pathExtension: String {
         return (rawValue as NSString).pathExtension
     }
     
