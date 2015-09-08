@@ -166,6 +166,22 @@ do {
 }
 ```
 
+##### Finding Paths
+
+You can find all paths with the ".txt" extension five folders deep into the
+Desktop with:
+
+```swift
+let textFiles = FKPath.UserDesktop.findPaths(searchDepth: 5) { path in
+    path.pathExtension == "txt"
+}
+```
+
+Setting `searchDepth` to a negative value will make it run until every path in
+`self` is checked against. If the checked path passes the condition, it'll be
+added to the returned paths and the next path will be checked. If it doesn't and
+it's a directory, its children paths will be checked.
+
 ##### `+` Operator
 
 Appends two paths and returns the result
