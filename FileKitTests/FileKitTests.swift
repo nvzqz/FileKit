@@ -32,6 +32,13 @@ class FileKitTests: XCTestCase {
     
     // MARK: - FKPath
     
+    func testFindingPaths() {
+        let textFiles = FKPath.UserDesktop.findPaths(searchDepth: 2) { path in
+            path.pathExtension == "txt"
+        }
+        textFiles.forEach { print($0) }
+    }
+    
     func testPathStringLiteralConvertible() {
         let a  = "/Users" as FKPath
         let b: FKPath = "/Users"
@@ -104,7 +111,7 @@ class FileKitTests: XCTestCase {
             try testData |> fileToLink
             
             try symlinkPath.deleteFile()
-            try fileToLink.path.createSymlinkToPath(symlinkPath)
+//            try fileToLink.path.createSymlinkToPath(symlinkPath)
             
             let contents = try FKTextFile(path: symlinkPath).read()
             XCTAssertEqual(contents, testData)
