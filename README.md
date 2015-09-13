@@ -23,6 +23,7 @@
     <a href="#installation">Installation</a>
   • <a href="#usage">Usage</a>
   • <a href="#license">License</a>
+  • <a href="https://nvzqz.github.io/FileKit/docs/">Documentation</a>
 </p>
 
 
