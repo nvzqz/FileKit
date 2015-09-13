@@ -63,6 +63,7 @@ public func |>> (var data: String, file: FKTextFile) throws {
 
 // MARK: - FKPath
 
+/// Returns `true` if the standardized form of one path equals that of another path.
 @warn_unused_result public func == (lhs: FKPath, rhs: FKPath) -> Bool {
     return lhs.standardized.rawValue == rhs.standardized.rawValue
 }
