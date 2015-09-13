@@ -32,10 +32,8 @@ FileKit is a Swift framework that allows for simple and expressive file manageme
 
 ### Compatibility
 
-FileKit currently only supports Swift 2.0 and Xcode 7.
-
 - Xcode
-    - Version:  **7.0 Beta 6** (haven't tested previous betas)
+    - Version:  **7.0**
     - Language: **Swift 2.0**
 - OS X
     - Compatible With:   **OS X 10.11**
@@ -54,7 +52,7 @@ to learn more.
     ```
     use_frameworks!
 
-    pod 'FileKit', '~> 1.0.0'
+    pod 'FileKit', '~> 1.3.0'
     ```
 
 2. Run `pod install` and open the `.xcworkspace` file to launch Xcode.
@@ -107,6 +105,7 @@ _`Current`_         | `FKPath`      | The program's current working directory
 _`Separator`_       | `String`      | `"/"`
 `rawValue`          | `String`      | The path as a string
 `components`        | `[FKPath]`    | The path's components
+`pathExtension`     | `String`      | The path's extension
 `parent`            | `FKPath`      | The path's parent path
 `children`          | `[FKPath]`    | The path's child paths
 `standardized`      | `FKPath`      | The path by removing extraneous components
