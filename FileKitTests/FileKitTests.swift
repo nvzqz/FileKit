@@ -103,21 +103,16 @@ class FileKitTests: XCTestCase {
     }
     
     func testPathSymlinking() {
-        do {
-            let fileToLink = FKTextFile(path: FKPath.UserDesktop + "test.txt")
-            let symlinkPath = FKPath.UserDesktop + "test2.txt"
-            
-            let testData = "test data"
-            try testData |> fileToLink
-            
-            try symlinkPath.deleteFile()
-//            try fileToLink.path.createSymlinkToPath(symlinkPath)
-            
-            let contents = try FKTextFile(path: symlinkPath).read()
-            XCTAssertEqual(contents, testData)
-        } catch {
-            XCTFail()
-        }
+        let fileToLink = FKTextFile(path: FKPath.UserDesktop + "test.txt")
+        let symlinkPath = FKPath.UserDesktop + "test2.txt"
+
+        let testData = "test data"
+        try! testData |> fileToLink
+
+        try! fileToLink ~>! symlinkPath
+
+        let contents = try! FKTextFile(path: symlinkPath).read()
+        XCTAssertEqual(contents, testData)
     }
     
     func testPathOperators() {
