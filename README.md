@@ -244,7 +244,7 @@ Copies the file at the left path to the right path.
 Forcibly copies the file at the left path to the right path by deleting anything
 at the left path before copying the file.
 
-##### `~>>` Operator
+##### `=>>` Operator
 
 Creates a symlink of the left path at the right path.
 
@@ -252,7 +252,7 @@ Creates a symlink of the left path at the right path.
 
 `FKFileType` counterpart: **`symlinkToPath(_:)`**
 
-##### `~>!` Operator
+##### `=>!` Operator
 
 Forcibly creates a symlink of the left path at the right path by deleting
 anything at the left path before creating the symlink.
