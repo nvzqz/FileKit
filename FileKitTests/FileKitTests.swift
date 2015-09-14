@@ -109,7 +109,7 @@ class FileKitTests: XCTestCase {
         let testData = "test data"
         try! testData |> fileToLink
 
-        try! fileToLink ~>! symlinkPath
+        try! fileToLink =>! symlinkPath
 
         let contents = try! FKTextFile(path: symlinkPath).read()
         XCTAssertEqual(contents, testData)

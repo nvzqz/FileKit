@@ -213,7 +213,7 @@ public func +>! <FileType: FKFileType>(lhs: FileType, rhs: FKPath) throws {
     try lhs +>> rhs
 }
 
-infix operator ~>> {}
+infix operator =>> {}
 
 /// Creates a symlink of the left path at the right path.
 ///
@@ -227,7 +227,7 @@ infix operator ~>> {}
 ///     - `FKError.FileDoesNotExist`,
 ///     - `FKError.CreateSymlinkFail`
 ///
-public func ~>> (lhs: FKPath, rhs: FKPath) throws {
+public func =>> (lhs: FKPath, rhs: FKPath) throws {
     try lhs.symlinkFileToPath(rhs)
 }
 
@@ -241,11 +241,11 @@ public func ~>> (lhs: FKPath, rhs: FKPath) throws {
 ///
 /// - Throws: `FKError.FileDoesNotExist`, `FKError.CreateSymlinkFail`
 ///
-public func ~>> <FileType: FKFileType>(lhs: FileType, rhs: FKPath) throws {
+public func =>> <FileType: FKFileType>(lhs: FileType, rhs: FKPath) throws {
     try lhs.symlinkToPath(rhs)
 }
 
-infix operator ~>! {}
+infix operator =>! {}
 
 /// Forcibly creates a symlink of the left path at the right path by deleting
 /// anything at the right path before creating the symlink.
@@ -257,11 +257,11 @@ infix operator ~>! {}
 ///     - `FKError.FileDoesNotExist`,
 ///     - `FKError.CreateSymlinkFail`
 ///
-public func ~>! (lhs: FKPath, rhs: FKPath) throws {
+public func =>! (lhs: FKPath, rhs: FKPath) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
-    try lhs ~>> rhs
+    try lhs =>> rhs
 }
 
 /// Forcibly creates a symlink of a file at a path by deleting anything at the
@@ -274,11 +274,11 @@ public func ~>! (lhs: FKPath, rhs: FKPath) throws {
 ///     - `FKError.FileDoesNotExist`,
 ///     - `FKError.CreateSymlinkFail`
 ///
-public func ~>! <FileType: FKFileType>(lhs: FileType, rhs: FKPath) throws {
+public func =>! <FileType: FKFileType>(lhs: FileType, rhs: FKPath) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
-    try lhs ~>> rhs
+    try lhs =>> rhs
 }
 
 postfix operator • {}
