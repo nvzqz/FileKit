@@ -130,6 +130,11 @@ public struct FKPath: StringLiteralConvertible,
         }
         return []
     }
+
+    /// Returns the path's attributes.
+    public var attributes: [String : AnyObject] {
+        return (try? NSFileManager.defaultManager().attributesOfItemAtPath(_path)) ?? [:]
+    }
     
     /// Initializes a path to "`/`".
     public init() {

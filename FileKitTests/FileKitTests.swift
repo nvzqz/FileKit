@@ -79,6 +79,11 @@ class FileKitTests: XCTestCase {
         let p: FKPath = "/Users"
         XCTAssertNotEqual(p.children, [])
     }
+
+    func testPathAttributes() {
+        let a = FKPath.UserHome
+        print(a.attributes)
+    }
     
     func testPathSubscript() {
         let path = "~/Library/Preferences" as FKPath
