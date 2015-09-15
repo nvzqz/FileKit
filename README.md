@@ -29,6 +29,9 @@
 
 FileKit is a Swift framework that allows for simple and expressive file management.
 
+Development happens in the
+[`develop`](https://github.com/nvzqz/FileKit/tree/develop) branch.
+
 ## Installation
 
 ### Compatibility
