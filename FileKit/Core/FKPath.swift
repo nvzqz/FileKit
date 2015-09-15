@@ -130,11 +130,6 @@ public struct FKPath: StringLiteralConvertible,
         }
         return []
     }
-
-    /// Returns the path's attributes.
-    public var attributes: [String : AnyObject] {
-        return (try? NSFileManager.defaultManager().attributesOfItemAtPath(_path)) ?? [:]
-    }
     
     /// Initializes a path to "`/`".
     public init() {
@@ -293,7 +288,144 @@ public struct FKPath: StringLiteralConvertible,
             throw FKError.FileDoesNotExist
         }
     }
-    
+
+    // MARK: - Attributes
+
+    /// Returns the path's attributes.
+    public var attributes: [String : AnyObject] {
+        return (try? NSFileManager.defaultManager().attributesOfItemAtPath(_path)) ?? [:]
+    }
+
+    /// The creation date of the file at the path.
+    public var creationDate: NSDate? {
+        return attributes[NSFileCreationDate] as? NSDate
+    }
+
+    /// The modification date of the file at the path.
+    public var modificationDate: NSDate? {
+        return attributes[NSFileModificationDate] as? NSDate
+    }
+
+    /// The name of the owner of the file at the path.
+    public var ownerName: String? {
+        return attributes[NSFileOwnerAccountName] as? String
+    }
+
+    /// The ID of the owner of the file at the path.
+    public var ownerID: CUnsignedLong? {
+        if let value = attributes[NSFileOwnerAccountID] as? NSNumber {
+            return value.unsignedLongValue
+        }
+        return nil
+    }
+
+    /// The group name of the owner of the file at the path.
+    public var groupName: String? {
+        return attributes[NSFileGroupOwnerAccountName] as? String
+    }
+
+    /// The group ID of the owner of the file at the path.
+    public var groupID: CUnsignedLong? {
+        if let value = attributes[NSFileGroupOwnerAccountID] as? NSNumber {
+            return value.unsignedLongValue
+        }
+        return nil
+    }
+
+    /// Indicates whether the extension of the file at the path is hidden.
+    public var extensionIsHidden: Bool? {
+        if let value = attributes[NSFileExtensionHidden] as? NSNumber {
+            return value.boolValue
+        }
+        return nil
+    }
+
+    /// The POSIX permissions of the file at the path.
+    public var posixPermissions: CShort? {
+        if let value = attributes[NSFilePosixPermissions] as? NSNumber {
+            return value.shortValue
+        }
+        return nil
+    }
+
+    /// The number of hard links to a file.
+    public var fileReferenceCount: CUnsignedLong? {
+        if let value = attributes[NSFileReferenceCount] as? NSNumber {
+            return value.unsignedLongValue
+        }
+        return nil
+    }
+
+    /// The size of the file at the path in bytes.
+    public var fileSize: CUnsignedLongLong? {
+        if let value = attributes[NSFileSize] as? NSNumber {
+            return value.unsignedLongLongValue
+        }
+        return nil
+    }
+
+    /// The filesystem number of the file at the path.
+    public var filesystemFileNumber: CUnsignedLong? {
+        if let value = attributes[NSFileSystemFileNumber] as? NSNumber {
+            return value.unsignedLongValue
+        }
+        return nil
+    }
+
+    /// The type of the file at the path.
+    public var fileType: FileType? {
+        if let value = attributes[NSFileType] as? String {
+            return FileType(rawValue: value)
+        }
+        return nil
+    }
+
+    // MARK: - FKPath.FileType
+
+    public enum FileType: String {
+
+        case Directory
+        case Regular
+        case SymbolicLink
+        case Socket
+        case CharacterSpecial
+        case BlockSpecial
+        case Unknown
+
+        public init?(rawValue: String) {
+            switch rawValue {
+            case NSFileTypeDirectory:        self = .Directory
+            case NSFileTypeRegular:          self = .Regular
+            case NSFileTypeSymbolicLink:     self = .SymbolicLink
+            case NSFileTypeSocket:           self = .Socket
+            case NSFileTypeCharacterSpecial: self = .CharacterSpecial
+            case NSFileTypeBlockSpecial:     self = .BlockSpecial
+            case NSFileTypeUnknown:          self = .Unknown
+            default:                         return nil
+            }
+        }
+
+        public var rawValue: String {
+            switch self {
+            case .Directory:
+                return NSFileTypeDirectory
+            case .Regular:
+                return NSFileTypeRegular
+            case .SymbolicLink:
+                return NSFileTypeSymbolicLink
+            case .Socket:
+                return NSFileTypeSocket
+            case .CharacterSpecial:
+                return NSFileTypeCharacterSpecial
+            case .BlockSpecial:
+                return NSFileTypeBlockSpecial
+            case .Unknown:
+                return NSFileTypeUnknown
+            }
+        }
+
+    }
+
     // MARK: - StringLiteralConvertible
     
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType

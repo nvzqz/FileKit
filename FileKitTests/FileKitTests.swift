@@ -81,8 +81,27 @@ class FileKitTests: XCTestCase {
     }
 
     func testPathAttributes() {
-        let a = FKPath.UserHome
-        print(a.attributes)
+
+        let a = FKPath.UserDesktop + "test.txt"
+        try! "Hello there, sir" |> FKTextFile(path: a)
+        let b = FKPath.UserDesktop + "TestDir"
+        try! b.createDirectory()
+
+        for p in [a, b] {
+            print(p.creationDate)
+            print(p.modificationDate)
+            print(p.ownerName)
+            print(p.ownerID)
+            print(p.groupName)
+            print(p.groupID)
+            print(p.extensionIsHidden)
+            print(p.posixPermissions)
+            print(p.fileReferenceCount)
+            print(p.fileSize)
+            print(p.filesystemFileNumber)
+            print(p.fileType)
+            print("")
+        }
     }
     
     func testPathSubscript() {
