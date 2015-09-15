@@ -91,28 +91,33 @@ public struct FKPath: StringLiteralConvertible,
             : (FKPath.Current + self).standardized
     }
     
-    /// Returns true if the path begins with "`/`".
+    /// Returns `true` if the path begins with "`/`".
     public var isAbsolute: Bool {
         return _path.hasPrefix(FKPath.Separator)
     }
     
-    /// Returns true if the path does not begin with "`/`".
+    /// Returns `true` if the path does not begin with "`/`".
     public var isRelative: Bool {
         return !isAbsolute
     }
     
-    /// Returns true if a file exists at the path.
+    /// Returns `true` if a file exists at the path.
     public var exists: Bool {
         return NSFileManager.defaultManager().fileExistsAtPath(_path)
     }
-    
-    /// Returns true if the path points to a directory.
+
+    /// Returns `true` if the path points to a directory.
     public var isDirectory: Bool {
         var isDirectory: ObjCBool = false
         return NSFileManager.defaultManager()
             .fileExistsAtPath(_path, isDirectory: &isDirectory) && isDirectory
     }
-    
+
+    /// Returns `true` if the path is a symbolic link.
+    public var isSymbolicLink: Bool {
+        return fileType == .SymbolicLink
+    }
+
     /// The path's extension.
     public var pathExtension: String {
         return (rawValue as NSString).pathExtension
