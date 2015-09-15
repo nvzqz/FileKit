@@ -67,11 +67,6 @@ public extension FKFileType {
     public var exists: Bool {
         return path.exists
     }
-
-    /// Returns the file's attributes.
-    public var attributes: [String : AnyObject] {
-        return path.attributes
-    }
     
     /// Creates the file.
     ///
