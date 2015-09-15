@@ -119,6 +119,7 @@ _`Separator`_       | `String`      | `"/"`
 `isAbsolute`        | `Bool`        | True if the path begins with `"/"`
 `isRelative`        | `Bool`        | True if the path does not begin with `"/"`
 `isDirectory`       | `Bool`        | True if the path refers to a directory
+`isSymbolicLink`    | `Bool`        | True if the path refers to a symbolic link
 
 #### Operations
 
