@@ -50,7 +50,7 @@ to learn more.
 
 1. Add the project to your [Podfile](https://guides.cocoapods.org/using/the-podfile.html).
 
-    ```
+    ```ruby
     use_frameworks!
 
     pod 'FileKit', '~> 1.4.0'
