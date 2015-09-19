@@ -56,7 +56,7 @@ to learn more.
     ```ruby
     use_frameworks!
 
-    pod 'FileKit', '~> 1.4.0'
+    pod 'FileKit', '~> 1.5.0'
     ```
 
 2. Run `pod install` and open the `.xcworkspace` file to launch Xcode.
