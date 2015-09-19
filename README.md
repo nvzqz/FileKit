@@ -101,26 +101,6 @@ let home = FKPath("~")
 let drive: FKPath = "/Volumes/Macintosh HD"
 ```
 
-#### Properties
-
-Property            | Type          | Value
- ------------------ |:-------------:| ------------------------------------------
-_`Current`_         | `FKPath`      | The program's current working directory
-_`Separator`_       | `String`      | `"/"`
-`rawValue`          | `String`      | The path as a string
-`components`        | `[FKPath]`    | The path's components
-`pathExtension`     | `String`      | The path's extension
-`parent`            | `FKPath`      | The path's parent path
-`children`          | `[FKPath]`    | The path's child paths
-`standardized`      | `FKPath`      | The path by removing extraneous components
-`resolved`          | `FKPath`      | The path by resolving all symlinks
-`absolute`          | `FKPath`      | The path as absolute (begins with `"/"`)
-`exists`            | `Bool`        | True if a file exists at the path
-`isAbsolute`        | `Bool`        | True if the path begins with `"/"`
-`isRelative`        | `Bool`        | True if the path does not begin with `"/"`
-`isDirectory`       | `Bool`        | True if the path refers to a directory
-`isSymbolicLink`    | `Bool`        | True if the path refers to a symbolic link
-
 #### Operations
 
 ##### New Files
