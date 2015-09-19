@@ -317,7 +317,7 @@ public struct FKPath: StringLiteralConvertible,
     }
 
     /// The ID of the owner of the file at the path.
-    public var ownerID: CUnsignedLong? {
+    public var ownerID: UInt? {
         if let value = attributes[NSFileOwnerAccountID] as? NSNumber {
             return value.unsignedLongValue
         }
@@ -330,7 +330,7 @@ public struct FKPath: StringLiteralConvertible,
     }
 
     /// The group ID of the owner of the file at the path.
-    public var groupID: CUnsignedLong? {
+    public var groupID: UInt? {
         if let value = attributes[NSFileGroupOwnerAccountID] as? NSNumber {
             return value.unsignedLongValue
         }
@@ -346,7 +346,7 @@ public struct FKPath: StringLiteralConvertible,
     }
 
     /// The POSIX permissions of the file at the path.
-    public var posixPermissions: CShort? {
+    public var posixPermissions: Int16? {
         if let value = attributes[NSFilePosixPermissions] as? NSNumber {
             return value.shortValue
         }
@@ -354,7 +354,7 @@ public struct FKPath: StringLiteralConvertible,
     }
 
     /// The number of hard links to a file.
-    public var fileReferenceCount: CUnsignedLong? {
+    public var fileReferenceCount: UInt? {
         if let value = attributes[NSFileReferenceCount] as? NSNumber {
             return value.unsignedLongValue
         }
@@ -362,7 +362,7 @@ public struct FKPath: StringLiteralConvertible,
     }
 
     /// The size of the file at the path in bytes.
-    public var fileSize: CUnsignedLongLong? {
+    public var fileSize: UInt64? {
         if let value = attributes[NSFileSize] as? NSNumber {
             return value.unsignedLongLongValue
         }
@@ -370,7 +370,7 @@ public struct FKPath: StringLiteralConvertible,
     }
 
     /// The filesystem number of the file at the path.
-    public var filesystemFileNumber: CUnsignedLong? {
+    public var filesystemFileNumber: UInt? {
         if let value = attributes[NSFileSystemFileNumber] as? NSNumber {
             return value.unsignedLongValue
         }
