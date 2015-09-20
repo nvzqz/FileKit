@@ -400,7 +400,7 @@ working directory is returned.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns true if the path begins with <q>`/`</q>.</p>
+                        <p>Returns <code>true</code> if the path begins with <q>`/`</q>.</p>
 
                       </div>
                       <div class="declaration">
@@ -427,7 +427,7 @@ working directory is returned.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns true if the path does not begin with <q>`/`</q>.</p>
+                        <p>Returns <code>true</code> if the path does not begin with <q>`/`</q>.</p>
 
                       </div>
                       <div class="declaration">
@@ -454,7 +454,7 @@ working directory is returned.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns true if a file exists at the path.</p>
+                        <p>Returns <code>true</code> if a file exists at the path.</p>
 
                       </div>
                       <div class="declaration">
@@ -481,7 +481,7 @@ working directory is returned.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns true if the path points to a directory.</p>
+                        <p>Returns <code>true</code> if the path points to a directory.</p>
 
                       </div>
                       <div class="declaration">
@@ -489,6 +489,33 @@ working directory is returned.</p>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isDirectory</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath14isSymbolicLinkSb"></a>
+                    <a name="//apple_ref/swift/Property/isSymbolicLink" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath14isSymbolicLinkSb">isSymbolicLink</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns <code>true</code> if the path is a symbolic link.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isSymbolicLink</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -936,6 +963,412 @@ already exists at the destination path.</p>
             </div>
             <div class="task-group">
                 <div class="task-name-container">
+                  <a name="/Attributes"></a>
+                  <a name="//apple_ref/swift/Section/Attributes" class="dashAnchor"></a>
+                  <a href="#/Attributes">
+                    <h3 class="section-name">Attributes</h3>
+                  </a>
+                </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath10attributesGVSs10DictionarySSPSs9AnyObject__"></a>
+                    <a name="//apple_ref/swift/Property/attributes" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath10attributesGVSs10DictionarySSPSs9AnyObject__">attributes</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the path&rsquo;s attributes.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">attributes</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath12creationDateGSqCSo6NSDate_"></a>
+                    <a name="//apple_ref/swift/Property/creationDate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath12creationDateGSqCSo6NSDate_">creationDate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The creation date of the file at the path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">creationDate</span><span class="p">:</span> <span class="kt">NSDate</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath16modificationDateGSqCSo6NSDate_"></a>
+                    <a name="//apple_ref/swift/Property/modificationDate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath16modificationDateGSqCSo6NSDate_">modificationDate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The modification date of the file at the path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">modificationDate</span><span class="p">:</span> <span class="kt">NSDate</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath9ownerNameGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/ownerName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath9ownerNameGSqSS_">ownerName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The name of the owner of the file at the path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">ownerName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath7ownerIDGSqSu_"></a>
+                    <a name="//apple_ref/swift/Property/ownerID" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath7ownerIDGSqSu_">ownerID</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The ID of the owner of the file at the path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">ownerID</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath9groupNameGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/groupName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath9groupNameGSqSS_">groupName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The group name of the owner of the file at the path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">groupName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath7groupIDGSqSu_"></a>
+                    <a name="//apple_ref/swift/Property/groupID" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath7groupIDGSqSu_">groupID</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The group ID of the owner of the file at the path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">groupID</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath17extensionIsHiddenGSqSb_"></a>
+                    <a name="//apple_ref/swift/Property/extensionIsHidden" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath17extensionIsHiddenGSqSb_">extensionIsHidden</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates whether the extension of the file at the path is hidden.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">extensionIsHidden</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath16posixPermissionsGSqVSs5Int16_"></a>
+                    <a name="//apple_ref/swift/Property/posixPermissions" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath16posixPermissionsGSqVSs5Int16_">posixPermissions</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The POSIX permissions of the file at the path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">posixPermissions</span><span class="p">:</span> <span class="kt">Int16</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath18fileReferenceCountGSqSu_"></a>
+                    <a name="//apple_ref/swift/Property/fileReferenceCount" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath18fileReferenceCountGSqSu_">fileReferenceCount</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The number of hard links to a file.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">fileReferenceCount</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath8fileSizeGSqVSs6UInt64_"></a>
+                    <a name="//apple_ref/swift/Property/fileSize" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath8fileSizeGSqVSs6UInt64_">fileSize</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The size of the file at the path in bytes.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">fileSize</span><span class="p">:</span> <span class="kt">UInt64</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath20filesystemFileNumberGSqSu_"></a>
+                    <a name="//apple_ref/swift/Property/filesystemFileNumber" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath20filesystemFileNumberGSqSu_">filesystemFileNumber</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The filesystem number of the file at the path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">filesystemFileNumber</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath8fileTypeGSqOS0_8FileType_"></a>
+                    <a name="//apple_ref/swift/Property/fileType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath8fileTypeGSqOS0_8FileType_">fileType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The type of the file at the path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">fileType</span><span class="p">:</span> <span class="kt">FileType</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/FKPath.FileType"></a>
+                  <a name="//apple_ref/swift/Section/FKPath.FileType" class="dashAnchor"></a>
+                  <a href="#/FKPath.FileType">
+                    <h3 class="section-name">FKPath.FileType</h3>
+                  </a>
+                </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:OV7FileKit6FKPath8FileType"></a>
+                    <a name="//apple_ref/swift/Enum/FileType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:OV7FileKit6FKPath8FileType">FileType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                        <a href="../Structs/FKPath/FileType.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">FKPath</span><span class="p">:</span> <span class="kt">StringLiteralConvertible</span><span class="p">,</span>
+                      <span class="kt">RawRepresentable</span><span class="p">,</span>
+                      <span class="kt">Hashable</span><span class="p">,</span>
+                      <span class="kt">Indexable</span><span class="p">,</span>
+                      <span class="kt">CustomStringConvertible</span><span class="p">,</span>
+                      <span class="kt">CustomDebugStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+                <div class="task-name-container">
                   <a name="/StringLiteralConvertible"></a>
                   <a name="//apple_ref/swift/Section/StringLiteralConvertible" class="dashAnchor"></a>
                   <a href="#/StringLiteralConvertible">
@@ -1273,7 +1706,7 @@ already exists at the destination path.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2015-09-13)</p>
+          <p>&copy; 2015 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2015-09-19)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.3.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
