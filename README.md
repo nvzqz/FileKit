@@ -3,10 +3,10 @@
 </p>
 
 <p align="center">
-    <img src="https://img.shields.io/badge/platform-osx%20%7C%20ios-lightgrey.svg"
+    <img src="https://img.shields.io/badge/platform-osx%20%7C%20ios%20%7C%20watchos-lightgrey.svg"
          alt="Platform">
     <img src="https://img.shields.io/badge/language-swift-orange.svg"
-         alt="Language">
+         alt="Language: Swift">
     <a href="https://cocoapods.org/pods/FileKit">
         <img src="https://img.shields.io/cocoapods/v/FileKit.svg"
              alt="CocoaPods">
@@ -45,6 +45,9 @@ Development happens in the
 - iOS
     - Compatible With:   **iOS 9.0**
     - Deployment Target: **iOS 8.0**
+- watchOS
+    - Compatible With:   **watchOS 2.0**
+    - Deployment Target: **watchOS 2.0**
 
 ### Install Using CocoaPods
 [CocoaPods](https://cocoapods.org/) is a centralized dependency manager for
