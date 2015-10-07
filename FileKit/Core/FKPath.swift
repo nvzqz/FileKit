@@ -40,16 +40,19 @@ public struct FKPath: StringLiteralConvertible,
     
     // MARK: - FKPath
     
+    /// The `NSFileManager` used by `FKPath`
+    public static var FileManager = NSFileManager.defaultManager()
+    
     /// The standard separator for path components.
     public static let Separator = "/"
     
     /// The path of the program's current working directory.
     public static var Current: FKPath {
         get {
-            return FKPath(NSFileManager.defaultManager().currentDirectoryPath)
+            return FKPath(FKPath.FileManager.currentDirectoryPath)
         }
         set {
-            NSFileManager.defaultManager().changeCurrentDirectoryPath(newValue._path)
+            FKPath.FileManager.changeCurrentDirectoryPath(newValue._path)
         }
     }
     
@@ -103,33 +106,33 @@ public struct FKPath: StringLiteralConvertible,
     
     /// Returns `true` if a file exists at the path.
     public var exists: Bool {
-        return NSFileManager.defaultManager().fileExistsAtPath(_path)
+        return FKPath.FileManager.fileExistsAtPath(_path)
     }
     
     /// Returns `true` if the current process has write privileges for the file at the path.
     public var isWritable: Bool {
-        return NSFileManager.defaultManager().isWritableFileAtPath(_path)
+        return FKPath.FileManager.isWritableFileAtPath(_path)
     }
     
     /// Returns `true` if the current process has read privileges for the file at the path.
     public var isReadable: Bool {
-        return NSFileManager.defaultManager().isReadableFileAtPath(_path)
+        return FKPath.FileManager.isReadableFileAtPath(_path)
     }
     
     /// Returns `true` if the current process has execute privileges for the file at the path.
     public var isExecutable: Bool {
-        return  NSFileManager.defaultManager().isExecutableFileAtPath(_path)
+        return  FKPath.FileManager.isExecutableFileAtPath(_path)
     }
 
     /// Returns `true` if the current process has delete privileges for the file at the path.
     public var isDeletable: Bool {
-        return  NSFileManager.defaultManager().isDeletableFileAtPath(_path)
+        return  FKPath.FileManager.isDeletableFileAtPath(_path)
     }
 
     /// Returns `true` if the path points to a directory.
     public var isDirectory: Bool {
         var isDirectory: ObjCBool = false
-        return NSFileManager.defaultManager()
+        return FKPath.FileManager
             .fileExistsAtPath(_path, isDirectory: &isDirectory) && isDirectory
     }
 
@@ -150,7 +153,7 @@ public struct FKPath: StringLiteralConvertible,
     
     /// The path's children paths.
     public var children: [FKPath] {
-        if let paths = try? NSFileManager.defaultManager().contentsOfDirectoryAtPath(_path) {
+        if let paths = try? FKPath.FileManager.contentsOfDirectoryAtPath(_path) {
             return paths.map { self + FKPath($0) }
         }
         return []
@@ -212,7 +215,7 @@ public struct FKPath: StringLiteralConvertible,
                 path += self.components.last!
             }
             do {
-                let manager = NSFileManager.defaultManager()
+                let manager = FKPath.FileManager
                 try manager.createSymbolicLinkAtPath(
                     path._path, withDestinationPath: self._path)
             } catch {
@@ -230,7 +233,7 @@ public struct FKPath: StringLiteralConvertible,
     /// - Throws: `FKError.CreateFileFail`
     ///
     public func createFile() throws {
-        let manager = NSFileManager.defaultManager()
+        let manager = FKPath.FileManager
         if !manager.createFileAtPath(_path, contents: nil, attributes: nil) {
             throw FKError.CreateFileFail
         }
@@ -244,7 +247,7 @@ public struct FKPath: StringLiteralConvertible,
     ///
     public func createDirectory() throws {
         do {
-            let manager = NSFileManager.defaultManager()
+            let manager = FKPath.FileManager
             try manager.createDirectoryAtPath(
                 _path, withIntermediateDirectories: true, attributes: nil)
         } catch {
@@ -260,8 +263,7 @@ public struct FKPath: StringLiteralConvertible,
     ///
     public func deleteFile() throws {
         do {
-            let manager = NSFileManager.defaultManager()
-            try manager.removeItemAtPath(_path)
+            try FKPath.FileManager.removeItemAtPath(_path)
         } catch {
             throw FKError.DeleteFileFail
         }
@@ -277,8 +279,7 @@ public struct FKPath: StringLiteralConvertible,
         if self.exists {
             if !path.exists {
                 do {
-                    let manager = NSFileManager.defaultManager()
-                    try manager.moveItemAtPath(self.rawValue, toPath: path.rawValue)
+                    try FKPath.FileManager.moveItemAtPath(self.rawValue, toPath: path.rawValue)
                 } catch {
                     throw FKError.MoveFileFail
                 }
@@ -301,8 +302,7 @@ public struct FKPath: StringLiteralConvertible,
         if self.exists {
             if !path.exists {
                 do {
-                    let manager = NSFileManager.defaultManager()
-                    try manager.copyItemAtPath(self.rawValue, toPath: path.rawValue)
+                    try FKPath.FileManager.copyItemAtPath(self.rawValue, toPath: path.rawValue)
                 } catch {
                     throw FKError.CopyFileFail
                 }
@@ -318,7 +318,7 @@ public struct FKPath: StringLiteralConvertible,
 
     /// Returns the path's attributes.
     public var attributes: [String : AnyObject] {
-        return (try? NSFileManager.defaultManager().attributesOfItemAtPath(_path)) ?? [:]
+        return (try? FKPath.FileManager.attributesOfItemAtPath(_path)) ?? [:]
     }
 
     /// The creation date of the file at the path.
