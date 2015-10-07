@@ -105,6 +105,26 @@ public struct FKPath: StringLiteralConvertible,
     public var exists: Bool {
         return NSFileManager.defaultManager().fileExistsAtPath(_path)
     }
+    
+    /// Returns `true` if the current process has write privileges for the file at the path.
+    public var isWritable: Bool {
+        return NSFileManager.defaultManager().isWritableFileAtPath(_path)
+    }
+    
+    /// Returns `true` if the current process has read privileges for the file at the path.
+    public var isReadable: Bool {
+        return NSFileManager.defaultManager().isReadableFileAtPath(_path)
+    }
+    
+    /// Returns `true` if the current process has execute privileges for the file at the path.
+    public var isExecutable: Bool {
+        return  NSFileManager.defaultManager().isExecutableFileAtPath(_path)
+    }
+
+    /// Returns `true` if the current process has delete privileges for the file at the path.
+    public var isDeletable: Bool {
+        return  NSFileManager.defaultManager().isDeletableFileAtPath(_path)
+    }
 
     /// Returns `true` if the path points to a directory.
     public var isDirectory: Bool {
