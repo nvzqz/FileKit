@@ -162,21 +162,18 @@ class FileKitTests: XCTestCase {
     }
     
     func testVolumes() {
-        if let volumes = FKPath.Volumes() {
-            for volume in volumes {
-                XCTAssertNotNil("\(volume)")
-            }
+        var volumes = FKPath.Volumes()
+        XCTAssertFalse(volumes.isEmpty, "No volume")
+
+        for volume in volumes {
+            XCTAssertNotNil("\(volume)")
         }
-        else {
-             XCTFail("No volume")
-        }
-        if let volumes = FKPath.Volumes(.SkipHiddenVolumes) {
-            for volume in volumes {
-                XCTAssertNotNil("\(volume)")
-            }
-        }
-        else {
-            XCTFail("No visible volume")
+
+        volumes = FKPath.Volumes(.SkipHiddenVolumes)
+        XCTAssertFalse(volumes.isEmpty, "No visible volume")
+
+        for volume in volumes {
+            XCTAssertNotNil("\(volume)")
         }
     }
     
