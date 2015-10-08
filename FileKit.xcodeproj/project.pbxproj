@@ -17,6 +17,9 @@
 		523C33A21B9B772A00AB70E4 /* FKFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A01B9B772A00AB70E4 /* FKFile.swift */; settings = {ASSET_TAGS = (); }; };
 		523C33A71B9B894A00AB70E4 /* FKOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A61B9B894A00AB70E4 /* FKOperators.swift */; settings = {ASSET_TAGS = (); }; };
 		523C33A81B9B894A00AB70E4 /* FKOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A61B9B894A00AB70E4 /* FKOperators.swift */; settings = {ASSET_TAGS = (); }; };
+		524D31291BC722D8008B93D0 /* NSDictionary+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D31281BC722D8008B93D0 /* NSDictionary+FileKit.swift */; settings = {ASSET_TAGS = (); }; };
+		524D312A1BC722D8008B93D0 /* NSDictionary+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D31281BC722D8008B93D0 /* NSDictionary+FileKit.swift */; settings = {ASSET_TAGS = (); }; };
+		524D312B1BC722D8008B93D0 /* NSDictionary+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D31281BC722D8008B93D0 /* NSDictionary+FileKit.swift */; settings = {ASSET_TAGS = (); }; };
 		5263A8FC1B96B94D00635A93 /* FKPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* FKPath.swift */; };
 		5263A8FD1B96B94D00635A93 /* FKPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* FKPath.swift */; };
 		5263A8FE1B96B95000635A93 /* String+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7E51B96ADA100AA473F /* String+FileKit.swift */; };
@@ -59,6 +62,7 @@
 		523C33981B9B764600AB70E4 /* FKDataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKDataType.swift; sourceTree = "<group>"; };
 		523C33A01B9B772A00AB70E4 /* FKFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKFile.swift; sourceTree = "<group>"; };
 		523C33A61B9B894A00AB70E4 /* FKOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKOperators.swift; sourceTree = "<group>"; };
+		524D31281BC722D8008B93D0 /* NSDictionary+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDictionary+FileKit.swift"; sourceTree = "<group>"; };
 		5263A9041B96BA3D00635A93 /* FileKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FileKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5263A9061B96BA3D00635A93 /* FileKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileKitTests.swift; sourceTree = "<group>"; };
 		5263A9081B96BA3D00635A93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -149,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				5204B7E51B96ADA100AA473F /* String+FileKit.swift */,
+				524D31281BC722D8008B93D0 /* NSDictionary+FileKit.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -346,6 +351,7 @@
 				523C33781B9A7EFC00AB70E4 /* FKTextFile.swift in Sources */,
 				5263A8FC1B96B94D00635A93 /* FKPath.swift in Sources */,
 				523C33991B9B764600AB70E4 /* FKDataType.swift in Sources */,
+				524D31291BC722D8008B93D0 /* NSDictionary+FileKit.swift in Sources */,
 				52BF6BB11B99322000F07E13 /* FKError.swift in Sources */,
 				52BF6BA81B992AD500F07E13 /* FKFileType.swift in Sources */,
 				523C33A11B9B772A00AB70E4 /* FKFile.swift in Sources */,
@@ -362,6 +368,7 @@
 				523C33791B9A7EFC00AB70E4 /* FKTextFile.swift in Sources */,
 				5263A8FD1B96B94D00635A93 /* FKPath.swift in Sources */,
 				523C339A1B9B764600AB70E4 /* FKDataType.swift in Sources */,
+				524D312A1BC722D8008B93D0 /* NSDictionary+FileKit.swift in Sources */,
 				52BF6BB21B99322000F07E13 /* FKError.swift in Sources */,
 				52BF6BA91B992AD500F07E13 /* FKFileType.swift in Sources */,
 				523C33A21B9B772A00AB70E4 /* FKFile.swift in Sources */,
@@ -386,6 +393,7 @@
 				5276124B1BAEA43600503D0A /* FKFile.swift in Sources */,
 				5276124C1BAEA43600503D0A /* FKTextFile.swift in Sources */,
 				5276124E1BAEA43600503D0A /* FKPath.swift in Sources */,
+				524D312B1BC722D8008B93D0 /* NSDictionary+FileKit.swift in Sources */,
 				527612511BAEA43600503D0A /* FKOperators.swift in Sources */,
 				527612501BAEA43600503D0A /* FKError.swift in Sources */,
 				5276124F1BAEA43600503D0A /* FKDataType.swift in Sources */,
@@ -672,6 +680,7 @@
 				527612481BAEA3EE00503D0A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -43,6 +43,9 @@ public protocol FKWritable {
     
     /// Writes `self` to a path.
     func writeToPath(path: FKPath) throws
+
+    /// Writes `self` to a path.
+    func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws
     
 }
 

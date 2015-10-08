@@ -41,13 +41,16 @@ extension String: FKDataType {
     
     /// Writes the string to a path.
     public func writeToPath(path: FKPath) throws {
+        try writeToPath(path, atomically: true)
+    }
+
+    /// Writes the string to a path.
+    public func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool = true) throws {
         do {
-            try self.writeToFile(path.rawValue,
-                                 atomically: true,
-                                 encoding: NSUTF8StringEncoding)
+            try self.writeToFile(path.rawValue, atomically: useAuxiliaryFile, encoding: NSUTF8StringEncoding)
         } catch {
             throw FKError.WriteToFileFail
         }
     }
-    
+
 }
