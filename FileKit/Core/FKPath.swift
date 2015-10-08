@@ -56,6 +56,14 @@ public struct FKPath: StringLiteralConvertible,
         }
     }
     
+    // The path of the mounted volumes available.
+    public static func Volumes(options: NSVolumeEnumerationOptions = []) -> [FKPath]? {
+        if let volumes = FKPath.FileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil, options: options) {
+            return volumes.map{ FKPath(url: $0) }.flatMap { $0 }
+        }
+        return nil
+    }
+    
     /// The stored path property.
     private var _path: String
     
@@ -531,6 +539,42 @@ public struct FKPath: StringLiteralConvertible,
     /// A textual representation of `self`, suitable for debugging.
     public var debugDescription: String {
         return String(self.dynamicType) + ": " + _path.debugDescription
+    }
+    
+    // MARK: - NSURL
+    public init?(url: NSURL) {
+        if let path = url.path where url.fileURL {
+            _path = path
+        }
+        else {
+            return nil
+        }
+    }
+    
+    public var url: NSURL? {
+        return NSURL(fileURLWithPath: _path, isDirectory: self.isDirectory)
+    }
+
+    // MARK: - BookmarkData
+    public init?(bookmarkData bookData : NSData) {
+        var isStale : ObjCBool = false
+        if let fullURL = try? NSURL(byResolvingBookmarkData: bookData, options: [], relativeToURL: nil, bookmarkDataIsStale: &isStale ) {
+            self.init(url:fullURL)
+        } else {
+            return nil
+        }
+    }
+    
+    public var bookmarkData : NSData? {
+        if let url = self.url {
+            do {
+                return try url.bookmarkDataWithOptions(NSURLBookmarkCreationOptions.SuitableForBookmarkFile,
+                    includingResourceValuesForKeys:nil, relativeToURL:nil)
+            } catch {
+                return nil
+            }
+        }
+        return nil
     }
     
 }

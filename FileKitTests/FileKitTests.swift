@@ -146,6 +146,71 @@ class FileKitTests: XCTestCase {
         XCTAssertEqual(ps.parent, ps^)
     }
     
+    func testCurrent() {
+        XCTAssertNotNil(FKPath.Current)
+        
+        let oldCurrent = FKPath.Current
+        let newCurrent: FKPath = FKPath.UserTemporary
+
+        XCTAssertNotEqual(oldCurrent, newCurrent) // else there is no test
+        
+        FKPath.Current = newCurrent
+        XCTAssertEqual(FKPath.Current, newCurrent)
+        
+        FKPath.Current = oldCurrent
+        XCTAssertEqual(FKPath.Current, oldCurrent)
+    }
+    
+    func testVolumes() {
+        if let volumes = FKPath.Volumes() {
+            for volume in volumes {
+                XCTAssertNotNil("\(volume)")
+            }
+        }
+        else {
+             XCTFail("No volume")
+        }
+        if let volumes = FKPath.Volumes(.SkipHiddenVolumes) {
+            for volume in volumes {
+                XCTAssertNotNil("\(volume)")
+            }
+        }
+        else {
+            XCTFail("No visible volume")
+        }
+    }
+    
+    func testURL() {
+        let path: FKPath = FKPath.UserTemporary
+        XCTAssertNotNil(path.url)
+        
+        if let url = path.url {
+            if let pathFromUrl = FKPath(url: url) {
+                XCTAssertEqual(pathFromUrl, path)
+
+                let subPath = pathFromUrl + "test"
+                XCTAssertEqual(FKPath(url: url.URLByAppendingPathComponent("test")), subPath)
+            }
+            else {
+                XCTFail("Not able to create FKPath from URL")
+            }
+        }
+    }
+
+    func testBookmarkData() {
+        let path: FKPath = FKPath.UserTemporary
+        XCTAssertNotNil(path.bookmarkData)
+
+        if let bookmarkData = path.bookmarkData {
+            if let pathFromBookmarkData = FKPath(bookmarkData: bookmarkData) {
+                XCTAssertEqual(pathFromBookmarkData, path)
+            }
+            else {
+                XCTFail("Not able to create FKPath from Bookmark Data")
+            }
+        }
+    }
+
     // MARK: - FKTextFile
     
     let tf = FKTextFile(path: FKPath.UserDesktop + "filekit_test.txt")
