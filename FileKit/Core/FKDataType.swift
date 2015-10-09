@@ -38,7 +38,22 @@ public protocol FKReadable {
     
 }
 
-/// A type that can be used to write `FKFile` instances.
+/// A type that can be initialized from a file.
+public protocol FKReadableFromFile: FKReadable {
+    init?(contentsOfFile: String)
+}
+
+extension FKReadableFromFile {
+
+    public init(contentsOfPath path: FKPath) throws {
+        guard let contents = Self(contentsOfFile: path.rawValue)
+            else { throw FKError.ReadFromFileFail }
+        self = contents
+    }
+
+}
+
+/// A type that can be used to write `FKFile` instances to an `FKPath`.
 public protocol FKWritable {
     
     /// Writes `self` to a path.
@@ -46,7 +61,25 @@ public protocol FKWritable {
 
     /// Writes `self` to a path.
     func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws
-    
+
 }
 
+/// A type that can be used to write `FKFile` instances to a file.
+public protocol FKWritableToFile: FKWritable {
+    func writeToFile(path: String, atomically useAuxiliaryFile: Bool) -> Bool
+}
+
+extension FKWritableToFile {
+
+    public func writeToPath(path: FKPath) throws {
+        try writeToPath(path, atomically: true)
+    }
+
+    public func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws {
+        guard writeToFile(path.rawValue, atomically: useAuxiliaryFile) else {
+            throw FKError.WriteToFileFail
+        }
+    }
+
+}
 
