@@ -31,26 +31,26 @@ import Foundation
 public enum FKError: ErrorType {
     
     /// A file does not exist.
-    case FileDoesNotExist
+    case FileDoesNotExist(path: FKPath)
     
     /// A symbolic link could not be created.
-    case CreateSymlinkFail
+    case CreateSymlinkFail(fromPath: FKPath, toPath: FKPath)
     
     /// A file could not be created.
-    case CreateFileFail
+    case CreateFileFail(path: FKPath)
     
     /// A file could not be deleted.
-    case DeleteFileFail
+    case DeleteFileFail(path: FKPath)
     
     /// A file could not be read from.
-    case ReadFromFileFail
+    case ReadFromFileFail(path: FKPath)
     
     /// A file could not be written to.
-    case WriteToFileFail
+    case WriteToFileFail(path: FKPath)
     
     /// A file could not be moved.
-    case MoveFileFail
+    case MoveFileFail(fromPath: FKPath, toPath: FKPath)
     
     /// A file could not be copied.
-    case CopyFileFail
+    case CopyFileFail(fromPath: FKPath, toPath: FKPath)
 }

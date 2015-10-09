@@ -47,7 +47,7 @@ extension FKReadableFromFile {
 
     public init(contentsOfPath path: FKPath) throws {
         guard let contents = Self(contentsOfFile: path.rawValue)
-            else { throw FKError.ReadFromFileFail }
+            else { throw FKError.ReadFromFileFail(path: path) }
         self = contents
     }
 
@@ -85,7 +85,7 @@ extension FKWritableToFile {
 
     public func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws {
         guard writeToFile(path.rawValue, atomically: useAuxiliaryFile) else {
-            throw FKError.WriteToFileFail
+            throw FKError.WriteToFileFail(path: path)
         }
     }
 

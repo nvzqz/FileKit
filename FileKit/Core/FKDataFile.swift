@@ -47,7 +47,7 @@ public class FKDataFile: FKFileType {
     ///
     public func read() throws -> NSData {
         guard let data = NSData(contentsOfFile: path.rawValue) else {
-            throw FKError.ReadFromFileFail
+            throw FKError.ReadFromFileFail(path: path)
         }
         return data
     }
@@ -77,7 +77,7 @@ public class FKDataFile: FKFileType {
     ///
     public func write(data: NSData, atomically useAuxiliaryFile: Bool) throws {
         guard data.writeToFile(path.rawValue, atomically: useAuxiliaryFile) else {
-            throw FKError.WriteToFileFail
+            throw FKError.WriteToFileFail(path: path)
         }
     }
     

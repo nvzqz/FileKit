@@ -35,7 +35,7 @@ extension String: FKDataType {
             self = try NSString(contentsOfFile: path.rawValue,
                                 encoding: NSUTF8StringEncoding) as String
         } catch {
-            throw FKError.ReadFromFileFail
+            throw FKError.ReadFromFileFail(path: path)
         }
     }
     
@@ -49,7 +49,7 @@ extension String: FKDataType {
         do {
             try self.writeToFile(path.rawValue, atomically: useAuxiliaryFile, encoding: NSUTF8StringEncoding)
         } catch {
-            throw FKError.WriteToFileFail
+            throw FKError.WriteToFileFail(path: path)
         }
     }
 

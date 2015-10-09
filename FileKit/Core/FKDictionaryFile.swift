@@ -49,7 +49,7 @@ public class FKDictionaryFile: FKFileType {
         if let dictionary = NSDictionary(contentsOfFile: path.rawValue) {
             return dictionary
         }
-        throw FKError.ReadFromFileFail
+        throw FKError.ReadFromFileFail(path: path)
     }
     
     /// Writes a dictionary to a file.
@@ -77,7 +77,7 @@ public class FKDictionaryFile: FKFileType {
     ///
     public func write(data: NSDictionary, atomically useAuxiliaryFile: Bool) throws {
         if !data.writeToFile(path.rawValue, atomically: useAuxiliaryFile) {
-            throw FKError.WriteToFileFail
+            throw FKError.WriteToFileFail(path: path)
         }
     }
     

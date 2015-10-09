@@ -216,7 +216,7 @@ public struct FKPath: StringLiteralConvertible,
     public func symlinkFileToPath(var path: FKPath) throws {
         if self.exists {
             if path.exists && !path.isDirectory {
-                throw FKError.CreateSymlinkFail
+                throw FKError.CreateSymlinkFail(fromPath: self, toPath: path)
             } else if path.isDirectory && !self.isDirectory {
                 path += self.components.last!
             }
@@ -225,10 +225,10 @@ public struct FKPath: StringLiteralConvertible,
                 try manager.createSymbolicLinkAtPath(
                     path._path, withDestinationPath: self._path)
             } catch {
-                throw FKError.CreateSymlinkFail
+                throw FKError.CreateSymlinkFail(fromPath: self, toPath: path)
             }
         } else {
-            throw FKError.FileDoesNotExist
+            throw FKError.FileDoesNotExist(path: self)
         }
     }
     
@@ -241,7 +241,7 @@ public struct FKPath: StringLiteralConvertible,
     public func createFile() throws {
         let manager = FKPath.FileManager
         if !manager.createFileAtPath(_path, contents: nil, attributes: nil) {
-            throw FKError.CreateFileFail
+            throw FKError.CreateFileFail(path: self)
         }
     }
     
@@ -257,7 +257,7 @@ public struct FKPath: StringLiteralConvertible,
             try manager.createDirectoryAtPath(
                 _path, withIntermediateDirectories: true, attributes: nil)
         } catch {
-            throw FKError.CreateFileFail
+            throw FKError.CreateFileFail(path: self)
         }
     }
     
@@ -271,7 +271,7 @@ public struct FKPath: StringLiteralConvertible,
         do {
             try FKPath.FileManager.removeItemAtPath(_path)
         } catch {
-            throw FKError.DeleteFileFail
+            throw FKError.DeleteFileFail(path: self)
         }
     }
     
@@ -287,13 +287,13 @@ public struct FKPath: StringLiteralConvertible,
                 do {
                     try FKPath.FileManager.moveItemAtPath(self.rawValue, toPath: path.rawValue)
                 } catch {
-                    throw FKError.MoveFileFail
+                    throw FKError.MoveFileFail(fromPath: self, toPath: path)
                 }
             } else {
-                throw FKError.MoveFileFail
+                throw FKError.MoveFileFail(fromPath: self, toPath: path)
             }
         } else {
-            throw FKError.FileDoesNotExist
+            throw FKError.FileDoesNotExist(path: self)
         }
     }
     
@@ -310,13 +310,13 @@ public struct FKPath: StringLiteralConvertible,
                 do {
                     try FKPath.FileManager.copyItemAtPath(self.rawValue, toPath: path.rawValue)
                 } catch {
-                    throw FKError.CopyFileFail
+                    throw FKError.CopyFileFail(fromPath: self, toPath: path)
                 }
             } else {
-                throw FKError.CopyFileFail
+                throw FKError.CopyFileFail(fromPath: self, toPath: path)
             }
         } else {
-            throw FKError.FileDoesNotExist
+            throw FKError.FileDoesNotExist(path: self)
         }
     }
 

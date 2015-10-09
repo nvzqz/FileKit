@@ -47,7 +47,7 @@ public class FKArrayFile: FKFileType {
     ///
     public func read() throws -> NSArray {
         guard let array = NSArray(contentsOfFile: path.rawValue) else {
-            throw FKError.ReadFromFileFail
+            throw FKError.ReadFromFileFail(path: path)
         }
         return array
     }
@@ -77,7 +77,7 @@ public class FKArrayFile: FKFileType {
     ///
     public func write(array: NSArray, atomically useAuxiliaryFile: Bool) throws {
         guard array.writeToFile(path.rawValue, atomically: useAuxiliaryFile) else {
-            throw FKError.WriteToFileFail
+            throw FKError.WriteToFileFail(path: path)
         }
     }
     
