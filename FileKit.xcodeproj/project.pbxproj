@@ -48,6 +48,7 @@
 		52BF6BA91B992AD500F07E13 /* FKFileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BA71B992AD500F07E13 /* FKFileType.swift */; settings = {ASSET_TAGS = (); }; };
 		52BF6BB11B99322000F07E13 /* FKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FKError.swift */; settings = {ASSET_TAGS = (); }; };
 		52BF6BB21B99322000F07E13 /* FKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FKError.swift */; settings = {ASSET_TAGS = (); }; };
+		C404F0211BC7DA7F00EF9ED9 /* FKCodingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C404F0201BC7DA7F00EF9ED9 /* FKCodingType.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		527612421BAEA3EE00503D0A /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52BF6BA71B992AD500F07E13 /* FKFileType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKFileType.swift; sourceTree = "<group>"; };
 		52BF6BB01B99322000F07E13 /* FKError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKError.swift; sourceTree = "<group>"; };
+		C404F0201BC7DA7F00EF9ED9 /* FKCodingType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKCodingType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 				5204B7E51B96ADA100AA473F /* String+FileKit.swift */,
 				524D314E1BC78E44008B93D0 /* Foundation+FileKit.swift */,
 				524D315E1BC7A02A008B93D0 /* FKImageType.swift */,
+				C404F0201BC7DA7F00EF9ED9 /* FKCodingType.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				523C33991B9B764600AB70E4 /* FKDataType.swift in Sources */,
 				52BF6BB11B99322000F07E13 /* FKError.swift in Sources */,
 				52BF6BA81B992AD500F07E13 /* FKFileType.swift in Sources */,
+				C404F0211BC7DA7F00EF9ED9 /* FKCodingType.swift in Sources */,
 				524D31571BC79067008B93D0 /* FKArrayFile.swift in Sources */,
 				523C33A11B9B772A00AB70E4 /* FKFile.swift in Sources */,
 				523C337B1B9B68D600AB70E4 /* FKDictionaryFile.swift in Sources */,
