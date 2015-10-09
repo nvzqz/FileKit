@@ -29,6 +29,28 @@ import Foundation
 
 /// An error that can be thrown by FileKit.
 public enum FKError: ErrorType {
+
+    /// The reason for why the error occured.
+    public var message: String {
+        switch self {
+        case let FileDoesNotExist(path):
+            return "File does not exist at \(path)"
+        case let CreateSymlinkFail(fromPath, toPath):
+            return "Could not create symlink from \(fromPath) to \(toPath)"
+        case let CreateFileFail(path):
+            return "Could not create file at \(path)"
+        case let DeleteFileFail(path):
+            return "Could not delete file at \(path)"
+        case let ReadFromFileFail(path):
+            return "Could not read from file at \(path)"
+        case let WriteToFileFail(path):
+            return "Could not write to file at \(path)"
+        case let MoveFileFail(fromPath, toPath):
+            return "Could not move file at \(fromPath) to \(toPath)"
+        case let CopyFileFail(fromPath, toPath):
+            return "Could not copy file from \(fromPath) to \(toPath)"
+        }
+    }
     
     /// A file does not exist.
     case FileDoesNotExist(path: FKPath)
