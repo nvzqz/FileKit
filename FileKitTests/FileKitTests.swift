@@ -331,5 +331,18 @@ class FileKitTests: XCTestCase {
             XCTFail()
         }
     }
+
+    // MARK: - FKImageType
+
+    let img = FKImageType()
+
+    func testFKImageTypeWriting() {
+        do {
+            let path: FKPath = .UserTemporary + "filekit_imagetest"
+            try img.writeToPath(path)
+        } catch {
+            XCTFail()
+        }
+    }
     
 }

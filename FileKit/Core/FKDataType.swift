@@ -64,6 +64,14 @@ public protocol FKWritable {
 
 }
 
+extension FKWritable {
+
+    public func writeToPath(path: FKPath) throws {
+        try writeToPath(path, atomically: true)
+    }
+
+}
+
 /// A type that can be used to write `FKFile` instances to a file.
 public protocol FKWritableToFile: FKWritable {
     func writeToFile(path: String, atomically useAuxiliaryFile: Bool) -> Bool
