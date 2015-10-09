@@ -127,8 +127,8 @@ class FileKitTests: XCTestCase {
     }
     
     func testPathSymlinking() {
-        let fileToLink = FKTextFile(path: FKPath.UserDesktop + "test.txt")
-        let symlinkPath = FKPath.UserDesktop + "test2.txt"
+        let fileToLink = FKTextFile(path: .UserTemporary + "test.txt")
+        let symlinkPath = .UserTemporary + "test2.txt"
 
         let testData = "test data"
         try! testData |> fileToLink
@@ -149,8 +149,8 @@ class FileKitTests: XCTestCase {
     func testCurrent() {
         XCTAssertNotNil(FKPath.Current)
         
-        let oldCurrent = FKPath.Current
-        let newCurrent: FKPath = FKPath.UserTemporary
+        let oldCurrent: FKPath = .Current
+        let newCurrent: FKPath = .UserTemporary
 
         XCTAssertNotEqual(oldCurrent, newCurrent) // else there is no test
         
@@ -178,7 +178,7 @@ class FileKitTests: XCTestCase {
     }
     
     func testURL() {
-        let path: FKPath = FKPath.UserTemporary
+        let path: FKPath = .UserTemporary
         XCTAssertNotNil(path.url)
         
         if let url = path.url {
@@ -195,7 +195,7 @@ class FileKitTests: XCTestCase {
     }
 
     func testBookmarkData() {
-        let path: FKPath = FKPath.UserTemporary
+        let path: FKPath = .UserTemporary
         XCTAssertNotNil(path.bookmarkData)
 
         if let bookmarkData = path.bookmarkData {
@@ -210,7 +210,7 @@ class FileKitTests: XCTestCase {
 
     // MARK: - FKTextFile
     
-    let tf = FKTextFile(path: FKPath.UserDesktop + "filekit_test.txt")
+    let tf = FKTextFile(path: .UserTemporary + "filekit_test.txt")
     
     func testFileName() {
         XCTAssertEqual(FKTextFile(path: "/Users/").name, "Users")
@@ -257,7 +257,7 @@ class FileKitTests: XCTestCase {
     
     // MARK: - FKDictionaryFile
     
-    let df = FKDictionaryFile(path: FKPath.UserDesktop + "filekit_test.plist")
+    let dictionaryFile = FKDictionaryFile(path: .UserTemporary + "filekit_test_dictionary.plist")
     
     func testWriteToDictionaryFile() {
         do {
@@ -265,10 +265,42 @@ class FileKitTests: XCTestCase {
             dict["FileKit"] = true
             dict["Hello"] = "World"
             
-            try df.write(dict)
-            let contents = try df.read()
+            try dictionaryFile.write(dict)
+            let contents = try dictionaryFile.read()
             XCTAssertEqual(contents, dict)
             
+        } catch {
+            XCTFail()
+        }
+    }
+
+    // MARK: - FKArrayFile
+
+    let arrayFile = FKArrayFile(path: .UserTemporary + "filekit_test_array.plist")
+
+    func testWriteToArrayFile() {
+        do {
+            let array: NSArray = ["ABCD", "WXYZ"]
+
+            try arrayFile.write(array)
+            let contents = try arrayFile.read()
+            XCTAssertEqual(contents, array)
+        } catch {
+            XCTFail()
+        }
+    }
+
+    // MARK: - FKDataFile
+
+    let dataFile = FKDataFile(path: .UserTemporary + "filekit_test_data")
+
+    func testWriteToDataFile() {
+        do {
+            let data = ("FileKit test" as NSString).dataUsingEncoding(NSUTF8StringEncoding)!
+
+            try dataFile.write(data)
+            let contents = try dataFile.read()
+            XCTAssertEqual(contents, data)
         } catch {
             XCTFail()
         }
@@ -276,13 +308,13 @@ class FileKitTests: XCTestCase {
     
     // MARK: - String+FileKit
     
-    let sf = FKFile<String>(path: FKPath.UserDesktop + "filekit_stringtest.txt")
+    let stringFile = FKFile<String>(path: .UserTemporary + "filekit_stringtest.txt")
     
     func testStringInitializationFromPath() {
         do {
             let message = "Testing string init..."
-            try sf.write(message)
-            let contents = try String(contentsOfPath: sf.path)
+            try stringFile.write(message)
+            let contents = try String(contentsOfPath: stringFile.path)
             XCTAssertEqual(contents, message)
         } catch {
             XCTFail()
@@ -292,8 +324,8 @@ class FileKitTests: XCTestCase {
     func testStringWriting() {
         do {
             let message = "Testing string writing..."
-            try message.writeToPath(sf.path)
-            let contents = try String(contentsOfPath: sf.path)
+            try message.writeToPath(stringFile.path)
+            let contents = try String(contentsOfPath: stringFile.path)
             XCTAssertEqual(contents, message)
         } catch {
             XCTFail()

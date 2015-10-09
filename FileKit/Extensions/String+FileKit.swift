@@ -45,7 +45,7 @@ extension String: FKDataType {
     }
 
     /// Writes the string to a path.
-    public func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool = true) throws {
+    public func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws {
         do {
             try self.writeToFile(path.rawValue, atomically: useAuxiliaryFile, encoding: NSUTF8StringEncoding)
         } catch {

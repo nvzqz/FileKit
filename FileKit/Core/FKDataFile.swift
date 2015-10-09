@@ -1,5 +1,5 @@
 //
-//  FKDictionaryFile.swift
+//  FKDataFile.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -27,58 +27,60 @@
 
 import Foundation
 
-/// A representation of a filesystem dictionary file.
+/// A representation of a filesystem data file.
 ///
-/// The data type is `NSDictionary`.
+/// The data type is `NSData`.
 ///
-public class FKDictionaryFile: FKFileType {
-    
-    /// The dictionary file's filesystem path.
+public class FKDataFile: FKFileType {
+
+    /// The data file's filesystem path.
     public var path: FKPath
-    
-    /// Initializes a dictionary file from a path.
-    public required init(path: FKPath) {
+
+    /// Initializes a data file from a path.
+    required public init(path: FKPath) {
         self.path = path
     }
-    
-    /// Returns a dictionary from a file.
+
+    /// Returns data from a data file.
     ///
     /// - Throws: `FKError.ReadFromFileFail`
     ///
-    public func read() throws -> NSDictionary {
-        if let dictionary = NSDictionary(contentsOfFile: path.rawValue) {
-            return dictionary
+    public func read() throws -> NSData {
+        guard let data = NSData(contentsOfFile: path.rawValue) else {
+            throw FKError.ReadFromFileFail
         }
-        throw FKError.ReadFromFileFail
+        return data
     }
-    
-    /// Writes a dictionary to a file.
+
+    /// Writes data to an array file.
     ///
     /// Writing is done atomically by default.
     ///
-    /// - Parameter data: The dictionary to be written to the file.
+    /// - Parameter data: The data to be written to the data file.
     ///
     /// - Throws: `FKError.WriteToFileFail`
     ///
-    public func write(data: NSDictionary) throws {
+    public func write(data: NSData) throws {
         try write(data, atomically: true)
     }
-    
-    /// Writes a dictionary to a file.
+
+    /// Writes data to a file.
     ///
-    /// - Parameter data: The dictionary to be written to the file.
+    /// - Parameter data: The array to be written to the array file.
     ///
-    /// - Parameter atomically: If `true`, the dictionary is written to an
+    /// - Parameter atomically: If `true`, the array is written to an
     ///                         auxiliary file that is then renamed to the file.
-    ///                         If `false`, the dictionary is written to the
+    ///                         If `false`, the array is written to the
     ///                         file directly.
     ///
     /// - Throws: `FKError.WriteToFileFail`
     ///
-    public func write(data: NSDictionary, atomically useAuxiliaryFile: Bool) throws {
-        if !data.writeToFile(path.rawValue, atomically: useAuxiliaryFile) {
+    public func write(data: NSData, atomically useAuxiliaryFile: Bool) throws {
+        guard data.writeToFile(path.rawValue, atomically: useAuxiliaryFile) else {
             throw FKError.WriteToFileFail
         }
     }
     
 }
+
+
