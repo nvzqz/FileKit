@@ -38,7 +38,7 @@ public typealias FKImageType = UIImage
 
 extension FKImageType: FKWritableConvertible {
 
-    public var fkWritable: FKWritable? {
+    public var fkWritable: NSData? {
         #if os(OSX)
         return self.TIFFRepresentation
         #elseif os(iOS)

@@ -30,6 +30,8 @@ import Foundation
 /// A type that can be used to read and write `FKFile` instances.
 public typealias FKDataType = protocol<FKReadable, FKWritable>
 
+// MARK: - FKReadable
+
 /// A type that can be used to read `FKFile` instances.
 public protocol FKReadable {
     
@@ -46,12 +48,15 @@ public protocol FKReadableFromFile: FKReadable {
 extension FKReadableFromFile {
 
     public init(contentsOfPath path: FKPath) throws {
-        guard let contents = Self(contentsOfFile: path.rawValue)
-            else { throw FKError.ReadFromFileFail(path: path) }
+        guard let contents = Self(contentsOfFile: path.rawValue) else {
+            throw FKError.ReadFromFileFail(path: path)
+        }
         self = contents
     }
 
 }
+
+// MARK: - FKWritable
 
 /// A type that can be used to write `FKFile` instances to an `FKPath`.
 public protocol FKWritable {
@@ -79,10 +84,6 @@ public protocol FKWritableToFile: FKWritable {
 
 extension FKWritableToFile {
 
-    public func writeToPath(path: FKPath) throws {
-        try writeToPath(path, atomically: true)
-    }
-
     public func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws {
         guard writeToFile(path.rawValue, atomically: useAuxiliaryFile) else {
             throw FKError.WriteToFileFail(path: path)
@@ -93,7 +94,11 @@ extension FKWritableToFile {
 
 /// A type that can be converted to a FKWritable.
 public protocol FKWritableConvertible: FKWritable {
-    var fkWritable: FKWritable? {get}
+
+    typealias WritableType: FKWritable
+
+    var fkWritable: WritableType? { get }
+
 }
 
 extension FKWritableConvertible {
@@ -103,11 +108,12 @@ extension FKWritableConvertible {
     }
 
     public func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws {
-        guard let writable =  self.fkWritable else {
+        guard let writable = self.fkWritable else {
             throw FKError.WriteToFileFail(path: path)
         }
         try writable.writeToPath(path, atomically: useAuxiliaryFile)
     }
+
 }
 
 
