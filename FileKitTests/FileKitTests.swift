@@ -82,9 +82,9 @@ class FileKitTests: XCTestCase {
 
     func testPathAttributes() {
 
-        let a = FKPath.UserDesktop + "test.txt"
+        let a = .UserTemporary + "test.txt"
         try! "Hello there, sir" |> FKTextFile(path: a)
-        let b = FKPath.UserDesktop + "TestDir"
+        let b = .UserTemporary + "TestDir"
         try! b.createDirectory()
 
         for p in [a, b] {
