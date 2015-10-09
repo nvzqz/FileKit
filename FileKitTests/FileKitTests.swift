@@ -366,13 +366,15 @@ class FileKitTests: XCTestCase {
 
     // MARK: - FKImageType
 
-    let img = FKImageType()
+    let img = FKImageType(contentsOfURL: NSURL(string: "https://raw.githubusercontent.com/nvzqz/FileKit/assets/logo.png")!) ?? FKImageType()
 
     func testFKImageTypeWriting() {
         do {
-            let path: FKPath = .UserTemporary + "filekit_imagetest"
+            let path: FKPath = .UserTemporary + "filekit_imagetest.png"
             try img.writeToPath(path)
-        } catch {
+        } catch let error as FKError {
+            XCTFail(error.message)
+        } catch  {
             XCTFail()
         }
     }

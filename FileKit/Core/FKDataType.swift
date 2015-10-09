@@ -91,3 +91,23 @@ extension FKWritableToFile {
 
 }
 
+/// A type that can be converted to a FKWritable.
+public protocol FKWritableConvertible: FKWritable {
+    var fkWritable: FKWritable? {get}
+}
+
+extension FKWritableConvertible {
+
+    public func writeToPath(path: FKPath) throws {
+        try writeToPath(path, atomically: true)
+    }
+
+    public func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws {
+        guard let writable =  self.fkWritable else {
+            throw FKError.WriteToFileFail(path: path)
+        }
+        try writable.writeToPath(path, atomically: useAuxiliaryFile)
+    }
+}
+
+
