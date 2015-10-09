@@ -36,11 +36,16 @@ import WatchKit
 public typealias FKImageType = UIImage
 #endif
 
-extension FKImageType: FKWritable {
+extension FKImageType: FKWritableConvertible {
 
-    // TODO: Implement writeToPath(_:atomically:)
-    public func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws {
-        fatalError("\(__FUNCTION__) not implemented yet.")
+    public var fkWritable: FKWritable? {
+        #if os(OSX)
+        return self.TIFFRepresentation
+        #elseif os(iOS)
+        return UIImagePNGRepresentation(self)
+        #else
+        return UIImagePNGRepresentation(self)
+        #endif
     }
 
 }
