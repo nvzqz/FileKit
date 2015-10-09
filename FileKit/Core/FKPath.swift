@@ -244,7 +244,26 @@ public struct FKPath: StringLiteralConvertible,
             throw FKError.CreateFileFail(path: self)
         }
     }
-    
+
+    /// Creates a file at path if not exist 
+    /// or update the modification date.
+    ///
+    /// Throws an error if the file cannot be created
+    /// or if modification date could not be modified.
+    ///
+    /// - Throws: `FKError.CreateFileFail` or `FKError.AttributesChangeFail`
+    ///
+    public func touch(updateModificationDate : Bool = true) throws {
+        if self.exists {
+            if updateModificationDate {
+                try setAttribute(NSFileModificationDate, value: NSDate())
+            }
+        }
+        else {
+            try createFile()
+        }
+    }
+
     /// Creates a directory at the path.
     ///
     /// Throws an error if the directory cannot be created.
@@ -325,6 +344,21 @@ public struct FKPath: StringLiteralConvertible,
     /// Returns the path's attributes.
     public var attributes: [String : AnyObject] {
         return (try? FKPath.FileManager.attributesOfItemAtPath(_path)) ?? [:]
+    }
+    
+    /// Modify attributes
+    private func setAttributes(attributes: [String : AnyObject]) throws {
+        do {
+            try FKPath.FileManager.setAttributes(attributes, ofItemAtPath: self._path)
+        }
+        catch {
+            throw FKError.AttributesChangeFail(path: self)
+        }
+    }
+    
+    // Modify one attribute
+    private func setAttribute(key: String, value : AnyObject) throws {
+        try setAttributes([key:value])
     }
 
     /// The creation date of the file at the path.

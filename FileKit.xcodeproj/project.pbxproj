@@ -48,6 +48,7 @@
 		52BF6BA91B992AD500F07E13 /* FKFileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BA71B992AD500F07E13 /* FKFileType.swift */; settings = {ASSET_TAGS = (); }; };
 		52BF6BB11B99322000F07E13 /* FKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FKError.swift */; settings = {ASSET_TAGS = (); }; };
 		52BF6BB21B99322000F07E13 /* FKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FKError.swift */; settings = {ASSET_TAGS = (); }; };
+		C404F01E1BC7CA7200EF9ED9 /* Date+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		527612421BAEA3EE00503D0A /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52BF6BA71B992AD500F07E13 /* FKFileType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKFileType.swift; sourceTree = "<group>"; };
 		52BF6BB01B99322000F07E13 /* FKError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKError.swift; sourceTree = "<group>"; };
+		C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+FileKit.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,9 +179,18 @@
 			isa = PBXGroup;
 			children = (
 				5263A9061B96BA3D00635A93 /* FileKitTests.swift */,
+				C404F01F1BC7CD0500EF9ED9 /* Extensions */,
 				5263A9081B96BA3D00635A93 /* Info.plist */,
 			);
 			path = FileKitTests;
+			sourceTree = "<group>";
+		};
+		C404F01F1BC7CD0500EF9ED9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -402,6 +413,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5263A9071B96BA3D00635A93 /* FileKitTests.swift in Sources */,
+				C404F01E1BC7CA7200EF9ED9 /* Date+FileKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

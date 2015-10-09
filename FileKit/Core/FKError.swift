@@ -49,6 +49,8 @@ public enum FKError: ErrorType {
             return "Could not move file at \(fromPath) to \(toPath)"
         case let CopyFileFail(fromPath, toPath):
             return "Could not copy file from \(fromPath) to \(toPath)"
+        case let AttributesChangeFail(path):
+            return "Could not change file attrubutes at \(path)"
         }
     }
     
@@ -75,4 +77,7 @@ public enum FKError: ErrorType {
     
     /// A file could not be copied.
     case CopyFileFail(fromPath: FKPath, toPath: FKPath)
+
+    /// One or many attributes could not be changed.
+    case AttributesChangeFail(path: FKPath)
 }
