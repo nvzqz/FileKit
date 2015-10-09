@@ -207,6 +207,38 @@ class FileKitTests: XCTestCase {
             }
         }
     }
+    
+    func testTouch() {
+        let path: FKPath = .UserTemporary + "filekit_test.touch"
+        do {
+            if path.exists {
+                try path.deleteFile()
+            }
+            XCTAssertFalse(path.exists)
+
+            try path.touch()
+            XCTAssertTrue(path.exists)
+            
+            guard let modificationDate = path.modificationDate else {
+                XCTFail("Failed to get modification date")
+                return
+            }
+            sleep(1)
+            try path.touch()
+            guard let newModificationDate = path.modificationDate else {
+                XCTFail("Failed to get modification date")
+                return
+            }
+            
+            XCTAssertTrue(modificationDate < newModificationDate)
+            
+        } catch let error as FKError {
+            XCTFail(error.message)
+        } catch {
+            XCTFail()
+        }
+    }
+    
 
     // MARK: - FKTextFile
     
