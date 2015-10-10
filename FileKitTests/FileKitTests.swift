@@ -33,10 +33,10 @@ class FileKitTests: XCTestCase {
     // MARK: - FKPath
     
     func testFindingPaths() {
-        let textFiles = FKPath.UserDesktop.findPaths(searchDepth: 2) { path in
-            path.pathExtension == "txt"
+        let folders = FKPath.UserHome.findPaths(searchDepth: 0) { path in
+            path.isDirectory
         }
-        textFiles.forEach { print($0) }
+        XCTAssertFalse(folders.isEmpty, "Home folder is not empty")
     }
     
     func testPathStringLiteralConvertible() {
@@ -256,6 +256,8 @@ class FileKitTests: XCTestCase {
         do {
             try tf.create()
             XCTAssertTrue(tf.exists)
+        } catch let error as FKError {
+            XCTFail(error.message)
         } catch {
             XCTFail()
         }
@@ -265,6 +267,8 @@ class FileKitTests: XCTestCase {
         do {
             try tf.write("This is some test.")
             try tf.write("This is another test.", atomically: false)
+        } catch let error as FKError {
+            XCTFail(error.message)
         } catch {
             XCTFail()
         }
@@ -282,6 +286,8 @@ class FileKitTests: XCTestCase {
             contents = try tf.read()
             XCTAssertTrue(contents.hasSuffix(text + "\n" + text))
             
+        } catch let error as FKError {
+            XCTFail(error.message)
         } catch {
             XCTFail()
         }
@@ -301,6 +307,8 @@ class FileKitTests: XCTestCase {
             let contents = try dictionaryFile.read()
             XCTAssertEqual(contents, dict)
             
+        } catch let error as FKError {
+            XCTFail(error.message)
         } catch {
             XCTFail()
         }
@@ -317,6 +325,8 @@ class FileKitTests: XCTestCase {
             try arrayFile.write(array)
             let contents = try arrayFile.read()
             XCTAssertEqual(contents, array)
+        } catch let error as FKError {
+            XCTFail(error.message)
         } catch {
             XCTFail()
         }
@@ -333,6 +343,8 @@ class FileKitTests: XCTestCase {
             try dataFile.write(data)
             let contents = try dataFile.read()
             XCTAssertEqual(contents, data)
+        } catch let error as FKError {
+            XCTFail(error.message)
         } catch {
             XCTFail()
         }
@@ -348,6 +360,8 @@ class FileKitTests: XCTestCase {
             try stringFile.write(message)
             let contents = try String(contentsOfPath: stringFile.path)
             XCTAssertEqual(contents, message)
+        } catch let error as FKError {
+            XCTFail(error.message)
         } catch {
             XCTFail()
         }
@@ -359,6 +373,8 @@ class FileKitTests: XCTestCase {
             try message.writeToPath(stringFile.path)
             let contents = try String(contentsOfPath: stringFile.path)
             XCTAssertEqual(contents, message)
+        } catch let error as FKError {
+            XCTFail(error.message)
         } catch {
             XCTFail()
         }
