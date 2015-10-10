@@ -31,6 +31,12 @@
           <a href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="Classes/FKArrayFile.html">FKArrayFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/FKDataFile.html">FKDataFile</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/FKDictionaryFile.html">FKDictionaryFile</a>
               </li>
               <li class="nav-group-task">
@@ -56,7 +62,22 @@
                 <a href="Extensions/FKFileType.html">FKFileType</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/FKImageType.html">FKImageType</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/FKPath.html">FKPath</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/FKReadableFromFile.html">FKReadableFromFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/FKWritable.html">FKWritable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/FKWritableConvertible.html">FKWritableConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/FKWritableToFile.html">FKWritableToFile</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/String.html">String</a>
@@ -135,7 +156,16 @@
                 <a href="Protocols/FKReadable.html">FKReadable</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/FKReadableFromFile.html">FKReadableFromFile</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/FKWritable.html">FKWritable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/FKWritableConvertible.html">FKWritableConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/FKWritableToFile.html">FKWritableToFile</a>
               </li>
             </ul>
           </li>
@@ -170,6 +200,40 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:C7FileKit10FKDataFile"></a>
+                    <a name="//apple_ref/swift/Class/FKDataFile" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C7FileKit10FKDataFile">FKDataFile</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A representation of a filesystem data file.</p>
+
+<p>The data type is <code>NSData</code>.</p>
+
+                        <a href="Classes/FKDataFile.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">FKDataFile</span><span class="p">:</span> <span class="kt">FKFileType</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:C7FileKit10FKTextFile"></a>
                     <a name="//apple_ref/swift/Class/FKTextFile" class="dashAnchor"></a>
                     <a class="token" href="#/s:C7FileKit10FKTextFile">FKTextFile</a>
@@ -191,6 +255,40 @@
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">FKTextFile</span><span class="p">:</span> <span class="kt">FKFile</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:C7FileKit11FKArrayFile"></a>
+                    <a name="//apple_ref/swift/Class/FKArrayFile" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C7FileKit11FKArrayFile">FKArrayFile</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A representation of a filesystem array file.</p>
+
+<p>The data type is <code>NSArray</code>.</p>
+
+                        <a href="Classes/FKArrayFile.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">FKArrayFile</span><span class="p">:</span> <span class="kt">FKFileType</span></code></pre>
 
                         </div>
                       </div>
@@ -248,7 +346,7 @@
                       <div class="abstract">
                         <p>A representation of a filesystem dictionary file.</p>
 
-<p>Dictionaries are written and read as Apple&rsquo;s .plist format.</p>
+<p>The data type is <code>NSDictionary</code>.</p>
 
                         <a href="Classes/FKDictionaryFile.html" class="slightly-smaller">See more</a>
                       </div>
@@ -268,7 +366,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2015-09-19)</p>
+          <p>&copy; 2015 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2015-10-10)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.3.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

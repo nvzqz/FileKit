@@ -1,1 +1,1 @@
-jazzy -c --source-directory ../FileKit --module "FileKit" --module-version "1.5.0" --no-skip-undocumented --github_url "https://github.com/nvzqz/FileKit" --dash_url http://cocoadocs.org/docsets/FileKit/FileKit.xml --author "Nikolai Vazquez" --author_url "https://github.com/nvzqz"
+jazzy -c --source-directory ../FileKit --module "FileKit" --module-version "1.7.0" --no-skip-undocumented --github_url "https://github.com/nvzqz/FileKit" --dash_url http://cocoadocs.org/docsets/FileKit/FileKit.xml --author "Nikolai Vazquez" --author_url "https://github.com/nvzqz"

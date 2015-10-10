@@ -32,6 +32,12 @@
           <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Classes/FKArrayFile.html">FKArrayFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FKDataFile.html">FKDataFile</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/FKDictionaryFile.html">FKDictionaryFile</a>
               </li>
               <li class="nav-group-task">
@@ -57,7 +63,22 @@
                 <a href="../Extensions/FKFileType.html">FKFileType</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Extensions/FKImageType.html">FKImageType</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Extensions/FKPath.html">FKPath</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/FKReadableFromFile.html">FKReadableFromFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/FKWritable.html">FKWritable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/FKWritableConvertible.html">FKWritableConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/FKWritableToFile.html">FKWritableToFile</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/String.html">String</a>
@@ -136,7 +157,16 @@
                 <a href="../Protocols/FKReadable.html">FKReadable</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/FKReadableFromFile.html">FKReadableFromFile</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/FKWritable.html">FKWritable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FKWritableConvertible.html">FKWritableConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FKWritableToFile.html">FKWritableToFile</a>
               </li>
             </ul>
           </li>
@@ -223,6 +253,33 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:ZvV7FileKit6FKPath11FileManagerCSo13NSFileManager"></a>
+                    <a name="//apple_ref/swift/Variable/FileManager" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvV7FileKit6FKPath11FileManagerCSo13NSFileManager">FileManager</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The <code>NSFileManager</code> used by <code>FKPath</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">FileManager</span> <span class="o">=</span> <span class="kt">NSFileManager</span><span class="o">.</span><span class="nf">defaultManager</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:ZvV7FileKit6FKPath9SeparatorSS"></a>
                     <a name="//apple_ref/swift/Variable/Separator" class="dashAnchor"></a>
                     <a class="token" href="#/s:ZvV7FileKit6FKPath9SeparatorSS">Separator</a>
@@ -268,6 +325,38 @@
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">Current</span><span class="p">:</span> <span class="kt">FKPath</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFV7FileKit6FKPath7VolumesFMS0_FTVSC26NSVolumeEnumerationOptions_GSaS0__"></a>
+                    <a name="//apple_ref/swift/Method/Volumes(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFV7FileKit6FKPath7VolumesFMS0_FTVSC26NSVolumeEnumerationOptions_GSaS0__">Volumes(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">FKPath</span><span class="p">:</span> <span class="kt">StringLiteralConvertible</span><span class="p">,</span>
+                      <span class="kt">RawRepresentable</span><span class="p">,</span>
+                      <span class="kt">Hashable</span><span class="p">,</span>
+                      <span class="kt">Indexable</span><span class="p">,</span>
+                      <span class="kt">CustomStringConvertible</span><span class="p">,</span>
+                      <span class="kt">CustomDebugStringConvertible</span></code></pre>
 
                         </div>
                       </div>
@@ -462,6 +551,114 @@ working directory is returned.</p>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">exists</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath10isWritableSb"></a>
+                    <a name="//apple_ref/swift/Property/isWritable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath10isWritableSb">isWritable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns <code>true</code> if the current process has write privileges for the file at the path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isWritable</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath10isReadableSb"></a>
+                    <a name="//apple_ref/swift/Property/isReadable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath10isReadableSb">isReadable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns <code>true</code> if the current process has read privileges for the file at the path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isReadable</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath12isExecutableSb"></a>
+                    <a name="//apple_ref/swift/Property/isExecutable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath12isExecutableSb">isExecutable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns <code>true</code> if the current process has execute privileges for the file at the path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isExecutable</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath11isDeletableSb"></a>
+                    <a name="//apple_ref/swift/Property/isDeletable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath11isDeletableSb">isDeletable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns <code>true</code> if the current process has delete privileges for the file at the path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isDeletable</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -836,6 +1033,37 @@ will be made to a file in that directory.</p>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">createFile</span><span class="p">()</span> <span class="n">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV7FileKit6FKPath5touchFS0_FzTSb_T_"></a>
+                    <a name="//apple_ref/swift/Method/touch(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV7FileKit6FKPath5touchFS0_FzTSb_T_">touch(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a file at path if not exist 
+or update the modification date.</p>
+
+<p>Throws an error if the file cannot be created
+or if modification date could not be modified.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">touch</span><span class="p">(</span><span class="nv">updateModificationDate</span> <span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="n">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -1703,10 +1931,160 @@ already exists at the destination path.</p>
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/NSURL"></a>
+                  <a name="//apple_ref/swift/Section/NSURL" class="dashAnchor"></a>
+                  <a href="#/NSURL">
+                    <h3 class="section-name">NSURL</h3>
+                  </a>
+                </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV7FileKit6FKPathcFMS0_FT3urlCSo5NSURL_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(url:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV7FileKit6FKPathcFMS0_FT3urlCSo5NSURL_GSqS0__">init(url:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">FKPath</span><span class="p">:</span> <span class="kt">StringLiteralConvertible</span><span class="p">,</span>
+                      <span class="kt">RawRepresentable</span><span class="p">,</span>
+                      <span class="kt">Hashable</span><span class="p">,</span>
+                      <span class="kt">Indexable</span><span class="p">,</span>
+                      <span class="kt">CustomStringConvertible</span><span class="p">,</span>
+                      <span class="kt">CustomDebugStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath3urlGSqCSo5NSURL_"></a>
+                    <a name="//apple_ref/swift/Property/url" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath3urlGSqCSo5NSURL_">url</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">FKPath</span><span class="p">:</span> <span class="kt">StringLiteralConvertible</span><span class="p">,</span>
+                      <span class="kt">RawRepresentable</span><span class="p">,</span>
+                      <span class="kt">Hashable</span><span class="p">,</span>
+                      <span class="kt">Indexable</span><span class="p">,</span>
+                      <span class="kt">CustomStringConvertible</span><span class="p">,</span>
+                      <span class="kt">CustomDebugStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/BookmarkData"></a>
+                  <a name="//apple_ref/swift/Section/BookmarkData" class="dashAnchor"></a>
+                  <a href="#/BookmarkData">
+                    <h3 class="section-name">BookmarkData</h3>
+                  </a>
+                </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV7FileKit6FKPathcFMS0_FT12bookmarkDataCSo6NSData_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(bookmarkData:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV7FileKit6FKPathcFMS0_FT12bookmarkDataCSo6NSData_GSqS0__">init(bookmarkData:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">FKPath</span><span class="p">:</span> <span class="kt">StringLiteralConvertible</span><span class="p">,</span>
+                      <span class="kt">RawRepresentable</span><span class="p">,</span>
+                      <span class="kt">Hashable</span><span class="p">,</span>
+                      <span class="kt">Indexable</span><span class="p">,</span>
+                      <span class="kt">CustomStringConvertible</span><span class="p">,</span>
+                      <span class="kt">CustomDebugStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV7FileKit6FKPath12bookmarkDataGSqCSo6NSData_"></a>
+                    <a name="//apple_ref/swift/Property/bookmarkData" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV7FileKit6FKPath12bookmarkDataGSqCSo6NSData_">bookmarkData</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">FKPath</span><span class="p">:</span> <span class="kt">StringLiteralConvertible</span><span class="p">,</span>
+                      <span class="kt">RawRepresentable</span><span class="p">,</span>
+                      <span class="kt">Hashable</span><span class="p">,</span>
+                      <span class="kt">Indexable</span><span class="p">,</span>
+                      <span class="kt">CustomStringConvertible</span><span class="p">,</span>
+                      <span class="kt">CustomDebugStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2015-09-19)</p>
+          <p>&copy; 2015 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2015-10-10)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.3.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

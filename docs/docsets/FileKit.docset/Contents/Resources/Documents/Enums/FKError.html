@@ -32,6 +32,12 @@
           <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Classes/FKArrayFile.html">FKArrayFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FKDataFile.html">FKDataFile</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/FKDictionaryFile.html">FKDictionaryFile</a>
               </li>
               <li class="nav-group-task">
@@ -57,7 +63,22 @@
                 <a href="../Extensions/FKFileType.html">FKFileType</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Extensions/FKImageType.html">FKImageType</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Extensions/FKPath.html">FKPath</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/FKReadableFromFile.html">FKReadableFromFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/FKWritable.html">FKWritable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/FKWritableConvertible.html">FKWritableConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/FKWritableToFile.html">FKWritableToFile</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/String.html">String</a>
@@ -136,7 +157,16 @@
                 <a href="../Protocols/FKReadable.html">FKReadable</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/FKReadableFromFile.html">FKReadableFromFile</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/FKWritable.html">FKWritable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FKWritableConvertible.html">FKWritableConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FKWritableToFile.html">FKWritableToFile</a>
               </li>
             </ul>
           </li>
@@ -177,9 +207,40 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO7FileKit7FKError16FileDoesNotExistFMS0_S0_"></a>
+                    <a name="/s:vO7FileKit7FKError7messageSS"></a>
+                    <a name="//apple_ref/swift/Property/message" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vO7FileKit7FKError7messageSS">message</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The reason for why the error occured.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO7FileKit7FKError16FileDoesNotExistFMS0_FT4pathVS_6FKPath_S0_"></a>
                     <a name="//apple_ref/swift/Element/FileDoesNotExist" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO7FileKit7FKError16FileDoesNotExistFMS0_S0_">FileDoesNotExist</a>
+                    <a class="token" href="#/s:FO7FileKit7FKError16FileDoesNotExistFMS0_FT4pathVS_6FKPath_S0_">FileDoesNotExist</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -194,7 +255,7 @@
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">FileDoesNotExist</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">FileDoesNotExist</span><span class="p">(</span><span class="nv">path</span><span class="p">:</span> <span class="kt">FKPath</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -208,9 +269,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO7FileKit7FKError17CreateSymlinkFailFMS0_S0_"></a>
+                    <a name="/s:FO7FileKit7FKError17CreateSymlinkFailFMS0_FT8fromPathVS_6FKPath6toPathS1__S0_"></a>
                     <a name="//apple_ref/swift/Element/CreateSymlinkFail" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO7FileKit7FKError17CreateSymlinkFailFMS0_S0_">CreateSymlinkFail</a>
+                    <a class="token" href="#/s:FO7FileKit7FKError17CreateSymlinkFailFMS0_FT8fromPathVS_6FKPath6toPathS1__S0_">CreateSymlinkFail</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -225,7 +286,7 @@
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">CreateSymlinkFail</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">CreateSymlinkFail</span><span class="p">(</span><span class="nv">fromPath</span><span class="p">:</span> <span class="kt">FKPath</span><span class="p">,</span> <span class="nv">toPath</span><span class="p">:</span> <span class="kt">FKPath</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -239,9 +300,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO7FileKit7FKError14CreateFileFailFMS0_S0_"></a>
+                    <a name="/s:FO7FileKit7FKError14CreateFileFailFMS0_FT4pathVS_6FKPath_S0_"></a>
                     <a name="//apple_ref/swift/Element/CreateFileFail" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO7FileKit7FKError14CreateFileFailFMS0_S0_">CreateFileFail</a>
+                    <a class="token" href="#/s:FO7FileKit7FKError14CreateFileFailFMS0_FT4pathVS_6FKPath_S0_">CreateFileFail</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -256,7 +317,7 @@
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">CreateFileFail</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">CreateFileFail</span><span class="p">(</span><span class="nv">path</span><span class="p">:</span> <span class="kt">FKPath</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -270,9 +331,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO7FileKit7FKError14DeleteFileFailFMS0_S0_"></a>
+                    <a name="/s:FO7FileKit7FKError14DeleteFileFailFMS0_FT4pathVS_6FKPath_S0_"></a>
                     <a name="//apple_ref/swift/Element/DeleteFileFail" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO7FileKit7FKError14DeleteFileFailFMS0_S0_">DeleteFileFail</a>
+                    <a class="token" href="#/s:FO7FileKit7FKError14DeleteFileFailFMS0_FT4pathVS_6FKPath_S0_">DeleteFileFail</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -287,7 +348,7 @@
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">DeleteFileFail</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">DeleteFileFail</span><span class="p">(</span><span class="nv">path</span><span class="p">:</span> <span class="kt">FKPath</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -301,9 +362,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO7FileKit7FKError16ReadFromFileFailFMS0_S0_"></a>
+                    <a name="/s:FO7FileKit7FKError16ReadFromFileFailFMS0_FT4pathVS_6FKPath_S0_"></a>
                     <a name="//apple_ref/swift/Element/ReadFromFileFail" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO7FileKit7FKError16ReadFromFileFailFMS0_S0_">ReadFromFileFail</a>
+                    <a class="token" href="#/s:FO7FileKit7FKError16ReadFromFileFailFMS0_FT4pathVS_6FKPath_S0_">ReadFromFileFail</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -318,7 +379,7 @@
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">ReadFromFileFail</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">ReadFromFileFail</span><span class="p">(</span><span class="nv">path</span><span class="p">:</span> <span class="kt">FKPath</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -332,9 +393,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO7FileKit7FKError15WriteToFileFailFMS0_S0_"></a>
+                    <a name="/s:FO7FileKit7FKError15WriteToFileFailFMS0_FT4pathVS_6FKPath_S0_"></a>
                     <a name="//apple_ref/swift/Element/WriteToFileFail" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO7FileKit7FKError15WriteToFileFailFMS0_S0_">WriteToFileFail</a>
+                    <a class="token" href="#/s:FO7FileKit7FKError15WriteToFileFailFMS0_FT4pathVS_6FKPath_S0_">WriteToFileFail</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -349,7 +410,7 @@
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">WriteToFileFail</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">WriteToFileFail</span><span class="p">(</span><span class="nv">path</span><span class="p">:</span> <span class="kt">FKPath</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -363,9 +424,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO7FileKit7FKError12MoveFileFailFMS0_S0_"></a>
+                    <a name="/s:FO7FileKit7FKError12MoveFileFailFMS0_FT8fromPathVS_6FKPath6toPathS1__S0_"></a>
                     <a name="//apple_ref/swift/Element/MoveFileFail" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO7FileKit7FKError12MoveFileFailFMS0_S0_">MoveFileFail</a>
+                    <a class="token" href="#/s:FO7FileKit7FKError12MoveFileFailFMS0_FT8fromPathVS_6FKPath6toPathS1__S0_">MoveFileFail</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -380,7 +441,7 @@
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">MoveFileFail</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">MoveFileFail</span><span class="p">(</span><span class="nv">fromPath</span><span class="p">:</span> <span class="kt">FKPath</span><span class="p">,</span> <span class="nv">toPath</span><span class="p">:</span> <span class="kt">FKPath</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -394,9 +455,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO7FileKit7FKError12CopyFileFailFMS0_S0_"></a>
+                    <a name="/s:FO7FileKit7FKError12CopyFileFailFMS0_FT8fromPathVS_6FKPath6toPathS1__S0_"></a>
                     <a name="//apple_ref/swift/Element/CopyFileFail" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO7FileKit7FKError12CopyFileFailFMS0_S0_">CopyFileFail</a>
+                    <a class="token" href="#/s:FO7FileKit7FKError12CopyFileFailFMS0_FT8fromPathVS_6FKPath6toPathS1__S0_">CopyFileFail</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -411,7 +472,38 @@
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">CopyFileFail</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">CopyFileFail</span><span class="p">(</span><span class="nv">fromPath</span><span class="p">:</span> <span class="kt">FKPath</span><span class="p">,</span> <span class="nv">toPath</span><span class="p">:</span> <span class="kt">FKPath</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO7FileKit7FKError20AttributesChangeFailFMS0_FT4pathVS_6FKPath_S0_"></a>
+                    <a name="//apple_ref/swift/Element/AttributesChangeFail" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO7FileKit7FKError20AttributesChangeFailFMS0_FT4pathVS_6FKPath_S0_">AttributesChangeFail</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>One or many attributes could not be changed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">AttributesChangeFail</span><span class="p">(</span><span class="nv">path</span><span class="p">:</span> <span class="kt">FKPath</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -423,7 +515,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2015-09-19)</p>
+          <p>&copy; 2015 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2015-10-10)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.3.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
