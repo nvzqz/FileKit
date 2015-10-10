@@ -97,7 +97,7 @@ public protocol FKWritableConvertible: FKWritable {
 
     typealias WritableType: FKWritable
 
-    var fkWritable: WritableType? { get }
+    var writable: WritableType? { get }
 
 }
 
@@ -108,7 +108,7 @@ extension FKWritableConvertible {
     }
 
     public func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws {
-        guard let writable = self.fkWritable else {
+        guard let writable = self.writable else {
             throw FKError.WriteToFileFail(path: path)
         }
         try writable.writeToPath(path, atomically: useAuxiliaryFile)
