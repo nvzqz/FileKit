@@ -84,11 +84,18 @@ public func + (lhs: FKPath, rhs: FKPath) -> FKPath {
     }
 }
 
+public func + (lhs: FKPath, rhs: String) -> FKPath {
+   return lhs + FKPath(rhs)
+}
+
 /// Appends the right path to the left path.
 public func += (inout lhs: FKPath, rhs: FKPath) {
     lhs = lhs + rhs
 }
 
+public func += (inout lhs: FKPath, rhs: String) {
+    lhs = lhs + rhs
+}
 
 infix operator ->> {}
 
