@@ -626,6 +626,14 @@ extension FKPath {
         return FKPath(NSTemporaryDirectory())
     }
     
+    public static var ProcessTemporary: FKPath {
+        return FKPath.UserTemporary + NSProcessInfo.processInfo().globallyUniqueString
+    }
+    
+    public static var UniqueTemporary: FKPath {
+        return FKPath.ProcessTemporary + NSUUID().UUIDString
+    }
+    
     /// Returns the path to the user's caches directory.
     public static var UserCaches: FKPath {
         return pathInUserDomain(.CachesDirectory)
