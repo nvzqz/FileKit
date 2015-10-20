@@ -68,7 +68,21 @@ class FileKitTests: XCTestCase {
         let d = FKPath.SystemApplications
         XCTAssertTrue(d.isDirectory)
     }
-    
+
+    func testSequence() {
+        var i = 0
+        let parent = FKPath.UserTemporary
+        for _ in parent {
+            i++
+        }
+        print("\(i) files under \(parent)")
+        
+        i = 0
+        for (_, _) in FKPath.UserTemporary.enumerate() {
+            i++
+        }
+    }
+
     func testPathParent() {
         let a: FKPath = "/"
         let b: FKPath = a + "Users"

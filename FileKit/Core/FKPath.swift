@@ -611,6 +611,37 @@ public struct FKPath: StringLiteralConvertible,
     
 }
 
+// MARK: - SequenceType
+
+extension FKPath : SequenceType {
+    public struct FKDirectoryEnumerator : GeneratorType {
+        public typealias Element = FKPath
+
+        let path: FKPath
+        let directoryEnumerator: NSDirectoryEnumerator
+
+        init(path: FKPath) {
+            self.path = path
+            self.directoryEnumerator = FKPath.FileManager.enumeratorAtPath(path._path)!
+        }
+
+        public func next() -> FKPath? {
+            if let next = directoryEnumerator.nextObject() as? String {
+                return path + FKPath(next)
+            }
+            return nil
+        }
+
+        public func skipDescendants() {
+            directoryEnumerator.skipDescendants()
+        }
+    }
+
+    public func generate() -> FKDirectoryEnumerator {
+        return FKDirectoryEnumerator(path: self)
+    }
+}
+
 // MARK: - FKPaths
 
 extension FKPath {
