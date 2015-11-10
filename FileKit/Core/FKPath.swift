@@ -156,22 +156,6 @@ public struct FKPath: StringLiteralConvertible,
     public var parent: FKPath {
         return FKPath((_path as NSString).stringByDeletingLastPathComponent)
     }
-    
-    /// The path's children paths.
-    public var children: [FKPath] {
-        if let paths = try? FKPath.FileManager.contentsOfDirectoryAtPath(_path) {
-            return paths.map { self + FKPath($0) }
-        }
-        return []
-    }
-
-    /// The path's children paths in a recursive way.
-    public var recursiveChildren: [FKPath] {
-        if let paths = try? FKPath.FileManager.subpathsOfDirectoryAtPath(_path) {
-            return paths.map { self + FKPath($0) }
-        }
-        return []
-    }
 
     /// Initializes a path to "`/`".
     public init() {
@@ -182,6 +166,19 @@ public struct FKPath: StringLiteralConvertible,
     public init(_ path: String) {
         self._path = path
     }
+
+    /// Returns the path's children paths.
+    ///
+    /// - Parameter recursive: Whether to obtain the paths recursively.
+    ///                        Default value is `false`.
+    public func children(recursive recursive: Bool = false) -> [FKPath] {
+        let obtainFunc = recursive
+            ? FKPath.FileManager.subpathsOfDirectoryAtPath
+            : FKPath.FileManager.contentsOfDirectoryAtPath
+        guard let paths = try? obtainFunc(_path)
+            else { return [] }
+        return paths.map { self + FKPath($0) }
+    }
     
     /// Find paths in `self` that match a condition.
     ///
@@ -191,7 +188,7 @@ public struct FKPath: StringLiteralConvertible,
     ///
     public func findPaths(searchDepth depth: Int, condition: (FKPath) -> Bool) -> [FKPath] {
         var paths = [FKPath]()
-        for child in self.children {
+        for child in self.children() {
             if condition(child) {
                 paths.append(child)
             } else if depth != 0 {
