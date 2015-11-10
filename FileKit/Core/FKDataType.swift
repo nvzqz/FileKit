@@ -40,6 +40,15 @@ public protocol FKReadable {
     
 }
 
+extension FKReadable {
+
+    /// Initializes `self` from a path.
+    public init(contentsOfPath path: FKPath) throws {
+        self = try Self.readFromPath(path)
+    }
+
+}
+
 // MARK: - FKWritable
 
 /// A type that can be used to write `FKFile` instances to an `FKPath`.
