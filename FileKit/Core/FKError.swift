@@ -58,7 +58,7 @@ public enum FKError: ErrorType {
     case FileDoesNotExist(path: FKPath)
     
     /// A symbolic link could not be created.
-    case CreateSymlinkFail(fromPath: FKPath, toPath: FKPath)
+    case CreateSymlinkFail(from: FKPath, to: FKPath)
     
     /// A file could not be created.
     case CreateFileFail(path: FKPath)
@@ -73,10 +73,10 @@ public enum FKError: ErrorType {
     case WriteToFileFail(path: FKPath)
     
     /// A file could not be moved.
-    case MoveFileFail(fromPath: FKPath, toPath: FKPath)
+    case MoveFileFail(from: FKPath, to: FKPath)
     
     /// A file could not be copied.
-    case CopyFileFail(fromPath: FKPath, toPath: FKPath)
+    case CopyFileFail(from: FKPath, to: FKPath)
 
     /// One or many attributes could not be changed.
     case AttributesChangeFail(path: FKPath)
