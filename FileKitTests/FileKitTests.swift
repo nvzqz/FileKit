@@ -252,7 +252,16 @@ class FileKitTests: XCTestCase {
             XCTFail()
         }
     }
-    
+
+    func testWellKnownDirectories() {
+        XCTAssertTrue(FKPath.UserHome.exists)
+        XCTAssertTrue(FKPath.UserTemporary.exists)
+        XCTAssertTrue(FKPath.UserCaches.exists)
+
+        XCTAssertFalse(FKPath.ProcessTemporary.exists)
+        XCTAssertFalse(FKPath.UniqueTemporary.exists)
+        XCTAssertNotEqual(FKPath.UniqueTemporary, FKPath.UniqueTemporary)
+    }
 
     // MARK: - FKTextFile
     
