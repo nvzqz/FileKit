@@ -40,22 +40,6 @@ public protocol FKReadable {
     
 }
 
-/// A type that can be initialized from a file.
-public protocol FKReadableFromFile: FKReadable {
-    init?(contentsOfFile: String)
-}
-
-extension FKReadableFromFile {
-
-    public init(contentsOfPath path: FKPath) throws {
-        guard let contents = Self(contentsOfFile: path.rawValue) else {
-            throw FKError.ReadFromFileFail(path: path)
-        }
-        self = contents
-    }
-
-}
-
 // MARK: - FKWritable
 
 /// A type that can be used to write `FKFile` instances to an `FKPath`.
