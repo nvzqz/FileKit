@@ -164,7 +164,15 @@ public struct FKPath: StringLiteralConvertible,
         }
         return []
     }
-    
+
+    /// The path's children paths in a recursive way.
+    public var recursiveChildren: [FKPath] {
+        if let paths = try? FKPath.FileManager.subpathsOfDirectoryAtPath(_path) {
+            return paths.map { self + FKPath($0) }
+        }
+        return []
+    }
+
     /// Initializes a path to "`/`".
     public init() {
         _path = "/"

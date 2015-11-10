@@ -93,6 +93,12 @@ class FileKitTests: XCTestCase {
         let p: FKPath = "/Users"
         XCTAssertNotEqual(p.children, [])
     }
+    
+    func testPathRecursiveChildren() {
+        let p: FKPath = FKPath.UserTemporary
+        let children = p.recursiveChildren
+        XCTAssertNotEqual(children, [])
+    }
 
     func testPathAttributes() {
 
