@@ -41,27 +41,6 @@ public class FKTextFile: FKFile<String> {
         super.init(path: path)
     }
     
-    /// Reads a string from the text file's path.
-    public override func read() throws -> String {
-        do {
-            return try String(contentsOfFile: path.rawValue)
-        } catch {
-            throw FKError.ReadFromFileFail(path: path)
-        }
-    }
-    
-    /// Writes a string to a text file using the file's encoding.
-    ///
-    /// Writing is done atomically by default.
-    ///
-    /// - Parameter data: The string to be written to the text file.
-    ///
-    /// - Throws: `FKError.WriteToFileFail`
-    ///
-    public override func write(data: String) throws {
-        try write(data, atomically: true)
-    }
-    
     /// Writes a string to a text file using the file's encoding.
     ///
     /// - Parameter data: The string to be written to the text file.
@@ -73,7 +52,7 @@ public class FKTextFile: FKFile<String> {
     ///
     /// - Throws: `FKError.WriteToFileFail`
     ///
-    public func write(data: String, atomically useAuxiliaryFile: Bool) throws {
+    public override func write(data: String, atomically useAuxiliaryFile: Bool) throws {
         do {
             try data.writeToFile(path.rawValue, atomically: useAuxiliaryFile, encoding: encoding)
         } catch {

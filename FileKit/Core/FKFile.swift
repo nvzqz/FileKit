@@ -45,10 +45,32 @@ public class FKFile<DataType: FKDataType>: FKFileType {
     public func read() throws -> DataType {
         return try DataType.readFromPath(path)
     }
-    
+
     /// Writes data to the file.
+    ///
+    /// Writing is done atomically by default.
+    ///
+    /// - Parameter data: The data to be written to the file.
+    ///
+    /// - Throws: `FKError.WriteToFileFail`
+    ///
     public func write(data: DataType) throws {
-        try data.writeToPath(path)
+        try self.write(data, atomically: true)
+    }
+
+    /// Writes data to the file.
+    ///
+    /// - Parameter data: The data to be written to the file.
+    ///
+    /// - Parameter atomically: If `true`, the data is written to an auxiliary
+    ///                         file that is then renamed to the file.
+    ///                         If `false`, the data is written to the file
+    ///                         directly.
+    ///
+    /// - Throws: `FKError.WriteToFileFail`
+    ///
+    public func write(data: DataType, atomically useAuxiliaryFile: Bool) throws {
+        try data.writeToPath(path, atomically: useAuxiliaryFile)
     }
     
 }
