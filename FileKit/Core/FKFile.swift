@@ -43,7 +43,7 @@ public class FKFile<DataType: FKDataType>: FKFileType {
     
     /// Reads the file and returns its data.
     public func read() throws -> DataType {
-        return try DataType(contentsOfPath: path)
+        return try DataType.readFromPath(path)
     }
     
     /// Writes data to the file.

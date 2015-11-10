@@ -34,9 +34,9 @@ public typealias FKDataType = protocol<FKReadable, FKWritable>
 
 /// A type that can be used to read `FKFile` instances.
 public protocol FKReadable {
-    
-    /// Initializes `self` from a path.
-    init(contentsOfPath path: FKPath) throws
+
+    /// Creates `Self` from a path.
+    static func readFromPath(path: FKPath) throws -> Self
     
 }
 

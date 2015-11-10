@@ -28,15 +28,12 @@
 import Foundation
 
 extension String: FKDataType {
-    
-    /// Initializes a string from a path.
-    public init(contentsOfPath path: FKPath) throws {
-        do {
-            self = try NSString(contentsOfFile: path.rawValue,
-                                encoding: NSUTF8StringEncoding) as String
-        } catch {
-            throw FKError.ReadFromFileFail(path: path)
-        }
+
+    /// Creates a string from a path.
+    public static func readFromPath(path: FKPath) throws -> String {
+        guard let contents = try? NSString(contentsOfFile: path.rawValue, encoding: NSUTF8StringEncoding)
+            else { throw FKError.ReadFromFileFail(path: path) }
+        return contents as String
     }
     
     /// Writes the string to a path.
