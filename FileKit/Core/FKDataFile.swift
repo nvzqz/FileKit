@@ -31,56 +31,5 @@ import Foundation
 ///
 /// The data type is `NSData`.
 ///
-public class FKDataFile: FKFileType {
-
-    /// The data file's filesystem path.
-    public var path: FKPath
-
-    /// Initializes a data file from a path.
-    required public init(path: FKPath) {
-        self.path = path
-    }
-
-    /// Returns data from a data file.
-    ///
-    /// - Throws: `FKError.ReadFromFileFail`
-    ///
-    public func read() throws -> NSData {
-        guard let data = NSData(contentsOfFile: path.rawValue) else {
-            throw FKError.ReadFromFileFail(path: path)
-        }
-        return data
-    }
-
-    /// Writes data to an array file.
-    ///
-    /// Writing is done atomically by default.
-    ///
-    /// - Parameter data: The data to be written to the data file.
-    ///
-    /// - Throws: `FKError.WriteToFileFail`
-    ///
-    public func write(data: NSData) throws {
-        try write(data, atomically: true)
-    }
-
-    /// Writes data to a file.
-    ///
-    /// - Parameter data: The array to be written to the array file.
-    ///
-    /// - Parameter atomically: If `true`, the array is written to an
-    ///                         auxiliary file that is then renamed to the file.
-    ///                         If `false`, the array is written to the
-    ///                         file directly.
-    ///
-    /// - Throws: `FKError.WriteToFileFail`
-    ///
-    public func write(data: NSData, atomically useAuxiliaryFile: Bool) throws {
-        guard data.writeToFile(path.rawValue, atomically: useAuxiliaryFile) else {
-            throw FKError.WriteToFileFail(path: path)
-        }
-    }
-    
-}
-
+public typealias FKDataFile = FKFile<NSData>
 

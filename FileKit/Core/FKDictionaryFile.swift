@@ -31,54 +31,5 @@ import Foundation
 ///
 /// The data type is `NSDictionary`.
 ///
-public class FKDictionaryFile: FKFileType {
-    
-    /// The dictionary file's filesystem path.
-    public var path: FKPath
-    
-    /// Initializes a dictionary file from a path.
-    public required init(path: FKPath) {
-        self.path = path
-    }
-    
-    /// Returns a dictionary from a file.
-    ///
-    /// - Throws: `FKError.ReadFromFileFail`
-    ///
-    public func read() throws -> NSDictionary {
-        if let dictionary = NSDictionary(contentsOfFile: path.rawValue) {
-            return dictionary
-        }
-        throw FKError.ReadFromFileFail(path: path)
-    }
-    
-    /// Writes a dictionary to a file.
-    ///
-    /// Writing is done atomically by default.
-    ///
-    /// - Parameter data: The dictionary to be written to the file.
-    ///
-    /// - Throws: `FKError.WriteToFileFail`
-    ///
-    public func write(data: NSDictionary) throws {
-        try write(data, atomically: true)
-    }
-    
-    /// Writes a dictionary to a file.
-    ///
-    /// - Parameter data: The dictionary to be written to the file.
-    ///
-    /// - Parameter atomically: If `true`, the dictionary is written to an
-    ///                         auxiliary file that is then renamed to the file.
-    ///                         If `false`, the dictionary is written to the
-    ///                         file directly.
-    ///
-    /// - Throws: `FKError.WriteToFileFail`
-    ///
-    public func write(data: NSDictionary, atomically useAuxiliaryFile: Bool) throws {
-        if !data.writeToFile(path.rawValue, atomically: useAuxiliaryFile) {
-            throw FKError.WriteToFileFail(path: path)
-        }
-    }
-    
-}
+public typealias FKDictionaryFile = FKFile<NSDictionary>
+

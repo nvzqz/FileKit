@@ -31,55 +31,5 @@ import Foundation
 ///
 /// The data type is `NSArray`.
 ///
-public class FKArrayFile: FKFileType {
-
-    /// The array file's filesystem path.
-    public var path: FKPath
-
-    /// Initializes an array file from a path.
-    required public init(path: FKPath) {
-        self.path = path
-    }
-
-    /// Returns an array from a file.
-    ///
-    /// - Throws: `FKError.ReadFromFileFail`
-    ///
-    public func read() throws -> NSArray {
-        guard let array = NSArray(contentsOfFile: path.rawValue) else {
-            throw FKError.ReadFromFileFail(path: path)
-        }
-        return array
-    }
-
-    /// Writes an array to a file.
-    ///
-    /// Writing is done atomically by default.
-    ///
-    /// - Parameter data: The array to be written to the file.
-    ///
-    /// - Throws: `FKError.WriteToFileFail`
-    ///
-    public func write(data: NSArray) throws {
-        try write(data, atomically: true)
-    }
-
-    /// Writes an array to a file.
-    ///
-    /// - Parameter data: The array to be written to the file.
-    ///
-    /// - Parameter atomically: If `true`, the array is written to an auxiliary
-    ///                         file that is then renamed to the file.
-    ///                         If `false`, the array is written to the file
-    ///                         directly.
-    ///
-    /// - Throws: `FKError.WriteToFileFail`
-    ///
-    public func write(array: NSArray, atomically useAuxiliaryFile: Bool) throws {
-        guard array.writeToFile(path.rawValue, atomically: useAuxiliaryFile) else {
-            throw FKError.WriteToFileFail(path: path)
-        }
-    }
-    
-}
+public typealias FKArrayFile = FKFile<NSArray>
 

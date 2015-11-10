@@ -387,7 +387,7 @@ class FileKitTests: XCTestCase {
         do {
             let message = "Testing string init..."
             try stringFile.write(message)
-            let contents = try String(contentsOfPath: stringFile.path)
+            let contents = try String.readFromPath(stringFile.path)
             XCTAssertEqual(contents, message)
         } catch let error as FKError {
             XCTFail(error.message)
@@ -400,7 +400,7 @@ class FileKitTests: XCTestCase {
         do {
             let message = "Testing string writing..."
             try message.writeToPath(stringFile.path)
-            let contents = try String(contentsOfPath: stringFile.path)
+            let contents = try String.readFromPath(stringFile.path)
             XCTAssertEqual(contents, message)
         } catch let error as FKError {
             XCTFail(error.message)
