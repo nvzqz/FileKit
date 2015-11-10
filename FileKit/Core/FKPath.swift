@@ -175,9 +175,7 @@ public struct FKPath: StringLiteralConvertible,
         let obtainFunc = recursive
             ? FKPath.FileManager.subpathsOfDirectoryAtPath
             : FKPath.FileManager.contentsOfDirectoryAtPath
-        guard let paths = try? obtainFunc(_path)
-            else { return [] }
-        return paths.map { self + FKPath($0) }
+        return (try? obtainFunc(_path))?.map { self + FKPath($0) } ?? []
     }
     
     /// Find paths in `self` that match a condition.
