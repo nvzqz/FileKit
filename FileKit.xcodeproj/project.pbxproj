@@ -57,6 +57,10 @@
 		52B938C51BF3C430001B7AEB /* String+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7E51B96ADA100AA473F /* String+FileKit.swift */; };
 		52B938C61BF3C430001B7AEB /* Foundation+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D314E1BC78E44008B93D0 /* Foundation+FileKit.swift */; };
 		52B938C71BF3C430001B7AEB /* FKImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315E1BC7A02A008B93D0 /* FKImageType.swift */; };
+		52B938C91BF402ED001B7AEB /* FKImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B938C81BF402ED001B7AEB /* FKImageFile.swift */; };
+		52B938CA1BF402ED001B7AEB /* FKImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B938C81BF402ED001B7AEB /* FKImageFile.swift */; };
+		52B938CB1BF402ED001B7AEB /* FKImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B938C81BF402ED001B7AEB /* FKImageFile.swift */; };
+		52B938CC1BF402ED001B7AEB /* FKImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B938C81BF402ED001B7AEB /* FKImageFile.swift */; };
 		52BF6BA81B992AD500F07E13 /* FKFileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BA71B992AD500F07E13 /* FKFileType.swift */; };
 		52BF6BA91B992AD500F07E13 /* FKFileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BA71B992AD500F07E13 /* FKFileType.swift */; };
 		52BF6BB11B99322000F07E13 /* FKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FKError.swift */; };
@@ -94,6 +98,7 @@
 		5263A9081B96BA3D00635A93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		527612421BAEA3EE00503D0A /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52B938B31BF3C3E5001B7AEB /* FileKit-tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "FileKit-tvOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		52B938C81BF402ED001B7AEB /* FKImageFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKImageFile.swift; sourceTree = "<group>"; };
 		52BF6BA71B992AD500F07E13 /* FKFileType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKFileType.swift; sourceTree = "<group>"; };
 		52BF6BB01B99322000F07E13 /* FKError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKError.swift; sourceTree = "<group>"; };
 		C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+FileKit.swift"; sourceTree = "<group>"; };
@@ -179,6 +184,7 @@
 				523C337A1B9B68D600AB70E4 /* FKDictionaryFile.swift */,
 				524D31561BC79067008B93D0 /* FKArrayFile.swift */,
 				524D315A1BC79331008B93D0 /* FKDataFile.swift */,
+				52B938C81BF402ED001B7AEB /* FKImageFile.swift */,
 				5204B7C31B968E8000AA473F /* FKPath.swift */,
 				523C33981B9B764600AB70E4 /* FKDataType.swift */,
 				52BF6BB01B99322000F07E13 /* FKError.swift */,
@@ -440,6 +446,7 @@
 				523C33991B9B764600AB70E4 /* FKDataType.swift in Sources */,
 				52BF6BB11B99322000F07E13 /* FKError.swift in Sources */,
 				52BF6BA81B992AD500F07E13 /* FKFileType.swift in Sources */,
+				52B938C91BF402ED001B7AEB /* FKImageFile.swift in Sources */,
 				524D31571BC79067008B93D0 /* FKArrayFile.swift in Sources */,
 				523C33A11B9B772A00AB70E4 /* FKFile.swift in Sources */,
 				523C337B1B9B68D600AB70E4 /* FKDictionaryFile.swift in Sources */,
@@ -460,6 +467,7 @@
 				523C339A1B9B764600AB70E4 /* FKDataType.swift in Sources */,
 				52BF6BB21B99322000F07E13 /* FKError.swift in Sources */,
 				52BF6BA91B992AD500F07E13 /* FKFileType.swift in Sources */,
+				52B938CA1BF402ED001B7AEB /* FKImageFile.swift in Sources */,
 				524D31581BC79067008B93D0 /* FKArrayFile.swift in Sources */,
 				523C33A21B9B772A00AB70E4 /* FKFile.swift in Sources */,
 				523C337C1B9B68D600AB70E4 /* FKDictionaryFile.swift in Sources */,
@@ -489,6 +497,7 @@
 				5276124E1BAEA43600503D0A /* FKPath.swift in Sources */,
 				527612511BAEA43600503D0A /* FKOperators.swift in Sources */,
 				527612501BAEA43600503D0A /* FKError.swift in Sources */,
+				52B938CB1BF402ED001B7AEB /* FKImageFile.swift in Sources */,
 				524D31591BC79067008B93D0 /* FKArrayFile.swift in Sources */,
 				5276124F1BAEA43600503D0A /* FKDataType.swift in Sources */,
 				5276124A1BAEA43600503D0A /* FKFileType.swift in Sources */,
@@ -509,6 +518,7 @@
 				52B938C01BF3C42A001B7AEB /* FKDataFile.swift in Sources */,
 				52B938BD1BF3C42A001B7AEB /* FKTextFile.swift in Sources */,
 				52B938C51BF3C430001B7AEB /* String+FileKit.swift in Sources */,
+				52B938CC1BF402ED001B7AEB /* FKImageFile.swift in Sources */,
 				52B938C31BF3C42A001B7AEB /* FKError.swift in Sources */,
 				52B938BF1BF3C42A001B7AEB /* FKArrayFile.swift in Sources */,
 				52B938BB1BF3C42A001B7AEB /* FKFileType.swift in Sources */,
