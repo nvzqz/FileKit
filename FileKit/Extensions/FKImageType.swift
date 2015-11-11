@@ -36,7 +36,14 @@ import WatchKit
 public typealias FKImageType = UIImage
 #endif
 
-extension FKImageType: FKWritableConvertible {
+extension FKImageType : FKDataType, FKWritableConvertible {
+
+    public class func readFromPath(path: FKPath) throws -> Self {
+        guard let contents = self.init(contentsOfFile: path.rawValue) else {
+            throw FKError.ReadFromFileFail(path: path)
+        }
+        return contents
+    }
 
     public var writable: NSData? {
         #if os(OSX)
