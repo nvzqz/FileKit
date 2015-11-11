@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0710"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "527612411BAEA3EE00503D0A"
-               BuildableName = "FileKit.framework"
-               BlueprintName = "FileKit-watchOS"
+               BlueprintIdentifier = "52B938B21BF3C3E5001B7AEB"
+               BuildableName = "FileKit-tvOS.framework"
+               BlueprintName = "FileKit-tvOS"
                ReferencedContainer = "container:FileKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "527612411BAEA3EE00503D0A"
-            BuildableName = "FileKit.framework"
-            BlueprintName = "FileKit-watchOS"
+            BlueprintIdentifier = "52B938B21BF3C3E5001B7AEB"
+            BuildableName = "FileKit-tvOS.framework"
+            BlueprintName = "FileKit-tvOS"
             ReferencedContainer = "container:FileKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "527612411BAEA3EE00503D0A"
-            BuildableName = "FileKit.framework"
-            BlueprintName = "FileKit-watchOS"
+            BlueprintIdentifier = "52B938B21BF3C3E5001B7AEB"
+            BuildableName = "FileKit-tvOS.framework"
+            BlueprintName = "FileKit-tvOS"
             ReferencedContainer = "container:FileKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

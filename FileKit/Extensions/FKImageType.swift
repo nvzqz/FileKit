@@ -28,7 +28,7 @@
 #if os(OSX)
 import Cocoa
 public typealias FKImageType = NSImage
-#elseif os(iOS)
+#elseif os(iOS) || os(tvOS)
 import UIKit
 public typealias FKImageType = UIImage
 #else
@@ -41,8 +41,6 @@ extension FKImageType: FKWritableConvertible {
     public var writable: NSData? {
         #if os(OSX)
         return self.TIFFRepresentation
-        #elseif os(iOS)
-        return UIImagePNGRepresentation(self)
         #else
         return UIImagePNGRepresentation(self)
         #endif

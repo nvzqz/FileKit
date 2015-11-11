@@ -7,48 +7,61 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		523C33781B9A7EFC00AB70E4 /* FKTextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33771B9A7EFC00AB70E4 /* FKTextFile.swift */; settings = {ASSET_TAGS = (); }; };
-		523C33791B9A7EFC00AB70E4 /* FKTextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33771B9A7EFC00AB70E4 /* FKTextFile.swift */; settings = {ASSET_TAGS = (); }; };
-		523C337B1B9B68D600AB70E4 /* FKDictionaryFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C337A1B9B68D600AB70E4 /* FKDictionaryFile.swift */; settings = {ASSET_TAGS = (); }; };
-		523C337C1B9B68D600AB70E4 /* FKDictionaryFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C337A1B9B68D600AB70E4 /* FKDictionaryFile.swift */; settings = {ASSET_TAGS = (); }; };
-		523C33991B9B764600AB70E4 /* FKDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33981B9B764600AB70E4 /* FKDataType.swift */; settings = {ASSET_TAGS = (); }; };
-		523C339A1B9B764600AB70E4 /* FKDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33981B9B764600AB70E4 /* FKDataType.swift */; settings = {ASSET_TAGS = (); }; };
-		523C33A11B9B772A00AB70E4 /* FKFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A01B9B772A00AB70E4 /* FKFile.swift */; settings = {ASSET_TAGS = (); }; };
-		523C33A21B9B772A00AB70E4 /* FKFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A01B9B772A00AB70E4 /* FKFile.swift */; settings = {ASSET_TAGS = (); }; };
-		523C33A71B9B894A00AB70E4 /* FKOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A61B9B894A00AB70E4 /* FKOperators.swift */; settings = {ASSET_TAGS = (); }; };
-		523C33A81B9B894A00AB70E4 /* FKOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A61B9B894A00AB70E4 /* FKOperators.swift */; settings = {ASSET_TAGS = (); }; };
-		524D314F1BC78E44008B93D0 /* Foundation+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D314E1BC78E44008B93D0 /* Foundation+FileKit.swift */; settings = {ASSET_TAGS = (); }; };
-		524D31501BC78E44008B93D0 /* Foundation+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D314E1BC78E44008B93D0 /* Foundation+FileKit.swift */; settings = {ASSET_TAGS = (); }; };
-		524D31511BC78E44008B93D0 /* Foundation+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D314E1BC78E44008B93D0 /* Foundation+FileKit.swift */; settings = {ASSET_TAGS = (); }; };
-		524D31571BC79067008B93D0 /* FKArrayFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D31561BC79067008B93D0 /* FKArrayFile.swift */; settings = {ASSET_TAGS = (); }; };
-		524D31581BC79067008B93D0 /* FKArrayFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D31561BC79067008B93D0 /* FKArrayFile.swift */; settings = {ASSET_TAGS = (); }; };
-		524D31591BC79067008B93D0 /* FKArrayFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D31561BC79067008B93D0 /* FKArrayFile.swift */; settings = {ASSET_TAGS = (); }; };
-		524D315B1BC79331008B93D0 /* FKDataFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315A1BC79331008B93D0 /* FKDataFile.swift */; settings = {ASSET_TAGS = (); }; };
-		524D315C1BC79331008B93D0 /* FKDataFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315A1BC79331008B93D0 /* FKDataFile.swift */; settings = {ASSET_TAGS = (); }; };
-		524D315D1BC79331008B93D0 /* FKDataFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315A1BC79331008B93D0 /* FKDataFile.swift */; settings = {ASSET_TAGS = (); }; };
-		524D315F1BC7A02A008B93D0 /* FKImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315E1BC7A02A008B93D0 /* FKImageType.swift */; settings = {ASSET_TAGS = (); }; };
-		524D31601BC7A02A008B93D0 /* FKImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315E1BC7A02A008B93D0 /* FKImageType.swift */; settings = {ASSET_TAGS = (); }; };
-		524D31611BC7A02A008B93D0 /* FKImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315E1BC7A02A008B93D0 /* FKImageType.swift */; settings = {ASSET_TAGS = (); }; };
+		523C33781B9A7EFC00AB70E4 /* FKTextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33771B9A7EFC00AB70E4 /* FKTextFile.swift */; };
+		523C33791B9A7EFC00AB70E4 /* FKTextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33771B9A7EFC00AB70E4 /* FKTextFile.swift */; };
+		523C337B1B9B68D600AB70E4 /* FKDictionaryFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C337A1B9B68D600AB70E4 /* FKDictionaryFile.swift */; };
+		523C337C1B9B68D600AB70E4 /* FKDictionaryFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C337A1B9B68D600AB70E4 /* FKDictionaryFile.swift */; };
+		523C33991B9B764600AB70E4 /* FKDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33981B9B764600AB70E4 /* FKDataType.swift */; };
+		523C339A1B9B764600AB70E4 /* FKDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33981B9B764600AB70E4 /* FKDataType.swift */; };
+		523C33A11B9B772A00AB70E4 /* FKFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A01B9B772A00AB70E4 /* FKFile.swift */; };
+		523C33A21B9B772A00AB70E4 /* FKFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A01B9B772A00AB70E4 /* FKFile.swift */; };
+		523C33A71B9B894A00AB70E4 /* FKOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A61B9B894A00AB70E4 /* FKOperators.swift */; };
+		523C33A81B9B894A00AB70E4 /* FKOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A61B9B894A00AB70E4 /* FKOperators.swift */; };
+		524D314F1BC78E44008B93D0 /* Foundation+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D314E1BC78E44008B93D0 /* Foundation+FileKit.swift */; };
+		524D31501BC78E44008B93D0 /* Foundation+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D314E1BC78E44008B93D0 /* Foundation+FileKit.swift */; };
+		524D31511BC78E44008B93D0 /* Foundation+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D314E1BC78E44008B93D0 /* Foundation+FileKit.swift */; };
+		524D31571BC79067008B93D0 /* FKArrayFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D31561BC79067008B93D0 /* FKArrayFile.swift */; };
+		524D31581BC79067008B93D0 /* FKArrayFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D31561BC79067008B93D0 /* FKArrayFile.swift */; };
+		524D31591BC79067008B93D0 /* FKArrayFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D31561BC79067008B93D0 /* FKArrayFile.swift */; };
+		524D315B1BC79331008B93D0 /* FKDataFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315A1BC79331008B93D0 /* FKDataFile.swift */; };
+		524D315C1BC79331008B93D0 /* FKDataFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315A1BC79331008B93D0 /* FKDataFile.swift */; };
+		524D315D1BC79331008B93D0 /* FKDataFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315A1BC79331008B93D0 /* FKDataFile.swift */; };
+		524D315F1BC7A02A008B93D0 /* FKImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315E1BC7A02A008B93D0 /* FKImageType.swift */; };
+		524D31601BC7A02A008B93D0 /* FKImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315E1BC7A02A008B93D0 /* FKImageType.swift */; };
+		524D31611BC7A02A008B93D0 /* FKImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315E1BC7A02A008B93D0 /* FKImageType.swift */; };
 		5263A8FC1B96B94D00635A93 /* FKPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* FKPath.swift */; };
 		5263A8FD1B96B94D00635A93 /* FKPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* FKPath.swift */; };
 		5263A8FE1B96B95000635A93 /* String+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7E51B96ADA100AA473F /* String+FileKit.swift */; };
 		5263A8FF1B96B95100635A93 /* String+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7E51B96ADA100AA473F /* String+FileKit.swift */; };
 		5263A9071B96BA3D00635A93 /* FileKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263A9061B96BA3D00635A93 /* FileKitTests.swift */; };
 		5263A9091B96BA3D00635A93 /* FileKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5204B84B1B96B83800AA473F /* FileKit.framework */; };
-		5276124A1BAEA43600503D0A /* FKFileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BA71B992AD500F07E13 /* FKFileType.swift */; settings = {ASSET_TAGS = (); }; };
-		5276124B1BAEA43600503D0A /* FKFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A01B9B772A00AB70E4 /* FKFile.swift */; settings = {ASSET_TAGS = (); }; };
-		5276124C1BAEA43600503D0A /* FKTextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33771B9A7EFC00AB70E4 /* FKTextFile.swift */; settings = {ASSET_TAGS = (); }; };
-		5276124D1BAEA43600503D0A /* FKDictionaryFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C337A1B9B68D600AB70E4 /* FKDictionaryFile.swift */; settings = {ASSET_TAGS = (); }; };
-		5276124E1BAEA43600503D0A /* FKPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* FKPath.swift */; settings = {ASSET_TAGS = (); }; };
-		5276124F1BAEA43600503D0A /* FKDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33981B9B764600AB70E4 /* FKDataType.swift */; settings = {ASSET_TAGS = (); }; };
-		527612501BAEA43600503D0A /* FKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FKError.swift */; settings = {ASSET_TAGS = (); }; };
-		527612511BAEA43600503D0A /* FKOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A61B9B894A00AB70E4 /* FKOperators.swift */; settings = {ASSET_TAGS = (); }; };
-		527612521BAEA45D00503D0A /* String+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7E51B96ADA100AA473F /* String+FileKit.swift */; settings = {ASSET_TAGS = (); }; };
-		52BF6BA81B992AD500F07E13 /* FKFileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BA71B992AD500F07E13 /* FKFileType.swift */; settings = {ASSET_TAGS = (); }; };
-		52BF6BA91B992AD500F07E13 /* FKFileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BA71B992AD500F07E13 /* FKFileType.swift */; settings = {ASSET_TAGS = (); }; };
-		52BF6BB11B99322000F07E13 /* FKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FKError.swift */; settings = {ASSET_TAGS = (); }; };
-		52BF6BB21B99322000F07E13 /* FKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FKError.swift */; settings = {ASSET_TAGS = (); }; };
-		C404F01E1BC7CA7200EF9ED9 /* Date+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */; settings = {ASSET_TAGS = (); }; };
+		5276124A1BAEA43600503D0A /* FKFileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BA71B992AD500F07E13 /* FKFileType.swift */; };
+		5276124B1BAEA43600503D0A /* FKFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A01B9B772A00AB70E4 /* FKFile.swift */; };
+		5276124C1BAEA43600503D0A /* FKTextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33771B9A7EFC00AB70E4 /* FKTextFile.swift */; };
+		5276124D1BAEA43600503D0A /* FKDictionaryFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C337A1B9B68D600AB70E4 /* FKDictionaryFile.swift */; };
+		5276124E1BAEA43600503D0A /* FKPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* FKPath.swift */; };
+		5276124F1BAEA43600503D0A /* FKDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33981B9B764600AB70E4 /* FKDataType.swift */; };
+		527612501BAEA43600503D0A /* FKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FKError.swift */; };
+		527612511BAEA43600503D0A /* FKOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A61B9B894A00AB70E4 /* FKOperators.swift */; };
+		527612521BAEA45D00503D0A /* String+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7E51B96ADA100AA473F /* String+FileKit.swift */; };
+		52B938BB1BF3C42A001B7AEB /* FKFileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BA71B992AD500F07E13 /* FKFileType.swift */; };
+		52B938BC1BF3C42A001B7AEB /* FKFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A01B9B772A00AB70E4 /* FKFile.swift */; };
+		52B938BD1BF3C42A001B7AEB /* FKTextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33771B9A7EFC00AB70E4 /* FKTextFile.swift */; };
+		52B938BE1BF3C42A001B7AEB /* FKDictionaryFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C337A1B9B68D600AB70E4 /* FKDictionaryFile.swift */; };
+		52B938BF1BF3C42A001B7AEB /* FKArrayFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D31561BC79067008B93D0 /* FKArrayFile.swift */; };
+		52B938C01BF3C42A001B7AEB /* FKDataFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315A1BC79331008B93D0 /* FKDataFile.swift */; };
+		52B938C11BF3C42A001B7AEB /* FKPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7C31B968E8000AA473F /* FKPath.swift */; };
+		52B938C21BF3C42A001B7AEB /* FKDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33981B9B764600AB70E4 /* FKDataType.swift */; };
+		52B938C31BF3C42A001B7AEB /* FKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FKError.swift */; };
+		52B938C41BF3C42A001B7AEB /* FKOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A61B9B894A00AB70E4 /* FKOperators.swift */; };
+		52B938C51BF3C430001B7AEB /* String+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5204B7E51B96ADA100AA473F /* String+FileKit.swift */; };
+		52B938C61BF3C430001B7AEB /* Foundation+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D314E1BC78E44008B93D0 /* Foundation+FileKit.swift */; };
+		52B938C71BF3C430001B7AEB /* FKImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D315E1BC7A02A008B93D0 /* FKImageType.swift */; };
+		52BF6BA81B992AD500F07E13 /* FKFileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BA71B992AD500F07E13 /* FKFileType.swift */; };
+		52BF6BA91B992AD500F07E13 /* FKFileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BA71B992AD500F07E13 /* FKFileType.swift */; };
+		52BF6BB11B99322000F07E13 /* FKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FKError.swift */; };
+		52BF6BB21B99322000F07E13 /* FKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FKError.swift */; };
+		C404F01E1BC7CA7200EF9ED9 /* Date+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +93,7 @@
 		5263A9061B96BA3D00635A93 /* FileKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileKitTests.swift; sourceTree = "<group>"; };
 		5263A9081B96BA3D00635A93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		527612421BAEA3EE00503D0A /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52B938B31BF3C3E5001B7AEB /* FileKit-tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "FileKit-tvOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52BF6BA71B992AD500F07E13 /* FKFileType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKFileType.swift; sourceTree = "<group>"; };
 		52BF6BB01B99322000F07E13 /* FKError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKError.swift; sourceTree = "<group>"; };
 		C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+FileKit.swift"; sourceTree = "<group>"; };
@@ -115,6 +129,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		52B938AF1BF3C3E5001B7AEB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -134,6 +155,7 @@
 				5204B8581B96B85E00AA473F /* FileKit.framework */,
 				5263A9041B96BA3D00635A93 /* FileKitTests.xctest */,
 				527612421BAEA3EE00503D0A /* FileKit.framework */,
+				52B938B31BF3C3E5001B7AEB /* FileKit-tvOS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -217,6 +239,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		52B938B01BF3C3E5001B7AEB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -292,6 +321,24 @@
 			productReference = 527612421BAEA3EE00503D0A /* FileKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		52B938B21BF3C3E5001B7AEB /* FileKit-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52B938BA1BF3C3E5001B7AEB /* Build configuration list for PBXNativeTarget "FileKit-tvOS" */;
+			buildPhases = (
+				52B938AE1BF3C3E5001B7AEB /* Sources */,
+				52B938AF1BF3C3E5001B7AEB /* Frameworks */,
+				52B938B01BF3C3E5001B7AEB /* Headers */,
+				52B938B11BF3C3E5001B7AEB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "FileKit-tvOS";
+			productName = "FileKit-tvOS";
+			productReference = 52B938B31BF3C3E5001B7AEB /* FileKit-tvOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -314,6 +361,9 @@
 					527612411BAEA3EE00503D0A = {
 						CreatedOnToolsVersion = 7.0;
 					};
+					52B938B21BF3C3E5001B7AEB = {
+						CreatedOnToolsVersion = 7.1;
+					};
 				};
 			};
 			buildConfigurationList = 5204B7B01B968B8600AA473F /* Build configuration list for PBXProject "FileKit" */;
@@ -331,6 +381,7 @@
 				5204B84A1B96B83800AA473F /* FileKit-OSX */,
 				5204B8571B96B85E00AA473F /* FileKit-iOS */,
 				527612411BAEA3EE00503D0A /* FileKit-watchOS */,
+				52B938B21BF3C3E5001B7AEB /* FileKit-tvOS */,
 				5263A9031B96BA3D00635A93 /* FileKitTests */,
 			);
 		};
@@ -359,6 +410,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		527612401BAEA3EE00503D0A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52B938B11BF3C3E5001B7AEB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -434,6 +492,26 @@
 				524D31591BC79067008B93D0 /* FKArrayFile.swift in Sources */,
 				5276124F1BAEA43600503D0A /* FKDataType.swift in Sources */,
 				5276124A1BAEA43600503D0A /* FKFileType.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52B938AE1BF3C3E5001B7AEB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52B938C41BF3C42A001B7AEB /* FKOperators.swift in Sources */,
+				52B938C21BF3C42A001B7AEB /* FKDataType.swift in Sources */,
+				52B938BE1BF3C42A001B7AEB /* FKDictionaryFile.swift in Sources */,
+				52B938C11BF3C42A001B7AEB /* FKPath.swift in Sources */,
+				52B938BC1BF3C42A001B7AEB /* FKFile.swift in Sources */,
+				52B938C61BF3C430001B7AEB /* Foundation+FileKit.swift in Sources */,
+				52B938C71BF3C430001B7AEB /* FKImageType.swift in Sources */,
+				52B938C01BF3C42A001B7AEB /* FKDataFile.swift in Sources */,
+				52B938BD1BF3C42A001B7AEB /* FKTextFile.swift in Sources */,
+				52B938C51BF3C430001B7AEB /* String+FileKit.swift in Sources */,
+				52B938C31BF3C42A001B7AEB /* FKError.swift in Sources */,
+				52B938BF1BF3C42A001B7AEB /* FKArrayFile.swift in Sources */,
+				52B938BB1BF3C42A001B7AEB /* FKFileType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,8 +624,8 @@
 				INFOPLIST_FILE = FileKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FileKit;
-				PRODUCT_NAME = FileKit;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -564,8 +642,8 @@
 				INFOPLIST_FILE = FileKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FileKit;
-				PRODUCT_NAME = FileKit;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -581,8 +659,8 @@
 				INFOPLIST_FILE = FileKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FileKit;
-				PRODUCT_NAME = FileKit;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -600,8 +678,8 @@
 				INFOPLIST_FILE = FileKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FileKit;
-				PRODUCT_NAME = FileKit;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -641,8 +719,8 @@
 				INFOPLIST_FILE = FileKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FileKit;
-				PRODUCT_NAME = FileKit;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -660,13 +738,52 @@
 				INFOPLIST_FILE = FileKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FileKit;
-				PRODUCT_NAME = FileKit;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		52B938B81BF3C3E5001B7AEB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/FileKit/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		52B938B91BF3C3E5001B7AEB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/FileKit/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -717,6 +834,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		52B938BA1BF3C3E5001B7AEB /* Build configuration list for PBXNativeTarget "FileKit-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52B938B81BF3C3E5001B7AEB /* Debug */,
+				52B938B91BF3C3E5001B7AEB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
