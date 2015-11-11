@@ -52,7 +52,7 @@ public class FKTextFile: FKFile<String> {
     ///
     /// - Throws: `FKError.WriteToFileFail`
     ///
-    public override func write(data: String, atomically useAuxiliaryFile: Bool) throws {
+    public func write(data: String, atomically useAuxiliaryFile: Bool) throws {
         do {
             try data.writeToFile(path.rawValue, atomically: useAuxiliaryFile, encoding: encoding)
         } catch {
