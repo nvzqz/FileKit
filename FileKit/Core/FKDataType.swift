@@ -88,8 +88,10 @@ extension FKWritableToFile {
 /// A type that can be converted to a FKWritable.
 public protocol FKWritableConvertible: FKWritable {
 
+    /// The type that allows `Self` to be `FKWritable`.
     typealias WritableType: FKWritable
 
+    /// Allows `self` to be written to a path.
     var writable: WritableType? { get }
 
 }
@@ -98,7 +100,7 @@ extension FKWritableConvertible {
 
     public func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws {
         guard let writable = self.writable else {
-            throw FKError.WriteToFileFail(path: path)
+            throw FKError.WritableConvertiblePropertyNil(type: self.dynamicType)
         }
         try writable.writeToPath(path, atomically: useAuxiliaryFile)
     }

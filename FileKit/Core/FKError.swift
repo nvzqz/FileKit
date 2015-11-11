@@ -45,6 +45,8 @@ public enum FKError: ErrorType {
             return "Could not read from file at \(path)"
         case let WriteToFileFail(path):
             return "Could not write to file at \(path)"
+        case let WritableConvertiblePropertyNil(type):
+            return "Writable for instance of \(type) is `nil`"
         case let MoveFileFail(fromPath, toPath):
             return "Could not move file at \(fromPath) to \(toPath)"
         case let CopyFileFail(fromPath, toPath):
@@ -71,6 +73,8 @@ public enum FKError: ErrorType {
     
     /// A file could not be written to.
     case WriteToFileFail(path: FKPath)
+
+    case WritableConvertiblePropertyNil(type: FKWritableConvertible.Type)
     
     /// A file could not be moved.
     case MoveFileFail(from: FKPath, to: FKPath)
