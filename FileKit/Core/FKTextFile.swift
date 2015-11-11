@@ -34,10 +34,17 @@ import Foundation
 public class FKTextFile: FKFile<String> {
     
     /// The text file's string encoding.
-    public var encoding: NSStringEncoding = NSUTF8StringEncoding
+    public var encoding: NSStringEncoding
     
     /// Initializes a text file from a path.
     public required init(path: FKPath) {
+        self.encoding = NSUTF8StringEncoding
+        super.init(path: path)
+    }
+
+    /// Initializes a text file from a path with an encoding.
+    public init(path: FKPath, encoding: NSStringEncoding) {
+        self.encoding = encoding
         super.init(path: path)
     }
     
