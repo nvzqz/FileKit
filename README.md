@@ -15,6 +15,10 @@
         <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"
              alt="Carthage">
     </a>
+    <a href="https://gitter.im/nvzqz/FileKit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
+        <img src="https://img.shields.io/badge/GITTER-join%20chat-00D06F.svg"
+             alt="GITTER: join chat">
+    </a>
     <img src="https://img.shields.io/badge/license-MIT-000000.svg"
          alt="License">
 </p>
