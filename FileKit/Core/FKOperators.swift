@@ -30,7 +30,7 @@ import Foundation
 // MARK: - FKFileType
 
 /// Returns `true` if both files' paths are the same.
-public func ==<FileType: FKFileType>(lhs: FileType, rhs: FileType) -> Bool {
+@warn_unused_result public func ==<F : FKFileType>(lhs: F, rhs: F) -> Bool {
     return lhs.path == rhs.path
 }
 
@@ -40,7 +40,7 @@ infix operator |> {}
 ///
 /// - Throws: `FKError.WriteToFileFail`
 ///
-public func |> <FileType: FKFileType>(data: FileType.DataType, file: FileType) throws {
+public func |> <F : FKFileType>(data: F.DataType, file: F) throws {
     try file.write(data)
 }
 
@@ -49,7 +49,7 @@ public func |> <FileType: FKFileType>(data: FileType.DataType, file: FileType) t
 // MARK: - FKTextFile
 
 /// Returns `true` if both text files have the same path and encoding.
-public func ==(lhs: FKTextFile, rhs: FKTextFile) -> Bool {
+@warn_unused_result public func ==(lhs: FKTextFile, rhs: FKTextFile) -> Bool {
     return lhs.path == rhs.path && lhs.encoding == rhs.encoding
 }
 
@@ -131,7 +131,7 @@ public func ->> (lhs: FKPath, rhs: FKPath) throws {
 ///     - `FKError.FileDoesNotExist`,
 ///     - `FKError.MoveFileFail`
 ///
-public func ->> <FileType: FKFileType>(inout lhs: FileType, rhs: FKPath) throws {
+public func ->> <F : FKFileType>(inout lhs: F, rhs: FKPath) throws {
     try lhs.moveToPath(rhs)
 }
 
@@ -162,7 +162,7 @@ public func ->! (lhs: FKPath, rhs: FKPath) throws {
 ///     - `FKError.FileDoesNotExist`,
 ///     - `FKError.CreateSymlinkFail`
 ///
-public func ->! <FileType: FKFileType>(inout lhs: FileType, rhs: FKPath) throws {
+public func ->! <F : FKFileType>(inout lhs: F, rhs: FKPath) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
@@ -192,7 +192,7 @@ public func +>> (lhs: FKPath, rhs: FKPath) throws {
 ///     - `FKError.FileDoesNotExist`,
 ///     - `FKError.CopyFileFail`
 ///
-public func +>> <FileType: FKFileType>(lhs: FileType, rhs: FKPath) throws {
+public func +>> <F : FKFileType>(lhs: F, rhs: FKPath) throws {
     try lhs.copyToPath(rhs)
 }
 
@@ -223,7 +223,7 @@ public func +>! (lhs: FKPath, rhs: FKPath) throws {
 ///     - `FKError.FileDoesNotExist`,
 ///     - `FKError.CreateSymlinkFail`
 ///
-public func +>! <FileType: FKFileType>(lhs: FileType, rhs: FKPath) throws {
+public func +>! <F : FKFileType>(lhs: F, rhs: FKPath) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
@@ -258,7 +258,7 @@ public func =>> (lhs: FKPath, rhs: FKPath) throws {
 ///
 /// - Throws: `FKError.FileDoesNotExist`, `FKError.CreateSymlinkFail`
 ///
-public func =>> <FileType: FKFileType>(lhs: FileType, rhs: FKPath) throws {
+public func =>> <F : FKFileType>(lhs: F, rhs: FKPath) throws {
     try lhs.symlinkToPath(rhs)
 }
 
@@ -291,7 +291,7 @@ public func =>! (lhs: FKPath, rhs: FKPath) throws {
 ///     - `FKError.FileDoesNotExist`,
 ///     - `FKError.CreateSymlinkFail`
 ///
-public func =>! <FileType: FKFileType>(lhs: FileType, rhs: FKPath) throws {
+public func =>! <F : FKFileType>(lhs: F, rhs: FKPath) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
