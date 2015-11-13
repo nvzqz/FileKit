@@ -29,6 +29,11 @@ import Foundation
 
 // MARK: - FKFileType
 
+/// Returns `true` if both files' paths are the same.
+public func ==<FileType: FKFileType>(lhs: FileType, rhs: FileType) -> Bool {
+    return lhs.path == rhs.path
+}
+
 infix operator |> {}
 
 /// Writes data to a file.
@@ -42,6 +47,11 @@ public func |> <FileType: FKFileType>(data: FileType.DataType, file: FileType) t
 
 
 // MARK: - FKTextFile
+
+/// Returns `true` if both text files have the same path and encoding.
+public func ==(lhs: FKTextFile, rhs: FKTextFile) -> Bool {
+    return lhs.path == rhs.path && lhs.encoding == rhs.encoding
+}
 
 infix operator |>> {}
 
