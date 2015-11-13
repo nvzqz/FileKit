@@ -27,6 +27,8 @@
 
 import Foundation
 
+// MARK: FKError
+
 /// An error that can be thrown by FileKit.
 public enum FKError: ErrorType {
 
@@ -84,4 +86,18 @@ public enum FKError: ErrorType {
 
     /// One or many attributes could not be changed.
     case AttributesChangeFail(path: FKPath)
+}
+
+// MARK: - CustomStringConvertible
+
+extension FKError : CustomStringConvertible {
+
+    public var description: String {
+        var result = "\(self.dynamicType)"
+        if let label = Mirror(reflecting: self).children.first?.label {
+            result += ".\(label)"
+        }
+        return "\(result)(\"\(message)\")"
+    }
+
 }
