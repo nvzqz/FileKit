@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-    <img src="https://img.shields.io/badge/platform-osx%20%7C%20ios%20%7C%20watchos-lightgrey.svg"
+    <img src="https://img.shields.io/badge/platform-osx%20%7C%20ios%20%7C%20watchos%20%7C%20tvos-lightgrey.svg"
          alt="Platform">
     <img src="https://img.shields.io/badge/language-swift-orange.svg"
          alt="Language: Swift">
@@ -52,6 +52,9 @@ Development happens in the
 - watchOS
     - Compatible With:   **watchOS 2.0**
     - Deployment Target: **watchOS 2.0**
+- tvOS
+    - Compatible With:   **tvOS 9.0**
+    - Deployment Target: **tvOS 9.0**
 
 ### Install Using CocoaPods
 [CocoaPods](https://cocoapods.org/) is a centralized dependency manager for
