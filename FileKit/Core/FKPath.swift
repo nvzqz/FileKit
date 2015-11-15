@@ -614,6 +614,10 @@ public struct FKPath: StringLiteralConvertible,
     
 }
 
+// MARK: - Equatable
+
+extension FKPath : Equatable {}
+
 // MARK: - SequenceType
 
 extension FKPath : SequenceType {
