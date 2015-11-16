@@ -100,6 +100,11 @@ public struct FKPath: StringLiteralConvertible,
             : (FKPath.Current + self).standardized
     }
     
+    /// Returns `true` if the path is equal to "`/`".
+    public var isRoot: Bool {
+        return rawValue == FKPath.Separator
+    }
+
     /// Returns `true` if the path begins with "`/`".
     public var isAbsolute: Bool {
         return rawValue.hasPrefix(FKPath.Separator)
@@ -183,7 +188,31 @@ public struct FKPath: StringLiteralConvertible,
             : FKPath.FileManager.contentsOfDirectoryAtPath
         return (try? obtainFunc(rawValue))?.map { self + FKPath($0) } ?? []
     }
-    
+
+    /// Returns true if `path` is a child of `self`.
+    ///
+    /// - Parameter recursive: Whether to check the paths recursively.
+    ///                        Default value is `true`.
+    public func isChildOfPath(path: FKPath, recursive: Bool = true) -> Bool {
+        if recursive {
+            return path.isAncestorOfPath(self)
+        }
+        else  {
+            return path.parent == self
+        }
+    }
+
+    /// Returns true if `path` is a parent of `self`.
+    public func isAncestorOfPath(path: FKPath) -> Bool {
+        if self.parent == path {
+            return true
+        }
+        if self.isRoot || self.rawValue.isEmpty {
+            return false
+        }
+        return self.parent.isAncestorOfPath(path)
+    }
+
     /// Find paths in `self` that match a condition.
     ///
     /// - Parameters:

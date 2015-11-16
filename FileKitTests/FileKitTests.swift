@@ -107,8 +107,56 @@ class FileKitTests: XCTestCase {
         XCTAssertNotEqual(children, [])
     }
 
-    func testPathAttributes() {
+    func testRoot() {
+        
+        let root = FKPath(FKPath.Separator)
+        XCTAssertTrue(root.isRoot)
+        
+        XCTAssertEqual(root.standardized, root)
+        XCTAssertEqual(root.parent, root)
+        
+        var p: FKPath = FKPath.UserTemporary
+        XCTAssertFalse(p.isRoot)
+        
+        while !p.isRoot {
+            p = p.parent
+        }
+        XCTAssertTrue(p.isRoot)
 
+        
+        let empty = FKPath("")
+        XCTAssertFalse(empty.isRoot)
+        XCTAssertEqual(empty.standardized, empty)
+    }
+
+    func testFamily() {
+        let p: FKPath = FKPath.UserTemporary
+        let children = p.children()
+        
+        guard let child  = children.first else {
+            XCTFail("No child into \(p)")
+            return
+        }
+        XCTAssertTrue(child.isAncestorOfPath(p))
+        XCTAssertTrue(p.isChildOfPath(child))
+        
+        XCTAssertFalse(p.isAncestorOfPath(child))
+        XCTAssertFalse(p.isAncestorOfPath(p))
+        XCTAssertFalse(p.isChildOfPath(p))
+        
+        let directories = children.filter { $0.isDirectory }
+        
+        guard let directory  = directories.first, childOfChild = directory.children().first else {
+            XCTFail("No child of child into \(p)")
+            return
+        }
+        XCTAssertTrue(childOfChild.isAncestorOfPath(p))
+        XCTAssertFalse(p.isChildOfPath(childOfChild, recursive: false))
+        XCTAssertTrue(p.isChildOfPath(childOfChild, recursive: true))
+    }
+    
+    func testPathAttributes() {
+        
         let a = .UserTemporary + "test.txt"
         try! "Hello there, sir" |> FKTextFile(path: a)
         let b = .UserTemporary + "TestDir"
