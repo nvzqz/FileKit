@@ -61,6 +61,9 @@ public struct FKPath: StringLiteralConvertible,
         let volumes = FKPath.FileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil, options: options) ?? []
         return volumes.map { FKPath(url: $0) }.flatMap { $0 }
     }
+    
+    // The root path.
+    public static var Root = FKPath(FKPath.Separator)
 
     /// The stored path string value.
     public private(set) var rawValue: String
@@ -211,6 +214,24 @@ public struct FKPath: StringLiteralConvertible,
             return false
         }
         return self.parent.isAncestorOfPath(path)
+    }
+    
+    /// Returns the common ancestor between `self` and `path`.
+    public func commonAncestor(path: FKPath) -> FKPath {
+        let selfComponents = self.components
+        let pathComponents = path.components
+        
+        let total = Swift.min(selfComponents.count, pathComponents.count)
+
+        var index = 0
+        for index = 0; index < total; ++index {
+            if selfComponents[index].rawValue != pathComponents[index].rawValue {
+                break
+            }
+        }
+        
+        let ancestorComponents = selfComponents[0..<index]
+        return ancestorComponents.reduce(FKPath.Root) { $0 + $1 }
     }
 
     /// Find paths in `self` that match a condition.

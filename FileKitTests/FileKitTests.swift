@@ -109,7 +109,7 @@ class FileKitTests: XCTestCase {
 
     func testRoot() {
         
-        let root = FKPath(FKPath.Separator)
+        let root = FKPath.Root
         XCTAssertTrue(root.isRoot)
         
         XCTAssertEqual(root.standardized, root)
@@ -153,6 +153,12 @@ class FileKitTests: XCTestCase {
         XCTAssertTrue(childOfChild.isAncestorOfPath(p))
         XCTAssertFalse(p.isChildOfPath(childOfChild, recursive: false))
         XCTAssertTrue(p.isChildOfPath(childOfChild, recursive: true))
+        
+        
+        // common ancestor
+        XCTAssertTrue(p.commonAncestor(FKPath.Root).isRoot)
+        let common = FKPath.UserDownloads.commonAncestor(FKPath.UserDocuments)
+        XCTAssertEqual(common,  FKPath.UserHome)
     }
     
     func testPathAttributes() {
