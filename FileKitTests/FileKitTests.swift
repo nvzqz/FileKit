@@ -83,6 +83,13 @@ class FileKitTests: XCTestCase {
         }
     }
 
+    func testPathExtension() {
+        var path = FKPath.UserTemporary + "file.txt"
+        XCTAssertEqual(path.pathExtension, "txt")
+        path.pathExtension = "pdf"
+        XCTAssertEqual(path.pathExtension, "pdf")
+    }
+
     func testPathParent() {
         let a: FKPath = "/"
         let b: FKPath = a + "Users"

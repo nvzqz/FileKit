@@ -149,7 +149,13 @@ public struct FKPath: StringLiteralConvertible,
 
     /// The path's extension.
     public var pathExtension: String {
-        return (rawValue as NSString).pathExtension
+        get {
+            return (rawValue as NSString).pathExtension
+        }
+        set {
+            let path = (_path as NSString).stringByDeletingPathExtension
+            _path = path + ".\(newValue)"
+        }
     }
     
     /// The path's parent path.
