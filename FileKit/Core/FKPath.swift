@@ -52,7 +52,7 @@ public struct FKPath: StringLiteralConvertible,
             return FKPath(FKPath.FileManager.currentDirectoryPath)
         }
         set {
-            FKPath.FileManager.changeCurrentDirectoryPath(newValue._path)
+            FKPath.FileManager.changeCurrentDirectoryPath(newValue.rawValue)
         }
     }
     
@@ -61,14 +61,14 @@ public struct FKPath: StringLiteralConvertible,
         let volumes = FKPath.FileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil, options: options) ?? []
         return volumes.map { FKPath(url: $0) }.flatMap { $0 }
     }
-    
-    /// The stored path property.
-    private var _path: String
+
+    /// The stored path string value.
+    public private(set) var rawValue: String
     
     /// The components of the path.
     public var components: [FKPath] {
         var result = [FKPath]()
-        for (index, component) in (_path as NSString).pathComponents.enumerate()
+        for (index, component) in (rawValue as NSString).pathComponents.enumerate()
         {
             if index == 0 || component != "/" {
                 result.append(FKPath(component))
@@ -79,12 +79,12 @@ public struct FKPath: StringLiteralConvertible,
     
     /// A new path created by removing extraneous components from the path.
     public var standardized: FKPath {
-        return FKPath((self._path as NSString).stringByStandardizingPath)
+        return FKPath((self.rawValue as NSString).stringByStandardizingPath)
     }
     
     /// A new path created by resolving all symlinks and standardizing the path.
     public var resolved: FKPath {
-        return FKPath((self._path as NSString).stringByResolvingSymlinksInPath)
+        return FKPath((self.rawValue as NSString).stringByResolvingSymlinksInPath)
     }
     
     /// A new path created by making the path absolute.
@@ -102,7 +102,7 @@ public struct FKPath: StringLiteralConvertible,
     
     /// Returns `true` if the path begins with "`/`".
     public var isAbsolute: Bool {
-        return _path.hasPrefix(FKPath.Separator)
+        return rawValue.hasPrefix(FKPath.Separator)
     }
     
     /// Returns `true` if the path does not begin with "`/`".
@@ -112,34 +112,34 @@ public struct FKPath: StringLiteralConvertible,
     
     /// Returns `true` if a file exists at the path.
     public var exists: Bool {
-        return FKPath.FileManager.fileExistsAtPath(_path)
+        return FKPath.FileManager.fileExistsAtPath(rawValue)
     }
     
     /// Returns `true` if the current process has write privileges for the file at the path.
     public var isWritable: Bool {
-        return FKPath.FileManager.isWritableFileAtPath(_path)
+        return FKPath.FileManager.isWritableFileAtPath(rawValue)
     }
     
     /// Returns `true` if the current process has read privileges for the file at the path.
     public var isReadable: Bool {
-        return FKPath.FileManager.isReadableFileAtPath(_path)
+        return FKPath.FileManager.isReadableFileAtPath(rawValue)
     }
     
     /// Returns `true` if the current process has execute privileges for the file at the path.
     public var isExecutable: Bool {
-        return  FKPath.FileManager.isExecutableFileAtPath(_path)
+        return  FKPath.FileManager.isExecutableFileAtPath(rawValue)
     }
 
     /// Returns `true` if the current process has delete privileges for the file at the path.
     public var isDeletable: Bool {
-        return  FKPath.FileManager.isDeletableFileAtPath(_path)
+        return  FKPath.FileManager.isDeletableFileAtPath(rawValue)
     }
 
     /// Returns `true` if the path points to a directory.
     public var isDirectory: Bool {
         var isDirectory: ObjCBool = false
         return FKPath.FileManager
-            .fileExistsAtPath(_path, isDirectory: &isDirectory) && isDirectory
+            .fileExistsAtPath(rawValue, isDirectory: &isDirectory) && isDirectory
     }
 
     /// Returns `true` if the path is a symbolic link.
@@ -153,24 +153,24 @@ public struct FKPath: StringLiteralConvertible,
             return (rawValue as NSString).pathExtension
         }
         set {
-            let path = (_path as NSString).stringByDeletingPathExtension
-            _path = path + ".\(newValue)"
+            let path = (rawValue as NSString).stringByDeletingPathExtension
+            rawValue = path + ".\(newValue)"
         }
     }
     
     /// The path's parent path.
     public var parent: FKPath {
-        return FKPath((_path as NSString).stringByDeletingLastPathComponent)
+        return FKPath((rawValue as NSString).stringByDeletingLastPathComponent)
     }
 
     /// Initializes a path to "`/`".
     public init() {
-        _path = "/"
+        rawValue = "/"
     }
     
     /// Initializes a path to the string's value.
     public init(_ path: String) {
-        self._path = path
+        self.rawValue = path
     }
 
     /// Returns the path's children paths.
@@ -181,7 +181,7 @@ public struct FKPath: StringLiteralConvertible,
         let obtainFunc = recursive
             ? FKPath.FileManager.subpathsOfDirectoryAtPath
             : FKPath.FileManager.contentsOfDirectoryAtPath
-        return (try? obtainFunc(_path))?.map { self + FKPath($0) } ?? []
+        return (try? obtainFunc(rawValue))?.map { self + FKPath($0) } ?? []
     }
     
     /// Find paths in `self` that match a condition.
@@ -232,7 +232,7 @@ public struct FKPath: StringLiteralConvertible,
             do {
                 let manager = FKPath.FileManager
                 try manager.createSymbolicLinkAtPath(
-                    path._path, withDestinationPath: self._path)
+                    path.rawValue, withDestinationPath: self.rawValue)
             } catch {
                 throw FKError.CreateSymlinkFail(from: self, to: path)
             }
@@ -249,7 +249,7 @@ public struct FKPath: StringLiteralConvertible,
     ///
     public func createFile() throws {
         let manager = FKPath.FileManager
-        if !manager.createFileAtPath(_path, contents: nil, attributes: nil) {
+        if !manager.createFileAtPath(rawValue, contents: nil, attributes: nil) {
             throw FKError.CreateFileFail(path: self)
         }
     }
@@ -283,7 +283,7 @@ public struct FKPath: StringLiteralConvertible,
         do {
             let manager = FKPath.FileManager
             try manager.createDirectoryAtPath(
-                _path, withIntermediateDirectories: true, attributes: nil)
+                rawValue, withIntermediateDirectories: true, attributes: nil)
         } catch {
             throw FKError.CreateFileFail(path: self)
         }
@@ -297,7 +297,7 @@ public struct FKPath: StringLiteralConvertible,
     ///
     public func deleteFile() throws {
         do {
-            try FKPath.FileManager.removeItemAtPath(_path)
+            try FKPath.FileManager.removeItemAtPath(rawValue)
         } catch {
             throw FKError.DeleteFileFail(path: self)
         }
@@ -352,13 +352,13 @@ public struct FKPath: StringLiteralConvertible,
 
     /// Returns the path's attributes.
     public var attributes: [String : AnyObject] {
-        return (try? FKPath.FileManager.attributesOfItemAtPath(_path)) ?? [:]
+        return (try? FKPath.FileManager.attributesOfItemAtPath(rawValue)) ?? [:]
     }
     
     /// Modify attributes
     private func setAttributes(attributes: [String : AnyObject]) throws {
         do {
-            try FKPath.FileManager.setAttributes(attributes, ofItemAtPath: self._path)
+            try FKPath.FileManager.setAttributes(attributes, ofItemAtPath: self.rawValue)
         }
         catch {
             throw FKError.AttributesChangeFail(path: self)
@@ -508,36 +508,31 @@ public struct FKPath: StringLiteralConvertible,
     
     /// Initializes a path to the literal.
     public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
-        _path = value
+        self.rawValue = value
     }
     
     /// Initializes a path to the literal.
     public init(stringLiteral value: StringLiteralType) {
-        _path = value
+        self.rawValue = value
     }
     
     /// Initializes a path to the literal.
     public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
-        _path = value
+        self.rawValue = value
     }
     
     // MARK: - RawRepresentable
     
     /// Initializes a path to the string value.
     public init(rawValue: String) {
-        _path = rawValue
-    }
-    
-    /// The path's string value.
-    public var rawValue: String {
-        return _path
+        self.rawValue = rawValue
     }
     
     // MARK: - Hashable
     
     /// The hash value of the path.
     public var hashValue: Int {
-        return _path.hashValue
+        return rawValue.hashValue
     }
     
     // MARK: - Indexable
@@ -572,20 +567,20 @@ public struct FKPath: StringLiteralConvertible,
     
     /// A textual representation of `self`.
     public var description: String {
-        return _path
+        return rawValue
     }
     
     // MARK: - CustomDebugStringConvertible
     
     /// A textual representation of `self`, suitable for debugging.
     public var debugDescription: String {
-        return String(self.dynamicType) + ": " + _path.debugDescription
+        return String(self.dynamicType) + ": " + rawValue.debugDescription
     }
     
     // MARK: - NSURL
     public init?(url: NSURL) {
         if let path = url.path where url.fileURL {
-            _path = path
+            rawValue = path
         }
         else {
             return nil
@@ -593,7 +588,7 @@ public struct FKPath: StringLiteralConvertible,
     }
     
     public var url: NSURL? {
-        return NSURL(fileURLWithPath: _path, isDirectory: self.isDirectory)
+        return NSURL(fileURLWithPath: rawValue, isDirectory: self.isDirectory)
     }
 
     // MARK: - BookmarkData
@@ -635,7 +630,7 @@ extension FKPath : SequenceType {
 
         init(path: FKPath) {
             self.path = path
-            self.directoryEnumerator = FKPath.FileManager.enumeratorAtPath(path._path)!
+            self.directoryEnumerator = FKPath.FileManager.enumeratorAtPath(path.rawValue)!
         }
 
         public func next() -> FKPath? {
