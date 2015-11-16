@@ -45,6 +45,9 @@ public struct FKPath: StringLiteralConvertible,
     
     /// The standard separator for path components.
     public static let Separator = "/"
+
+    // The root path.
+    public static let Root = FKPath(Separator)
     
     /// The path of the program's current working directory.
     public static var Current: FKPath {
@@ -61,9 +64,6 @@ public struct FKPath: StringLiteralConvertible,
         let volumes = FKPath.FileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil, options: options) ?? []
         return volumes.map { FKPath(url: $0) }.flatMap { $0 }
     }
-    
-    // The root path.
-    public static var Root = FKPath(FKPath.Separator)
 
     /// The stored path string value.
     public private(set) var rawValue: String
