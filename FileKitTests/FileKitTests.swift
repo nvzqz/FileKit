@@ -384,6 +384,20 @@ class FileKitTests: XCTestCase {
             XCTFail()
         }
     }
+
+    // MARK: - FKFileType
+
+    func testFKFileTypeComparable() {
+        let textFile1 = FKTextFile(path: .UserTemporary + "filekit_test_comparable1.txt")
+        let textFile2 = FKTextFile(path: .UserTemporary + "filekit_test_comparable2.txt")
+        do {
+            try "1234567890" |> textFile1
+            try "12345"      |> textFile2
+            XCTAssert(textFile1 > textFile2)
+        } catch {
+            XCTFail(String(error))
+        }
+    }
     
     // MARK: - FKDictionaryFile
     

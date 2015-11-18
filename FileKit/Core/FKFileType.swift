@@ -28,7 +28,7 @@
 import Foundation
 
 /// A type that repressents a filesystem file.
-public protocol FKFileType: CustomStringConvertible, CustomDebugStringConvertible, Equatable {
+public protocol FKFileType: CustomStringConvertible, CustomDebugStringConvertible, Comparable {
     
     /// The type for which the file reads and writes data.
     typealias DataType

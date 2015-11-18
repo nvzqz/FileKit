@@ -34,6 +34,11 @@ import Foundation
     return lhs.path == rhs.path
 }
 
+/// Returns `true` if `lhs` is smaller than `rhs` in size.
+@warn_unused_result public func < <F : FKFileType>(lhs: F, rhs: F) -> Bool {
+    return lhs.path.fileSize < rhs.path.fileSize
+}
+
 infix operator |> {}
 
 /// Writes data to a file.
