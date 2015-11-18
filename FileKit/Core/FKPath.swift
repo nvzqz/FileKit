@@ -62,7 +62,7 @@ public struct FKPath: StringLiteralConvertible,
     // The path of the mounted volumes available.
     public static func Volumes(options: NSVolumeEnumerationOptions = []) -> [FKPath] {
         let volumes = FKPath.FileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil, options: options) ?? []
-        return volumes.map { FKPath(URL: $0) }.flatMap { $0 }
+        return volumes.flatMap { FKPath(URL: $0) }
     }
 
     /// The stored path string value.
