@@ -241,7 +241,7 @@ class FileKitTests: XCTestCase {
     }
 
     func testChangeDirectory() {
-        FKPath.changeDirectory(.UserTemporary) {
+        FKPath.UserTemporary.changeDirectory {
             XCTAssertEqual(FKPath.Current, FKPath.UserTemporary)
         }
         XCTAssertNotEqual(FKPath.Current, FKPath.UserTemporary)
