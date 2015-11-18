@@ -37,6 +37,8 @@ public enum FKError: ErrorType {
         switch self {
         case let FileDoesNotExist(path):
             return "File does not exist at \(path)"
+        case let ChangeDirectoryFail(fromPath, toPath):
+            return "Could not change the directory from \(fromPath) to \(toPath)"
         case let CreateSymlinkFail(fromPath, toPath):
             return "Could not create symlink from \(fromPath) to \(toPath)"
         case let CreateFileFail(path):
@@ -60,7 +62,10 @@ public enum FKError: ErrorType {
     
     /// A file does not exist.
     case FileDoesNotExist(path: FKPath)
-    
+
+    /// Could not change the current directory.
+    case ChangeDirectoryFail(from: FKPath, to: FKPath)
+
     /// A symbolic link could not be created.
     case CreateSymlinkFail(from: FKPath, to: FKPath)
     

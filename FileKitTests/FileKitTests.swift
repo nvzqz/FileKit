@@ -228,8 +228,6 @@ class FileKitTests: XCTestCase {
     }
     
     func testCurrent() {
-        XCTAssertNotNil(FKPath.Current)
-        
         let oldCurrent: FKPath = .Current
         let newCurrent: FKPath = .UserTemporary
 
@@ -240,6 +238,13 @@ class FileKitTests: XCTestCase {
         
         FKPath.Current = oldCurrent
         XCTAssertEqual(FKPath.Current, oldCurrent)
+    }
+
+    func testChangeDirectory() {
+        FKPath.changeDirectory(.UserTemporary) {
+            XCTAssertEqual(FKPath.Current, FKPath.UserTemporary)
+        }
+        XCTAssertNotEqual(FKPath.Current, FKPath.UserTemporary)
     }
     
     func testVolumes() {

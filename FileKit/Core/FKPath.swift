@@ -58,6 +58,20 @@ public struct FKPath: StringLiteralConvertible,
             FKPath.FileManager.changeCurrentDirectoryPath(newValue.rawValue)
         }
     }
+
+    /// Runs `closure` with `directoryPath` as its current working directory.
+    ///
+    /// - Parameters:
+    ///     - directoryPath: The path to change `FKPath.Current` to during
+    ///       execution.
+    ///     - closure: The block to run while `FKPath.Current` is changed.
+    ///
+    public static func changeDirectory(directoryPath: FKPath, @noescape closure: () throws -> ()) rethrows {
+        let previous = self.Current
+        self.Current = directoryPath
+        defer { self.Current = previous }
+        try closure()
+    }
     
     // The path of the mounted volumes available.
     public static func Volumes(options: NSVolumeEnumerationOptions = []) -> [FKPath] {
