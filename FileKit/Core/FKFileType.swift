@@ -67,6 +67,11 @@ public extension FKFileType {
     public var exists: Bool {
         return path.exists
     }
+
+    /// The size of `self` in bytes.
+    public var size: UInt64? {
+        return path.fileSize
+    }
     
     /// Creates the file.
     ///
