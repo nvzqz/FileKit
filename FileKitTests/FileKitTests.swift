@@ -260,18 +260,15 @@ class FileKitTests: XCTestCase {
     
     func testURL() {
         let path: FKPath = .UserTemporary
-        XCTAssertNotNil(path.url)
-        
-        if let url = path.url {
-            if let pathFromUrl = FKPath(url: url) {
-                XCTAssertEqual(pathFromUrl, path)
+        let URL = path.URL
+        if let pathFromUrl = FKPath(URL: URL) {
+            XCTAssertEqual(pathFromUrl, path)
 
-                let subPath = pathFromUrl + "test"
-                XCTAssertEqual(FKPath(url: url.URLByAppendingPathComponent("test")), subPath)
-            }
-            else {
-                XCTFail("Not able to create FKPath from URL")
-            }
+            let subPath = pathFromUrl + "test"
+            XCTAssertEqual(FKPath(URL: URL.URLByAppendingPathComponent("test")), subPath)
+        }
+        else {
+            XCTFail("Not able to create FKPath from URL")
         }
     }
 

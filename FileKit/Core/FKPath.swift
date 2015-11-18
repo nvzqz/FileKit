@@ -62,7 +62,7 @@ public struct FKPath: StringLiteralConvertible,
     // The path of the mounted volumes available.
     public static func Volumes(options: NSVolumeEnumerationOptions = []) -> [FKPath] {
         let volumes = FKPath.FileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil, options: options) ?? []
-        return volumes.map { FKPath(url: $0) }.flatMap { $0 }
+        return volumes.map { FKPath(URL: $0) }.flatMap { $0 }
     }
 
     /// The stored path string value.
@@ -628,39 +628,26 @@ public struct FKPath: StringLiteralConvertible,
     }
     
     // MARK: - NSURL
-    public init?(url: NSURL) {
-        if let path = url.path where url.fileURL {
-            rawValue = path
-        }
-        else {
-            return nil
-        }
+    public init?(URL: NSURL) {
+        guard let path = URL.path where URL.fileURL
+            else { return nil }
+        rawValue = path
     }
     
-    public var url: NSURL? {
+    public var URL: NSURL {
         return NSURL(fileURLWithPath: rawValue, isDirectory: self.isDirectory)
     }
 
     // MARK: - BookmarkData
     public init?(bookmarkData bookData : NSData) {
         var isStale : ObjCBool = false
-        if let fullURL = try? NSURL(byResolvingBookmarkData: bookData, options: [], relativeToURL: nil, bookmarkDataIsStale: &isStale ) {
-            self.init(url:fullURL)
-        } else {
-            return nil
-        }
+        guard let fullURL = try? NSURL(byResolvingBookmarkData: bookData, options: [], relativeToURL: nil, bookmarkDataIsStale: &isStale)
+            else { return nil }
+        self.init(URL: fullURL)
     }
     
     public var bookmarkData : NSData? {
-        if let url = self.url {
-            do {
-                return try url.bookmarkDataWithOptions(NSURLBookmarkCreationOptions.SuitableForBookmarkFile,
-                    includingResourceValuesForKeys:nil, relativeToURL:nil)
-            } catch {
-                return nil
-            }
-        }
-        return nil
+        return try? self.URL.bookmarkDataWithOptions(.SuitableForBookmarkFile, includingResourceValuesForKeys: nil, relativeToURL: nil)
     }
     
 }
