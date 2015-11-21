@@ -1,5 +1,5 @@
 //
-//  FKErrorType.swift
+//  FileKitErrorType.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -27,10 +27,10 @@
 
 import Foundation
 
-// MARK: FKError
+// MARK: FileKitError
 
 /// An error that can be thrown by FileKit.
-public enum FKError: ErrorType {
+public enum FileKitError: ErrorType {
 
     /// The reason for why the error occured.
     public var message: String {
@@ -61,41 +61,41 @@ public enum FKError: ErrorType {
     }
     
     /// A file does not exist.
-    case FileDoesNotExist(path: FKPath)
+    case FileDoesNotExist(path: Path)
 
     /// Could not change the current directory.
-    case ChangeDirectoryFail(from: FKPath, to: FKPath)
+    case ChangeDirectoryFail(from: Path, to: Path)
 
     /// A symbolic link could not be created.
-    case CreateSymlinkFail(from: FKPath, to: FKPath)
+    case CreateSymlinkFail(from: Path, to: Path)
     
     /// A file could not be created.
-    case CreateFileFail(path: FKPath)
+    case CreateFileFail(path: Path)
     
     /// A file could not be deleted.
-    case DeleteFileFail(path: FKPath)
+    case DeleteFileFail(path: Path)
     
     /// A file could not be read from.
-    case ReadFromFileFail(path: FKPath)
+    case ReadFromFileFail(path: Path)
     
     /// A file could not be written to.
-    case WriteToFileFail(path: FKPath)
+    case WriteToFileFail(path: Path)
 
-    case WritableConvertiblePropertyNil(type: FKWritableConvertible.Type)
+    case WritableConvertiblePropertyNil(type: WritableConvertible.Type)
     
     /// A file could not be moved.
-    case MoveFileFail(from: FKPath, to: FKPath)
+    case MoveFileFail(from: Path, to: Path)
     
     /// A file could not be copied.
-    case CopyFileFail(from: FKPath, to: FKPath)
+    case CopyFileFail(from: Path, to: Path)
 
     /// One or many attributes could not be changed.
-    case AttributesChangeFail(path: FKPath)
+    case AttributesChangeFail(path: Path)
 }
 
 // MARK: - CustomStringConvertible
 
-extension FKError : CustomStringConvertible {
+extension FileKitError : CustomStringConvertible {
 
     public var description: String {
         var result = "\(self.dynamicType)"

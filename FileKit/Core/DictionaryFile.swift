@@ -1,5 +1,5 @@
 //
-//  FKImageFile.swift
+//  DictionaryFile.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -27,9 +27,9 @@
 
 import Foundation
 
-/// A representation of a filesystem image file.
+/// A representation of a filesystem dictionary file.
 ///
-/// The data type is `FKImageType`.
+/// The data type is `NSDictionary`.
 ///
-public typealias FKImageFile = FKFile<FKImageType>
+public typealias DictionaryFile = File<NSDictionary>
 

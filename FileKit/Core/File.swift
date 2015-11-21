@@ -1,5 +1,5 @@
 //
-//  FKArrayFile.swift
+//  File.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -27,9 +27,23 @@
 
 import Foundation
 
-/// A representation of a filesystem array file.
+/// A representation of a filesystem file of a given data type.
 ///
-/// The data type is `NSArray`.
+/// - Precondition: The data type must conform to `DataType`.
 ///
-public typealias FKArrayFile = FKFile<NSArray>
-
+public class File<Data : DataType> : FileType {
+    
+    /// The file's filesystem path.
+    public var path: Path
+    
+    /// Initializes a file from a path.
+    required public init(path: Path) {
+        self.path = path
+    }
+    
+    /// Reads the file and returns its data.
+    public func read() throws -> Data {
+        return try Data.readFromPath(path)
+    }
+    
+}

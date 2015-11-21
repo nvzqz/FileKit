@@ -28,26 +28,26 @@
 import Foundation
 
 /// A type that repressents a filesystem file.
-public protocol FKFileType: CustomStringConvertible, CustomDebugStringConvertible, Comparable {
+public protocol FileType : CustomStringConvertible, CustomDebugStringConvertible, Comparable {
     
     /// The type for which the file reads and writes data.
-    typealias DataType
+    typealias Data
     
     /// The file's filesystem path.
-    var path: FKPath { get set }
+    var path: Path { get set }
     
     /// Initializes a file from a path.
-    init(path: FKPath)
+    init(path: Path)
     
     /// Reads the file and returns its data.
-    func read() throws -> DataType
+    func read() throws -> Data
     
     /// Writes data to the file.
-    func write(data: DataType) throws
+    func write(data: Data) throws
     
 }
 
-public extension FKFileType {
+public extension FileType {
     
     /// The file's name.
     public var name: String {
@@ -77,7 +77,7 @@ public extension FKFileType {
     ///
     /// Throws an error if the file cannot be created.
     ///
-    /// - Throws: `FKError.CreateFileFail`
+    /// - Throws: `FileKitError.CreateFileFail`
     ///
     public func create() throws {
         try path.createFile()
@@ -94,9 +94,9 @@ public extension FKFileType {
     ///
     /// Throws an error if the file cannot be moved.
     ///
-    /// - Throws: `FKError.MoveFileFail`
+    /// - Throws: `FileKitError.MoveFileFail`
     ///
-    public mutating func moveToPath(path: FKPath) throws {
+    public mutating func moveToPath(path: Path) throws {
         try path.moveFileToPath(path)
         self.path = path
     }
@@ -106,9 +106,9 @@ public extension FKFileType {
     /// Throws an error if the file could not be copied or if a file already
     /// exists at the destination path.
     ///
-    /// - Throws: `FKError.FileDoesNotExist`, `FKError.CopyFileFail`
+    /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
     ///
-    public func copyToPath(path: FKPath) throws {
+    public func copyToPath(path: Path) throws {
         try path.copyFileToPath(path)
     }
     
@@ -120,9 +120,9 @@ public extension FKFileType {
     /// If the path already exists and _is_ a directory, the link will be made
     /// to `self` in that directory.
     ///
-    /// - Throws: `FKError.FileDoesNotExist`, `FKError.CreateSymlinkFail`
+    /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CreateSymlinkFail`
     ///
-    public func symlinkToPath(path: FKPath) throws {
+    public func symlinkToPath(path: Path) throws {
         try self.path.symlinkFileToPath(path)
     }
     
@@ -140,16 +140,16 @@ public extension FKFileType {
     
 }
 
-extension FKFileType where DataType : FKReadable {
+extension FileType where Data : Readable {
 
     /// Reads the file and returns its data.
-    public func read() throws -> DataType {
-        return try DataType.readFromPath(path)
+    public func read() throws -> Data {
+        return try Data.readFromPath(path)
     }
 
 }
 
-extension FKFileType where DataType : FKWritable {
+extension FileType where Data : Writable {
 
     /// Writes data to the file.
     ///
@@ -157,9 +157,9 @@ extension FKFileType where DataType : FKWritable {
     ///
     /// - Parameter data: The data to be written to the file.
     ///
-    /// - Throws: `FKError.WriteToFileFail`
+    /// - Throws: `FileKitError.WriteToFileFail`
     ///
-    public func write(data: DataType) throws {
+    public func write(data: Data) throws {
         try self.write(data, atomically: true)
     }
 
@@ -172,9 +172,9 @@ extension FKFileType where DataType : FKWritable {
     ///                         If `false`, the data is written to the file
     ///                         directly.
     ///
-    /// - Throws: `FKError.WriteToFileFail`
+    /// - Throws: `FileKitError.WriteToFileFail`
     ///
-    public func write(data: DataType, atomically useAuxiliaryFile: Bool) throws {
+    public func write(data: Data, atomically useAuxiliaryFile: Bool) throws {
         try data.writeToPath(path, atomically: useAuxiliaryFile)
     }
 

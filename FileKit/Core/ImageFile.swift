@@ -1,5 +1,5 @@
 //
-//  FKDataFile.swift
+//  ImageFile.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -27,9 +27,9 @@
 
 import Foundation
 
-/// A representation of a filesystem data file.
+/// A representation of a filesystem image file.
 ///
-/// The data type is `NSData`.
+/// The data type is `Image`.
 ///
-public typealias FKDataFile = FKFile<NSData>
+public typealias ImageFile = File<Image>
 

@@ -27,26 +27,26 @@
 
 import Foundation
 
-extension String: FKDataType {
+extension String : DataType {
 
     /// Creates a string from a path.
-    public static func readFromPath(path: FKPath) throws -> String {
+    public static func readFromPath(path: Path) throws -> String {
         guard let contents = try? NSString(contentsOfFile: path.rawValue, encoding: NSUTF8StringEncoding)
-            else { throw FKError.ReadFromFileFail(path: path) }
+            else { throw FileKitError.ReadFromFileFail(path: path) }
         return contents as String
     }
     
     /// Writes the string to a path.
-    public func writeToPath(path: FKPath) throws {
+    public func writeToPath(path: Path) throws {
         try writeToPath(path, atomically: true)
     }
 
     /// Writes the string to a path.
-    public func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws {
+    public func writeToPath(path: Path, atomically useAuxiliaryFile: Bool) throws {
         do {
             try self.writeToFile(path.rawValue, atomically: useAuxiliaryFile, encoding: NSUTF8StringEncoding)
         } catch {
-            throw FKError.WriteToFileFail(path: path)
+            throw FileKitError.WriteToFileFail(path: path)
         }
     }
 

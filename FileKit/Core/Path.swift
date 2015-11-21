@@ -1,5 +1,5 @@
 //
-//  FKPath.swift
+//  Path.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -29,40 +29,35 @@ import Foundation
 
 /// A representation of a filesystem path.
 ///
-/// An FKPath instance lets you manage files in a much easier way.
+/// An Path instance lets you manage files in a much easier way.
 ///
-public struct FKPath: StringLiteralConvertible,
-                      RawRepresentable,
-                      Hashable,
-                      Indexable,
-                      CustomStringConvertible,
-                      CustomDebugStringConvertible {
+public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Indexable {
     
     // MARK: - Static Methods and Properties
     
-    /// The `NSFileManager` used by `FKPath`
+    /// The `NSFileManager` used by `Path`
     public static var FileManager = NSFileManager.defaultManager()
     
     /// The standard separator for path components.
     public static let Separator = "/"
 
     /// The root path.
-    public static let Root = FKPath(Separator)
+    public static let Root = Path(Separator)
     
     /// The path of the program's current working directory.
-    public static var Current: FKPath {
+    public static var Current: Path {
         get {
-            return FKPath(FKPath.FileManager.currentDirectoryPath)
+            return Path(Path.FileManager.currentDirectoryPath)
         }
         set {
-            FKPath.FileManager.changeCurrentDirectoryPath(newValue.rawValue)
+            Path.FileManager.changeCurrentDirectoryPath(newValue.rawValue)
         }
     }
     
     /// The paths of the mounted volumes available.
-    public static func Volumes(options: NSVolumeEnumerationOptions = []) -> [FKPath] {
-        let volumes = FKPath.FileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil, options: options) ?? []
-        return volumes.flatMap { FKPath(URL: $0) }
+    public static func Volumes(options: NSVolumeEnumerationOptions = []) -> [Path] {
+        let volumes = Path.FileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil, options: options) ?? []
+        return volumes.flatMap { Path(URL: $0) }
     }
 
     // MARK: - Properties
@@ -71,25 +66,25 @@ public struct FKPath: StringLiteralConvertible,
     public private(set) var rawValue: String
     
     /// The components of the path.
-    public var components: [FKPath] {
-        var result = [FKPath]()
+    public var components: [Path] {
+        var result = [Path]()
         for (index, component) in (rawValue as NSString).pathComponents.enumerate()
         {
             if index == 0 || component != "/" {
-                result.append(FKPath(component))
+                result.append(Path(component))
             }
         }
         return result
     }
     
     /// A new path created by removing extraneous components from the path.
-    public var standardized: FKPath {
-        return FKPath((self.rawValue as NSString).stringByStandardizingPath)
+    public var standardized: Path {
+        return Path((self.rawValue as NSString).stringByStandardizingPath)
     }
     
     /// A new path created by resolving all symlinks and standardizing the path.
-    public var resolved: FKPath {
-        return FKPath((self.rawValue as NSString).stringByResolvingSymlinksInPath)
+    public var resolved: Path {
+        return Path((self.rawValue as NSString).stringByResolvingSymlinksInPath)
     }
     
     /// A new path created by making the path absolute.
@@ -99,20 +94,20 @@ public struct FKPath: StringLiteralConvertible,
     /// directory and the standardized version of the path added to the current
     /// working directory is returned.
     ///
-    public var absolute: FKPath {
+    public var absolute: Path {
         return self.isAbsolute
             ? self.standardized
-            : (FKPath.Current + self).standardized
+            : (Path.Current + self).standardized
     }
     
     /// Returns `true` if the path is equal to "`/`".
     public var isRoot: Bool {
-        return rawValue == FKPath.Separator
+        return rawValue == Path.Separator
     }
 
     /// Returns `true` if the path begins with "`/`".
     public var isAbsolute: Bool {
-        return rawValue.hasPrefix(FKPath.Separator)
+        return rawValue.hasPrefix(Path.Separator)
     }
     
     /// Returns `true` if the path does not begin with "`/`".
@@ -122,33 +117,33 @@ public struct FKPath: StringLiteralConvertible,
     
     /// Returns `true` if a file exists at the path.
     public var exists: Bool {
-        return FKPath.FileManager.fileExistsAtPath(rawValue)
+        return Path.FileManager.fileExistsAtPath(rawValue)
     }
     
     /// Returns `true` if the current process has write privileges for the file at the path.
     public var isWritable: Bool {
-        return FKPath.FileManager.isWritableFileAtPath(rawValue)
+        return Path.FileManager.isWritableFileAtPath(rawValue)
     }
     
     /// Returns `true` if the current process has read privileges for the file at the path.
     public var isReadable: Bool {
-        return FKPath.FileManager.isReadableFileAtPath(rawValue)
+        return Path.FileManager.isReadableFileAtPath(rawValue)
     }
     
     /// Returns `true` if the current process has execute privileges for the file at the path.
     public var isExecutable: Bool {
-        return  FKPath.FileManager.isExecutableFileAtPath(rawValue)
+        return  Path.FileManager.isExecutableFileAtPath(rawValue)
     }
 
     /// Returns `true` if the current process has delete privileges for the file at the path.
     public var isDeletable: Bool {
-        return  FKPath.FileManager.isDeletableFileAtPath(rawValue)
+        return  Path.FileManager.isDeletableFileAtPath(rawValue)
     }
 
     /// Returns `true` if the path points to a directory.
     public var isDirectory: Bool {
         var isDirectory: ObjCBool = false
-        return FKPath.FileManager
+        return Path.FileManager
             .fileExistsAtPath(rawValue, isDirectory: &isDirectory) && isDirectory
     }
 
@@ -169,8 +164,8 @@ public struct FKPath: StringLiteralConvertible,
     }
     
     /// The path's parent path.
-    public var parent: FKPath {
-        return FKPath((rawValue as NSString).stringByDeletingLastPathComponent)
+    public var parent: Path {
+        return Path((rawValue as NSString).stringByDeletingLastPathComponent)
     }
 
     // MARK: - Initialization
@@ -189,11 +184,11 @@ public struct FKPath: StringLiteralConvertible,
 
     /// Runs `closure` with `self` as its current working directory.
     ///
-    /// - Parameter closure: The block to run while `FKPath.Current` is changed.
+    /// - Parameter closure: The block to run while `Path.Current` is changed.
     public func changeDirectory(@noescape closure: () throws -> ()) rethrows {
-        let previous   = FKPath.Current
-        FKPath.Current = self
-        defer { FKPath.Current = previous }
+        let previous   = Path.Current
+        Path.Current = self
+        defer { Path.Current = previous }
         try closure()
     }
 
@@ -201,18 +196,18 @@ public struct FKPath: StringLiteralConvertible,
     ///
     /// - Parameter recursive: Whether to obtain the paths recursively.
     ///                        Default value is `false`.
-    public func children(recursive recursive: Bool = false) -> [FKPath] {
+    public func children(recursive recursive: Bool = false) -> [Path] {
         let obtainFunc = recursive
-            ? FKPath.FileManager.subpathsOfDirectoryAtPath
-            : FKPath.FileManager.contentsOfDirectoryAtPath
-        return (try? obtainFunc(rawValue))?.map { self + FKPath($0) } ?? []
+            ? Path.FileManager.subpathsOfDirectoryAtPath
+            : Path.FileManager.contentsOfDirectoryAtPath
+        return (try? obtainFunc(rawValue))?.map { self + Path($0) } ?? []
     }
 
     /// Returns true if `path` is a child of `self`.
     ///
     /// - Parameter recursive: Whether to check the paths recursively.
     ///                        Default value is `true`.
-    public func isChildOfPath(path: FKPath, recursive: Bool = true) -> Bool {
+    public func isChildOfPath(path: Path, recursive: Bool = true) -> Bool {
         if recursive {
             return path.isAncestorOfPath(self)
         }
@@ -222,7 +217,7 @@ public struct FKPath: StringLiteralConvertible,
     }
 
     /// Returns true if `path` is a parent of `self`.
-    public func isAncestorOfPath(path: FKPath) -> Bool {
+    public func isAncestorOfPath(path: Path) -> Bool {
         if self.parent == path {
             return true
         }
@@ -233,7 +228,7 @@ public struct FKPath: StringLiteralConvertible,
     }
     
     /// Returns the common ancestor between `self` and `path`.
-    public func commonAncestor(path: FKPath) -> FKPath {
+    public func commonAncestor(path: Path) -> Path {
         let selfComponents = self.components
         let pathComponents = path.components
         
@@ -247,7 +242,7 @@ public struct FKPath: StringLiteralConvertible,
         }
         
         let ancestorComponents = selfComponents[0..<index]
-        return ancestorComponents.reduce(FKPath.Root) { $0 + $1 }
+        return ancestorComponents.reduce(Path.Root) { $0 + $1 }
     }
 
     /// Find paths in `self` that match a condition.
@@ -256,8 +251,8 @@ public struct FKPath: StringLiteralConvertible,
     ///     - searchDepth: How deep to search before exiting.
     ///     - condition: If `true`, the path is added.
     ///
-    public func findPaths(searchDepth depth: Int, condition: (FKPath) -> Bool) -> [FKPath] {
-        var paths = [FKPath]()
+    public func findPaths(searchDepth depth: Int, condition: (Path) -> Bool) -> [Path] {
+        var paths = [Path]()
         for child in self.children() {
             if condition(child) {
                 paths.append(child)
@@ -286,24 +281,24 @@ public struct FKPath: StringLiteralConvertible,
     /// If the symbolic link path already exists and _is_ a directory, the link
     /// will be made to a file in that directory.
     ///
-    /// - Throws: `FKError.FileDoesNotExist`, `FKError.CreateSymlinkFail`
+    /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CreateSymlinkFail`
     ///
-    public func symlinkFileToPath(var path: FKPath) throws {
+    public func symlinkFileToPath(var path: Path) throws {
         if self.exists {
             if path.exists && !path.isDirectory {
-                throw FKError.CreateSymlinkFail(from: self, to: path)
+                throw FileKitError.CreateSymlinkFail(from: self, to: path)
             } else if path.isDirectory && !self.isDirectory {
                 path += self.components.last!
             }
             do {
-                let manager = FKPath.FileManager
+                let manager = Path.FileManager
                 try manager.createSymbolicLinkAtPath(
                     path.rawValue, withDestinationPath: self.rawValue)
             } catch {
-                throw FKError.CreateSymlinkFail(from: self, to: path)
+                throw FileKitError.CreateSymlinkFail(from: self, to: path)
             }
         } else {
-            throw FKError.FileDoesNotExist(path: self)
+            throw FileKitError.FileDoesNotExist(path: self)
         }
     }
     
@@ -311,12 +306,12 @@ public struct FKPath: StringLiteralConvertible,
     ///
     /// Throws an error if the file cannot be created.
     ///
-    /// - Throws: `FKError.CreateFileFail`
+    /// - Throws: `FileKitError.CreateFileFail`
     ///
     public func createFile() throws {
-        let manager = FKPath.FileManager
+        let manager = Path.FileManager
         if !manager.createFileAtPath(rawValue, contents: nil, attributes: nil) {
-            throw FKError.CreateFileFail(path: self)
+            throw FileKitError.CreateFileFail(path: self)
         }
     }
 
@@ -326,7 +321,7 @@ public struct FKPath: StringLiteralConvertible,
     /// Throws an error if the file cannot be created
     /// or if modification date could not be modified.
     ///
-    /// - Throws: `FKError.CreateFileFail` or `FKError.AttributesChangeFail`
+    /// - Throws: `FileKitError.CreateFileFail` or `FileKitError.AttributesChangeFail`
     ///
     public func touch(updateModificationDate : Bool = true) throws {
         if self.exists {
@@ -343,15 +338,15 @@ public struct FKPath: StringLiteralConvertible,
     ///
     /// Throws an error if the directory cannot be created.
     ///
-    /// - Throws: `FKError.CreateFileFail`
+    /// - Throws: `FileKitError.CreateFileFail`
     ///
     public func createDirectory() throws {
         do {
-            let manager = FKPath.FileManager
+            let manager = Path.FileManager
             try manager.createDirectoryAtPath(
                 rawValue, withIntermediateDirectories: true, attributes: nil)
         } catch {
-            throw FKError.CreateFileFail(path: self)
+            throw FileKitError.CreateFileFail(path: self)
         }
     }
     
@@ -359,13 +354,13 @@ public struct FKPath: StringLiteralConvertible,
     ///
     /// Throws an error if the file or directory cannot be deleted.
     ///
-    /// - Throws: `FKError.DeleteFileFail`
+    /// - Throws: `FileKitError.DeleteFileFail`
     ///
     public func deleteFile() throws {
         do {
-            try FKPath.FileManager.removeItemAtPath(rawValue)
+            try Path.FileManager.removeItemAtPath(rawValue)
         } catch {
-            throw FKError.DeleteFileFail(path: self)
+            throw FileKitError.DeleteFileFail(path: self)
         }
     }
     
@@ -373,21 +368,21 @@ public struct FKPath: StringLiteralConvertible,
     ///
     /// Throws an error if the file cannot be moved.
     ///
-    /// - Throws: `FKError.FileDoesNotExist`, `FKError.MoveFileFail`
+    /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.MoveFileFail`
     ///
-    public func moveFileToPath(path: FKPath) throws {
+    public func moveFileToPath(path: Path) throws {
         if self.exists {
             if !path.exists {
                 do {
-                    try FKPath.FileManager.moveItemAtPath(self.rawValue, toPath: path.rawValue)
+                    try Path.FileManager.moveItemAtPath(self.rawValue, toPath: path.rawValue)
                 } catch {
-                    throw FKError.MoveFileFail(from: self, to: path)
+                    throw FileKitError.MoveFileFail(from: self, to: path)
                 }
             } else {
-                throw FKError.MoveFileFail(from: self, to: path)
+                throw FileKitError.MoveFileFail(from: self, to: path)
             }
         } else {
-            throw FKError.FileDoesNotExist(path: self)
+            throw FileKitError.FileDoesNotExist(path: self)
         }
     }
     
@@ -396,21 +391,21 @@ public struct FKPath: StringLiteralConvertible,
     /// Throws an error if the file at `self` could not be copied or if a file
     /// already exists at the destination path.
     ///
-    /// - Throws: `FKError.FileDoesNotExist`, `FKError.CopyFileFail`
+    /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
     ///
-    public func copyFileToPath(path: FKPath) throws {
+    public func copyFileToPath(path: Path) throws {
         if self.exists {
             if !path.exists {
                 do {
-                    try FKPath.FileManager.copyItemAtPath(self.rawValue, toPath: path.rawValue)
+                    try Path.FileManager.copyItemAtPath(self.rawValue, toPath: path.rawValue)
                 } catch {
-                    throw FKError.CopyFileFail(from: self, to: path)
+                    throw FileKitError.CopyFileFail(from: self, to: path)
                 }
             } else {
-                throw FKError.CopyFileFail(from: self, to: path)
+                throw FileKitError.CopyFileFail(from: self, to: path)
             }
         } else {
-            throw FKError.FileDoesNotExist(path: self)
+            throw FileKitError.FileDoesNotExist(path: self)
         }
     }
 
@@ -418,16 +413,16 @@ public struct FKPath: StringLiteralConvertible,
 
     /// Returns the path's attributes.
     public var attributes: [String : AnyObject] {
-        return (try? FKPath.FileManager.attributesOfItemAtPath(rawValue)) ?? [:]
+        return (try? Path.FileManager.attributesOfItemAtPath(rawValue)) ?? [:]
     }
     
     /// Modify attributes
     private func setAttributes(attributes: [String : AnyObject]) throws {
         do {
-            try FKPath.FileManager.setAttributes(attributes, ofItemAtPath: self.rawValue)
+            try Path.FileManager.setAttributes(attributes, ofItemAtPath: self.rawValue)
         }
         catch {
-            throw FKError.AttributesChangeFail(path: self)
+            throw FileKitError.AttributesChangeFail(path: self)
         }
     }
     
@@ -677,9 +672,9 @@ public struct FKPath: StringLiteralConvertible,
     ///
     /// - Returns: All of the path's elements up to and including the index.
     ///
-    public subscript(index: Int) -> FKPath {
+    public subscript(index: Int) -> Path {
         if index < 0 || index >= components.count {
-            fatalError("FKPath index out of range")
+            fatalError("Path index out of range")
         } else {
             var result = components.first!
             for i in 1 ..< index + 1 {
@@ -687,20 +682,6 @@ public struct FKPath: StringLiteralConvertible,
             }
             return result
         }
-    }
-    
-    // MARK: - CustomStringConvertible
-    
-    /// A textual representation of `self`.
-    public var description: String {
-        return rawValue
-    }
-    
-    // MARK: - CustomDebugStringConvertible
-    
-    /// A textual representation of `self`, suitable for debugging.
-    public var debugDescription: String {
-        return String(self.dynamicType) + ": " + rawValue.debugDescription
     }
     
     // MARK: - NSURL
@@ -764,30 +745,48 @@ public struct FKPath: StringLiteralConvertible,
     public func outputStream(append shouldAppend: Bool = false) -> NSOutputStream? {
         return NSOutputStream(toFileAtPath: rawValue, append: shouldAppend)
     }
-    
+
+}
+
+// MARK: - CustomStringConvertible
+
+extension Path : CustomStringConvertible {
+    /// A textual representation of `self`.
+    public var description: String {
+        return rawValue
+    }
+}
+
+// MARK: - CustomDebugStringConvertible
+
+extension Path : CustomDebugStringConvertible {
+    /// A textual representation of `self`, suitable for debugging.
+    public var debugDescription: String {
+        return String(self.dynamicType) + ": " + rawValue.debugDescription
+    }
 }
 
 // MARK: - Equatable
 
-extension FKPath : Equatable {}
+extension Path : Equatable {}
 
 // MARK: - SequenceType
 
-extension FKPath : SequenceType {
+extension Path : SequenceType {
     public struct DirectoryEnumerator : GeneratorType {
 
-        private let _path: FKPath, _directoryEnumerator: NSDirectoryEnumerator
+        private let _path: Path, _directoryEnumerator: NSDirectoryEnumerator
 
-        public init(path: FKPath) {
+        public init(path: Path) {
             _path = path
             _directoryEnumerator = FileManager.enumeratorAtPath(path.rawValue)!
         }
 
-        public func next() -> FKPath? {
+        public func next() -> Path? {
             guard let next = _directoryEnumerator.nextObject() as? String else {
                 return nil
             }
-            return _path + FKPath(next)
+            return _path + Path(next)
         }
 
         public func skipDescendants() {
@@ -801,114 +800,114 @@ extension FKPath : SequenceType {
 
 }
 
-// MARK: - FKPaths
+// MARK: - Paths
 
-extension FKPath {
+extension Path {
     
     /// Returns the path to the user's or application's home directory,
     /// depending on the platform.
-    public static var UserHome: FKPath {
-        return FKPath(NSHomeDirectory())
+    public static var UserHome: Path {
+        return Path(NSHomeDirectory())
     }
     
     /// Returns the path to the user's temporary directory.
-    public static var UserTemporary: FKPath {
-        return FKPath(NSTemporaryDirectory())
+    public static var UserTemporary: Path {
+        return Path(NSTemporaryDirectory())
     }
     
-    public static var ProcessTemporary: FKPath {
-        return FKPath.UserTemporary + NSProcessInfo.processInfo().globallyUniqueString
+    public static var ProcessTemporary: Path {
+        return Path.UserTemporary + NSProcessInfo.processInfo().globallyUniqueString
     }
     
-    public static var UniqueTemporary: FKPath {
-        return FKPath.ProcessTemporary + NSUUID().UUIDString
+    public static var UniqueTemporary: Path {
+        return Path.ProcessTemporary + NSUUID().UUIDString
     }
     
     /// Returns the path to the user's caches directory.
-    public static var UserCaches: FKPath {
+    public static var UserCaches: Path {
         return pathInUserDomain(.CachesDirectory)
     }
     
     #if os(OSX)
     
     /// Returns the path to the user's applications directory.
-    public static var UserApplications: FKPath {
+    public static var UserApplications: Path {
         return pathInUserDomain(.ApplicationDirectory)
     }
     
     /// Returns the path to the user's application support directory.
-    public static var UserApplicationSupport: FKPath {
+    public static var UserApplicationSupport: Path {
         return pathInUserDomain(.ApplicationSupportDirectory)
     }
     
     /// Returns the path to the user's desktop directory.
-    public static var UserDesktop: FKPath {
+    public static var UserDesktop: Path {
         return pathInUserDomain(.DesktopDirectory)
     }
     
     /// Returns the path to the user's documents directory.
-    public static var UserDocuments: FKPath {
+    public static var UserDocuments: Path {
         return pathInUserDomain(.DocumentDirectory)
     }
     
     /// Returns the path to the user's downloads directory.
-    public static var UserDownloads: FKPath {
+    public static var UserDownloads: Path {
         return pathInUserDomain(.DownloadsDirectory)
     }
     
     /// Returns the path to the user's library directory.
-    public static var UserLibrary: FKPath {
+    public static var UserLibrary: Path {
         return pathInUserDomain(.LibraryDirectory)
     }
     
     /// Returns the path to the user's movies directory.
-    public static var UserMovies: FKPath {
+    public static var UserMovies: Path {
         return pathInUserDomain(.MoviesDirectory)
     }
     
     /// Returns the path to the user's music directory.
-    public static var UserMusic: FKPath {
+    public static var UserMusic: Path {
         return pathInUserDomain(.MusicDirectory)
     }
     
     /// Returns the path to the user's pictures directory.
-    public static var UserPictures: FKPath {
+    public static var UserPictures: Path {
         return pathInUserDomain(.PicturesDirectory)
     }
     
     /// Returns the path to the system's applications directory.
-    public static var SystemApplications: FKPath {
+    public static var SystemApplications: Path {
         return pathInSystemDomain(.ApplicationDirectory)
     }
     
     /// Returns the path to the system's application support directory.
-    public static var SystemApplicationSupport: FKPath {
+    public static var SystemApplicationSupport: Path {
         return pathInSystemDomain(.ApplicationSupportDirectory)
     }
     
     /// Returns the path to the system's library directory.
-    public static var SystemLibrary: FKPath {
+    public static var SystemLibrary: Path {
         return pathInSystemDomain(.LibraryDirectory)
     }
     
     /// Returns the path to the system's core services directory.
-    public static var SystemCoreServices: FKPath {
+    public static var SystemCoreServices: Path {
         return pathInSystemDomain(.CoreServiceDirectory)
     }
     
     #endif
     
-    private static func pathInUserDomain(directory: NSSearchPathDirectory) -> FKPath {
+    private static func pathInUserDomain(directory: NSSearchPathDirectory) -> Path {
         return pathsInDomains(directory, .UserDomainMask)[0]
     }
     
-    private static func pathInSystemDomain(directory: NSSearchPathDirectory) -> FKPath {
+    private static func pathInSystemDomain(directory: NSSearchPathDirectory) -> Path {
         return pathsInDomains(directory, .SystemDomainMask)[0]
     }
     
-    private static func pathsInDomains(directory: NSSearchPathDirectory, _ domainMask: NSSearchPathDomainMask) -> [FKPath] {
+    private static func pathsInDomains(directory: NSSearchPathDirectory, _ domainMask: NSSearchPathDomainMask) -> [Path] {
         return NSSearchPathForDirectoriesInDomains(directory, domainMask, true).map {
-            FKPath($0)
+            Path($0)
         }
     }
     

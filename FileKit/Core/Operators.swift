@@ -1,5 +1,5 @@
 //
-//  FKOperators.swift
+//  Operators.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -27,15 +27,15 @@
 
 import Foundation
 
-// MARK: - FKFileType
+// MARK: - FileType
 
 /// Returns `true` if both files' paths are the same.
-@warn_unused_result public func ==<F : FKFileType>(lhs: F, rhs: F) -> Bool {
+@warn_unused_result public func ==<F : FileType>(lhs: F, rhs: F) -> Bool {
     return lhs.path == rhs.path
 }
 
 /// Returns `true` if `lhs` is smaller than `rhs` in size.
-@warn_unused_result public func < <F : FKFileType>(lhs: F, rhs: F) -> Bool {
+@warn_unused_result public func < <F : FileType>(lhs: F, rhs: F) -> Bool {
     return lhs.size < rhs.size
 }
 
@@ -43,18 +43,18 @@ infix operator |> {}
 
 /// Writes data to a file.
 ///
-/// - Throws: `FKError.WriteToFileFail`
+/// - Throws: `FileKitError.WriteToFileFail`
 ///
-public func |> <F : FKFileType>(data: F.DataType, file: F) throws {
+public func |> <F : FileType>(data: F.Data, file: F) throws {
     try file.write(data)
 }
 
 
 
-// MARK: - FKTextFile
+// MARK: - TextFile
 
 /// Returns `true` if both text files have the same path and encoding.
-@warn_unused_result public func ==(lhs: FKTextFile, rhs: FKTextFile) -> Bool {
+@warn_unused_result public func ==(lhs: TextFile, rhs: TextFile) -> Bool {
     return lhs.path == rhs.path && lhs.encoding == rhs.encoding
 }
 
@@ -65,9 +65,9 @@ infix operator |>> {}
 /// If the text file can't be read from, such in the case that it doesn't exist,
 /// then it will try to write the data directly to the file.
 ///
-/// - Throws: `FKError.WriteToFileFail`
+/// - Throws: `FileKitError.WriteToFileFail`
 ///
-public func |>> (var data: String, file: FKTextFile) throws {
+public func |>> (var data: String, file: TextFile) throws {
     if let contents = try? file.read() {
         data = contents + "\n" + data
     }
@@ -76,39 +76,39 @@ public func |>> (var data: String, file: FKTextFile) throws {
 
 
 
-// MARK: - FKPath
+// MARK: - Path
 
 /// Returns `true` if the standardized form of one path equals that of another path.
-@warn_unused_result public func == (lhs: FKPath, rhs: FKPath) -> Bool {
+@warn_unused_result public func == (lhs: Path, rhs: Path) -> Bool {
     return lhs.standardized.rawValue == rhs.standardized.rawValue
 }
 
-/// Concatenates two `FKPath` instances and returns the result.
+/// Concatenates two `Path` instances and returns the result.
 ///
-///     let systemLibrary: FKPath = "/System/Library"
+///     let systemLibrary: Path = "/System/Library"
 ///     print(systemLib + "Fonts")  // "/System/Library/Fonts"
 ///
-public func + (lhs: FKPath, rhs: FKPath) -> FKPath {
-    switch (lhs.rawValue.hasSuffix(FKPath.Separator), rhs.rawValue.hasPrefix(FKPath.Separator)) {
+public func + (lhs: Path, rhs: Path) -> Path {
+    switch (lhs.rawValue.hasSuffix(Path.Separator), rhs.rawValue.hasPrefix(Path.Separator)) {
     case (true, true):
-        return FKPath("\(lhs.rawValue)\(rhs.rawValue.substringFromIndex(rhs.rawValue.startIndex.successor()))")
+        return Path("\(lhs.rawValue)\(rhs.rawValue.substringFromIndex(rhs.rawValue.startIndex.successor()))")
     case (false, false):
-        return FKPath("\(lhs.rawValue)\(FKPath.Separator)\(rhs.rawValue)")
+        return Path("\(lhs.rawValue)\(Path.Separator)\(rhs.rawValue)")
     default:
-        return FKPath("\(lhs.rawValue)\(rhs.rawValue)")
+        return Path("\(lhs.rawValue)\(rhs.rawValue)")
     }
 }
 
-public func + (lhs: FKPath, rhs: String) -> FKPath {
-   return lhs + FKPath(rhs)
+public func + (lhs: Path, rhs: String) -> Path {
+   return lhs + Path(rhs)
 }
 
 /// Appends the right path to the left path.
-public func += (inout lhs: FKPath, rhs: FKPath) {
+public func += (inout lhs: Path, rhs: Path) {
     lhs = lhs + rhs
 }
 
-public func += (inout lhs: FKPath, rhs: String) {
+public func += (inout lhs: Path, rhs: String) {
     lhs = lhs + rhs
 }
 
@@ -120,10 +120,10 @@ infix operator ->> {}
 /// already exists at the right path.
 ///
 /// - Throws:
-///     - `FKError.FileDoesNotExist`,
-///     - `FKError.MoveFileFail`
+///     - `FileKitError.FileDoesNotExist`,
+///     - `FileKitError.MoveFileFail`
 ///
-public func ->> (lhs: FKPath, rhs: FKPath) throws {
+public func ->> (lhs: Path, rhs: Path) throws {
     try lhs.moveFileToPath(rhs)
 }
 
@@ -133,10 +133,10 @@ public func ->> (lhs: FKPath, rhs: FKPath) throws {
 /// exists at the destination path.
 ///
 /// - Throws:
-///     - `FKError.FileDoesNotExist`,
-///     - `FKError.MoveFileFail`
+///     - `FileKitError.FileDoesNotExist`,
+///     - `FileKitError.MoveFileFail`
 ///
-public func ->> <F : FKFileType>(inout lhs: F, rhs: FKPath) throws {
+public func ->> <F : FileType>(inout lhs: F, rhs: Path) throws {
     try lhs.moveToPath(rhs)
 }
 
@@ -147,11 +147,11 @@ infix operator ->! {}
 /// - Warning: If a file at the right path already exists, it will be deleted.
 ///
 /// - Throws:
-///     - `FKError.DeleteFileFail`,
-///     - `FKError.FileDoesNotExist`,
-///     - `FKError.CreateSymlinkFail`
+///     - `FileKitError.DeleteFileFail`,
+///     - `FileKitError.FileDoesNotExist`,
+///     - `FileKitError.CreateSymlinkFail`
 ///
-public func ->! (lhs: FKPath, rhs: FKPath) throws {
+public func ->! (lhs: Path, rhs: Path) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
@@ -163,11 +163,11 @@ public func ->! (lhs: FKPath, rhs: FKPath) throws {
 /// - Warning: If a file at the right path already exists, it will be deleted.
 ///
 /// - Throws:
-///     - `FKError.DeleteFileFail`,
-///     - `FKError.FileDoesNotExist`,
-///     - `FKError.CreateSymlinkFail`
+///     - `FileKitError.DeleteFileFail`,
+///     - `FileKitError.FileDoesNotExist`,
+///     - `FileKitError.CreateSymlinkFail`
 ///
-public func ->! <F : FKFileType>(inout lhs: F, rhs: FKPath) throws {
+public func ->! <F : FileType>(inout lhs: F, rhs: Path) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
@@ -182,9 +182,9 @@ infix operator +>> {}
 /// Throws an error if the file at the left path could not be copied or if a file
 /// already exists at the right path.
 ///
-/// - Throws: `FKError.FileDoesNotExist`, `FKError.CopyFileFail`
+/// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
 ///
-public func +>> (lhs: FKPath, rhs: FKPath) throws {
+public func +>> (lhs: Path, rhs: Path) throws {
     try lhs.copyFileToPath(rhs)
 }
 
@@ -194,10 +194,10 @@ public func +>> (lhs: FKPath, rhs: FKPath) throws {
 /// exists at the destination path.
 ///
 /// - Throws:
-///     - `FKError.FileDoesNotExist`,
-///     - `FKError.CopyFileFail`
+///     - `FileKitError.FileDoesNotExist`,
+///     - `FileKitError.CopyFileFail`
 ///
-public func +>> <F : FKFileType>(lhs: F, rhs: FKPath) throws {
+public func +>> <F : FileType>(lhs: F, rhs: Path) throws {
     try lhs.copyToPath(rhs)
 }
 
@@ -208,11 +208,11 @@ infix operator +>! {}
 /// - Warning: If a file at the right path already exists, it will be deleted.
 ///
 /// - Throws:
-///     - `FKError.DeleteFileFail`,
-///     - `FKError.FileDoesNotExist`,
-///     - `FKError.CreateSymlinkFail`
+///     - `FileKitError.DeleteFileFail`,
+///     - `FileKitError.FileDoesNotExist`,
+///     - `FileKitError.CreateSymlinkFail`
 ///
-public func +>! (lhs: FKPath, rhs: FKPath) throws {
+public func +>! (lhs: Path, rhs: Path) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
@@ -224,11 +224,11 @@ public func +>! (lhs: FKPath, rhs: FKPath) throws {
 /// - Warning: If a file at the right path already exists, it will be deleted.
 ///
 /// - Throws:
-///     - `FKError.DeleteFileFail`,
-///     - `FKError.FileDoesNotExist`,
-///     - `FKError.CreateSymlinkFail`
+///     - `FileKitError.DeleteFileFail`,
+///     - `FileKitError.FileDoesNotExist`,
+///     - `FileKitError.CreateSymlinkFail`
 ///
-public func +>! <F : FKFileType>(lhs: F, rhs: FKPath) throws {
+public func +>! <F : FileType>(lhs: F, rhs: Path) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
@@ -246,10 +246,10 @@ infix operator =>> {}
 /// will be made to a file in that directory.
 ///
 /// - Throws:
-///     - `FKError.FileDoesNotExist`,
-///     - `FKError.CreateSymlinkFail`
+///     - `FileKitError.FileDoesNotExist`,
+///     - `FileKitError.CreateSymlinkFail`
 ///
-public func =>> (lhs: FKPath, rhs: FKPath) throws {
+public func =>> (lhs: Path, rhs: Path) throws {
     try lhs.symlinkFileToPath(rhs)
 }
 
@@ -261,9 +261,9 @@ public func =>> (lhs: FKPath, rhs: FKPath) throws {
 /// If the path already exists and _is_ a directory, the link will be made
 /// to the file in that directory.
 ///
-/// - Throws: `FKError.FileDoesNotExist`, `FKError.CreateSymlinkFail`
+/// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CreateSymlinkFail`
 ///
-public func =>> <F : FKFileType>(lhs: F, rhs: FKPath) throws {
+public func =>> <F : FileType>(lhs: F, rhs: Path) throws {
     try lhs.symlinkToPath(rhs)
 }
 
@@ -275,11 +275,11 @@ infix operator =>! {}
 /// - Warning: If the symbolic link path already exists, it will be deleted.
 ///
 /// - Throws: 
-///     - `FKError.DeleteFileFail`,
-///     - `FKError.FileDoesNotExist`,
-///     - `FKError.CreateSymlinkFail`
+///     - `FileKitError.DeleteFileFail`,
+///     - `FileKitError.FileDoesNotExist`,
+///     - `FileKitError.CreateSymlinkFail`
 ///
-public func =>! (lhs: FKPath, rhs: FKPath) throws {
+public func =>! (lhs: Path, rhs: Path) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
@@ -292,11 +292,11 @@ public func =>! (lhs: FKPath, rhs: FKPath) throws {
 /// - Warning: If the path already exists, it will be deleted.
 ///
 /// - Throws:
-///     - `FKError.DeleteFileFail`,
-///     - `FKError.FileDoesNotExist`,
-///     - `FKError.CreateSymlinkFail`
+///     - `FileKitError.DeleteFileFail`,
+///     - `FileKitError.FileDoesNotExist`,
+///     - `FileKitError.CreateSymlinkFail`
 ///
-public func =>! <F : FKFileType>(lhs: F, rhs: FKPath) throws {
+public func =>! <F : FileType>(lhs: F, rhs: Path) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
@@ -309,7 +309,7 @@ postfix operator • {}
 ///
 /// Can be typed with alt+8.
 ///
-@warn_unused_result public postfix func • (path: FKPath) -> FKPath {
+@warn_unused_result public postfix func • (path: Path) -> Path {
     return path.standardized
 }
 
@@ -317,7 +317,7 @@ postfix operator • {}
 postfix operator ^ {}
 
 /// Returns the path's parent path.
-@warn_unused_result public postfix func ^ (path: FKPath) -> FKPath {
+@warn_unused_result public postfix func ^ (path: Path) -> Path {
     return path.parent
 }
 

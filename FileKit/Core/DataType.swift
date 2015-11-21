@@ -1,5 +1,5 @@
 //
-//  FKDataType.swift
+//  DataType.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -27,80 +27,80 @@
 
 import Foundation
 
-/// A type that can be used to read and write `FKFile` instances.
-public typealias FKDataType = protocol<FKReadable, FKWritable>
+/// A type that can be used to read and write `File` instances.
+public typealias DataType = protocol<Readable, Writable>
 
-// MARK: - FKReadable
+// MARK: - Readable
 
-/// A type that can be used to read `FKFile` instances.
-public protocol FKReadable {
+/// A type that can be used to read `File` instances.
+public protocol Readable {
 
     /// Creates `Self` from a path.
-    static func readFromPath(path: FKPath) throws -> Self
+    static func readFromPath(path: Path) throws -> Self
     
 }
 
-extension FKReadable {
+extension Readable {
 
     /// Initializes `self` from a path.
-    public init(contentsOfPath path: FKPath) throws {
+    public init(contentsOfPath path: Path) throws {
         self = try Self.readFromPath(path)
     }
 
 }
 
-// MARK: - FKWritable
+// MARK: - Writable
 
-/// A type that can be used to write `FKFile` instances to an `FKPath`.
-public protocol FKWritable {
+/// A type that can be used to write `File` instances to an `Path`.
+public protocol Writable {
     
     /// Writes `self` to a path.
-    func writeToPath(path: FKPath) throws
+    func writeToPath(path: Path) throws
 
     /// Writes `self` to a path.
-    func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws
+    func writeToPath(path: Path, atomically useAuxiliaryFile: Bool) throws
 
 }
 
-extension FKWritable {
+extension Writable {
 
-    public func writeToPath(path: FKPath) throws {
+    public func writeToPath(path: Path) throws {
         try writeToPath(path, atomically: true)
     }
 
 }
 
-/// A type that can be used to write `FKFile` instances to a file.
-public protocol FKWritableToFile: FKWritable {
+/// A type that can be used to write `File` instances to a file.
+public protocol WritableToFile: Writable {
     func writeToFile(path: String, atomically useAuxiliaryFile: Bool) -> Bool
 }
 
-extension FKWritableToFile {
+extension WritableToFile {
 
-    public func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws {
+    public func writeToPath(path: Path, atomically useAuxiliaryFile: Bool) throws {
         guard writeToFile(path.rawValue, atomically: useAuxiliaryFile) else {
-            throw FKError.WriteToFileFail(path: path)
+            throw FileKitError.WriteToFileFail(path: path)
         }
     }
 
 }
 
-/// A type that can be converted to a FKWritable.
-public protocol FKWritableConvertible: FKWritable {
+/// A type that can be converted to a Writable.
+public protocol WritableConvertible: Writable {
 
-    /// The type that allows `Self` to be `FKWritable`.
-    typealias WritableType: FKWritable
+    /// The type that allows `Self` to be `Writable`.
+    typealias WritableType: Writable
 
     /// Allows `self` to be written to a path.
     var writable: WritableType? { get }
 
 }
 
-extension FKWritableConvertible {
+extension WritableConvertible {
 
-    public func writeToPath(path: FKPath, atomically useAuxiliaryFile: Bool) throws {
+    public func writeToPath(path: Path, atomically useAuxiliaryFile: Bool) throws {
         guard let writable = self.writable else {
-            throw FKError.WritableConvertiblePropertyNil(type: self.dynamicType)
+            throw FileKitError.WritableConvertiblePropertyNil(type: self.dynamicType)
         }
         try writable.writeToPath(path, atomically: useAuxiliaryFile)
     }

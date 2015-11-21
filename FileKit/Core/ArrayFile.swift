@@ -1,5 +1,5 @@
 //
-//  FKDictionaryFile.swift
+//  ArrayFile.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -27,9 +27,9 @@
 
 import Foundation
 
-/// A representation of a filesystem dictionary file.
+/// A representation of a filesystem array file.
 ///
-/// The data type is `NSDictionary`.
+/// The data type is `NSArray`.
 ///
-public typealias FKDictionaryFile = FKFile<NSDictionary>
+public typealias ArrayFile = File<NSArray>
 

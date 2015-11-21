@@ -27,28 +27,28 @@
 
 import Foundation
 
-extension NSDictionary : FKDataType, FKWritableToFile {
-    public class func readFromPath(path: FKPath) throws -> Self {
+extension NSDictionary : DataType, WritableToFile {
+    public class func readFromPath(path: Path) throws -> Self {
         guard let contents = self.init(contentsOfFile: path.rawValue) else {
-            throw FKError.ReadFromFileFail(path: path)
+            throw FileKitError.ReadFromFileFail(path: path)
         }
         return contents
     }
 }
 
-extension NSArray : FKDataType, FKWritableToFile {
-    public class func readFromPath(path: FKPath) throws -> Self {
+extension NSArray : DataType, WritableToFile {
+    public class func readFromPath(path: Path) throws -> Self {
         guard let contents = self.init(contentsOfFile: path.rawValue) else {
-            throw FKError.ReadFromFileFail(path: path)
+            throw FileKitError.ReadFromFileFail(path: path)
         }
         return contents
     }
 }
 
-extension NSData : FKDataType, FKWritableToFile {
-    public class func readFromPath(path: FKPath) throws -> Self {
+extension NSData : DataType, WritableToFile {
+    public class func readFromPath(path: Path) throws -> Self {
         guard let contents = self.init(contentsOfFile: path.rawValue) else {
-            throw FKError.ReadFromFileFail(path: path)
+            throw FileKitError.ReadFromFileFail(path: path)
         }
         return contents
     }

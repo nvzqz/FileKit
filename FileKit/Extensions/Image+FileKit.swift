@@ -1,5 +1,5 @@
 //
-//  FKFile.swift
+//  Image.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -25,25 +25,32 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
+#if os(OSX)
+import Cocoa
+public typealias Image = NSImage
+#elseif os(iOS) || os(tvOS)
+import UIKit
+public typealias Image = UIImage
+#else
+import WatchKit
+public typealias Image = UIImage
+#endif
 
-/// A representation of a filesystem file of a given data type.
-///
-/// - Precondition: The data type must conform to `FKDataType`.
-///
-public class FKFile<DataType: FKDataType>: FKFileType {
-    
-    /// The file's filesystem path.
-    public var path: FKPath
-    
-    /// Initializes a file from a path.
-    required public init(path: FKPath) {
-        self.path = path
+extension Image : DataType, WritableConvertible {
+
+    public class func readFromPath(path: Path) throws -> Self {
+        guard let contents = self.init(contentsOfFile: path.rawValue) else {
+            throw FileKitError.ReadFromFileFail(path: path)
+        }
+        return contents
     }
-    
-    /// Reads the file and returns its data.
-    public func read() throws -> DataType {
-        return try DataType.readFromPath(path)
+
+    public var writable: NSData? {
+        #if os(OSX)
+        return self.TIFFRepresentation
+        #else
+        return UIImagePNGRepresentation(self)
+        #endif
     }
-    
+
 }
