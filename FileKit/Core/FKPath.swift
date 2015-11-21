@@ -745,6 +745,25 @@ public struct FKPath: StringLiteralConvertible,
     public var fileHandleForUpdating: NSFileHandle? {
         return NSFileHandle(forUpdatingAtPath: rawValue)
     }
+
+    // MARK: - NSStream
+
+    /// Returns an input stream that reads data from the file at `self`, or
+    /// `nil` if no file exists at `self`.
+    public func inputStream() -> NSInputStream? {
+        return NSInputStream(fileAtPath: rawValue)
+    }
+
+    /// Returns an output stream for writing to the file at `self`, or `nil` if
+    /// no file exists at `self`.
+    ///
+    /// - Parameters:
+    ///     - shouldAppend: `true` if newly written data should be appended to
+    ///       any existing file contents, `false` otherwise. Default value is
+    ///       `false`.
+    public func outputStream(append shouldAppend: Bool = false) -> NSOutputStream? {
+        return NSOutputStream(toFileAtPath: rawValue, append: shouldAppend)
+    }
     
 }
 
