@@ -38,7 +38,7 @@ public struct FKPath: StringLiteralConvertible,
                       CustomStringConvertible,
                       CustomDebugStringConvertible {
     
-    // MARK: - FKPath
+    // MARK: - Static Methods and Properties
     
     /// The `NSFileManager` used by `FKPath`
     public static var FileManager = NSFileManager.defaultManager()
@@ -46,7 +46,7 @@ public struct FKPath: StringLiteralConvertible,
     /// The standard separator for path components.
     public static let Separator = "/"
 
-    // The root path.
+    /// The root path.
     public static let Root = FKPath(Separator)
     
     /// The path of the program's current working directory.
@@ -59,11 +59,13 @@ public struct FKPath: StringLiteralConvertible,
         }
     }
     
-    // The path of the mounted volumes available.
+    /// The paths of the mounted volumes available.
     public static func Volumes(options: NSVolumeEnumerationOptions = []) -> [FKPath] {
         let volumes = FKPath.FileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil, options: options) ?? []
         return volumes.flatMap { FKPath(URL: $0) }
     }
+
+    // MARK: - Properties
 
     /// The stored path string value.
     public private(set) var rawValue: String
@@ -171,6 +173,8 @@ public struct FKPath: StringLiteralConvertible,
         return FKPath((rawValue as NSString).stringByDeletingLastPathComponent)
     }
 
+    // MARK: - Initialization
+
     /// Initializes a path to "`/`".
     public init() {
         rawValue = "/"
@@ -180,6 +184,8 @@ public struct FKPath: StringLiteralConvertible,
     public init(_ path: String) {
         self.rawValue = path
     }
+
+    // MARK: - Methods
 
     /// Runs `closure` with `self` as its current working directory.
     ///
@@ -718,6 +724,26 @@ public struct FKPath: StringLiteralConvertible,
     
     public var bookmarkData : NSData? {
         return try? self.URL.bookmarkDataWithOptions(.SuitableForBookmarkFile, includingResourceValuesForKeys: nil, relativeToURL: nil)
+    }
+
+    // MARK: - NSFileHandle
+
+    /// Returns a file handle for reading the file at `self`, or `nil` if no
+    /// file exists at `self`.
+    public var fileHandleForReading: NSFileHandle? {
+        return NSFileHandle(forReadingAtPath: rawValue)
+    }
+
+    /// Returns a file handle for writing to the file at `self`, or `nil` if no
+    /// file exists at `self`.
+    public var fileHandleForWriting: NSFileHandle? {
+        return NSFileHandle(forWritingAtPath: rawValue)
+    }
+
+    /// Returns a file handle for reading and writing to the file at `self`, or
+    /// `nil` if no file exists at `self`.
+    public var fileHandleForUpdating: NSFileHandle? {
+        return NSFileHandle(forUpdatingAtPath: rawValue)
     }
     
 }
