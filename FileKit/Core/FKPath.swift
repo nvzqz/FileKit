@@ -425,9 +425,9 @@ public struct FKPath: StringLiteralConvertible,
         }
     }
     
-    // Modify one attribute
-    private func setAttribute(key: String, value : AnyObject) throws {
-        try setAttributes([key:value])
+    /// Modify one attribute
+    private func setAttribute(key: String, value: AnyObject) throws {
+        try setAttributes([key : value])
     }
 
     /// The creation date of the file at the path.
@@ -506,15 +506,67 @@ public struct FKPath: StringLiteralConvertible,
         return nil
     }
 
-    /// The type of the file at the path.
-    public var fileType: FileType? {
-        if let value = attributes[NSFileType] as? String {
-            return FileType(rawValue: value)
+    #if !os(OSX)
+
+    /// The protection of the file at the path.
+    public var fileProtection: FileProtection? {
+        guard let value = attributes[NSFileProtectionKey] as? String else {
+            return nil
         }
-        return nil
+        return FileProtection(rawValue: value)
     }
 
-    // MARK: - FKPath.FileType
+    // MARK: - File Protection
+
+    /// The possible values that can be obtained from `NSFileProtectionKey` on a
+    /// file's attributes.
+    public enum FileProtection : String {
+
+        case None
+        case Complete
+        case CompleteUnlessOpen
+        case CompleteUntilFirstUserAuthentication
+
+        public init?(rawValue: String) {
+            switch rawValue {
+            case NSFileProtectionNone:
+                self = None
+            case NSFileProtectionComplete:
+                self = Complete
+            case NSFileProtectionCompleteUnlessOpen:
+                self = CompleteUnlessOpen
+            case NSFileProtectionCompleteUntilFirstUserAuthentication:
+                self = CompleteUntilFirstUserAuthentication
+            default:
+                return nil
+            }
+        }
+
+        public var rawValue: String {
+            switch self {
+            case .None:
+                return NSFileProtectionNone
+            case .Complete:
+                return NSFileProtectionComplete
+            case .CompleteUnlessOpen:
+                return NSFileProtectionCompleteUnlessOpen
+            case .CompleteUntilFirstUserAuthentication:
+                return NSFileProtectionCompleteUntilFirstUserAuthentication
+            }
+        }
+
+    }
+    #endif
+
+    // MARK: - File Type
+
+    /// The type of the file at the path.
+    public var fileType: FileType? {
+        guard let value = attributes[NSFileType] as? String else {
+            return nil
+        }
+        return FileType(rawValue: value)
+    }
 
     public enum FileType: String {
 
@@ -528,14 +580,22 @@ public struct FKPath: StringLiteralConvertible,
 
         public init?(rawValue: String) {
             switch rawValue {
-            case NSFileTypeDirectory:        self = .Directory
-            case NSFileTypeRegular:          self = .Regular
-            case NSFileTypeSymbolicLink:     self = .SymbolicLink
-            case NSFileTypeSocket:           self = .Socket
-            case NSFileTypeCharacterSpecial: self = .CharacterSpecial
-            case NSFileTypeBlockSpecial:     self = .BlockSpecial
-            case NSFileTypeUnknown:          self = .Unknown
-            default:                         return nil
+            case NSFileTypeDirectory:
+                self = Directory
+            case NSFileTypeRegular:
+                self = Regular
+            case NSFileTypeSymbolicLink:
+                self = SymbolicLink
+            case NSFileTypeSocket:
+                self = Socket
+            case NSFileTypeCharacterSpecial:
+                self = CharacterSpecial
+            case NSFileTypeBlockSpecial:
+                self = BlockSpecial
+            case NSFileTypeUnknown:
+                self = Unknown
+            default:
+                return nil
             }
         }
 
