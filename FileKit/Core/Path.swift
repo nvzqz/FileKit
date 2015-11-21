@@ -762,7 +762,7 @@ extension Path : CustomStringConvertible {
 extension Path : CustomDebugStringConvertible {
     /// A textual representation of `self`, suitable for debugging.
     public var debugDescription: String {
-        return String(self.dynamicType) + ": " + rawValue.debugDescription
+        return "Path(\(rawValue.debugDescription))"
     }
 }
 
