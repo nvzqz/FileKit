@@ -755,32 +755,31 @@ extension FKPath : Equatable {}
 // MARK: - SequenceType
 
 extension FKPath : SequenceType {
-    public struct FKDirectoryEnumerator : GeneratorType {
-        public typealias Element = FKPath
+    public struct DirectoryEnumerator : GeneratorType {
 
-        let path: FKPath
-        let directoryEnumerator: NSDirectoryEnumerator
+        private let _path: FKPath, _directoryEnumerator: NSDirectoryEnumerator
 
-        init(path: FKPath) {
-            self.path = path
-            self.directoryEnumerator = FKPath.FileManager.enumeratorAtPath(path.rawValue)!
+        public init(path: FKPath) {
+            _path = path
+            _directoryEnumerator = FileManager.enumeratorAtPath(path.rawValue)!
         }
 
         public func next() -> FKPath? {
-            if let next = directoryEnumerator.nextObject() as? String {
-                return path + FKPath(next)
+            guard let next = _directoryEnumerator.nextObject() as? String else {
+                return nil
             }
-            return nil
+            return _path + FKPath(next)
         }
 
         public func skipDescendants() {
-            directoryEnumerator.skipDescendants()
+            _directoryEnumerator.skipDescendants()
         }
     }
 
-    public func generate() -> FKDirectoryEnumerator {
-        return FKDirectoryEnumerator(path: self)
+    public func generate() -> DirectoryEnumerator {
+        return DirectoryEnumerator(path: self)
     }
+
 }
 
 // MARK: - FKPaths
@@ -888,10 +887,10 @@ extension FKPath {
         return pathsInDomains(directory, .SystemDomainMask)[0]
     }
     
-    private static func pathsInDomains(directory: NSSearchPathDirectory,
-        _ domainMask: NSSearchPathDomainMask) -> [FKPath] {
-            let paths = NSSearchPathForDirectoriesInDomains(directory, domainMask, true)
-            return paths.map { FKPath($0) }
+    private static func pathsInDomains(directory: NSSearchPathDirectory, _ domainMask: NSSearchPathDomainMask) -> [FKPath] {
+        return NSSearchPathForDirectoriesInDomains(directory, domainMask, true).map {
+            FKPath($0)
+        }
     }
     
 }
