@@ -773,31 +773,9 @@ extension Path : Equatable {}
 // MARK: - SequenceType
 
 extension Path : SequenceType {
-    public struct DirectoryEnumerator : GeneratorType {
-
-        private let _path: Path, _directoryEnumerator: NSDirectoryEnumerator
-
-        public init(path: Path) {
-            _path = path
-            _directoryEnumerator = fileManager.enumeratorAtPath(path.rawValue)!
-        }
-
-        public func next() -> Path? {
-            guard let next = _directoryEnumerator.nextObject() as? String else {
-                return nil
-            }
-            return _path + Path(next)
-        }
-
-        public func skipDescendants() {
-            _directoryEnumerator.skipDescendants()
-        }
-    }
-
     public func generate() -> DirectoryEnumerator {
         return DirectoryEnumerator(path: self)
     }
-
 }
 
 // MARK: - Paths
