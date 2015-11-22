@@ -100,4 +100,3 @@ extension FileType {
         return path.fileProtection
     }
 }
-

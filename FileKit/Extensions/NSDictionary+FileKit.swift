@@ -1,7 +1,4 @@
 //
-//  Foundation+FileKit.swift
-//  FileKit
-//
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2015 Nikolai Vazquez
@@ -28,37 +25,13 @@
 import Foundation
 
 extension NSDictionary : DataType, WritableToFile {
+
+    /// Returns a dictionary read from the given path.
     public class func readFromPath(path: Path) throws -> Self {
         guard let contents = self.init(contentsOfFile: path.rawValue) else {
             throw FileKitError.ReadFromFileFail(path: path)
         }
         return contents
     }
+    
 }
-
-extension NSArray : DataType, WritableToFile {
-    public class func readFromPath(path: Path) throws -> Self {
-        guard let contents = self.init(contentsOfFile: path.rawValue) else {
-            throw FileKitError.ReadFromFileFail(path: path)
-        }
-        return contents
-    }
-}
-
-extension NSData : DataType, WritableToFile {
-    public class func readFromPath(path: Path) throws -> Self {
-        guard let contents = self.init(contentsOfFile: path.rawValue) else {
-            throw FileKitError.ReadFromFileFail(path: path)
-        }
-        return contents
-    }
-}
-
-extension NSBundle {
-    /// Returns an NSBundle for the given directory path.
-    public convenience init?(path: Path) {
-        self.init(path: path.rawValue)
-    }
-}
-
-

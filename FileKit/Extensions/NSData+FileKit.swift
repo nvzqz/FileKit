@@ -1,5 +1,5 @@
 //
-//  Image.swift
+//  NSData+FileKit.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -25,43 +25,16 @@
 //  THE SOFTWARE.
 //
 
-#if os(OSX)
-import Cocoa
-#elseif os(iOS) || os(tvOS)
-import UIKit
-#else
-import WatchKit
-#endif
+import Foundation
 
-#if os(OSX)
-/// The image type for the current platform.
-public typealias Image = NSImage
-#else
-/// The image type for the current platform.
-public typealias Image = UIImage
-#endif
+extension NSData : DataType, WritableToFile {
 
-extension Image : DataType, WritableConvertible {
-
-    /// Returns an image from the given path.
-    ///
-    /// - Throws: FileKitError.ReadFromFileFail
-    ///
+    /// Returns data read from the given path.
     public class func readFromPath(path: Path) throws -> Self {
         guard let contents = self.init(contentsOfFile: path.rawValue) else {
             throw FileKitError.ReadFromFileFail(path: path)
         }
         return contents
     }
-
-    /// Returns `TIFFRepresentation` on OS X and `UIImagePNGRepresentation` on
-    /// iOS, watchOS, and tvOS.
-    public var writable: NSData? {
-        #if os(OSX)
-        return self.TIFFRepresentation
-        #else
-        return UIImagePNGRepresentation(self)
-        #endif
-    }
-
+    
 }

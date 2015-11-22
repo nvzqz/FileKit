@@ -81,7 +81,8 @@ public func |>> (var data: String, file: TextFile) throws {
 
 // MARK: - Path
 
-/// Returns `true` if the standardized form of one path equals that of another path.
+/// Returns `true` if the standardized form of one path equals that of another
+/// path.
 @warn_unused_result
 public func == (lhs: Path, rhs: Path) -> Bool {
     return lhs.standardized.rawValue == rhs.standardized.rawValue
@@ -89,8 +90,10 @@ public func == (lhs: Path, rhs: Path) -> Bool {
 
 /// Concatenates two `Path` instances and returns the result.
 ///
-///     let systemLibrary: Path = "/System/Library"
-///     print(systemLib + "Fonts")  // "/System/Library/Fonts"
+/// ```swift
+/// let systemLibrary: Path = "/System/Library"
+/// print(systemLib + "Fonts")  // "/System/Library/Fonts"
+/// ```
 ///
 @warn_unused_result
 public func + (lhs: Path, rhs: Path) -> Path {
@@ -142,9 +145,7 @@ infix operator ->> {}
 /// Throws an error if the file at the left path could not be moved or if a file
 /// already exists at the right path.
 ///
-/// - Throws:
-///     - `FileKitError.FileDoesNotExist`,
-///     - `FileKitError.MoveFileFail`
+/// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.MoveFileFail`
 ///
 public func ->> (lhs: Path, rhs: Path) throws {
     try lhs.moveFileToPath(rhs)
@@ -155,9 +156,7 @@ public func ->> (lhs: Path, rhs: Path) throws {
 /// Throws an error if the file could not be moved or if a file already
 /// exists at the destination path.
 ///
-/// - Throws:
-///     - `FileKitError.FileDoesNotExist`,
-///     - `FileKitError.MoveFileFail`
+/// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.MoveFileFail`
 ///
 public func ->> <F : FileType>(inout lhs: F, rhs: Path) throws {
     try lhs.moveToPath(rhs)
@@ -170,9 +169,9 @@ infix operator ->! {}
 /// - Warning: If a file at the right path already exists, it will be deleted.
 ///
 /// - Throws:
-///     - `FileKitError.DeleteFileFail`,
-///     - `FileKitError.FileDoesNotExist`,
-///     - `FileKitError.CreateSymlinkFail`
+///     `FileKitError.DeleteFileFail`,
+///     `FileKitError.FileDoesNotExist`,
+///     `FileKitError.CreateSymlinkFail`
 ///
 public func ->! (lhs: Path, rhs: Path) throws {
     if rhs.exists {
@@ -186,9 +185,9 @@ public func ->! (lhs: Path, rhs: Path) throws {
 /// - Warning: If a file at the right path already exists, it will be deleted.
 ///
 /// - Throws:
-///     - `FileKitError.DeleteFileFail`,
-///     - `FileKitError.FileDoesNotExist`,
-///     - `FileKitError.CreateSymlinkFail`
+///     `FileKitError.DeleteFileFail`,
+///     `FileKitError.FileDoesNotExist`,
+///     `FileKitError.CreateSymlinkFail`
 ///
 public func ->! <F : FileType>(inout lhs: F, rhs: Path) throws {
     if rhs.exists {
@@ -216,9 +215,7 @@ public func +>> (lhs: Path, rhs: Path) throws {
 /// Throws an error if the file could not be copied or if a file already
 /// exists at the destination path.
 ///
-/// - Throws:
-///     - `FileKitError.FileDoesNotExist`,
-///     - `FileKitError.CopyFileFail`
+/// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
 ///
 public func +>> <F : FileType>(lhs: F, rhs: Path) throws {
     try lhs.copyToPath(rhs)
@@ -231,9 +228,9 @@ infix operator +>! {}
 /// - Warning: If a file at the right path already exists, it will be deleted.
 ///
 /// - Throws:
-///     - `FileKitError.DeleteFileFail`,
-///     - `FileKitError.FileDoesNotExist`,
-///     - `FileKitError.CreateSymlinkFail`
+///     `FileKitError.DeleteFileFail`,
+///     `FileKitError.FileDoesNotExist`,
+///     `FileKitError.CreateSymlinkFail`
 ///
 public func +>! (lhs: Path, rhs: Path) throws {
     if rhs.exists {
@@ -247,9 +244,9 @@ public func +>! (lhs: Path, rhs: Path) throws {
 /// - Warning: If a file at the right path already exists, it will be deleted.
 ///
 /// - Throws:
-///     - `FileKitError.DeleteFileFail`,
-///     - `FileKitError.FileDoesNotExist`,
-///     - `FileKitError.CreateSymlinkFail`
+///     `FileKitError.DeleteFileFail`,
+///     `FileKitError.FileDoesNotExist`,
+///     `FileKitError.CreateSymlinkFail`
 ///
 public func +>! <F : FileType>(lhs: F, rhs: Path) throws {
     if rhs.exists {
@@ -269,8 +266,8 @@ infix operator =>> {}
 /// will be made to a file in that directory.
 ///
 /// - Throws:
-///     - `FileKitError.FileDoesNotExist`,
-///     - `FileKitError.CreateSymlinkFail`
+///     `FileKitError.FileDoesNotExist`,
+///     `FileKitError.CreateSymlinkFail`
 ///
 public func =>> (lhs: Path, rhs: Path) throws {
     try lhs.symlinkFileToPath(rhs)
@@ -297,10 +294,10 @@ infix operator =>! {}
 ///
 /// - Warning: If the symbolic link path already exists, it will be deleted.
 ///
-/// - Throws: 
-///     - `FileKitError.DeleteFileFail`,
-///     - `FileKitError.FileDoesNotExist`,
-///     - `FileKitError.CreateSymlinkFail`
+/// - Throws:
+///     `FileKitError.DeleteFileFail`,
+///     `FileKitError.FileDoesNotExist`,
+///     `FileKitError.CreateSymlinkFail`
 ///
 public func =>! (lhs: Path, rhs: Path) throws {
     if rhs.exists {
@@ -315,9 +312,9 @@ public func =>! (lhs: Path, rhs: Path) throws {
 /// - Warning: If the path already exists, it will be deleted.
 ///
 /// - Throws:
-///     - `FileKitError.DeleteFileFail`,
-///     - `FileKitError.FileDoesNotExist`,
-///     - `FileKitError.CreateSymlinkFail`
+///     `FileKitError.DeleteFileFail`,
+///     `FileKitError.FileDoesNotExist`,
+///     `FileKitError.CreateSymlinkFail`
 ///
 public func =>! <F : FileType>(lhs: F, rhs: Path) throws {
     if rhs.exists {
@@ -350,6 +347,3 @@ postfix operator ^ {}
 public postfix func ^ (path: Path) -> Path {
     return path.parent
 }
-
-
-

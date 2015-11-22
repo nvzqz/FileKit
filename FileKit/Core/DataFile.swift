@@ -29,7 +29,5 @@ import Foundation
 
 /// A representation of a filesystem data file.
 ///
-/// The data type is `NSData`.
-///
+/// The data type is NSData.
 public typealias DataFile = File<NSData>
-

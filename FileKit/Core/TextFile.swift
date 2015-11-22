@@ -29,13 +29,12 @@ import Foundation
 
 /// A representation of a filesystem text file.
 ///
-/// The data type is `String`.
-///
+/// The data type is String.
 public class TextFile : File<String> {
-    
+
     /// The text file's string encoding.
     public var encoding: NSStringEncoding
-    
+
     /// Initializes a text file from a path.
     public required init(path: Path) {
         self.encoding = NSUTF8StringEncoding
@@ -47,15 +46,14 @@ public class TextFile : File<String> {
         self.encoding = encoding
         super.init(path: path)
     }
-    
+
     /// Writes a string to a text file using the file's encoding.
     ///
     /// - Parameter data: The string to be written to the text file.
-    ///
-    /// - Parameter atomically: If `true`, the string is written to an auxiliary
-    ///                         file that is then renamed to the file. If
-    ///                         `false`, the string is written to the text file
-    ///                         directly.
+    /// - Parameter useAuxiliaryFile: If `true`, the data is written to an
+    ///                               auxiliary file that is then renamed to the
+    ///                               file. If `false`, the data is written to
+    ///                               the file directly.
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
@@ -66,7 +64,5 @@ public class TextFile : File<String> {
             throw FileKitError.WriteToFileFail(path: path)
         }
     }
-    
+
 }
-
-

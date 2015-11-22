@@ -59,7 +59,7 @@ public enum FileKitError: ErrorType {
             return "Could not change file attrubutes at \(path)"
         }
     }
-    
+
     /// A file does not exist.
     case FileDoesNotExist(path: Path)
 
@@ -68,24 +68,24 @@ public enum FileKitError: ErrorType {
 
     /// A symbolic link could not be created.
     case CreateSymlinkFail(from: Path, to: Path)
-    
+
     /// A file could not be created.
     case CreateFileFail(path: Path)
-    
+
     /// A file could not be deleted.
     case DeleteFileFail(path: Path)
-    
+
     /// A file could not be read from.
     case ReadFromFileFail(path: Path)
-    
+
     /// A file could not be written to.
     case WriteToFileFail(path: Path)
 
     case WritableConvertiblePropertyNil(type: WritableConvertible.Type)
-    
+
     /// A file could not be moved.
     case MoveFileFail(from: Path, to: Path)
-    
+
     /// A file could not be copied.
     case CopyFileFail(from: Path, to: Path)
 

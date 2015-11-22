@@ -32,18 +32,18 @@ import Foundation
 /// An Path instance lets you manage files in a much easier way.
 ///
 public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Indexable {
-    
+
     // MARK: - Static Methods and Properties
-    
+
     /// The `NSFileManager` instance used by `Path`
     public static var fileManager = NSFileManager.defaultManager()
-    
+
     /// The standard separator for path components.
     public static let separator = "/"
 
     /// The root path.
     public static let Root = Path(separator)
-    
+
     /// The path of the program's current working directory.
     public static var Current: Path {
         get {
@@ -53,7 +53,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
             Path.fileManager.changeCurrentDirectoryPath(newValue.rawValue)
         }
     }
-    
+
     /// The paths of the mounted volumes available.
     public static func volumes(options: NSVolumeEnumerationOptions = []) -> [Path] {
         let volumes = Path.fileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil, options: options) ?? []
@@ -64,7 +64,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
 
     /// The stored path string value.
     public private(set) var rawValue: String
-    
+
     /// The components of the path.
     public var components: [Path] {
         var result = [Path]()
@@ -76,30 +76,30 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         }
         return result
     }
-    
+
     /// A new path created by removing extraneous components from the path.
     public var standardized: Path {
         return Path((self.rawValue as NSString).stringByStandardizingPath)
     }
-    
+
     /// A new path created by resolving all symlinks and standardizing the path.
     public var resolved: Path {
         return Path((self.rawValue as NSString).stringByResolvingSymlinksInPath)
     }
-    
+
     /// A new path created by making the path absolute.
     ///
-    /// If the path begins with "`/`", then the standardized path is returned.
-    /// Otherwise, the path is assumed to be relative to the current working
-    /// directory and the standardized version of the path added to the current
-    /// working directory is returned.
+    /// - Returns: If `self` begins with "/", then the standardized path is
+    ///            returned. Otherwise, the path is assumed to be relative to
+    ///            the current working directory and the standardized version of
+    ///            the path added to the current working directory is returned.
     ///
     public var absolute: Path {
         return self.isAbsolute
             ? self.standardized
             : (Path.Current + self).standardized
     }
-    
+
     /// Returns `true` if the path is equal to "`/`".
     public var isRoot: Bool {
         return resolved.rawValue == Path.separator
@@ -109,33 +109,37 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     public var isAbsolute: Bool {
         return rawValue.hasPrefix(Path.separator)
     }
-    
+
     /// Returns `true` if the path does not begin with "`/`".
     public var isRelative: Bool {
         return !isAbsolute
     }
-    
+
     /// Returns `true` if a file exists at the path.
     public var exists: Bool {
         return Path.fileManager.fileExistsAtPath(rawValue)
     }
-    
-    /// Returns `true` if the current process has write privileges for the file at the path.
+
+    /// Returns `true` if the current process has write privileges for the file
+    /// at the path.
     public var isWritable: Bool {
         return Path.fileManager.isWritableFileAtPath(rawValue)
     }
-    
-    /// Returns `true` if the current process has read privileges for the file at the path.
+
+    /// Returns `true` if the current process has read privileges for the file
+    /// at the path.
     public var isReadable: Bool {
         return Path.fileManager.isReadableFileAtPath(rawValue)
     }
-    
-    /// Returns `true` if the current process has execute privileges for the file at the path.
+
+    /// Returns `true` if the current process has execute privileges for the
+    /// file at the path.
     public var isExecutable: Bool {
         return  Path.fileManager.isExecutableFileAtPath(rawValue)
     }
 
-    /// Returns `true` if the current process has delete privileges for the file at the path.
+    /// Returns `true` if the current process has delete privileges for the file
+    /// at the path.
     public var isDeletable: Bool {
         return  Path.fileManager.isDeletableFileAtPath(rawValue)
     }
@@ -162,7 +166,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
             rawValue = path + ".\(newValue)"
         }
     }
-    
+
     /// The path's parent path.
     public var parent: Path {
         return Path((rawValue as NSString).stringByDeletingLastPathComponent)
@@ -174,7 +178,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     public init() {
         rawValue = "/"
     }
-    
+
     /// Initializes a path to the string's value.
     public init(_ path: String) {
         self.rawValue = path
@@ -185,6 +189,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     /// Runs `closure` with `self` as its current working directory.
     ///
     /// - Parameter closure: The block to run while `Path.Current` is changed.
+    ///
     public func changeDirectory(@noescape closure: () throws -> ()) rethrows {
         let previous   = Path.Current
         Path.Current = self
@@ -196,6 +201,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     ///
     /// - Parameter recursive: Whether to obtain the paths recursively.
     ///                        Default value is `false`.
+    ///
     public func children(recursive recursive: Bool = false) -> [Path] {
         let obtainFunc = recursive
             ? Path.fileManager.subpathsOfDirectoryAtPath
@@ -207,6 +213,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     ///
     /// - Parameter recursive: Whether to check the paths recursively.
     ///                        Default value is `true`.
+    ///
     public func isChildOfPath(path: Path, recursive: Bool = true) -> Bool {
         if recursive {
             return path.isAncestorOfPath(self)
@@ -226,12 +233,12 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         }
         return self.parent.isAncestorOfPath(path)
     }
-    
+
     /// Returns the common ancestor between `self` and `path`.
     public func commonAncestor(path: Path) -> Path {
         let selfComponents = self.components
         let pathComponents = path.components
-        
+
         let total = Swift.min(selfComponents.count, pathComponents.count)
 
         var index = 0
@@ -240,16 +247,15 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
                 break
             }
         }
-        
+
         let ancestorComponents = selfComponents[0..<index]
         return ancestorComponents.reduce(Path.Root) { $0 + $1 }
     }
 
     /// Find paths in `self` that match a condition.
     ///
-    /// - Parameters:
-    ///     - searchDepth: How deep to search before exiting.
-    ///     - condition: If `true`, the path is added.
+    /// - Parameter searchDepth: How deep to search before exiting.
+    /// - Parameter condition: If `true`, the path is added.
     ///
     public func findPaths(searchDepth depth: Int, condition: (Path) -> Bool) -> [Path] {
         var paths = [Path]()
@@ -262,17 +268,17 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         }
         return paths
     }
-    
+
     /// Standardizes the path.
     public mutating func standardize() {
         self = self.standardized
     }
-    
+
     /// Resolves the path's symlinks and standardizes it.
     public mutating func resolve() {
         self = self.resolved
     }
-    
+
     /// Creates a symbolic link at a path that points to `self`.
     ///
     /// If the symbolic link path already exists and _is not_ a directory, an
@@ -281,7 +287,9 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     /// If the symbolic link path already exists and _is_ a directory, the link
     /// will be made to a file in that directory.
     ///
-    /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CreateSymlinkFail`
+    /// - Throws:
+    ///     `FileKitError.FileDoesNotExist`,
+    ///     `FileKitError.CreateSymlinkFail`
     ///
     public func symlinkFileToPath(var path: Path) throws {
         if self.exists {
@@ -301,7 +309,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
             throw FileKitError.FileDoesNotExist(path: self)
         }
     }
-    
+
     /// Creates a file at path.
     ///
     /// Throws an error if the file cannot be created.
@@ -315,13 +323,15 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         }
     }
 
-    /// Creates a file at path if not exist 
+    /// Creates a file at path if not exist
     /// or update the modification date.
     ///
     /// Throws an error if the file cannot be created
     /// or if modification date could not be modified.
     ///
-    /// - Throws: `FileKitError.CreateFileFail` or `FileKitError.AttributesChangeFail`
+    /// - Throws:
+    ///     `FileKitError.CreateFileFail`,
+    ///     `FileKitError.AttributesChangeFail`
     ///
     public func touch(updateModificationDate : Bool = true) throws {
         if self.exists {
@@ -349,7 +359,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
             throw FileKitError.CreateFileFail(path: self)
         }
     }
-    
+
     /// Deletes the file or directory at the path.
     ///
     /// Throws an error if the file or directory cannot be deleted.
@@ -363,7 +373,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
             throw FileKitError.DeleteFileFail(path: self)
         }
     }
-    
+
     /// Moves the file at `self` to a path.
     ///
     /// Throws an error if the file cannot be moved.
@@ -385,7 +395,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
             throw FileKitError.FileDoesNotExist(path: self)
         }
     }
-    
+
     /// Copies the file at `self` to a path.
     ///
     /// Throws an error if the file at `self` could not be copied or if a file
@@ -415,7 +425,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     public var attributes: [String : AnyObject] {
         return (try? Path.fileManager.attributesOfItemAtPath(rawValue)) ?? [:]
     }
-    
+
     /// Modify attributes
     private func setAttributes(attributes: [String : AnyObject]) throws {
         do {
@@ -425,7 +435,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
             throw FileKitError.AttributesChangeFail(path: self)
         }
     }
-    
+
     /// Modify one attribute
     private func setAttribute(key: String, value: AnyObject) throws {
         try setAttributes([key : value])
@@ -570,52 +580,52 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     }
 
     // MARK: - StringLiteralConvertible
-    
+
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
-    
+
     public typealias UnicodeScalarLiteralType = StringLiteralType
-    
+
     /// Initializes a path to the literal.
     public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self.rawValue = value
     }
-    
+
     /// Initializes a path to the literal.
     public init(stringLiteral value: StringLiteralType) {
         self.rawValue = value
     }
-    
+
     /// Initializes a path to the literal.
     public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self.rawValue = value
     }
-    
+
     // MARK: - RawRepresentable
-    
+
     /// Initializes a path to the string value.
     public init(rawValue: String) {
         self.rawValue = rawValue
     }
-    
+
     // MARK: - Hashable
-    
+
     /// The hash value of the path.
     public var hashValue: Int {
         return rawValue.hashValue
     }
-    
+
     // MARK: - Indexable
-    
+
     /// The path's start index.
     public var startIndex: Int {
         return components.startIndex
     }
-    
+
     /// The path's end index; the successor of the last valid subscript argument.
     public var endIndex: Int {
         return components.endIndex
     }
-    
+
     /// The path's subscript. (read-only)
     ///
     /// - Returns: All of the path's elements up to and including the index.
@@ -631,26 +641,28 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
             return result
         }
     }
-    
+
     // MARK: - NSURL
+
     public init?(URL: NSURL) {
         guard let path = URL.path where URL.fileURL
             else { return nil }
         rawValue = path
     }
-    
+
     public var URL: NSURL {
         return NSURL(fileURLWithPath: rawValue, isDirectory: self.isDirectory)
     }
 
     // MARK: - BookmarkData
+
     public init?(bookmarkData bookData : NSData) {
         var isStale : ObjCBool = false
         guard let fullURL = try? NSURL(byResolvingBookmarkData: bookData, options: [], relativeToURL: nil, bookmarkDataIsStale: &isStale)
             else { return nil }
         self.init(URL: fullURL)
     }
-    
+
     public var bookmarkData : NSData? {
         return try? self.URL.bookmarkDataWithOptions(.SuitableForBookmarkFile, includingResourceValuesForKeys: nil, relativeToURL: nil)
     }
@@ -686,10 +698,10 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     /// Returns an output stream for writing to the file at `self`, or `nil` if
     /// no file exists at `self`.
     ///
-    /// - Parameters:
-    ///     - shouldAppend: `true` if newly written data should be appended to
-    ///       any existing file contents, `false` otherwise. Default value is
-    ///       `false`.
+    /// - Parameter shouldAppend: `true` if newly written data should be
+    ///                           appended to any existing file contents,
+    ///                           `false` otherwise. Default value is `false`.
+    ///
     public func outputStream(append shouldAppend: Bool = false) -> NSOutputStream? {
         return NSOutputStream(toFileAtPath: rawValue, append: shouldAppend)
     }
@@ -734,129 +746,125 @@ extension Path : CustomDebugStringConvertible {
     }
 }
 
-// MARK: - Equatable
-
-extension Path : Equatable {}
-
-// MARK: - SequenceType
-
 extension Path : SequenceType {
+
+    // MARK: - SequenceType
+
     public func generate() -> DirectoryEnumerator {
         return DirectoryEnumerator(path: self)
     }
 }
 
-// MARK: - Paths
 
 extension Path {
-    
+
+    // MARK: - Paths
+
     /// Returns the path to the user's or application's home directory,
     /// depending on the platform.
     public static var UserHome: Path {
         return Path(NSHomeDirectory())
     }
-    
+
     /// Returns the path to the user's temporary directory.
     public static var UserTemporary: Path {
         return Path(NSTemporaryDirectory())
     }
-    
+
     public static var ProcessTemporary: Path {
         return Path.UserTemporary + NSProcessInfo.processInfo().globallyUniqueString
     }
-    
+
     public static var UniqueTemporary: Path {
         return Path.ProcessTemporary + NSUUID().UUIDString
     }
-    
+
     /// Returns the path to the user's caches directory.
     public static var UserCaches: Path {
         return pathInUserDomain(.CachesDirectory)
     }
-    
+
     #if os(OSX)
-    
+
     /// Returns the path to the user's applications directory.
     public static var UserApplications: Path {
         return pathInUserDomain(.ApplicationDirectory)
     }
-    
+
     /// Returns the path to the user's application support directory.
     public static var UserApplicationSupport: Path {
         return pathInUserDomain(.ApplicationSupportDirectory)
     }
-    
+
     /// Returns the path to the user's desktop directory.
     public static var UserDesktop: Path {
         return pathInUserDomain(.DesktopDirectory)
     }
-    
+
     /// Returns the path to the user's documents directory.
     public static var UserDocuments: Path {
         return pathInUserDomain(.DocumentDirectory)
     }
-    
+
     /// Returns the path to the user's downloads directory.
     public static var UserDownloads: Path {
         return pathInUserDomain(.DownloadsDirectory)
     }
-    
+
     /// Returns the path to the user's library directory.
     public static var UserLibrary: Path {
         return pathInUserDomain(.LibraryDirectory)
     }
-    
+
     /// Returns the path to the user's movies directory.
     public static var UserMovies: Path {
         return pathInUserDomain(.MoviesDirectory)
     }
-    
+
     /// Returns the path to the user's music directory.
     public static var UserMusic: Path {
         return pathInUserDomain(.MusicDirectory)
     }
-    
+
     /// Returns the path to the user's pictures directory.
     public static var UserPictures: Path {
         return pathInUserDomain(.PicturesDirectory)
     }
-    
+
     /// Returns the path to the system's applications directory.
     public static var SystemApplications: Path {
         return pathInSystemDomain(.ApplicationDirectory)
     }
-    
+
     /// Returns the path to the system's application support directory.
     public static var SystemApplicationSupport: Path {
         return pathInSystemDomain(.ApplicationSupportDirectory)
     }
-    
+
     /// Returns the path to the system's library directory.
     public static var SystemLibrary: Path {
         return pathInSystemDomain(.LibraryDirectory)
     }
-    
+
     /// Returns the path to the system's core services directory.
     public static var SystemCoreServices: Path {
         return pathInSystemDomain(.CoreServiceDirectory)
     }
-    
+
     #endif
-    
+
     private static func pathInUserDomain(directory: NSSearchPathDirectory) -> Path {
         return pathsInDomains(directory, .UserDomainMask)[0]
     }
-    
+
     private static func pathInSystemDomain(directory: NSSearchPathDirectory) -> Path {
         return pathsInDomains(directory, .SystemDomainMask)[0]
     }
-    
+
     private static func pathsInDomains(directory: NSSearchPathDirectory, _ domainMask: NSSearchPathDomainMask) -> [Path] {
         return NSSearchPathForDirectoriesInDomains(directory, domainMask, true).map {
             Path($0)
         }
     }
-    
+
 }
-
-

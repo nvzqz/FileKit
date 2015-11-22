@@ -29,31 +29,33 @@ import Foundation
 
 /// A type that repressents a filesystem file.
 public protocol FileType : CustomStringConvertible, CustomDebugStringConvertible, Comparable {
-    
+
     /// The type for which the file reads and writes data.
     typealias Data
-    
+
     /// The file's filesystem path.
     var path: Path { get set }
-    
+
     /// Initializes a file from a path.
     init(path: Path)
-    
+
     /// Reads the file and returns its data.
     func read() throws -> Data
-    
+
     /// Writes data to the file.
     func write(data: Data) throws
-    
+
 }
 
 public extension FileType {
-    
+
+    // MARK: - Properties
+
     /// The file's name.
     public var name: String {
         return path.components.last?.rawValue ?? ""
     }
-    
+
     /// The file's filesystem path extension.
     public final var pathExtension: String {
         get {
@@ -63,7 +65,7 @@ public extension FileType {
             path.pathExtension = newValue
         }
     }
-    
+
     /// True if the file exists.
     public var exists: Bool {
         return path.exists
@@ -73,7 +75,9 @@ public extension FileType {
     public var size: UInt64? {
         return path.fileSize
     }
-    
+
+    // MARK: - Filesystem Operations
+
     /// Creates the file.
     ///
     /// Throws an error if the file cannot be created.
@@ -83,12 +87,12 @@ public extension FileType {
     public func create() throws {
         try path.createFile()
     }
-    
+
     /// Deletes the file.
     public func delete() throws {
         try path.deleteFile()
     }
-    
+
     /// Moves the file to a path.
     ///
     /// Changes the path property to the given path.
@@ -101,7 +105,7 @@ public extension FileType {
         try path.moveFileToPath(path)
         self.path = path
     }
-    
+
     /// Copies the file to a path.
     ///
     /// Throws an error if the file could not be copied or if a file already
@@ -112,7 +116,7 @@ public extension FileType {
     public func copyToPath(path: Path) throws {
         try path.copyFileToPath(path)
     }
-    
+
     /// Symlinks the file to a path.
     ///
     /// If the path already exists and _is not_ a directory, an error will be
@@ -121,27 +125,58 @@ public extension FileType {
     /// If the path already exists and _is_ a directory, the link will be made
     /// to `self` in that directory.
     ///
-    /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CreateSymlinkFail`
+    /// - Throws:
+    ///     `FileKitError.FileDoesNotExist`,
+    ///     `FileKitError.CreateSymlinkFail`
     ///
     public func symlinkToPath(path: Path) throws {
         try self.path.symlinkFileToPath(path)
     }
-    
-    // Mark: - CustomStringConvertible
-    
+
+}
+
+extension FileType {
+
+    // MARK: - CustomStringConvertible
+
+    /// Returns a String with `Self` and `self.path`.
+    ///
+    /// ```swift
+    /// struct SomeFileType : FileType {...}
+    ///
+    /// let file = SomeFileType(path: "path/to/file")
+    /// print(file)  // "SomeFileType("path/to/file")
+    /// ```
     public var description: String {
-        return String(self.dynamicType) + ": (" + path.description + ")"
+        return String(self.dynamicType) + "(" + path.description + ")"
     }
-    
+
+}
+
+extension FileType {
+
     // MARK: - CustomDebugStringConvertible
-    
+
+    /// Returns a String with `Self`, `Data`, and `self.path`.
+    ///
+    /// ```swift
+    /// struct SomeFileType : FileType {
+    ///     typalias Data = String
+    ///     ...
+    /// }
+    ///
+    /// let file = SomeFileType(path: "path/to/file")
+    /// debugPrint(file)  // "SomeFileType<String>("path/to/file")
+    /// ```
     public var debugDescription: String {
-        return String(self.dynamicType) + ": (" + path.debugDescription + ")"
+        return String(Self) + "<" + String(Data) + ">(" + path.description + ")"
     }
-    
+
 }
 
 extension FileType where Data : Readable {
+
+    // MARK: - Readable
 
     /// Reads the file and returns its data.
     public func read() throws -> Data {
@@ -151,6 +186,8 @@ extension FileType where Data : Readable {
 }
 
 extension FileType where Data : Writable {
+
+    // MARK: - Writable
 
     /// Writes data to the file.
     ///
@@ -167,11 +204,10 @@ extension FileType where Data : Writable {
     /// Writes data to the file.
     ///
     /// - Parameter data: The data to be written to the file.
-    ///
-    /// - Parameter atomically: If `true`, the data is written to an auxiliary
-    ///                         file that is then renamed to the file.
-    ///                         If `false`, the data is written to the file
-    ///                         directly.
+    /// - Parameter useAuxiliaryFile: If `true`, the data is written to an
+    ///                               auxiliary file that is then renamed to the
+    ///                               file. If `false`, the data is written to
+    ///                               the file directly.
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
