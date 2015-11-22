@@ -36,7 +36,7 @@ public class TextFile : File<String> {
     public var encoding: NSStringEncoding
 
     /// Initializes a text file from a path.
-    public required init(path: Path) {
+    public override init(path: Path) {
         self.encoding = NSUTF8StringEncoding
         super.init(path: path)
     }

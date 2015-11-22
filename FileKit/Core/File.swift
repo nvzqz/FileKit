@@ -33,6 +33,8 @@ import Foundation
 ///
 public class File<Data : DataType> : Comparable {
 
+    // MARK: - Properties
+
     /// The file's filesystem path.
     public var path: Path
 
@@ -61,10 +63,14 @@ public class File<Data : DataType> : Comparable {
         return path.fileSize
     }
 
+    // MARK: - Initialization
+
     /// Initializes a file from a path.
-    required public init(path: Path) {
+    public init(path: Path) {
         self.path = path
     }
+
+    // MARK: - Filesystem Operations
 
     /// Reads the file and returns its data.
     ///
@@ -154,15 +160,50 @@ public class File<Data : DataType> : Comparable {
         try self.path.symlinkFileToPath(path)
     }
 
-}
-
-extension File {
-
     // MARK: - FileType
 
     /// The FileType attribute for `self`.
     public var type: FileType? {
         return path.fileType
+    }
+
+    // MARK: - NSFileHandle
+
+    /// Returns a file handle for reading from `self`, or `nil` if `self`
+    /// doesn't exist.
+    public var handleForReading: NSFileHandle? {
+        return path.fileHandleForReading
+    }
+
+    /// Returns a file handle for writing to `self`, or `nil` if `self` doesn't
+    /// exist.
+    public var handleForWriting: NSFileHandle? {
+        return path.fileHandleForWriting
+    }
+
+    /// Returns a file handle for reading from and writing to `self`, or `nil`
+    /// if `self` doesn't exist.
+    public var handleForUpdating: NSFileHandle? {
+        return path.fileHandleForUpdating
+    }
+
+    // MARK: - NSStream
+
+    /// Returns an input stream that reads data from `self`, or `nil` if `self`
+    /// doesn't exist.
+    public func inputStream() -> NSInputStream? {
+        return path.inputStream()
+    }
+
+    /// Returns an input stream that writes data to `self`, or `nil` if `self`
+    /// doesn't exist.
+    ///
+    /// - Parameter shouldAppend: `true` if newly written data should be
+    ///                           appended to any existing file contents,
+    ///                           `false` otherwise. Default value is `false`.
+    ///
+    public func outputStream(append shouldAppend: Bool = false) -> NSOutputStream? {
+        return path.outputStream(append: shouldAppend)
     }
 
 }
