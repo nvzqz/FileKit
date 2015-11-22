@@ -252,21 +252,37 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         return ancestorComponents.reduce(Path.Root) { $0 + $1 }
     }
 
-    /// Find paths in `self` that match a condition.
+    /// Returns paths in `self` that match a condition.
     ///
     /// - Parameter searchDepth: How deep to search before exiting.
     /// - Parameter condition: If `true`, the path is added.
     ///
+    /// - Returns: An Array containing the paths in `self` that match the
+    ///            condition.
+    ///
     public func find(searchDepth depth: Int, @noescape condition: (Path) throws -> Bool) rethrows -> [Path] {
-        var paths = [Path]()
+        return try self.find(searchDepth: depth) { path in
+            try condition(path) ? path : nil
+        }
+    }
+
+    /// Returns non-nil values for paths found in `self`.
+    ///
+    /// - Parameter searchDepth: How deep to search before exiting.
+    /// - Parameter transform: The transform run on each path found.
+    ///
+    /// - Returns: An Array containing the non-nil values for paths found in
+    ///            `self`.
+    public func find<T>(searchDepth depth: Int, @noescape transform: (Path) throws -> T?) rethrows -> [T] {
+        var result: [T] = []
         for child in self.children() {
-            if try condition(child) {
-                paths.append(child)
+            if let value = try transform(child) {
+                result.append(value)
             } else if depth != 0 {
-                paths += try child.find(searchDepth: depth - 1, condition: condition)
+                result += try child.find(searchDepth: depth - 1, transform: transform)
             }
         }
-        return paths
+        return result
     }
 
     /// Standardizes the path.
