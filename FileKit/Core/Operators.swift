@@ -30,12 +30,14 @@ import Foundation
 // MARK: - FileType
 
 /// Returns `true` if both files' paths are the same.
-@warn_unused_result public func ==<F : FileType>(lhs: F, rhs: F) -> Bool {
+@warn_unused_result
+public func ==<F : FileType>(lhs: F, rhs: F) -> Bool {
     return lhs.path == rhs.path
 }
 
 /// Returns `true` if `lhs` is smaller than `rhs` in size.
-@warn_unused_result public func < <F : FileType>(lhs: F, rhs: F) -> Bool {
+@warn_unused_result
+public func < <F : FileType>(lhs: F, rhs: F) -> Bool {
     return lhs.size < rhs.size
 }
 
@@ -54,7 +56,8 @@ public func |> <F : FileType>(data: F.Data, file: F) throws {
 // MARK: - TextFile
 
 /// Returns `true` if both text files have the same path and encoding.
-@warn_unused_result public func ==(lhs: TextFile, rhs: TextFile) -> Bool {
+@warn_unused_result
+public func ==(lhs: TextFile, rhs: TextFile) -> Bool {
     return lhs.path == rhs.path && lhs.encoding == rhs.encoding
 }
 
@@ -79,7 +82,8 @@ public func |>> (var data: String, file: TextFile) throws {
 // MARK: - Path
 
 /// Returns `true` if the standardized form of one path equals that of another path.
-@warn_unused_result public func == (lhs: Path, rhs: Path) -> Bool {
+@warn_unused_result
+public func == (lhs: Path, rhs: Path) -> Bool {
     return lhs.standardized.rawValue == rhs.standardized.rawValue
 }
 
@@ -88,6 +92,7 @@ public func |>> (var data: String, file: TextFile) throws {
 ///     let systemLibrary: Path = "/System/Library"
 ///     print(systemLib + "Fonts")  // "/System/Library/Fonts"
 ///
+@warn_unused_result
 public func + (lhs: Path, rhs: Path) -> Path {
     switch (lhs.rawValue.hasSuffix(Path.separator), rhs.rawValue.hasPrefix(Path.separator)) {
     case (true, true):
@@ -100,11 +105,13 @@ public func + (lhs: Path, rhs: Path) -> Path {
 }
 
 /// Converts a `String` to a `Path` and returns the concatenated result.
+@warn_unused_result
 public func + (lhs: String, rhs: Path) -> Path {
     return Path(lhs) + rhs
 }
 
 /// Converts a `String` to a `Path` and returns the concatenated result.
+@warn_unused_result
 public func + (lhs: Path, rhs: String) -> Path {
    return lhs + Path(rhs)
 }
@@ -123,6 +130,7 @@ infix operator <^> {
 }
 
 /// Returns the common ancestor between the two paths.
+@warn_unused_result
 public func <^>(lhs: Path, rhs: Path) -> Path {
     return lhs.commonAncestor(rhs)
 }
@@ -332,7 +340,8 @@ postfix operator • {}
 postfix operator ^ {}
 
 /// Returns the path's parent path.
-@warn_unused_result public postfix func ^ (path: Path) -> Path {
+@warn_unused_result
+public postfix func ^ (path: Path) -> Path {
     return path.parent
 }
 
