@@ -326,13 +326,11 @@ public func =>! <F : FileType>(lhs: F, rhs: Path) throws {
     try lhs =>> rhs
 }
 
-postfix operator • {}
+postfix operator % {}
 
 /// Returns the standardized version of the path.
-///
-/// Can be typed with alt+8.
-///
-@warn_unused_result public postfix func • (path: Path) -> Path {
+@warn_unused_result
+public postfix func % (path: Path) -> Path {
     return path.standardized
 }
 
