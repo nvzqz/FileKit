@@ -174,9 +174,9 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
 
     // MARK: - Initialization
 
-    /// Initializes a path to "/".
+    /// Initializes a path to root.
     public init() {
-        rawValue = "/"
+        self = .Root
     }
 
     /// Initializes a path to the string's value.
