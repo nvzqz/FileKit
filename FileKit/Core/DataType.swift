@@ -136,7 +136,7 @@ public protocol WritableConvertible: Writable {
     typealias WritableType: Writable
 
     /// Allows `self` to be written to a path.
-    var writable: WritableType? { get }
+    var writable: WritableType { get }
 
 }
 
@@ -155,9 +155,6 @@ extension WritableConvertible {
     ///     `FileKitError.WritableConvertiblePropertyNil`
     ///
     public func writeToPath(path: Path, atomically useAuxiliaryFile: Bool) throws {
-        guard let writable = self.writable else {
-            throw FileKitError.WritableConvertiblePropertyNil(type: self.dynamicType)
-        }
         try writable.writeToPath(path, atomically: useAuxiliaryFile)
     }
 

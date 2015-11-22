@@ -491,50 +491,6 @@ class FileKitTests: XCTestCase {
         }
     }
 
-    // MARK: - WritableConvertible
-
-    struct BadWritableConvertible : WritableConvertible {
-        var writable: NSData? { return nil }
-    }
-
-    struct GoodWritableConvertible : WritableConvertible {
-        var writable: NSArray? {
-            return []
-        }
-    }
-
-    func testWritablePropertyNilError() {
-        do {
-            let writable = BadWritableConvertible()
-            try writable.writeToPath(.UniqueTemporary + "file")
-        } catch let error as FileKitError {
-            switch error {
-            case let .WritableConvertiblePropertyNil(type):
-                XCTAssert(type == BadWritableConvertible.self,
-                    "Returned type \(type) is not BadWritableConvertible")
-                XCTAssert(error.message.containsString("BadWritableConvertible"),
-                    "Error message doesn't mention BadWritableConvertible")
-            default:
-                XCTFail("Error is not FileKitError.WritablePropertyNil")
-            }
-        } catch {
-            XCTFail("Error is not FileKitError")
-        }
-        do {
-            let writable = GoodWritableConvertible()
-            try writable.writeToPath(.UniqueTemporary + "file")
-        } catch let error as FileKitError {
-            switch error {
-            case let .WritableConvertiblePropertyNil(type):
-                XCTFail("Error from \(type) instance is FileKitError.WritablePropertyNil")
-            default:
-                break
-            }
-        } catch {
-            XCTFail("Error is not FileKitError")
-        }
-    }
-
     // MARK: - Image
 
     let img = Image(contentsOfURL: NSURL(string: "https://raw.githubusercontent.com/nvzqz/FileKit/assets/logo.png")!) ?? Image()
