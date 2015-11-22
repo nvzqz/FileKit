@@ -156,6 +156,17 @@ public class File<Data : DataType> : Comparable {
 
 }
 
+extension File {
+
+    // MARK: - FileType
+
+    /// The FileType attribute for `self`.
+    public var type: FileType? {
+        return path.fileType
+    }
+
+}
+
 extension File : CustomStringConvertible {
 
     // MARK: - CustomStringConvertible

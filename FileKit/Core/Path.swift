@@ -540,66 +540,14 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         return nil
     }
 
-    // MARK: - File Type
+    // MARK: - FileType
 
-    /// The type of the file at the path.
+    /// The FileType attribute for the file at the path.
     public var fileType: FileType? {
         guard let value = attributes[NSFileType] as? String else {
             return nil
         }
         return FileType(rawValue: value)
-    }
-
-    public enum FileType: String {
-
-        case Directory
-        case Regular
-        case SymbolicLink
-        case Socket
-        case CharacterSpecial
-        case BlockSpecial
-        case Unknown
-
-        public init?(rawValue: String) {
-            switch rawValue {
-            case NSFileTypeDirectory:
-                self = Directory
-            case NSFileTypeRegular:
-                self = Regular
-            case NSFileTypeSymbolicLink:
-                self = SymbolicLink
-            case NSFileTypeSocket:
-                self = Socket
-            case NSFileTypeCharacterSpecial:
-                self = CharacterSpecial
-            case NSFileTypeBlockSpecial:
-                self = BlockSpecial
-            case NSFileTypeUnknown:
-                self = Unknown
-            default:
-                return nil
-            }
-        }
-
-        public var rawValue: String {
-            switch self {
-            case .Directory:
-                return NSFileTypeDirectory
-            case .Regular:
-                return NSFileTypeRegular
-            case .SymbolicLink:
-                return NSFileTypeSymbolicLink
-            case .Socket:
-                return NSFileTypeSocket
-            case .CharacterSpecial:
-                return NSFileTypeCharacterSpecial
-            case .BlockSpecial:
-                return NSFileTypeBlockSpecial
-            case .Unknown:
-                return NSFileTypeUnknown
-            }
-        }
-
     }
 
     // MARK: - StringLiteralConvertible
