@@ -257,13 +257,13 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     /// - Parameter searchDepth: How deep to search before exiting.
     /// - Parameter condition: If `true`, the path is added.
     ///
-    public func findPaths(searchDepth depth: Int, condition: (Path) -> Bool) -> [Path] {
+    public func find(searchDepth depth: Int, condition: (Path) -> Bool) -> [Path] {
         var paths = [Path]()
         for child in self.children() {
             if condition(child) {
                 paths.append(child)
             } else if depth != 0 {
-                paths += child.findPaths(searchDepth: depth - 1, condition: condition)
+                paths += child.find(searchDepth: depth - 1, condition: condition)
             }
         }
         return paths
