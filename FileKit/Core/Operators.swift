@@ -334,6 +334,14 @@ public postfix func % (path: Path) -> Path {
     return path.standardized
 }
 
+postfix operator * {}
+
+/// Returns the resolved version of the path.
+@warn_unused_result
+public postfix func * (path: Path) -> Path {
+    return path.resolved
+}
+
 
 postfix operator ^ {}
 
