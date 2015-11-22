@@ -254,13 +254,16 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
 
     /// Returns paths in `self` that match a condition.
     ///
-    /// - Parameter searchDepth: How deep to search before exiting.
+    /// - Parameter searchDepth: How deep to search before exiting. A negative
+    ///                          value will cause the search to exit only when
+    ///                          every subdirectory has been searched through.
+    ///                          Default value is `-1`.
     /// - Parameter condition: If `true`, the path is added.
     ///
     /// - Returns: An Array containing the paths in `self` that match the
     ///            condition.
     ///
-    public func find(searchDepth depth: Int, @noescape condition: (Path) throws -> Bool) rethrows -> [Path] {
+    public func find(searchDepth depth: Int = -1, @noescape condition: (Path) throws -> Bool) rethrows -> [Path] {
         return try self.find(searchDepth: depth) { path in
             try condition(path) ? path : nil
         }
@@ -268,13 +271,16 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
 
     /// Returns non-nil values for paths found in `self`.
     ///
-    /// - Parameter searchDepth: How deep to search before exiting.
+    /// - Parameter searchDepth: How deep to search before exiting. A negative
+    ///                          value will cause the search to exit only when
+    ///                          every subdirectory has been searched through.
+    ///                          Default value is `-1`.
     /// - Parameter transform: The transform run on each path found.
     ///
     /// - Returns: An Array containing the non-nil values for paths found in
     ///            `self`.
     ///
-    public func find<T>(searchDepth depth: Int, @noescape transform: (Path) throws -> T?) rethrows -> [T] {
+    public func find<T>(searchDepth depth: Int = -1, @noescape transform: (Path) throws -> T?) rethrows -> [T] {
         return try self.children().reduce([]) { values, child in
             if let value = try transform(child) {
                 return values + [value]
