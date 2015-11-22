@@ -31,13 +31,13 @@ import Foundation
 
 /// Returns `true` if both files' paths are the same.
 @warn_unused_result
-public func ==<F : FileType>(lhs: F, rhs: F) -> Bool {
+public func ==<Data : DataType>(lhs: File<Data>, rhs: File<Data>) -> Bool {
     return lhs.path == rhs.path
 }
 
 /// Returns `true` if `lhs` is smaller than `rhs` in size.
 @warn_unused_result
-public func < <F : FileType>(lhs: F, rhs: F) -> Bool {
+public func < <Data : DataType>(lhs: File<Data>, rhs: File<Data>) -> Bool {
     return lhs.size < rhs.size
 }
 
@@ -47,7 +47,7 @@ infix operator |> {}
 ///
 /// - Throws: `FileKitError.WriteToFileFail`
 ///
-public func |> <F : FileType>(data: F.Data, file: F) throws {
+public func |> <Data : DataType>(data: Data, file: File<Data>) throws {
     try file.write(data)
 }
 
@@ -158,7 +158,7 @@ public func ->> (lhs: Path, rhs: Path) throws {
 ///
 /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.MoveFileFail`
 ///
-public func ->> <F : FileType>(inout lhs: F, rhs: Path) throws {
+public func ->> <Data : DataType>(lhs: File<Data>, rhs: Path) throws {
     try lhs.moveToPath(rhs)
 }
 
@@ -189,7 +189,7 @@ public func ->! (lhs: Path, rhs: Path) throws {
 ///     `FileKitError.FileDoesNotExist`,
 ///     `FileKitError.CreateSymlinkFail`
 ///
-public func ->! <F : FileType>(inout lhs: F, rhs: Path) throws {
+public func ->! <Data : DataType>(lhs: File<Data>, rhs: Path) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
@@ -217,7 +217,7 @@ public func +>> (lhs: Path, rhs: Path) throws {
 ///
 /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
 ///
-public func +>> <F : FileType>(lhs: F, rhs: Path) throws {
+public func +>> <Data : DataType>(lhs: File<Data>, rhs: Path) throws {
     try lhs.copyToPath(rhs)
 }
 
@@ -248,7 +248,7 @@ public func +>! (lhs: Path, rhs: Path) throws {
 ///     `FileKitError.FileDoesNotExist`,
 ///     `FileKitError.CreateSymlinkFail`
 ///
-public func +>! <F : FileType>(lhs: F, rhs: Path) throws {
+public func +>! <Data : DataType>(lhs: File<Data>, rhs: Path) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
@@ -283,7 +283,7 @@ public func =>> (lhs: Path, rhs: Path) throws {
 ///
 /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CreateSymlinkFail`
 ///
-public func =>> <F : FileType>(lhs: F, rhs: Path) throws {
+public func =>> <Data : DataType>(lhs: File<Data>, rhs: Path) throws {
     try lhs.symlinkToPath(rhs)
 }
 
@@ -316,7 +316,7 @@ public func =>! (lhs: Path, rhs: Path) throws {
 ///     `FileKitError.FileDoesNotExist`,
 ///     `FileKitError.CreateSymlinkFail`
 ///
-public func =>! <F : FileType>(lhs: F, rhs: Path) throws {
+public func =>! <Data : DataType>(lhs: File<Data>, rhs: Path) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }

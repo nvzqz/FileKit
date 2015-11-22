@@ -91,7 +91,7 @@ extension Path {
     }
 }
 
-extension FileType {
+extension File {
 
     // MARK: File Protection
 
