@@ -52,6 +52,9 @@
 		52A016EA1C01565C0045A9C8 /* FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A016E81C01565C0045A9C8 /* FileKit.swift */; };
 		52A016EB1C01565C0045A9C8 /* FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A016E81C01565C0045A9C8 /* FileKit.swift */; };
 		52A016EC1C01565C0045A9C8 /* FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A016E81C01565C0045A9C8 /* FileKit.swift */; };
+		52A016F21C0184CA0045A9C8 /* FileProtection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A016F11C0184CA0045A9C8 /* FileProtection.swift */; };
+		52A016F31C0184CA0045A9C8 /* FileProtection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A016F11C0184CA0045A9C8 /* FileProtection.swift */; };
+		52A016F41C0184CA0045A9C8 /* FileProtection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A016F11C0184CA0045A9C8 /* FileProtection.swift */; };
 		52B938BB1BF3C42A001B7AEB /* FileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BA71B992AD500F07E13 /* FileType.swift */; };
 		52B938BC1BF3C42A001B7AEB /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33A01B9B772A00AB70E4 /* File.swift */; };
 		52B938BD1BF3C42A001B7AEB /* TextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33771B9A7EFC00AB70E4 /* TextFile.swift */; };
@@ -107,6 +110,7 @@
 		527612421BAEA3EE00503D0A /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52A016C31C013F3D0045A9C8 /* DirectoryEnumerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectoryEnumerator.swift; sourceTree = "<group>"; };
 		52A016E81C01565C0045A9C8 /* FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileKit.swift; sourceTree = "<group>"; };
+		52A016F11C0184CA0045A9C8 /* FileProtection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileProtection.swift; sourceTree = "<group>"; };
 		52B938B31BF3C3E5001B7AEB /* FileKit-tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "FileKit-tvOS.framework"; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52B938C81BF402ED001B7AEB /* ImageFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFile.swift; sourceTree = "<group>"; };
 		52BF6BA71B992AD500F07E13 /* FileType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileType.swift; sourceTree = "<group>"; };
@@ -197,6 +201,7 @@
 				524D315A1BC79331008B93D0 /* DataFile.swift */,
 				52B938C81BF402ED001B7AEB /* ImageFile.swift */,
 				5204B7C31B968E8000AA473F /* Path.swift */,
+				52A016F11C0184CA0045A9C8 /* FileProtection.swift */,
 				52A016C31C013F3D0045A9C8 /* DirectoryEnumerator.swift */,
 				523C33981B9B764600AB70E4 /* DataType.swift */,
 				52BF6BB01B99322000F07E13 /* FileKitError.swift */,
@@ -473,6 +478,7 @@
 			files = (
 				52A016EA1C01565C0045A9C8 /* FileKit.swift in Sources */,
 				5263A8FF1B96B95100635A93 /* String+FileKit.swift in Sources */,
+				52A016F21C0184CA0045A9C8 /* FileProtection.swift in Sources */,
 				524D31501BC78E44008B93D0 /* Foundation+FileKit.swift in Sources */,
 				524D315C1BC79331008B93D0 /* DataFile.swift in Sources */,
 				523C33A81B9B894A00AB70E4 /* Operators.swift in Sources */,
@@ -505,6 +511,7 @@
 			files = (
 				52A016EB1C01565C0045A9C8 /* FileKit.swift in Sources */,
 				527612521BAEA45D00503D0A /* String+FileKit.swift in Sources */,
+				52A016F31C0184CA0045A9C8 /* FileProtection.swift in Sources */,
 				524D31511BC78E44008B93D0 /* Foundation+FileKit.swift in Sources */,
 				524D315D1BC79331008B93D0 /* DataFile.swift in Sources */,
 				5276124D1BAEA43600503D0A /* DictionaryFile.swift in Sources */,
@@ -528,6 +535,7 @@
 			files = (
 				52A016EC1C01565C0045A9C8 /* FileKit.swift in Sources */,
 				52B938C41BF3C42A001B7AEB /* Operators.swift in Sources */,
+				52A016F41C0184CA0045A9C8 /* FileProtection.swift in Sources */,
 				52B938C21BF3C42A001B7AEB /* DataType.swift in Sources */,
 				52B938BE1BF3C42A001B7AEB /* DictionaryFile.swift in Sources */,
 				52B938C11BF3C42A001B7AEB /* Path.swift in Sources */,

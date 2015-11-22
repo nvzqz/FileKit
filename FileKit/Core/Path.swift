@@ -507,58 +507,6 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         return nil
     }
 
-    #if !os(OSX)
-
-    /// The protection of the file at the path.
-    public var fileProtection: FileProtection? {
-        guard let value = attributes[NSFileProtectionKey] as? String else {
-            return nil
-        }
-        return FileProtection(rawValue: value)
-    }
-
-    // MARK: - File Protection
-
-    /// The possible values that can be obtained from `NSFileProtectionKey` on a
-    /// file's attributes.
-    public enum FileProtection : String {
-
-        case None
-        case Complete
-        case CompleteUnlessOpen
-        case CompleteUntilFirstUserAuthentication
-
-        public init?(rawValue: String) {
-            switch rawValue {
-            case NSFileProtectionNone:
-                self = None
-            case NSFileProtectionComplete:
-                self = Complete
-            case NSFileProtectionCompleteUnlessOpen:
-                self = CompleteUnlessOpen
-            case NSFileProtectionCompleteUntilFirstUserAuthentication:
-                self = CompleteUntilFirstUserAuthentication
-            default:
-                return nil
-            }
-        }
-
-        public var rawValue: String {
-            switch self {
-            case .None:
-                return NSFileProtectionNone
-            case .Complete:
-                return NSFileProtectionComplete
-            case .CompleteUnlessOpen:
-                return NSFileProtectionCompleteUnlessOpen
-            case .CompleteUntilFirstUserAuthentication:
-                return NSFileProtectionCompleteUntilFirstUserAuthentication
-            }
-        }
-
-    }
-    #endif
-
     // MARK: - File Type
 
     /// The type of the file at the path.
