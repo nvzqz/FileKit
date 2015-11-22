@@ -748,6 +748,26 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
 
 }
 
+// MARK: - StringInterpolationConvertible
+
+extension Path : StringInterpolationConvertible {
+
+    /// Initializes a path from the string interpolation paths.
+    public init(stringInterpolation paths: Path...) {
+        self.init(paths.reduce("", combine: { $0 + $1.rawValue }))
+    }
+
+    /// Initializes a path from the string interpolation segment.
+    public init<T>(stringInterpolationSegment expr: T) {
+        if let path = expr as? Path {
+            self = path
+        } else {
+            self = Path(String(expr))
+        }
+    }
+
+}
+
 // MARK: - CustomStringConvertible
 
 extension Path : CustomStringConvertible {

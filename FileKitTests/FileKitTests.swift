@@ -47,6 +47,11 @@ class FileKitTests: XCTestCase {
         XCTAssertEqual(a, c)
         XCTAssertEqual(b, c)
     }
+
+    func testPathStringInterpolationConvertible() {
+        let path: Path = "\(Path.UserTemporary)/testfile_\(10)"
+        XCTAssertEqual(path.rawValue, Path.UserTemporary.rawValue + "/testfile_10")
+    }
     
     func testPathEquality() {
         let a: Path = "~"
