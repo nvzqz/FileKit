@@ -53,3 +53,12 @@ extension NSData : DataType, WritableToFile {
         return contents
     }
 }
+
+extension NSBundle {
+    /// Returns an NSBundle for the given directory path.
+    public convenience init?(path: Path) {
+        self.init(path: path.rawValue)
+    }
+}
+
+
