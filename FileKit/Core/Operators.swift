@@ -112,6 +112,15 @@ public func += (inout lhs: Path, rhs: String) {
     lhs = lhs + rhs
 }
 
+infix operator <^> {
+    associativity left
+}
+
+/// Returns the common ancestor between the two paths.
+public func <^>(lhs: Path, rhs: Path) -> Path {
+    return lhs.commonAncestor(rhs)
+}
+
 infix operator ->> {}
 
 /// Moves the file at the left path to a path.

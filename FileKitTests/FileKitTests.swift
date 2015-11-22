@@ -162,8 +162,7 @@ class FileKitTests: XCTestCase {
         
         // common ancestor
         XCTAssertTrue(p.commonAncestor(Path.Root).isRoot)
-        let common = Path.UserDownloads.commonAncestor(Path.UserDocuments)
-        XCTAssertEqual(common,  Path.UserHome)
+        XCTAssertEqual(.UserDownloads <^> .UserDocuments,  Path.UserHome)
     }
     
     func testPathAttributes() {
