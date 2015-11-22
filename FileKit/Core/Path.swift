@@ -35,28 +35,28 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     
     // MARK: - Static Methods and Properties
     
-    /// The `NSFileManager` used by `Path`
-    public static var FileManager = NSFileManager.defaultManager()
+    /// The `NSFileManager` instance used by `Path`
+    public static var fileManager = NSFileManager.defaultManager()
     
     /// The standard separator for path components.
-    public static let Separator = "/"
+    public static let separator = "/"
 
     /// The root path.
-    public static let Root = Path(Separator)
+    public static let Root = Path(separator)
     
     /// The path of the program's current working directory.
     public static var Current: Path {
         get {
-            return Path(Path.FileManager.currentDirectoryPath)
+            return Path(Path.fileManager.currentDirectoryPath)
         }
         set {
-            Path.FileManager.changeCurrentDirectoryPath(newValue.rawValue)
+            Path.fileManager.changeCurrentDirectoryPath(newValue.rawValue)
         }
     }
     
     /// The paths of the mounted volumes available.
-    public static func Volumes(options: NSVolumeEnumerationOptions = []) -> [Path] {
-        let volumes = Path.FileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil, options: options) ?? []
+    public static func volumes(options: NSVolumeEnumerationOptions = []) -> [Path] {
+        let volumes = Path.fileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil, options: options) ?? []
         return volumes.flatMap { Path(URL: $0) }
     }
 
@@ -102,12 +102,12 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     
     /// Returns `true` if the path is equal to "`/`".
     public var isRoot: Bool {
-        return rawValue == Path.Separator
+        return rawValue == Path.separator
     }
 
     /// Returns `true` if the path begins with "`/`".
     public var isAbsolute: Bool {
-        return rawValue.hasPrefix(Path.Separator)
+        return rawValue.hasPrefix(Path.separator)
     }
     
     /// Returns `true` if the path does not begin with "`/`".
@@ -117,33 +117,33 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     
     /// Returns `true` if a file exists at the path.
     public var exists: Bool {
-        return Path.FileManager.fileExistsAtPath(rawValue)
+        return Path.fileManager.fileExistsAtPath(rawValue)
     }
     
     /// Returns `true` if the current process has write privileges for the file at the path.
     public var isWritable: Bool {
-        return Path.FileManager.isWritableFileAtPath(rawValue)
+        return Path.fileManager.isWritableFileAtPath(rawValue)
     }
     
     /// Returns `true` if the current process has read privileges for the file at the path.
     public var isReadable: Bool {
-        return Path.FileManager.isReadableFileAtPath(rawValue)
+        return Path.fileManager.isReadableFileAtPath(rawValue)
     }
     
     /// Returns `true` if the current process has execute privileges for the file at the path.
     public var isExecutable: Bool {
-        return  Path.FileManager.isExecutableFileAtPath(rawValue)
+        return  Path.fileManager.isExecutableFileAtPath(rawValue)
     }
 
     /// Returns `true` if the current process has delete privileges for the file at the path.
     public var isDeletable: Bool {
-        return  Path.FileManager.isDeletableFileAtPath(rawValue)
+        return  Path.fileManager.isDeletableFileAtPath(rawValue)
     }
 
     /// Returns `true` if the path points to a directory.
     public var isDirectory: Bool {
         var isDirectory: ObjCBool = false
-        return Path.FileManager
+        return Path.fileManager
             .fileExistsAtPath(rawValue, isDirectory: &isDirectory) && isDirectory
     }
 
@@ -198,8 +198,8 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     ///                        Default value is `false`.
     public func children(recursive recursive: Bool = false) -> [Path] {
         let obtainFunc = recursive
-            ? Path.FileManager.subpathsOfDirectoryAtPath
-            : Path.FileManager.contentsOfDirectoryAtPath
+            ? Path.fileManager.subpathsOfDirectoryAtPath
+            : Path.fileManager.contentsOfDirectoryAtPath
         return (try? obtainFunc(rawValue))?.map { self + Path($0) } ?? []
     }
 
@@ -291,7 +291,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
                 path += self.components.last!
             }
             do {
-                let manager = Path.FileManager
+                let manager = Path.fileManager
                 try manager.createSymbolicLinkAtPath(
                     path.rawValue, withDestinationPath: self.rawValue)
             } catch {
@@ -309,7 +309,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     /// - Throws: `FileKitError.CreateFileFail`
     ///
     public func createFile() throws {
-        let manager = Path.FileManager
+        let manager = Path.fileManager
         if !manager.createFileAtPath(rawValue, contents: nil, attributes: nil) {
             throw FileKitError.CreateFileFail(path: self)
         }
@@ -342,7 +342,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     ///
     public func createDirectory() throws {
         do {
-            let manager = Path.FileManager
+            let manager = Path.fileManager
             try manager.createDirectoryAtPath(
                 rawValue, withIntermediateDirectories: true, attributes: nil)
         } catch {
@@ -358,7 +358,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     ///
     public func deleteFile() throws {
         do {
-            try Path.FileManager.removeItemAtPath(rawValue)
+            try Path.fileManager.removeItemAtPath(rawValue)
         } catch {
             throw FileKitError.DeleteFileFail(path: self)
         }
@@ -374,7 +374,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         if self.exists {
             if !path.exists {
                 do {
-                    try Path.FileManager.moveItemAtPath(self.rawValue, toPath: path.rawValue)
+                    try Path.fileManager.moveItemAtPath(self.rawValue, toPath: path.rawValue)
                 } catch {
                     throw FileKitError.MoveFileFail(from: self, to: path)
                 }
@@ -397,7 +397,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         if self.exists {
             if !path.exists {
                 do {
-                    try Path.FileManager.copyItemAtPath(self.rawValue, toPath: path.rawValue)
+                    try Path.fileManager.copyItemAtPath(self.rawValue, toPath: path.rawValue)
                 } catch {
                     throw FileKitError.CopyFileFail(from: self, to: path)
                 }
@@ -413,13 +413,13 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
 
     /// Returns the path's attributes.
     public var attributes: [String : AnyObject] {
-        return (try? Path.FileManager.attributesOfItemAtPath(rawValue)) ?? [:]
+        return (try? Path.fileManager.attributesOfItemAtPath(rawValue)) ?? [:]
     }
     
     /// Modify attributes
     private func setAttributes(attributes: [String : AnyObject]) throws {
         do {
-            try Path.FileManager.setAttributes(attributes, ofItemAtPath: self.rawValue)
+            try Path.fileManager.setAttributes(attributes, ofItemAtPath: self.rawValue)
         }
         catch {
             throw FileKitError.AttributesChangeFail(path: self)
@@ -779,7 +779,7 @@ extension Path : SequenceType {
 
         public init(path: Path) {
             _path = path
-            _directoryEnumerator = FileManager.enumeratorAtPath(path.rawValue)!
+            _directoryEnumerator = fileManager.enumeratorAtPath(path.rawValue)!
         }
 
         public func next() -> Path? {

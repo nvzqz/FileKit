@@ -89,11 +89,11 @@ public func |>> (var data: String, file: TextFile) throws {
 ///     print(systemLib + "Fonts")  // "/System/Library/Fonts"
 ///
 public func + (lhs: Path, rhs: Path) -> Path {
-    switch (lhs.rawValue.hasSuffix(Path.Separator), rhs.rawValue.hasPrefix(Path.Separator)) {
+    switch (lhs.rawValue.hasSuffix(Path.separator), rhs.rawValue.hasPrefix(Path.separator)) {
     case (true, true):
         return Path("\(lhs.rawValue)\(rhs.rawValue.substringFromIndex(rhs.rawValue.startIndex.successor()))")
     case (false, false):
-        return Path("\(lhs.rawValue)\(Path.Separator)\(rhs.rawValue)")
+        return Path("\(lhs.rawValue)\(Path.separator)\(rhs.rawValue)")
     default:
         return Path("\(lhs.rawValue)\(rhs.rawValue)")
     }

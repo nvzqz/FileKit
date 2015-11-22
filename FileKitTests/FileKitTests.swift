@@ -248,14 +248,14 @@ class FileKitTests: XCTestCase {
     }
     
     func testVolumes() {
-        var volumes = Path.Volumes()
+        var volumes = Path.volumes()
         XCTAssertFalse(volumes.isEmpty, "No volume")
 
         for volume in volumes {
             XCTAssertNotNil("\(volume)")
         }
 
-        volumes = Path.Volumes(.SkipHiddenVolumes)
+        volumes = Path.volumes(.SkipHiddenVolumes)
         XCTAssertFalse(volumes.isEmpty, "No visible volume")
 
         for volume in volumes {
