@@ -113,25 +113,25 @@ class FileKitTests: XCTestCase {
     }
 
     func testRoot() {
-        
+
         let root = Path.Root
         XCTAssertTrue(root.isRoot)
-        
+
         XCTAssertEqual(root.standardized, root)
         XCTAssertEqual(root.parent, root)
         
         var p: Path = Path.UserTemporary
         XCTAssertFalse(p.isRoot)
-        
-        while !p.isRoot {
-            p = p.parent
-        }
+
+        while !p.isRoot { p = p.parent }
         XCTAssertTrue(p.isRoot)
 
-        
         let empty = Path("")
         XCTAssertFalse(empty.isRoot)
         XCTAssertEqual(empty.standardized, empty)
+
+        XCTAssertTrue(Path("/.").isRoot)
+        XCTAssertTrue(Path("//").isRoot)
     }
 
     func testFamily() {

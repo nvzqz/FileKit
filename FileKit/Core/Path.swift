@@ -102,7 +102,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     
     /// Returns `true` if the path is equal to "`/`".
     public var isRoot: Bool {
-        return rawValue == Path.separator
+        return resolved.rawValue == Path.separator
     }
 
     /// Returns `true` if the path begins with "`/`".
