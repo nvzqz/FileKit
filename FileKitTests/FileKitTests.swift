@@ -249,6 +249,11 @@ class FileKitTests: XCTestCase {
         Path.UserTemporary.changeDirectory {
             XCTAssertEqual(Path.Current, Path.UserTemporary)
         }
+
+        Path.UserDesktop </> {
+            XCTAssertEqual(Path.Current, Path.UserDesktop)
+        }
+
         XCTAssertNotEqual(Path.Current, Path.UserTemporary)
     }
 

@@ -27,7 +27,7 @@
 
 import Foundation
 
-// MARK: - FileType
+// MARK: - File
 
 /// Returns `true` if both files' paths are the same.
 @warn_unused_result
@@ -136,6 +136,13 @@ infix operator <^> {
 @warn_unused_result
 public func <^>(lhs: Path, rhs: Path) -> Path {
     return lhs.commonAncestor(rhs)
+}
+
+infix operator </> {}
+
+/// Runs `closure` with the path as its current working directory.
+public func </> (path: Path, @noescape closure: () throws -> ()) rethrows {
+    try path.changeDirectory(closure)
 }
 
 infix operator ->> {}
