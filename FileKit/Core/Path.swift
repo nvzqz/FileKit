@@ -100,17 +100,17 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
             : (Path.Current + self).standardized
     }
 
-    /// Returns `true` if the path is equal to "`/`".
+    /// Returns `true` if the path is equal to "/".
     public var isRoot: Bool {
         return resolved.rawValue == Path.separator
     }
 
-    /// Returns `true` if the path begins with "`/`".
+    /// Returns `true` if the path begins with "/".
     public var isAbsolute: Bool {
         return rawValue.hasPrefix(Path.separator)
     }
 
-    /// Returns `true` if the path does not begin with "`/`".
+    /// Returns `true` if the path does not begin with "/".
     public var isRelative: Bool {
         return !isAbsolute
     }
@@ -174,7 +174,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
 
     // MARK: - Initialization
 
-    /// Initializes a path to "`/`".
+    /// Initializes a path to "/".
     public init() {
         rawValue = "/"
     }
