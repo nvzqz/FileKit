@@ -100,26 +100,26 @@ manager for Objective-C and Swift.
 
 ### Paths
 
-Paths are handled with the `FKPath` structure.
+Paths are handled with the `Path` structure.
 
 #### Initialization
 
 Paths can be created with an initializer or with a string literal.
 
 ```swift
-let home = FKPath("~")
-let drive: FKPath = "/Volumes/Macintosh HD"
+let home = Path("~")
+let drive: Path = "/Volumes/Macintosh HD"
 ```
 
 #### Operations
 
 ##### New Files
 
-A blank file can be written by calling `createFile()` on an `FKPath`.
+A blank file can be written by calling `createFile()` on an `Path`.
 
 ```swift
 do {
-    try FKPath(".gitignore").createFile()
+    try Path(".gitignore").createFile()
 } catch {
     print("Could not create .gitignore")
 }
@@ -127,11 +127,11 @@ do {
 
 ##### New Directories
 
-A directory can be created by calling `createDirectory()` on an `FKPath`.
+A directory can be created by calling `createDirectory()` on an `Path`.
 
 ```swift
 do {
-    try FKPath("~/Files").createDirectory()
+    try Path("~/Files").createDirectory()
 } catch {
     print("Could not create Files")
 }
@@ -139,21 +139,21 @@ do {
 
 ##### New Symlinks
 
-A symbolic link can be created by calling `createSymlinkToPath(_:)` on an `FKPath`.
+A symbolic link can be created by calling `createSymlinkToPath(_:)` on an `Path`.
 
 ```swift
 do {
-    let filePath = FKPath.UserDesktop + "text.txt"
+    let filePath = Path.UserDesktop + "text.txt"
     try filePath.createFile()
 
-    let linkPath = FKPath.UserDesktop + "link.txt"
+    let linkPath = Path.UserDesktop + "link.txt"
     try filePath.createSymlinkToPath(linkPath)
     print(linkPath.exists)  // true
 
     let text = "If she weighs the same as a duck, she's made of wood."
-    try text |>  FKTextFile(path: filePath)
+    try text |>  TextFile(path: filePath)
 
-    let contents = try FKTextFile(path: linkPath).read()
+    let contents = try TextFile(path: linkPath).read()
     print(contents == text)  // true
 } catch {
     print("Could not create symlink")
@@ -166,7 +166,7 @@ You can find all paths with the ".txt" extension five folders deep into the
 Desktop with:
 
 ```swift
-let textFiles = FKPath.UserDesktop.findPaths(searchDepth: 5) { path in
+let textFiles = Path.UserDesktop.findPaths(searchDepth: 5) { path in
     path.pathExtension == "txt"
 }
 ```
@@ -182,25 +182,28 @@ Appends two paths and returns the result
 
 ```swift
 // ~/Documents/My Essay.docx
-let essay  = FKPath.UserDocuments + "My Essay.docx"
+let essay  = Path.UserDocuments + "My Essay.docx"
 ```
+
+It can also be used to concatenate a string and a path, making the string value
+a `Path` beforehand.
 
 ##### `+=` Operator
 
 Appends the right path to the left path
 
 ```swift
-var photos = FKPath.UserPictures + "My Photos"  // ~/Pictures/My Photos
+var photos = Path.UserPictures + "My Photos"  // ~/Pictures/My Photos
 photos += "../My Other Photos"                  // ~/Pictures/My Photos/../My Other Photos
 ```
 
-##### `•` Operator (alt+8)
+##### `%` Operator
 
 Returns the standardized version of the path.
 
 ```swift
-let path: FKPath = "~/Desktop"
-path• == path.standardized  // true
+let path: Path = "~/Desktop"
+path% == path.standardized  // true
 ```
 
 ##### `^` Operator
@@ -208,7 +211,7 @@ path• == path.standardized  // true
 Returns the path's parent path.
 
 ```swift
-let path: FKPath = "~/Movies"
+let path: Path = "~/Movies"
 path^ == "~"  // true
 ```
 
@@ -216,9 +219,9 @@ path^ == "~"  // true
 
 Moves the file at the left path to the right path.
 
-`FKPath` counterpart: **`moveFileToPath(_:)`**
+`Path` counterpart: **`moveFileToPath(_:)`**
 
-`FKFileType` counterpart: **`moveToPath(_:)`**
+`File` counterpart: **`moveToPath(_:)`**
 
 ##### `->!` Operator
 
@@ -229,9 +232,9 @@ at the left path before moving the file.
 
 Copies the file at the left path to the right path.
 
-`FKPath` counterpart: **`copyFileToPath(_:)`**
+`Path` counterpart: **`copyFileToPath(_:)`**
 
-`FKFileType` counterpart: **`copyToPath(_:)`**
+`File` counterpart: **`copyToPath(_:)`**
 
 ##### `+>!` Operator
 
@@ -242,9 +245,9 @@ at the left path before copying the file.
 
 Creates a symlink of the left path at the right path.
 
-`FKPath` counterpart: **`symlinkFileToPath(_:)`**
+`Path` counterpart: **`symlinkFileToPath(_:)`**
 
-`FKFileType` counterpart: **`symlinkToPath(_:)`**
+`File` counterpart: **`symlinkToPath(_:)`**
 
 ##### `=>!` Operator
 
@@ -253,11 +256,11 @@ anything at the left path before creating the symlink.
 
 ##### Subscripting
 
-Subscripting an `FKPath` will return all of its components up to and including
+Subscripting an `Path` will return all of its components up to and including
 the index.
 
 ```swift
-let users = FKPath("/Users/me/Desktop")[1]  // /Users
+let users = Path("/Users/me/Desktop")[1]  // /Users
 ```
 
 ##### `standardize()`
@@ -280,9 +283,13 @@ somePath = somePath.resolved
 
 ### Files
 
-#### FKFileType
+A file can be made using `File` with a `DataType` for its data type.
 
-Files are represented with the `FKFileType` protocol.
+```swift
+let textFile = File<String>(path: Path.UserDesktop + "sample.txt")
+```
+
+#### Operators
 
 ##### `|>` Operator
 
@@ -290,35 +297,25 @@ Writes the data on the left to the file on the right.
 
 ```swift
 do {
-    try "My name is Bob." |> FKTextFile(path: FKPath.UserDesktop + "name.txt")
+    try "My name is Bob." |> TextFile(path: Path.UserDesktop + "name.txt")
 } catch {
     print("I can't write to a desktop file?!")
 }
 ```
 
-#### FKFile
+#### TextFile
 
-A file can be made using `FKFile` with an `FKDataType` for its data type.
+The `TextFile` class allows for reading and writing strings to a file.
 
-The generic constraint defines the file's data type.
-
-```swift
-let textFile = FKFile<String>(path: FKPath.UserDesktop + "sample.txt")
-```
-
-#### FKTextFile
-
-The `FKTextFile` class allows for reading and writing strings to a file.
-
-Although it is a subclass of `FKFile<String>`, `FKTextFile` offers some functionality
-that `FKFile<String>` doesn't.
+Although it is a subclass of `File<String>`, `TextFile` offers some functionality
+that `File<String>` doesn't.
 
 ##### `|>>` Operator
 
-Appends the string on the left to the `FKTextFile` on the right.
+Appends the string on the left to the `TextFile` on the right.
 
 ```swift
-let readme = FKTextFile(path: "README.txt")
+let readme = TextFile(path: "README.txt")
 
 do {
     try "My Awesome Project" |> readme
@@ -328,22 +325,17 @@ do {
 }
 ```
 
-#### FKDictionaryFile
+#### DictionaryFile
 
-The `FKDictionaryFile` class allows for reading and writing dictionaries to a file.
+A typealias to `File<NSDictionary>`.
 
-It is not a subclass of `FKFile` but still conforms to `FKFileType`.
+#### ArrayFile
 
-```swift
-do {
-    let df = FKDictionaryFile(path: FKPath.UserDesktop + "Sample.plist")
-    let someDictionary: NSDictionary = ["FileKit" : true,
-                                        "Hello"   : "World"]
-    try someDictionary |> df
-} catch {
-    print("Something went wrong :( ...")
-}
-```
+A typealias to `File<NSArray>`
+
+#### DataFile
+
+A typealias to `File<NSData>`
 
 ## License
 
