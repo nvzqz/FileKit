@@ -31,23 +31,23 @@ import Foundation
 /// files and directories contained within that directory.
 public struct DirectoryEnumerator : GeneratorType {
 
-    private let _path: Path, _directoryEnumerator: NSDirectoryEnumerator
+    private let _path: Path, _enumerator: NSDirectoryEnumerator?
 
     public init(path: Path) {
         _path = path
-        _directoryEnumerator = Path.fileManager.enumeratorAtPath(path.rawValue)!
+        _enumerator = Path.fileManager.enumeratorAtPath(path.rawValue)
     }
 
     /// Returns the next path in the enumeration.
     public func next() -> Path? {
-        guard let next = _directoryEnumerator.nextObject() as? String else {
+        guard let next = _enumerator?.nextObject() as? String else {
             return nil
         }
-        return _path + Path(next)
+        return _path + next
     }
 
     /// Skip recursion into the most recently obtained subdirectory.
     public func skipDescendants() {
-        _directoryEnumerator.skipDescendants()
+        _enumerator?.skipDescendants()
     }
 }
