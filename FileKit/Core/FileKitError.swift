@@ -43,6 +43,8 @@ public enum FileKitError: ErrorType {
             return "Could not create symlink from \(fromPath) to \(toPath)"
         case let CreateFileFail(path):
             return "Could not create file at \(path)"
+        case let CreateDirectoryFail(path):
+            return "Could not create a directory at \(path)"
         case let DeleteFileFail(path):
             return "Could not delete file at \(path)"
         case let ReadFromFileFail(path):
@@ -69,6 +71,9 @@ public enum FileKitError: ErrorType {
 
     /// A file could not be created.
     case CreateFileFail(path: Path)
+
+    /// A directory could not be created.
+    case CreateDirectoryFail(path: Path)
 
     /// A file could not be deleted.
     case DeleteFileFail(path: Path)

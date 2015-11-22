@@ -371,7 +371,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     ///
     /// Throws an error if the directory cannot be created.
     ///
-    /// - Throws: `FileKitError.CreateFileFail`
+    /// - Throws: `FileKitError.CreateDirectoryFail`
     ///
     public func createDirectory() throws {
         do {
@@ -379,7 +379,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
             try manager.createDirectoryAtPath(
                 rawValue, withIntermediateDirectories: true, attributes: nil)
         } catch {
-            throw FileKitError.CreateFileFail(path: self)
+            throw FileKitError.CreateDirectoryFail(path: self)
         }
     }
 
