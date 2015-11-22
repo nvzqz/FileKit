@@ -99,6 +99,12 @@ public func + (lhs: Path, rhs: Path) -> Path {
     }
 }
 
+/// Converts a `String` to a `Path` and returns the concatenated result.
+public func + (lhs: String, rhs: Path) -> Path {
+    return Path(lhs) + rhs
+}
+
+/// Converts a `String` to a `Path` and returns the concatenated result.
 public func + (lhs: Path, rhs: String) -> Path {
    return lhs + Path(rhs)
 }
