@@ -26,6 +26,15 @@
 //
 
 /// Information regarding [FileKit](https://github.com/nvzqz/FileKit).
+///
+/// - Author: [Nikolai Vazquez](https://github.com/nvzqz)
+///
+/// - Copyright: [MIT License](https://opensource.org/licenses/MIT)
+///
+/// - Version: [v1.7.0](https://github.com/nvzqz/FileKit/releases/tag/v1.7.0)
+///
+/// - Requires: Xcode 7+, Swift 2.0+
+///
 public struct FileKit {
 
     /// The current version.
