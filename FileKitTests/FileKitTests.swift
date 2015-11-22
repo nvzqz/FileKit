@@ -33,10 +33,11 @@ class FileKitTests: XCTestCase {
     // MARK: - Path
 
     func testFindingPaths() {
-        let folders = Path.UserHome.find(searchDepth: 0) { path in
-            path.isDirectory
-        }
-        XCTAssertFalse(folders.isEmpty, "Home folder is not empty")
+        let homeFolders = Path.UserHome.find(searchDepth: 0) { $0.isDirectory }
+        XCTAssertFalse(homeFolders.isEmpty, "Home folder is not empty")
+
+        let rootFiles = Path.Root.find(searchDepth: 1) { !$0.isDirectory }
+        XCTAssertFalse(rootFiles.isEmpty)
     }
 
     func testPathStringLiteralConvertible() {

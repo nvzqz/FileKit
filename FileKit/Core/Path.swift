@@ -273,16 +273,17 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     ///
     /// - Returns: An Array containing the non-nil values for paths found in
     ///            `self`.
+    ///
     public func find<T>(searchDepth depth: Int, @noescape transform: (Path) throws -> T?) rethrows -> [T] {
-        var result: [T] = []
-        for child in self.children() {
+        return try self.children().reduce([]) { values, child in
             if let value = try transform(child) {
-                result.append(value)
+                return values + [value]
             } else if depth != 0 {
-                result += try child.find(searchDepth: depth - 1, transform: transform)
+                return try values + child.find(searchDepth: depth - 1, transform: transform)
+            } else {
+                return values
             }
         }
-        return result
     }
 
     /// Standardizes the path.
