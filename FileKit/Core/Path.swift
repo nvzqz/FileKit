@@ -371,13 +371,18 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     ///
     /// Throws an error if the directory cannot be created.
     ///
+    /// - Parameter createIntermediates: If `true`, any non-existent parent
+    ///                                  directories are created along with that
+    ///                                  of `self`. Default value is `true`.
+    ///
     /// - Throws: `FileKitError.CreateDirectoryFail`
     ///
-    public func createDirectory() throws {
+    public func createDirectory(withIntermediateDirectories createIntermediates: Bool = true) throws {
         do {
             let manager = Path.fileManager
-            try manager.createDirectoryAtPath(
-                rawValue, withIntermediateDirectories: true, attributes: nil)
+            try manager.createDirectoryAtPath(rawValue,
+                withIntermediateDirectories: createIntermediates,
+                attributes: nil)
         } catch {
             throw FileKitError.CreateDirectoryFail(path: self)
         }
