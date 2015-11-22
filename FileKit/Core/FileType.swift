@@ -51,16 +51,17 @@ public extension FileType {
     
     /// The file's name.
     public var name: String {
-        if let name = path.components.last?.rawValue {
-            return name
-        } else {
-            return ""
-        }
+        return path.components.last?.rawValue ?? ""
     }
     
     /// The file's filesystem path extension.
     public final var pathExtension: String {
-        return path.pathExtension
+        get {
+            return path.pathExtension
+        }
+        set {
+            path.pathExtension = newValue
+        }
     }
     
     /// True if the file exists.
