@@ -331,6 +331,49 @@ class FileKitTests: XCTestCase {
             XCTFail()
         }
     }
+    
+    func testCreateDirectory() {
+        let dir: Path = .UserTemporary + "TestCreateDir"
+        if dir.exists {
+            try! dir.deleteFile()
+        }
+        defer {
+            if dir.exists {
+                try! dir.deleteFile()
+            }
+        }
+        
+        do {
+            XCTAssertFalse(dir.exists)
+            try dir.createDirectory()
+            XCTAssertTrue(dir.exists)
+        }
+        catch let e {
+            print("\(e)")
+        }
+        
+        do {
+            XCTAssertTrue(dir.exists)
+            try dir.createDirectory(withIntermediateDirectories: false)
+            XCTFail("must throw exception")
+        }
+        catch FileKitError.CreateDirectoryFail{
+           print("Create directory fail ok")
+        }
+        catch let e {
+            XCTFail("unkown exception \(e)")
+        }
+        
+        do {
+            XCTAssertTrue(dir.exists)
+            try dir.createDirectory(withIntermediateDirectories: true)
+            XCTAssertTrue(dir.exists)
+        }
+        catch let e {
+            XCTFail("Not exppected exception \(e)")
+        }
+
+    }
 
     func testWellKnownDirectories() {
         XCTAssertTrue(Path.UserHome.exists)
