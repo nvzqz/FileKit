@@ -304,9 +304,7 @@ class FileKitTests: XCTestCase {
     func testTouch() {
         let path: Path = .UserTemporary + "filekit_test.touch"
         do {
-            if path.exists {
-                try path.deleteFile()
-            }
+            if path.exists { try path.deleteFile() }
             XCTAssertFalse(path.exists)
 
             try path.touch()
@@ -316,8 +314,11 @@ class FileKitTests: XCTestCase {
                 XCTFail("Failed to get modification date")
                 return
             }
+
             sleep(1)
+
             try path.touch()
+
             guard let newModificationDate = path.modificationDate else {
                 XCTFail("Failed to get modification date")
                 return
@@ -325,52 +326,44 @@ class FileKitTests: XCTestCase {
 
             XCTAssertTrue(modificationDate < newModificationDate)
 
-        } catch let error as FileKitError {
-            XCTFail(error.message)
         } catch {
-            XCTFail()
+            XCTFail(String(error))
         }
     }
     
     func testCreateDirectory() {
-        let dir: Path = .UserTemporary + "TestCreateDir"
-        if dir.exists {
-            try! dir.deleteFile()
-        }
+        let dir: Path = .UserTemporary + "filekit_testdir"
+
+        if dir.exists { try! dir.deleteFile() }
+
         defer {
-            if dir.exists {
-                try! dir.deleteFile()
-            }
+            if dir.exists { try! dir.deleteFile() }
         }
         
         do {
             XCTAssertFalse(dir.exists)
             try dir.createDirectory()
             XCTAssertTrue(dir.exists)
-        }
-        catch let e {
-            print("\(e)")
+        } catch {
+            XCTFail(String(error))
         }
         
         do {
             XCTAssertTrue(dir.exists)
             try dir.createDirectory(withIntermediateDirectories: false)
             XCTFail("must throw exception")
-        }
-        catch FileKitError.CreateDirectoryFail{
-           print("Create directory fail ok")
-        }
-        catch let e {
-            XCTFail("unkown exception \(e)")
+        } catch FileKitError.CreateDirectoryFail {
+            print("Create directory fail ok")
+        } catch {
+            XCTFail("Unknown error: " + String(error))
         }
         
         do {
             XCTAssertTrue(dir.exists)
             try dir.createDirectory(withIntermediateDirectories: true)
             XCTAssertTrue(dir.exists)
-        }
-        catch let e {
-            XCTFail("Not exppected exception \(e)")
+        } catch {
+            XCTFail("Unexpected error: " + String(error))
         }
 
     }
@@ -401,10 +394,8 @@ class FileKitTests: XCTestCase {
         do {
             try tf.create()
             XCTAssertTrue(tf.exists)
-        } catch let error as FileKitError {
-            XCTFail(error.message)
         } catch {
-            XCTFail()
+            XCTFail(String(error))
         }
     }
 
@@ -412,10 +403,8 @@ class FileKitTests: XCTestCase {
         do {
             try tf.write("This is some test.")
             try tf.write("This is another test.", atomically: false)
-        } catch let error as FileKitError {
-            XCTFail(error.message)
         } catch {
-            XCTFail()
+            XCTFail(String(error))
         }
     }
 
@@ -431,10 +420,8 @@ class FileKitTests: XCTestCase {
             contents = try tf.read()
             XCTAssertTrue(contents.hasSuffix(text + "\n" + text))
 
-        } catch let error as FileKitError {
-            XCTFail(error.message)
         } catch {
-            XCTFail()
+            XCTFail(String(error))
         }
     }
 
@@ -447,6 +434,7 @@ class FileKitTests: XCTestCase {
             try "1234567890" |> textFile1
             try "12345"      |> textFile2
             XCTAssert(textFile1 > textFile2)
+
         } catch {
             XCTFail(String(error))
         }
@@ -466,10 +454,8 @@ class FileKitTests: XCTestCase {
             let contents = try dictionaryFile.read()
             XCTAssertEqual(contents, dict)
 
-        } catch let error as FileKitError {
-            XCTFail(error.message)
         } catch {
-            XCTFail()
+            XCTFail(String(error))
         }
     }
 
@@ -484,10 +470,9 @@ class FileKitTests: XCTestCase {
             try arrayFile.write(array)
             let contents = try arrayFile.read()
             XCTAssertEqual(contents, array)
-        } catch let error as FileKitError {
-            XCTFail(error.message)
+
         } catch {
-            XCTFail()
+            XCTFail(String(error))
         }
     }
 
@@ -498,14 +483,11 @@ class FileKitTests: XCTestCase {
     func testWriteToDataFile() {
         do {
             let data = ("FileKit test" as NSString).dataUsingEncoding(NSUTF8StringEncoding)!
-
             try dataFile.write(data)
             let contents = try dataFile.read()
             XCTAssertEqual(contents, data)
-        } catch let error as FileKitError {
-            XCTFail(error.message)
         } catch {
-            XCTFail()
+            XCTFail(String(error))
         }
     }
 
@@ -519,10 +501,8 @@ class FileKitTests: XCTestCase {
             try stringFile.write(message)
             let contents = try String(contentsOfPath: stringFile.path)
             XCTAssertEqual(contents, message)
-        } catch let error as FileKitError {
-            XCTFail(error.message)
         } catch {
-            XCTFail()
+            XCTFail(String(error))
         }
     }
 
@@ -532,10 +512,8 @@ class FileKitTests: XCTestCase {
             try message.writeToPath(stringFile.path)
             let contents = try String(contentsOfPath: stringFile.path)
             XCTAssertEqual(contents, message)
-        } catch let error as FileKitError {
-            XCTFail(error.message)
         } catch {
-            XCTFail()
+            XCTFail(String(error))
         }
     }
 
@@ -547,10 +525,8 @@ class FileKitTests: XCTestCase {
         do {
             let path: Path = .UserTemporary + "filekit_imagetest.png"
             try img.writeToPath(path)
-        } catch let error as FileKitError {
-            XCTFail(error.message)
-        } catch  {
-            XCTFail()
+        } catch {
+            XCTFail(String(error))
         }
     }
 
