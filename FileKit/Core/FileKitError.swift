@@ -99,11 +99,7 @@ public enum FileKitError: ErrorType {
 extension FileKitError : CustomStringConvertible {
 
     public var description: String {
-        var result = "\(self.dynamicType)"
-        if let label = Mirror(reflecting: self).children.first?.label {
-            result += ".\(label)"
-        }
-        return "\(result)(\"\(message)\")"
+        return String(self.dynamicType) + "(" + message.debugDescription + ")"
     }
 
 }
