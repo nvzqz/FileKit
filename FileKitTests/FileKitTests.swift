@@ -163,7 +163,8 @@ class FileKitTests: XCTestCase {
 
         // common ancestor
         XCTAssertTrue(p.commonAncestor(Path.Root).isRoot)
-        XCTAssertEqual(.UserDownloads <^> .UserDocuments,  Path.UserHome)
+        XCTAssertEqual(.UserDownloads <^> .UserDocuments, Path.UserHome)
+        XCTAssertEqual(("~/Downloads" <^> "~/Documents").rawValue, "~")
     }
 
     func testPathAttributes() {

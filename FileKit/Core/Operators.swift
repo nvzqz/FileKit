@@ -97,6 +97,8 @@ public func == (lhs: Path, rhs: Path) -> Bool {
 ///
 @warn_unused_result
 public func + (lhs: Path, rhs: Path) -> Path {
+    if lhs.rawValue.isEmpty { return rhs }
+    if rhs.rawValue.isEmpty { return lhs }
     switch (lhs.rawValue.hasSuffix(Path.separator), rhs.rawValue.hasPrefix(Path.separator)) {
     case (true, true):
         return Path("\(lhs.rawValue)\(rhs.rawValue.substringFromIndex(rhs.rawValue.startIndex.successor()))")

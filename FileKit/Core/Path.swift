@@ -249,7 +249,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         }
 
         let ancestorComponents = selfComponents[0..<index]
-        return ancestorComponents.reduce(Path.Root) { $0 + $1 }
+        return ancestorComponents.reduce("") { $0 + $1 }
     }
 
     /// Returns paths in `self` that match a condition.
