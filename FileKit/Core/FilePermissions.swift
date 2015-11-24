@@ -42,6 +42,7 @@ public struct FilePermissions : OptionSetType, CustomStringConvertible {
     /// The raw integer value of `self`.
     public let rawValue: Int
 
+    /// A textual representation of `self`.
     public var description: String {
         var description = ""
         for permission in [.Read, .Write, .Execute] as [FilePermissions] {
@@ -62,6 +63,16 @@ public struct FilePermissions : OptionSetType, CustomStringConvertible {
     /// Creates a set of file permissions.
     public init(rawValue: Int) {
         self.rawValue = rawValue
+    }
+
+    /// Creates a set of permissions for the file at `path`.
+    public init(forPath path: Path) {
+        self.rawValue = path.filePermissions.rawValue
+    }
+
+    /// Creates a set of permissions for `file`.
+    public init<Data : DataType>(forFile file: File<Data>) {
+        self.rawValue = file.permissions.rawValue
     }
 
 }
