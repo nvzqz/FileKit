@@ -67,14 +67,9 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
 
     /// The components of the path.
     public var components: [Path] {
-        var result = [Path]()
-        for (index, component) in (rawValue as NSString).pathComponents.enumerate()
-        {
-            if index == 0 || component != "/" {
-                result.append(Path(component))
-            }
+        return (rawValue as NSString).pathComponents.enumerate().flatMap {
+            ($0 == 0 || $1 != "/") ? Path($1) : nil
         }
-        return result
     }
 
     /// The name of the file at `self`.
