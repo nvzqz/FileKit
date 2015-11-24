@@ -98,6 +98,7 @@ public enum FileKitError: ErrorType {
 
 extension FileKitError : CustomStringConvertible {
 
+    /// A textual representation of `self`.
     public var description: String {
         return String(self.dynamicType) + "(" + message.debugDescription + ")"
     }

@@ -564,6 +564,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
 
     // MARK: - FilePermissions
 
+    /// The permissions for the file at the path.
     public var filePermissions: FilePermissions {
         var permissions = FilePermissions(rawValue: 0)
         if self.isReadable   { permissions.unionInPlace(.Read)    }
@@ -662,34 +663,34 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
 
     // MARK: - NSFileHandle
 
-    /// Returns a file handle for reading the file at `self`, or `nil` if no
-    /// file exists at `self`.
+    /// Returns a file handle for reading the file at the path, or `nil` if no
+    /// file exists.
     public var fileHandleForReading: NSFileHandle? {
         return NSFileHandle(forReadingAtPath: rawValue)
     }
 
-    /// Returns a file handle for writing to the file at `self`, or `nil` if no
-    /// file exists at `self`.
+    /// Returns a file handle for writing to the file at the path, or `nil` if
+    /// no file exists.
     public var fileHandleForWriting: NSFileHandle? {
         return NSFileHandle(forWritingAtPath: rawValue)
     }
 
-    /// Returns a file handle for reading and writing to the file at `self`, or
-    /// `nil` if no file exists at `self`.
+    /// Returns a file handle for reading and writing to the file at the path,
+    /// or `nil` if no file exists.
     public var fileHandleForUpdating: NSFileHandle? {
         return NSFileHandle(forUpdatingAtPath: rawValue)
     }
 
     // MARK: - NSStream
 
-    /// Returns an input stream that reads data from the file at `self`, or
-    /// `nil` if no file exists at `self`.
+    /// Returns an input stream that reads data from the file at the path, or
+    /// `nil` if no file exists.
     public func inputStream() -> NSInputStream? {
         return NSInputStream(fileAtPath: rawValue)
     }
 
-    /// Returns an output stream for writing to the file at `self`, or `nil` if
-    /// no file exists at `self`.
+    /// Returns an output stream for writing to the file at the path, or `nil`
+    /// if no file exists.
     ///
     /// - Parameter shouldAppend: `true` if newly written data should be
     ///                           appended to any existing file contents,
@@ -740,9 +741,8 @@ extension Path : CustomDebugStringConvertible {
 }
 
 extension Path : SequenceType {
-
     // MARK: - SequenceType
-
+    /// Return a *generator* over the contents of the path.
     public func generate() -> DirectoryEnumerator {
         return DirectoryEnumerator(path: self)
     }
@@ -764,10 +764,12 @@ extension Path {
         return Path(NSTemporaryDirectory())
     }
 
+    /// Returns a temporary path for the process.
     public static var ProcessTemporary: Path {
         return Path.UserTemporary + NSProcessInfo.processInfo().globallyUniqueString
     }
 
+    /// Returns a unique temporary path.
     public static var UniqueTemporary: Path {
         return Path.ProcessTemporary + NSUUID().UUIDString
     }

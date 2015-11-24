@@ -124,6 +124,7 @@ public func += (inout lhs: Path, rhs: Path) {
     lhs = lhs + rhs
 }
 
+/// Appends the path value of the String to the left path.
 public func += (inout lhs: Path, rhs: String) {
     lhs = lhs + rhs
 }
