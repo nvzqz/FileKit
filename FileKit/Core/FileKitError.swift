@@ -27,36 +27,36 @@
 
 import Foundation
 
-// MARK: FileKitError
-
 /// An error that can be thrown by FileKit.
 public enum FileKitError: ErrorType {
+
+    // MARK: FileKitError
 
     /// The reason for why the error occured.
     public var message: String {
         switch self {
         case let FileDoesNotExist(path):
-            return "File does not exist at \(path)"
+            return "File does not exist at \"\(path)\""
         case let ChangeDirectoryFail(fromPath, toPath):
-            return "Could not change the directory from \(fromPath) to \(toPath)"
+            return "Could not change the directory from \"\(fromPath)\" to \"\(toPath)\""
         case let CreateSymlinkFail(fromPath, toPath):
-            return "Could not create symlink from \(fromPath) to \(toPath)"
+            return "Could not create symlink from \"\(fromPath)\" to \"\(toPath)\""
         case let CreateFileFail(path):
-            return "Could not create file at \(path)"
+            return "Could not create file at \"\(path)\""
         case let CreateDirectoryFail(path):
-            return "Could not create a directory at \(path)"
+            return "Could not create a directory at \"\(path)\""
         case let DeleteFileFail(path):
-            return "Could not delete file at \(path)"
+            return "Could not delete file at \"\(path)\""
         case let ReadFromFileFail(path):
-            return "Could not read from file at \(path)"
+            return "Could not read from file at \"\(path)\""
         case let WriteToFileFail(path):
-            return "Could not write to file at \(path)"
+            return "Could not write to file at \"\(path)\""
         case let MoveFileFail(fromPath, toPath):
-            return "Could not move file at \(fromPath) to \(toPath)"
+            return "Could not move file at \"\(fromPath)\" to \"\(toPath)\""
         case let CopyFileFail(fromPath, toPath):
-            return "Could not copy file from \(fromPath) to \(toPath)"
+            return "Could not copy file from \"\(fromPath)\" to \"\(toPath)\""
         case let AttributesChangeFail(path):
-            return "Could not change file attrubutes at \(path)"
+            return "Could not change file attrubutes at \"\(path)\""
         }
     }
 
@@ -94,13 +94,11 @@ public enum FileKitError: ErrorType {
     case AttributesChangeFail(path: Path)
 }
 
-// MARK: - CustomStringConvertible
-
 extension FileKitError : CustomStringConvertible {
-
+    // MARK: - CustomStringConvertible
     /// A textual representation of `self`.
     public var description: String {
-        return String(self.dynamicType) + "(" + message.debugDescription + ")"
+        return String(self.dynamicType) + "(" + message + ")"
     }
 
 }
