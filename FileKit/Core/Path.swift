@@ -309,32 +309,34 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
 
     /// Creates a symbolic link at a path that points to `self`.
     ///
-    /// If the symbolic link path already exists and _is not_ a directory, an
-    /// error will be thrown and a link will not be created.
-    ///
-    /// If the symbolic link path already exists and _is_ a directory, the link
-    /// will be made to a file in that directory.
+    /// - Parameter path: The Path to which at which the link of the file at
+    ///                   `self` will be created.
+    ///                   If `path` exists and is a directory, then the link
+    ///                   will be made inside of `path`. Otherwise, an error
+    ///                   will be thrown.
     ///
     /// - Throws:
     ///     `FileKitError.FileDoesNotExist`,
     ///     `FileKitError.CreateSymlinkFail`
     ///
-    public func symlinkFileToPath(var path: Path) throws {
-        if self.exists {
-            if path.exists && !path.isDirectory {
-                throw FileKitError.CreateSymlinkFail(from: self, to: path)
-            } else if path.isDirectory && !self.isDirectory {
-                path += self.components.last!
-            }
-            do {
-                let manager = Path.fileManager
-                try manager.createSymbolicLinkAtPath(
-                    path.rawValue, withDestinationPath: self.rawValue)
-            } catch {
-                throw FileKitError.CreateSymlinkFail(from: self, to: path)
-            }
-        } else {
+    public func symlinkFileToPath(path: Path) throws {
+        guard self.exists else {
             throw FileKitError.FileDoesNotExist(path: self)
+        }
+
+        // Throws if linking to an existing non-directory file.
+        guard !path.exists || path.isDirectory else {
+            throw FileKitError.CreateSymlinkFail(from: self, to: path)
+        }
+
+        let linkPath = path.isDirectory ? path + self.fileName : path
+
+        do {
+            let manager = Path.fileManager
+            try manager.createSymbolicLinkAtPath(
+                linkPath.rawValue, withDestinationPath: self.rawValue)
+        } catch {
+            throw FileKitError.CreateSymlinkFail(from: self, to: linkPath)
         }
     }
 

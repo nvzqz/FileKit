@@ -307,9 +307,13 @@ infix operator =>! {}
 ///     `FileKitError.CreateSymlinkFail`
 ///
 public func =>! (lhs: Path, rhs: Path) throws {
-    if rhs.exists {
-        try rhs.deleteFile()
+    guard lhs.exists else {
+        throw FileKitError.FileDoesNotExist(path: lhs)
     }
+
+    let linkPath = rhs.isDirectory ? rhs + lhs.fileName : rhs
+    if linkPath.exists { try linkPath.deleteFile() }
+
     try lhs =>> rhs
 }
 
@@ -324,10 +328,7 @@ public func =>! (lhs: Path, rhs: Path) throws {
 ///     `FileKitError.CreateSymlinkFail`
 ///
 public func =>! <Data : DataType>(lhs: File<Data>, rhs: Path) throws {
-    if rhs.exists {
-        try rhs.deleteFile()
-    }
-    try lhs =>> rhs
+    try lhs.path =>! rhs
 }
 
 postfix operator % {}

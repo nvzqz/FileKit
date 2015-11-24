@@ -213,16 +213,46 @@ class FileKitTests: XCTestCase {
     }
 
     func testPathSymlinking() {
-        let fileToLink = TextFile(path: .UserTemporary + "test.txt")
-        let symlinkPath = .UserTemporary + "test2.txt"
+        do {
+            let testDir: Path = .UserTemporary + "filekit_test_symlinking"
 
-        let testData = "test data"
-        try! testData |> fileToLink
+            if testDir.exists && !testDir.isDirectory {
+                try testDir.deleteFile()
+                XCTAssertFalse(testDir.exists)
+            }
 
-        try! fileToLink =>! symlinkPath
+            try testDir.createDirectory()
+            XCTAssertTrue(testDir.exists)
 
-        let contents = try! TextFile(path: symlinkPath).read()
-        XCTAssertEqual(contents, testData)
+            let testFile = TextFile(path: testDir + "test_file.txt")
+            try "FileKit test" |> testFile
+            XCTAssertTrue(testFile.exists)
+
+            let symDir = testDir + "sym_dir"
+            if symDir.exists && !symDir.isDirectory {
+                try symDir.deleteFile()
+            }
+            try symDir.createDirectory()
+
+            // "/temporary/symDir/test_file.txt"
+            try testFile =>! symDir
+
+            let symPath = symDir + testFile.name
+            XCTAssertTrue(symPath.isSymbolicLink)
+
+            let symPathContents = try String(contentsOfPath: symPath)
+            XCTAssertEqual(symPathContents, "FileKit test")
+
+            let symLink = testDir + "test_file_link.txt"
+            try testFile =>! symLink
+            XCTAssertTrue(symLink.isSymbolicLink)
+
+            let symLinkContents = try String(contentsOfPath: symLink)
+            XCTAssertEqual(symLinkContents, "FileKit test")
+
+        } catch {
+            XCTFail(String(error))
+        }
     }
 
     func testPathOperators() {
