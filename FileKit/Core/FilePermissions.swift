@@ -28,19 +28,36 @@
 import Foundation
 
 /// The permissions of a file.
-public struct FilePermissions : OptionSetType {
+public struct FilePermissions : OptionSetType, CustomStringConvertible {
 
     /// The file can be read from.
-    public static let Read = FilePermissions(rawValue: 1 << 0)
+    public static let Read = FilePermissions(rawValue: 1)
 
     /// The file can be written to.
-    public static let Write = FilePermissions(rawValue: 1 << 1)
+    public static let Write = FilePermissions(rawValue: 2)
 
     /// The file can be executed.
-    public static let Execute = FilePermissions(rawValue: 1 << 2)
+    public static let Execute = FilePermissions(rawValue: 4)
 
     /// The raw integer value of `self`.
     public let rawValue: Int
+
+    public var description: String {
+        var description = ""
+        for permission in [.Read, .Write, .Execute] as [FilePermissions] {
+            if self.contains(permission) {
+                description += !description.isEmpty ? ", " : ""
+                if permission == .Read {
+                    description += "Read"
+                } else if permission == .Write {
+                    description += "Write"
+                } else if permission == .Execute {
+                    description += "Execute"
+                }
+            }
+        }
+        return String(self.dynamicType) + "[" + description + "]"
+    }
 
     /// Creates a set of file permissions.
     public init(rawValue: Int) {
