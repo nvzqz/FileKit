@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52255DCB1C042D6E00AC1DA5 /* FilePermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */; };
+		52255DCC1C042D6E00AC1DA5 /* FilePermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */; };
+		52255DCD1C042D6E00AC1DA5 /* FilePermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */; };
+		52255DCE1C042D6E00AC1DA5 /* FilePermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */; };
 		523C33781B9A7EFC00AB70E4 /* TextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33771B9A7EFC00AB70E4 /* TextFile.swift */; };
 		523C33791B9A7EFC00AB70E4 /* TextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C33771B9A7EFC00AB70E4 /* TextFile.swift */; };
 		523C337B1B9B68D600AB70E4 /* DictionaryFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C337A1B9B68D600AB70E4 /* DictionaryFile.swift */; };
@@ -111,6 +115,7 @@
 		5204B84B1B96B83800AA473F /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5204B84F1B96B83800AA473F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5204B8581B96B85E00AA473F /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilePermissions.swift; sourceTree = "<group>"; };
 		523C33771B9A7EFC00AB70E4 /* TextFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFile.swift; sourceTree = "<group>"; };
 		523C337A1B9B68D600AB70E4 /* DictionaryFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryFile.swift; sourceTree = "<group>"; };
 		523C33981B9B764600AB70E4 /* DataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
@@ -132,7 +137,7 @@
 		52A017041C01AD6F0045A9C8 /* NSBundle+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSBundle+FileKit.swift"; sourceTree = "<group>"; };
 		52A017091C01D5400045A9C8 /* FileType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileType.swift; sourceTree = "<group>"; };
 		52A0170F1C024D840045A9C8 /* NSString+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+FileKit.swift"; sourceTree = "<group>"; };
-		52B938B31BF3C3E5001B7AEB /* FileKit-tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "FileKit-tvOS.framework"; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52B938B31BF3C3E5001B7AEB /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52B938C81BF402ED001B7AEB /* ImageFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFile.swift; sourceTree = "<group>"; };
 		52BF6BB01B99322000F07E13 /* FileKitError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileKitError.swift; sourceTree = "<group>"; };
 		C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+FileKit.swift"; sourceTree = "<group>"; };
@@ -194,7 +199,7 @@
 				5204B8581B96B85E00AA473F /* FileKit.framework */,
 				5263A9041B96BA3D00635A93 /* FileKitTests.xctest */,
 				527612421BAEA3EE00503D0A /* FileKit.framework */,
-				52B938B31BF3C3E5001B7AEB /* FileKit-tvOS.framework */,
+				52B938B31BF3C3E5001B7AEB /* FileKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -222,6 +227,7 @@
 				5204B7C31B968E8000AA473F /* Path.swift */,
 				52A016F11C0184CA0045A9C8 /* FileProtection.swift */,
 				52A017091C01D5400045A9C8 /* FileType.swift */,
+				52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */,
 				52A016C31C013F3D0045A9C8 /* DirectoryEnumerator.swift */,
 				523C33981B9B764600AB70E4 /* DataType.swift */,
 				52BF6BB01B99322000F07E13 /* FileKitError.swift */,
@@ -383,7 +389,7 @@
 			);
 			name = "FileKit-tvOS";
 			productName = "FileKit-tvOS";
-			productReference = 52B938B31BF3C3E5001B7AEB /* FileKit-tvOS.framework */;
+			productReference = 52B938B31BF3C3E5001B7AEB /* FileKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -493,6 +499,7 @@
 				52A017001C01AD4A0045A9C8 /* NSData+FileKit.swift in Sources */,
 				52A016F61C01ACE50045A9C8 /* NSDictionary+FileKit.swift in Sources */,
 				52B938C91BF402ED001B7AEB /* ImageFile.swift in Sources */,
+				52255DCB1C042D6E00AC1DA5 /* FilePermissions.swift in Sources */,
 				524D31571BC79067008B93D0 /* ArrayFile.swift in Sources */,
 				523C33A11B9B772A00AB70E4 /* File.swift in Sources */,
 				52A0170A1C01D5400045A9C8 /* FileType.swift in Sources */,
@@ -522,6 +529,7 @@
 				523C339A1B9B764600AB70E4 /* DataType.swift in Sources */,
 				52BF6BB21B99322000F07E13 /* FileKitError.swift in Sources */,
 				52B938CA1BF402ED001B7AEB /* ImageFile.swift in Sources */,
+				52255DCC1C042D6E00AC1DA5 /* FilePermissions.swift in Sources */,
 				524D31581BC79067008B93D0 /* ArrayFile.swift in Sources */,
 				523C33A21B9B772A00AB70E4 /* File.swift in Sources */,
 				523C337C1B9B68D600AB70E4 /* DictionaryFile.swift in Sources */,
@@ -559,6 +567,7 @@
 				5276124E1BAEA43600503D0A /* Path.swift in Sources */,
 				527612511BAEA43600503D0A /* Operators.swift in Sources */,
 				527612501BAEA43600503D0A /* FileKitError.swift in Sources */,
+				52255DCD1C042D6E00AC1DA5 /* FilePermissions.swift in Sources */,
 				52B938CB1BF402ED001B7AEB /* ImageFile.swift in Sources */,
 				524D31591BC79067008B93D0 /* ArrayFile.swift in Sources */,
 				5276124F1BAEA43600503D0A /* DataType.swift in Sources */,
@@ -587,6 +596,7 @@
 				52B938C01BF3C42A001B7AEB /* DataFile.swift in Sources */,
 				52B938BD1BF3C42A001B7AEB /* TextFile.swift in Sources */,
 				52B938C51BF3C430001B7AEB /* String+FileKit.swift in Sources */,
+				52255DCE1C042D6E00AC1DA5 /* FilePermissions.swift in Sources */,
 				52B938CC1BF402ED001B7AEB /* ImageFile.swift in Sources */,
 				52B938C31BF3C42A001B7AEB /* FileKitError.swift in Sources */,
 				52B938BF1BF3C42A001B7AEB /* ArrayFile.swift in Sources */,
