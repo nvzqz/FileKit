@@ -562,6 +562,16 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         return FileType(rawValue: value)
     }
 
+    // MARK: - FilePermissions
+
+    public var filePermissions: FilePermissions {
+        var permissions = FilePermissions(rawValue: 0)
+        if self.isReadable   { permissions.unionInPlace(.Read)    }
+        if self.isWritable   { permissions.unionInPlace(.Write)   }
+        if self.isExecutable { permissions.unionInPlace(.Execute) }
+        return permissions
+    }
+
     // MARK: - StringLiteralConvertible
 
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType

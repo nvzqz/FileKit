@@ -470,6 +470,24 @@ class FileKitTests: XCTestCase {
         }
     }
 
+    // MARK: - FilePermissions
+
+    func testFilePermissions() {
+        let swift: Path = "/usr/bin/swift"
+        if swift.exists {
+            XCTAssertTrue(swift.filePermissions.contains([.Read, .Execute]))
+        }
+
+        let file: Path = .UserTemporary + "filekit_test_filepermissions"
+
+        do {
+            try file.createFile()
+            XCTAssertTrue(file.filePermissions.contains([.Read, .Write]))
+        } catch {
+            XCTFail(String(error))
+        }
+    }
+
     // MARK: - DictionaryFile
 
     let dictionaryFile = DictionaryFile(path: .UserTemporary + "filekit_test_dictionary.plist")

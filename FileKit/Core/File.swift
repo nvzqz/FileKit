@@ -167,6 +167,13 @@ public class File<Data : DataType> : Comparable {
         return path.fileType
     }
 
+    // MARK: - FilePermissions
+
+    /// The file permissions for `self`.
+    public var permissions: FilePermissions {
+        return path.filePermissions
+    }
+
     // MARK: - NSFileHandle
 
     /// Returns a file handle for reading from `self`, or `nil` if `self`
