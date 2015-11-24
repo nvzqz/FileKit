@@ -15,6 +15,7 @@
         <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"
              alt="Carthage">
     </a>
+    <br>
     <a href="https://gitter.im/nvzqz/FileKit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
         <img src="https://img.shields.io/badge/GITTER-join%20chat-00D06F.svg"
              alt="GITTER: join chat">
@@ -40,21 +41,9 @@ Development happens in the
 
 ### Compatibility
 
-- Xcode
-    - Version:  **7.0**
-    - Language: **Swift 2.0**
-- OS X
-    - Compatible With:   **OS X 10.11**
-    - Deployment Target: **OS X 10.9**
-- iOS
-    - Compatible With:   **iOS 9.0**
-    - Deployment Target: **iOS 8.0**
-- watchOS
-    - Compatible With:   **watchOS 2.0**
-    - Deployment Target: **watchOS 2.0**
-- tvOS
-    - Compatible With:   **tvOS 9.0**
-    - Deployment Target: **tvOS 9.0**
+- OS X 10.9+ / iOS 8.0+ / watchOS 2.0 / tvOS 9.0
+
+- Xcode 7.1+, Swift 2.1+
 
 ### Install Using CocoaPods
 [CocoaPods](https://cocoapods.org/) is a centralized dependency manager for
@@ -102,13 +91,10 @@ manager for Objective-C and Swift.
 
 Paths are handled with the `Path` structure.
 
-#### Initialization
-
-Paths can be created with an initializer or with a string literal.
-
 ```swift
 let home = Path("~")
 let drive: Path = "/Volumes/Macintosh HD"
+let file:  Path = "~/Desktop/file\(1)"
 ```
 
 #### Operations
@@ -118,11 +104,7 @@ let drive: Path = "/Volumes/Macintosh HD"
 A blank file can be written by calling `createFile()` on an `Path`.
 
 ```swift
-do {
-    try Path(".gitignore").createFile()
-} catch {
-    print("Could not create .gitignore")
-}
+try Path(".gitignore").createFile()
 ```
 
 ##### New Directories
@@ -130,34 +112,19 @@ do {
 A directory can be created by calling `createDirectory()` on an `Path`.
 
 ```swift
-do {
-    try Path("~/Files").createDirectory()
-} catch {
-    print("Could not create Files")
-}
+try Path("~/Files").createDirectory()
+try Path("~/Books").createDirectory(withIntermediateDirectories: false)
 ```
+
+Intermediate directories are created by default.
 
 ##### New Symlinks
 
 A symbolic link can be created by calling `createSymlinkToPath(_:)` on an `Path`.
 
 ```swift
-do {
-    let filePath = Path.UserDesktop + "text.txt"
-    try filePath.createFile()
-
-    let linkPath = Path.UserDesktop + "link.txt"
-    try filePath.createSymlinkToPath(linkPath)
-    print(linkPath.exists)  // true
-
-    let text = "If she weighs the same as a duck, she's made of wood."
-    try text |>  TextFile(path: filePath)
-
-    let contents = try TextFile(path: linkPath).read()
-    print(contents == text)  // true
-} catch {
-    print("Could not create symlink")
-}
+try Path("path/to/MyApp.app").createSymlinkToPath("~/Applications")
+print(Path("~/Applications/MyApp.app").exists)  // true
 ```
 
 ##### Finding Paths
@@ -166,15 +133,55 @@ You can find all paths with the ".txt" extension five folders deep into the
 Desktop with:
 
 ```swift
-let textFiles = Path.UserDesktop.findPaths(searchDepth: 5) { path in
+let textFiles = Path.UserDesktop.find(searchDepth: 5) { path in
     path.pathExtension == "txt"
 }
 ```
 
-Setting `searchDepth` to a negative value will make it run until every path in
-`self` is checked against. If the checked path passes the condition, it'll be
-added to the returned paths and the next path will be checked. If it doesn't and
-it's a directory, its children paths will be checked.
+A negative `searchDepth` will make it run until every path in `self` is checked
+against.
+
+You can even map a function to paths found and get the non-nil results:
+
+```swift
+let documents = Path.UserDocuments.find(searchDepth: 1) { path in
+    String(path)
+}
+```
+
+##### Iterating Through Paths
+
+Because `Path` conforms to `SequenceType`, it can be iterated through with a
+`for` loop.
+
+```swift
+for download in Path.UserDownloads {
+    print("Downloaded file: \(download)")
+}
+```
+
+##### Current Working Directory
+
+The current working directory for the process can be changed with `Path.Current`.
+
+To quickly change the current working directory to a path and back, there's the
+`changeDirectory(_:)` method:
+
+```swift
+Path.UserDesktop.changeDirectory {
+    print(Path.Current)  // "/Users/nvzqz/Desktop"
+}
+```
+
+##### Common Ancestor
+
+A common ancestor between two paths can be obtained:
+
+```swift
+print(Path.Root.commonAncestor(.UserHome))       // "/"
+print("~/Desktop"  <^> "~/Downloads")            // "~"
+print(.UserLibrary <^> .UserApplicationSupport)  // "/Users/nvzqz/Library"
+```
 
 ##### `+` Operator
 
@@ -182,19 +189,23 @@ Appends two paths and returns the result
 
 ```swift
 // ~/Documents/My Essay.docx
-let essay  = Path.UserDocuments + "My Essay.docx"
+let essay = Path.UserDocuments + "My Essay.docx"
 ```
 
 It can also be used to concatenate a string and a path, making the string value
 a `Path` beforehand.
 
+```swift
+let numberedFile: Path = "path/to/dir" + String(10)  // "path/to/dir/10"
+```
+
 ##### `+=` Operator
 
-Appends the right path to the left path
+Appends the right path to the left path. Also works with a `String`.
 
 ```swift
 var photos = Path.UserPictures + "My Photos"  // ~/Pictures/My Photos
-photos += "../My Other Photos"                  // ~/Pictures/My Photos/../My Other Photos
+photos += "../My Other Photos"                // ~/Pictures/My Photos/../My Other Photos
 ```
 
 ##### `%` Operator
@@ -204,6 +215,15 @@ Returns the standardized version of the path.
 ```swift
 let path: Path = "~/Desktop"
 path% == path.standardized  // true
+```
+
+##### `*` Operator
+
+Returns the resolved version of the path.
+
+```swift
+let path: Path = "~/Documents"
+path* == path.resolved  // true
 ```
 
 ##### `^` Operator
@@ -286,8 +306,10 @@ somePath = somePath.resolved
 A file can be made using `File` with a `DataType` for its data type.
 
 ```swift
-let textFile = File<String>(path: Path.UserDesktop + "sample.txt")
+let plistFile = File<NSDictionary>(path: Path.UserDesktop + "sample.plist")
 ```
+
+Files can be compared by size.
 
 #### Operators
 
@@ -316,13 +338,8 @@ Appends the string on the left to the `TextFile` on the right.
 
 ```swift
 let readme = TextFile(path: "README.txt")
-
-do {
-    try "My Awesome Project" |> readme
-    try "This is an awesome project." |>> readme
-} catch {
-    print("Could not write to \(readme.path)")
-}
+try "My Awesome Project" |> readme
+try "This is an awesome project." |>> readme
 ```
 
 #### DictionaryFile
@@ -336,6 +353,47 @@ A typealias to `File<NSArray>`
 #### DataFile
 
 A typealias to `File<NSData>`
+
+### Data Types
+
+All types that conform to `DataType` can be used to satisfy the generic type for
+`File`.
+
+#### Readable Protocol
+
+A `Readable` type must implement the static method `readFromPath(_:)`.
+
+All `Readable` types can be initialized with `init(contentsOfPath:)`.
+
+#### Writable Protocol
+
+A `Writable` type must implement `writeToPath(_:atomically:)`.
+
+Writing done by `writeToPath(_:)` is done atomically by default.
+
+##### WritableToFile
+
+Types that have a `writeToFile(_:atomically:)` method that takes in a `String`
+for the file path can conform to `Writable` by simply conforming to
+`WritableToFile`.
+
+##### WritableConvertible
+
+If a type itself cannot be written to a file but can output a writable type,
+then it can conform to `WritableConvertible` and become a `Writable` that way.
+
+### FileKitError
+
+The type for all errors thrown by FileKit operations is `FileKitError`.
+
+Errors can be converted to `String` directly for any logging. If only the error
+message is needed, `FileKitError` has a `message` property that states why the
+error occurred.
+
+```swift
+// FileKitError(Could not copy file from "path/to/file" to "path/to/destination")
+String(FileKitError.CopyFileFail(from: "path/to/file", to: "path/to/destination"))
+```
 
 ## License
 
