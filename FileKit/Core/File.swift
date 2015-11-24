@@ -40,7 +40,7 @@ public class File<Data : DataType> : Comparable {
 
     /// The file's name.
     public var name: String {
-        return path.components.last?.rawValue ?? ""
+        return path.fileName
     }
 
     /// The file's filesystem path extension.

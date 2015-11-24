@@ -77,6 +77,11 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         return result
     }
 
+    /// The name of the file at `self`.
+    public var fileName: String {
+        return self.components.last?.rawValue ?? ""
+    }
+
     /// A new path created by removing extraneous components from the path.
     public var standardized: Path {
         return Path((self.rawValue as NSString).stringByStandardizingPath)
