@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>WritableToFile Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/WritableToFile" class="dashAnchor"></a>
+    <a title="WritableToFile Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">FileKit Docs</a> (94% documented)</p>
+        <p class="header-right"><a href="https://github.com/nvzqz/FileKit"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right"><a href="dash-feed://http%3A%2F%2Fcocoadocs%2Eorg%2Fdocsets%2FFileKit%2FFileKit%2Exml"><img src="../img/dash.png"/>Install in Dash</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">FileKit Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        WritableToFile Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/File.html">File</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TextFile.html">TextFile</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/FileKit.html">FileKit</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FileKitError.html">FileKitError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FileType.html">FileType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Image.html">Image</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSArray.html">NSArray</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSBundle.html">NSBundle</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSData.html">NSData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSDictionary.html">NSDictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSString.html">NSString</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/String.html">String</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoP1rFVS_4PathS0_">%(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoP1mFVS_4PathS0_">*(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi1pFTVS_4PathSS_S0_">+(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi1pFTSSVS_4Path_S0_">+(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi1pFTVS_4PathS0__S0_">+(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi2peFTRVS_4PathS0__T_">+=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi2peFTRVS_4PathSS_T_">+=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/+&gt;!(_:_:).html">+&gt;!(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi3pgnFzTVS_4PathS0__T_">+&gt;!(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/+&gt;&gt;(_:_:).html">+&gt;&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi3pggFzTVS_4PathS0__T_">+&gt;&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi3sgnFzTVS_4PathS0__T_">-&gt;!(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/-&gt;!(_:_:).html">-&gt;!(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi3sggFzTVS_4PathS0__T_">-&gt;&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/-&gt;&gt;(_:_:).html">-&gt;&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/&lt;(_:_:).html">&lt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi3ldgFzTVS_4PathFzT_T__T_">&lt;/&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi3lxgFTVS_4PathS0__S0_">&lt;^&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/==(_:_:).html">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi2eeFTVS_4PathS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi2eeFTCS_8TextFileS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/=&gt;!(_:_:).html">=&gt;!(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi3egnFzTVS_4PathS0__T_">=&gt;!(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/=&gt;&gt;(_:_:).html">=&gt;&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi3eggFzTVS_4PathS0__T_">=&gt;&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoP1xFVS_4PathS0_">^(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/|&gt;(_:_:).html">|&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7FileKitoi3oggFzTSSCS_8TextFile_T_">|&gt;&gt;(_:_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Readable.html">Readable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Writable.html">Writable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/WritableConvertible.html">WritableConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/WritableToFile.html">WritableToFile</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/DirectoryEnumerator.html">DirectoryEnumerator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FilePermissions.html">FilePermissions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Path.html">Path</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7FileKit8DataType">DataType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7FileKit5Image">Image</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>WritableToFile</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">WritableToFile</span><span class="p">:</span> <span class="kt">Writable</span></code></pre>
+
+                </div>
+              </div>
+            <p>A type that can be used to write to a <a href="../Extensions/String.html">String</a> file path.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP7FileKit14WritableToFile11writeToFileuRq_S0__Fq_FTSS10atomicallySb_Sb"></a>
+                    <a name="//apple_ref/swift/Method/writeToFile(_:atomically:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP7FileKit14WritableToFile11writeToFileuRq_S0__Fq_FTSS10atomicallySb_Sb">writeToFile(_:atomically:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Writes <code>self</code> to a <a href="../Extensions/String.html">String</a> path.</p>
+
+<div class="aside aside-parameter">
+          <p class="aside-title">Parameter</p>
+          Parameter path: The path being written to.
+
+        </div><div class="aside aside-parameter">
+          <p class="aside-title">Parameter</p>
+          <p>Parameter useAuxiliaryFile: If <code>true</code>, the data is written to an
+                          auxiliary file that is then renamed to the
+                          file. If <code>false</code>, the data is written to
+                          the file directly.</p>
+
+        </div><div class="aside aside-returns">
+          <p class="aside-title">Returns</p>
+          <p><code>true</code> if the writing completed successfully, or <code>false</code> if
+       the writing failed.</p>
+
+        </div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">writeToFile</span><span class="p">(</span><span class="nv">path</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">atomically</span> <span class="nv">useAuxiliaryFile</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>path</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The path being written to.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>useAuxiliaryFile</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>If <code>true</code>, the data is written to an auxiliary file that is then renamed to the file. If <code>false</code>, the data is written to the file directly.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>true</code> if the writing completed successfully, or <code>false</code> if the writing failed.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FeRq_7FileKit14WritableToFile_S_S0_11writeToPathuRq_S0__Fq_FzTVS_4Path10atomicallySb_T_"></a>
+                    <a name="//apple_ref/swift/Method/writeToPath(_:atomically:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FeRq_7FileKit14WritableToFile_S_S0_11writeToPathuRq_S0__Fq_FzTVS_4Path10atomicallySb_T_">writeToPath(_:atomically:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Writes <code>self</code> to a <a href="../Structs/Path.html">Path</a>.</p>
+
+<div class="aside aside-parameter">
+          <p class="aside-title">Parameter</p>
+          Parameter path: The path being written to.
+
+        </div><div class="aside aside-parameter">
+          <p class="aside-title">Parameter</p>
+          <p>Parameter useAuxiliaryFile: If <code>true</code>, the data is written to an
+                          auxiliary file that is then renamed to the
+                          file. If <code>false</code>, the data is written to
+                          the file directly.</p>
+
+        </div><div class="aside aside-throws">
+          <p class="aside-title">Throws</p>
+          <p><code><a href="../Enums/FileKitError.html">FileKitError</a>.WriteToFileFail</code></p>
+
+        </div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">writeToPath</span><span class="p">(</span><span class="nv">path</span><span class="p">:</span> <span class="kt">Path</span><span class="p">,</span> <span class="n">atomically</span> <span class="nv">useAuxiliaryFile</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>path</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The path being written to.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>useAuxiliaryFile</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>If <code>true</code>, the data is written to an auxiliary file that is then renamed to the file. If <code>false</code>, the data is written to the file directly.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2015 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2015-11-24)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

@@ -1,0 +1,15 @@
+Operators.swift
+	public func ==<Data : DataType>(lhs: File<Data>, rhs: File<Data>) -> Bool
+	public func < <Data : DataType>(lhs: File<Data>, rhs: File<Data>) -> Bool
+	public func |> <Data : DataType>(data: Data, file: File<Data>) throws
+	public func ->> <Data : DataType>(lhs: File<Data>, rhs: Path) throws
+	public func ->! <Data : DataType>(lhs: File<Data>, rhs: Path) throws
+	public func +>> <Data : DataType>(lhs: File<Data>, rhs: Path) throws
+	public func +>! <Data : DataType>(lhs: File<Data>, rhs: Path) throws
+	public func =>> <Data : DataType>(lhs: File<Data>, rhs: Path) throws
+	public func =>! <Data : DataType>(lhs: File<Data>, rhs: Path) throws
+Path.swift
+	public init?(URL: NSURL)
+	public var URL: NSURL
+	public init?(bookmarkData bookData : NSData)
+	public var bookmarkData : NSData?
