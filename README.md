@@ -354,6 +354,16 @@ A typealias to `File<NSArray>`
 
 A typealias to `File<NSData>`
 
+### File Permissions
+
+The `FilePermissions` struct allows for seeing the permissions of the current
+process for a given file.
+
+```swift
+let swift: Path = "/usr/bin/swift"
+print(swift.filePermissions)  // FilePermissions[Read, Execute]
+```
+
 ### Data Types
 
 All types that conform to `DataType` can be used to satisfy the generic type for
