@@ -29,15 +29,19 @@ import Foundation
 
 #if os(OSX)
 
-// MARK: - FileSystemEvent
+
 /// A filesystem event.
 public struct FileSystemEvent {
+
+    // MARK: - Static Properties
 
     /// All of the event IDs.
     static let AllEventId = 0
 
     /// The last event ID since now.
     static let NowEventId = FSEventStreamEventId(kFSEventStreamEventIdSinceNow)
+
+    // MARK: - Properties
 
     /// The ID of the event.
     public var id: FSEventStreamEventId
@@ -49,9 +53,11 @@ public struct FileSystemEvent {
     public var flags: FileSystemEventFlags
 }
 
-// MARK: - Path extension
 
 extension Path {
+
+    // MARK: - Watching
+
     /// Watches a path for filesystem events and handles them in the callback.
     public func watch(latency: NSTimeInterval = 0, queue: dispatch_queue_t = dispatch_get_main_queue(), callback: (FileSystemEvent) -> Void) -> FileSystemWatcher {
         let watcher = FileSystemWatcher(paths: [self], latency: latency, queue: queue, callback: callback)
@@ -62,6 +68,8 @@ extension Path {
 
 
 extension SequenceType where Self.Generator.Element == Path {
+
+    // MARK: - Watching
 
     /// Watches the sequence of paths for filesystem events and handles them in
     /// the callback.
@@ -77,6 +85,8 @@ extension SequenceType where Self.Generator.Element == Path {
 
 /// A set of fileystem event flags.
 public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, CustomDebugStringConvertible {
+
+    // MARK: - Options
 
     /// There was some change in the directory at the specific path supplied in
     /// this event.
@@ -167,12 +177,6 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
     /// Indicates the event was triggered by the current process.
     public static let OwnEvent = FileSystemEventFlags(rawValue: kFSEventStreamEventFlagOwnEvent)
 
-    /// The raw event stream flag values.
-    public let rawValue: Int
-
-    /// Creates a set of event stream flags from a raw value.
-    public init(rawValue: Int) { self.rawValue = rawValue }
-
     /// Flag for if the item is a hardlink.
     @available(iOS 9, OSX 10.10, *)
     public static let ItemIsHardlink = FileSystemEventFlags(rawValue: kFSEventStreamEventFlagItemIsHardlink)
@@ -180,6 +184,8 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
     /// Flag for if the item was the last hardlink.
     @available(iOS 9, OSX 10.10, *)
     public static let ItemIsLastHardlink = FileSystemEventFlags(rawValue: kFSEventStreamEventFlagItemIsLastHardlink)
+
+    // MARK: - All Flags
 
     /// An array of all of the flags.
     public static var allFlags: [FileSystemEventFlags] = {
@@ -215,6 +221,11 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
         return array
     }()
 
+    // MARK: - Properties
+
+    /// The raw event stream flag values.
+    public let rawValue: Int
+
     /// A textual representation of `self`.
     public var description: String {
         var result = ""
@@ -238,12 +249,19 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
         }
         return String(self.dynamicType) + "[\(result)]"
     }
-    
+
+    // MARK: - Initialization
+
+    /// Creates a set of event stream flags from a raw value.
+    public init(rawValue: Int) { self.rawValue = rawValue }
+
 }
 
 
 /// Flags for creating an event stream.
 public struct FileSystemEventStreamCreateFlags : OptionSetType, CustomStringConvertible, CustomDebugStringConvertible {
+
+    // MARK: - Options
 
     /// The default.
     public static let None = FileSystemEventStreamCreateFlags(rawValue: kFSEventStreamCreateFlagNone)
@@ -268,17 +286,18 @@ public struct FileSystemEventStreamCreateFlags : OptionSetType, CustomStringConv
     /// `OwnEvent` flag.
     public static let MarkSelf = FileSystemEventStreamCreateFlags(rawValue: kFSEventStreamCreateFlagMarkSelf)
 
-    /// The raw event stream creation flags.
-    public let rawValue: Int
-
-    /// Creates a set of event stream creation flags from a raw value.
-    public init(rawValue: Int) { self.rawValue = rawValue }
+    // MARK: - All Flags
 
     /// All of the event stream creation flags.
     public static let allFlags: [FileSystemEventStreamCreateFlags] = [.None, .UseCFTypes, .FlagNoDefer, .WatchRoot, .IgnoreSelf, .FileEvents, .MarkSelf]
 
     /// All of the names of the event stream creation flags.
     public static let allFlagNames: [String] = ["None", "UseCFTypes", "FlagNoDefer", "WatchRoot", "IgnoreSelf", "FileEvents", "MarkSelf" ]
+
+    // MARK: - Properties
+
+    /// The raw event stream creation flags.
+    public let rawValue: Int
 
     /// A textual representation of `self`.
     public var description : String {
@@ -304,11 +323,16 @@ public struct FileSystemEventStreamCreateFlags : OptionSetType, CustomStringConv
         return String(self.dynamicType) + "[\(result)]"
     }
 
+    // MARK: - Initialization
+
+    /// Creates a set of event stream creation flags from a raw value.
+    public init(rawValue: Int) { self.rawValue = rawValue }
+
 }
 
 
 /// A filesystem event stream.
-struct FileSystemEventStream : RawRepresentable {
+private struct FileSystemEventStream : RawRepresentable {
 
     /// The raw FSEventStreamRef value of `self`.
     var rawValue: FSEventStreamRef
@@ -383,25 +407,34 @@ struct FileSystemEventStream : RawRepresentable {
 
 /// Watches a given set of paths and runs a callback per event.
 public class FileSystemWatcher {
-    
-    // MARK: - Initialization
 
-    /// Creates a watcher for the given paths.
-    public init(paths: [Path], sinceWhen: FSEventStreamEventId = FileSystemEvent.NowEventId, flags: FileSystemEventStreamCreateFlags = [.UseCFTypes, .FileEvents], latency: CFTimeInterval = 0, queue: dispatch_queue_t? = nil, callback: (FileSystemEvent) -> Void) {
-        self.lastEventId = sinceWhen
-        self.paths       = paths
-        self.flags       = flags
-        self.latency     = latency
-        self.queue       = queue
-        self.callback    = callback
+    // MARK: - Private Static Properties
+
+    /// The event stream callback for when events occur.
+    private static let eventCallback: FSEventStreamCallback = {(
+        stream: ConstFSEventStreamRef,
+        contextInfo: UnsafeMutablePointer<Void>,
+        numEvents: Int,
+        eventPaths: UnsafeMutablePointer<Void>,
+        eventFlags: UnsafePointer<FSEventStreamEventFlags>,
+        eventIds: UnsafePointer<FSEventStreamEventId>) in
+
+        FileSystemWatcher.log("Callback Fired")
+
+        let fileSystemWatcher: FileSystemWatcher = unsafeBitCast(contextInfo, FileSystemWatcher.self)
+        let paths = unsafeBitCast(eventPaths, NSArray.self) as! [String]
+        for index in 0..<numEvents {
+            let id = eventIds[index]
+            let path = paths[index]
+            let flags = eventFlags[index]
+
+            let event = FileSystemEvent(id: id, path: Path(path), flags: FileSystemEventFlags(rawValue: Int(flags)))
+            fileSystemWatcher.processEvent(event)
+        }
+
+        fileSystemWatcher.lastEventId = eventIds[numEvents - 1]
     }
 
-    // MARK: - Deinitialization
-    
-    deinit {
-        self.close()
-    }
-    
     // MARK: - Properties
 
     /// The paths being watched.
@@ -434,6 +467,24 @@ public class FileSystemWatcher {
     /// The event stream for the watcher.
     private var stream: FileSystemEventStream?
     
+    // MARK: - Initialization
+
+    /// Creates a watcher for the given paths.
+    public init(paths: [Path], sinceWhen: FSEventStreamEventId = FileSystemEvent.NowEventId, flags: FileSystemEventStreamCreateFlags = [.UseCFTypes, .FileEvents], latency: CFTimeInterval = 0, queue: dispatch_queue_t? = nil, callback: (FileSystemEvent) -> Void) {
+        self.lastEventId = sinceWhen
+        self.paths       = paths
+        self.flags       = flags
+        self.latency     = latency
+        self.queue       = queue
+        self.callback    = callback
+    }
+
+    // MARK: - Deinitialization
+    
+    deinit {
+        self.close()
+    }
+    
     // MARK: - Private Methods
 
     /// Processes the event by logging it and then running the callback.
@@ -448,33 +499,8 @@ public class FileSystemWatcher {
             print(message)
         #endif
     }
-
-    /// The event stream callback for when events occur.
-    private static let eventCallback: FSEventStreamCallback = {(
-        stream: ConstFSEventStreamRef,
-        contextInfo: UnsafeMutablePointer<Void>,
-        numEvents: Int,
-        eventPaths: UnsafeMutablePointer<Void>,
-        eventFlags: UnsafePointer<FSEventStreamEventFlags>,
-        eventIds: UnsafePointer<FSEventStreamEventId>) in
-        
-        FileSystemWatcher.log("Callback Fired")
-        
-        let fileSystemWatcher: FileSystemWatcher = unsafeBitCast(contextInfo, FileSystemWatcher.self)
-        let paths = unsafeBitCast(eventPaths, NSArray.self) as! [String]
-        for index in 0..<numEvents {
-            let id = eventIds[index]
-            let path = paths[index]
-            let flags = eventFlags[index]
-            
-            let event = FileSystemEvent(id: id, path: Path(path), flags: FileSystemEventFlags(rawValue: Int(flags)))
-            fileSystemWatcher.processEvent(event)
-        }
-        
-        fileSystemWatcher.lastEventId = eventIds[numEvents - 1]
-    }
     
-    // MARK: - Public Methods
+    // MARK: - Methods
     
     // Start watching by creating the stream
     /// Starts watching.
