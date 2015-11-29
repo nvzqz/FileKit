@@ -308,7 +308,7 @@ public struct FileSystemEventStreamCreateFlags : OptionSetType, CustomStringConv
 
 
 /// A filesystem event stream.
-struct FileSystemEventStream {
+struct FileSystemEventStream : RawRepresentable {
 
     /// The raw FSEventStreamRef value of `self`.
     var rawValue: FSEventStreamRef
