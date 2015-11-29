@@ -60,16 +60,19 @@ extension Path {
     }
 }
 
-/*
-extension SequenceType where Self.Generator.Element: Path {
 
-    public func watch(latency: NSTimeInterval = 0, queue: dispatch_queue_t = dispatch_get_main_queue(), callback: (FileSystemEvent)->Void) -> FileSystemWatcher {
-        let watcher = FileSystemWatcher(pathsToWatch: self.map{ $0.rawValue }, latency: latency, queue: queue, callback: callback)
+extension SequenceType where Self.Generator.Element == Path {
+
+    /// Watches the sequence of paths for filesystem events and handles them in
+    /// the callback.
+    public func watch(latency: NSTimeInterval = 0, queue: dispatch_queue_t = dispatch_get_main_queue(), callback: (FileSystemEvent) -> Void) -> FileSystemWatcher {
+        let watcher = FileSystemWatcher(paths: Array(self), latency: latency, queue: queue, callback: callback)
         watcher.watch()
         return watcher
     }
+
 }
-*/
+
 
 
 /// A set of fileystem event flags.
