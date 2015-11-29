@@ -221,10 +221,10 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
         for (index, element) in FileSystemEventFlags.allFlags.enumerate() {
             if self.contains(element){
                 let name = FileSystemEventFlags.allFlagNames[index]
-                result += result.isEmpty ? "\(name)" : ",\(name)"
+                result += result.isEmpty ? "\(name)" : ", \(name)"
             }
         }
-        return "[\(result)]"
+        return String(self.dynamicType) + "[\(result)]"
     }
 
     /// A textual representation of `self`, suitable for debugging.
@@ -233,10 +233,10 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
         for (index, element) in FileSystemEventFlags.allFlags.enumerate() {
             if self.contains(element){
                 let name = FileSystemEventFlags.allFlagNames[index] + "(\(element.rawValue))"
-                result += result.isEmpty ? "\(name)" : ",\(name)"
+                result += result.isEmpty ? "\(name)" : ", \(name)"
             }
         }
-        return "[\(result)]"
+        return String(self.dynamicType) + "[\(result)]"
     }
     
 }
@@ -286,10 +286,10 @@ public struct FileSystemEventStreamCreateFlags : OptionSetType, CustomStringConv
         for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerate() {
             if self.contains(element){
                 let name = FileSystemEventStreamCreateFlags.allFlagNames[index]
-                result += result.isEmpty ? "\(name)" : ",\(name)"
+                result += result.isEmpty ? "\(name)" : ", \(name)"
             }
         }
-        return "[\(result)]"
+        return String(self.dynamicType) + "[\(result)]"
     }
 
     /// A textual representation of `self`, suitable for debugging.
@@ -298,10 +298,10 @@ public struct FileSystemEventStreamCreateFlags : OptionSetType, CustomStringConv
         for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerate() {
             if self.contains(element){
                 let name = FileSystemEventStreamCreateFlags.allFlagNames[index] + "(\(element.rawValue))"
-                result += result.isEmpty ? "\(name)" : ",\(name)"
+                result += result.isEmpty ? "\(name)" : ", \(name)"
             }
         }
-        return "[\(result)]"
+        return String(self.dynamicType) + "[\(result)]"
     }
 
 }
