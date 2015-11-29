@@ -561,11 +561,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
 
     /// The permissions for the file at the path.
     public var filePermissions: FilePermissions {
-        var permissions = FilePermissions(rawValue: 0)
-        if self.isReadable   { permissions.unionInPlace(.Read)    }
-        if self.isWritable   { permissions.unionInPlace(.Write)   }
-        if self.isExecutable { permissions.unionInPlace(.Execute) }
-        return permissions
+        return FilePermissions(forPath: self)
     }
 
     // MARK: - StringLiteralConvertible

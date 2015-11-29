@@ -171,7 +171,7 @@ public class File<Data : DataType> : Comparable {
 
     /// The file permissions for `self`.
     public var permissions: FilePermissions {
-        return path.filePermissions
+        return FilePermissions(forFile: self)
     }
 
     // MARK: - NSFileHandle
