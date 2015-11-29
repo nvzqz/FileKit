@@ -182,7 +182,7 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
     public static let ItemIsLastHardlink = FileSystemEventFlags(rawValue: kFSEventStreamEventFlagItemIsLastHardlink)
 
     /// An array of all of the flags.
-    public static var AllArray: [FileSystemEventFlags] = {
+    public static var allFlags: [FileSystemEventFlags] = {
         var array: [FileSystemEventFlags] = [
             .None,              .MustScanSubDirs,       .UserDropped,
             .KernelDropped,     .EventIdsWrapped,       .HistoryDone,
@@ -199,7 +199,7 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
     }()
 
     /// The names of all of the flags.
-    public static let AllNames: [String] = {
+    public static let allFlagNames: [String] = {
         var array: [String] = [
             "None",             "MustScanSubDirs",      "UserDropped",
             "KernelDropped",    "EventIdsWrapped",      "HistoryDone",
@@ -218,9 +218,9 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
     /// A textual representation of `self`.
     public var description: String {
         var result = ""
-        for (index, element) in FileSystemEventFlags.AllArray.enumerate() {
+        for (index, element) in FileSystemEventFlags.allFlags.enumerate() {
             if self.contains(element){
-                let name = FileSystemEventFlags.AllNames[index]
+                let name = FileSystemEventFlags.allFlagNames[index]
                 result += result.isEmpty ? "\(name)" : ",\(name)"
             }
         }
@@ -230,9 +230,9 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
     /// A textual representation of `self`, suitable for debugging.
     public var debugDescription: String {
         var result = ""
-        for (index, element) in FileSystemEventFlags.AllArray.enumerate() {
+        for (index, element) in FileSystemEventFlags.allFlags.enumerate() {
             if self.contains(element){
-                let name = FileSystemEventFlags.AllNames[index] + "(\(element.rawValue))"
+                let name = FileSystemEventFlags.allFlagNames[index] + "(\(element.rawValue))"
                 result += result.isEmpty ? "\(name)" : ",\(name)"
             }
         }
@@ -275,17 +275,17 @@ public struct FileSystemEventStreamCreateFlags : OptionSetType, CustomStringConv
     public init(rawValue: Int) { self.rawValue = rawValue }
 
     /// All of the event stream creation flags.
-    public static let AllArray: [FileSystemEventStreamCreateFlags] = [.None, .UseCFTypes, .FlagNoDefer, .WatchRoot, .IgnoreSelf, .FileEvents, .MarkSelf]
+    public static let allFlags: [FileSystemEventStreamCreateFlags] = [.None, .UseCFTypes, .FlagNoDefer, .WatchRoot, .IgnoreSelf, .FileEvents, .MarkSelf]
 
     /// All of the names of the event stream creation flags.
-    public static let AllNames: [String] = ["None", "UseCFTypes", "FlagNoDefer", "WatchRoot", "IgnoreSelf", "FileEvents", "MarkSelf" ]
+    public static let allFlagNames: [String] = ["None", "UseCFTypes", "FlagNoDefer", "WatchRoot", "IgnoreSelf", "FileEvents", "MarkSelf" ]
 
     /// A textual representation of `self`.
     public var description : String {
         var result = ""
-        for (index, element) in FileSystemEventStreamCreateFlags.AllArray.enumerate() {
+        for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerate() {
             if self.contains(element){
-                let name = FileSystemEventStreamCreateFlags.AllNames[index]
+                let name = FileSystemEventStreamCreateFlags.allFlagNames[index]
                 result += result.isEmpty ? "\(name)" : ",\(name)"
             }
         }
@@ -295,9 +295,9 @@ public struct FileSystemEventStreamCreateFlags : OptionSetType, CustomStringConv
     /// A textual representation of `self`, suitable for debugging.
     public var debugDescription : String {
         var result = ""
-        for (index, element) in FileSystemEventStreamCreateFlags.AllArray.enumerate() {
+        for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerate() {
             if self.contains(element){
-                let name = FileSystemEventStreamCreateFlags.AllNames[index] + "(\(element.rawValue))"
+                let name = FileSystemEventStreamCreateFlags.allFlagNames[index] + "(\(element.rawValue))"
                 result += result.isEmpty ? "\(name)" : ",\(name)"
             }
         }
