@@ -76,6 +76,21 @@ public enum FileProtection : String {
             return NSFileProtectionCompleteUntilFirstUserAuthentication
         }
     }
+    
+    ///  Return the equivalent NSDataWritingOptions
+    public var dataWritingOption: NSDataWritingOptions {
+        switch self {
+        case .None:
+            return NSDataWritingOptions.DataWritingFileProtectionNone
+        case .Complete:
+            return NSDataWritingOptions.DataWritingFileProtectionComplete
+        case .CompleteUnlessOpen:
+            return NSDataWritingOptions.DataWritingFileProtectionCompleteUnlessOpen
+        case .CompleteUntilFirstUserAuthentication:
+            return NSDataWritingOptions.DataWritingFileProtectionCompleteUntilFirstUserAuthentication
+        }
+    }
+
 }
 
 extension Path {
@@ -91,6 +106,8 @@ extension Path {
     }
 
     /// Creates a file at path with specified file protection.
+    ///
+    /// - Parameter fileProtection: the protection to apply to the file.
     ///
     /// Throws an error if the file cannot be created.
     ///
@@ -116,6 +133,8 @@ extension File {
     
     /// Creates the file with specified file protection.
     ///
+    /// - Parameter fileProtection: the protection to apply to the file.
+    ///
     /// Throws an error if the file cannot be created.
     ///
     /// - Throws: `FileKitError.CreateFileFail`
@@ -124,4 +143,27 @@ extension File {
         try path.createFile(fileProtection)
     }
 
+}
+
+extension File where Data: NSData {
+
+    /// Writes data to the file.
+    ///
+    /// - Parameter data: The data to be written to the file.
+    /// - Parameter fileProtection: the protection to apply to the file.
+    /// - Parameter atomically: If `true`, the data is written to an
+    ///                         auxiliary file that is then renamed to the
+    ///                         file. If `false`, the data is written to
+    ///                         the file directly.
+    ///
+    /// - Throws: `FileKitError.WriteToFileFail`
+    ///
+    public func write(data: Data, fileProtection: FileProtection, atomically: Bool = true) throws {
+        var options = fileProtection.dataWritingOption
+        if atomically {
+            options.union(NSDataWritingOptions.DataWritingAtomic)
+        }
+        try self.write(data, options: options)
+    }
+    
 }

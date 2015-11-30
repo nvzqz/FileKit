@@ -37,4 +37,13 @@ extension NSData : DataType, WritableToFile {
         return contents
     }
     
+    /// Returns data read from the given path using NSDataReadingOptions.
+    public class func readFromPath(path: Path, options: NSDataReadingOptions) throws -> Self {
+        do {
+            try self.init(contentsOfFile: path.rawValue, options: options)
+        } catch {
+            throw FileKitError.ReadFromFileFail(path: path)
+        }
+    }
+    
 }
