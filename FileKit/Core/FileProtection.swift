@@ -89,6 +89,20 @@ extension Path {
             else { return nil }
         return protection
     }
+
+    /// Creates a file at path with specified file protection.
+    ///
+    /// Throws an error if the file cannot be created.
+    ///
+    /// - Throws: `FileKitError.CreateFileFail`
+    ///
+    public func createFile(fileProtection: FileProtection) throws {
+        let manager = Path.fileManager
+        if !manager.createFileAtPath(rawValue, contents: nil, attributes: [NSFileProtectionKey: fileProtection.rawValue]) {
+            throw FileKitError.CreateFileFail(path: self)
+        }
+    }
+
 }
 
 extension File {
@@ -99,4 +113,15 @@ extension File {
     public var protection: FileProtection? {
         return path.fileProtection
     }
+    
+    /// Creates the file with specified file protection.
+    ///
+    /// Throws an error if the file cannot be created.
+    ///
+    /// - Throws: `FileKitError.CreateFileFail`
+    ///
+    public func create(fileProtection: FileProtection) throws {
+        try path.createFile(fileProtection)
+    }
+
 }
