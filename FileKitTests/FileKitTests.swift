@@ -588,5 +588,32 @@ class FileKitTests: XCTestCase {
             XCTFail(String(error))
         }
     }
-
+    
+    // MARK: - Watch
+    
+    func testWatch() {
+        let pathToWatch = .UserTemporary + "filekit_test_watch"
+        let expectation = "event"
+        let operation = {
+            do {
+                let message = "Testing file system event when writing..."
+                try message.writeToPath(pathToWatch, atomically: false)
+            } catch {
+                XCTFail(String(error))
+            }
+        }
+        
+        // Do watch test
+        let expt = self.expectationWithDescription(expectation)
+        let watcher = pathToWatch.watch{ event in
+            print(event)
+            // XXX here could check expected event type according to operation
+            expt.fulfill()
+        }
+        defer {
+            watcher.close()
+        }
+        operation()
+        self.waitForExpectationsWithTimeout(5, handler: nil)
+    }
 }
