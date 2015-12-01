@@ -16,6 +16,10 @@
              alt="Carthage">
     </a>
     <br>
+    <a href="https://trello.com/b/s1MOyp2h/filekit">
+        <img src="https://img.shields.io/badge/Trello-filekit-blue.svg"
+             alt="Trello Board">
+    </a>
     <a href="https://gitter.im/nvzqz/FileKit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
         <img src="https://img.shields.io/badge/GITTER-join%20chat-00D06F.svg"
              alt="GITTER: join chat">
