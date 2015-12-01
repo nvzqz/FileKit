@@ -33,5 +33,5 @@ extension NSBundle {
     public convenience init?(path: Path) {
         self.init(path: path.rawValue)
     }
-    
+
 }

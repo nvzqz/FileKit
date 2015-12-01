@@ -42,7 +42,7 @@ extension File where Data: NSData {
     public func read(options: NSDataReadingOptions) throws -> Data {
         return try Data.readFromPath(path, options: options)
     }
-    
+
     /// Writes data to the file.
     ///
     /// - Parameter data: The data to be written to the file.

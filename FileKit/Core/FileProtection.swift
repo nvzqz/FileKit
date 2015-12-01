@@ -29,7 +29,7 @@ import Foundation
 
 /// The values that can be obtained from `NSFileProtectionKey` on a
 /// file's attributes. Only available on iOS, watchOS, and tvOS.
-public enum FileProtection : String {
+public enum FileProtection: String {
 
     /// The file has no special protections associated with it.
     case None
@@ -76,18 +76,18 @@ public enum FileProtection : String {
             return NSFileProtectionCompleteUntilFirstUserAuthentication
         }
     }
-    
+
     ///  Return the equivalent NSDataWritingOptions
     public var dataWritingOption: NSDataWritingOptions {
         switch self {
         case .None:
-            return NSDataWritingOptions.DataWritingFileProtectionNone
+            return .DataWritingFileProtectionNone
         case .Complete:
-            return NSDataWritingOptions.DataWritingFileProtectionComplete
+            return .DataWritingFileProtectionComplete
         case .CompleteUnlessOpen:
-            return NSDataWritingOptions.DataWritingFileProtectionCompleteUnlessOpen
+            return .DataWritingFileProtectionCompleteUnlessOpen
         case .CompleteUntilFirstUserAuthentication:
-            return NSDataWritingOptions.DataWritingFileProtectionCompleteUntilFirstUserAuthentication
+            return .DataWritingFileProtectionCompleteUntilFirstUserAuthentication
         }
     }
 
@@ -100,8 +100,9 @@ extension Path {
     /// The protection of the file at the path.
     public var fileProtection: FileProtection? {
         guard let value = attributes[NSFileProtectionKey] as? String,
-            protection  = FileProtection(rawValue: value)
-            else { return nil }
+            protection  = FileProtection(rawValue: value) else {
+            return nil
+        }
         return protection
     }
 
@@ -115,7 +116,8 @@ extension Path {
     ///
     public func createFile(fileProtection: FileProtection) throws {
         let manager = Path.fileManager
-        if !manager.createFileAtPath(rawValue, contents: nil, attributes: [NSFileProtectionKey: fileProtection.rawValue]) {
+        let attributes = [NSFileProtectionKey : fileProtection.rawValue]
+        if !manager.createFileAtPath(rawValue, contents: nil, attributes: attributes) {
             throw FileKitError.CreateFileFail(path: self)
         }
     }
@@ -130,7 +132,7 @@ extension File {
     public var protection: FileProtection? {
         return path.fileProtection
     }
-    
+
     /// Creates the file with specified file protection.
     ///
     /// - Parameter fileProtection: the protection to apply to the file.
@@ -161,9 +163,9 @@ extension File where Data: NSData {
     public func write(data: Data, fileProtection: FileProtection, atomically: Bool = true) throws {
         var options = fileProtection.dataWritingOption
         if atomically {
-            options.union(NSDataWritingOptions.DataWritingAtomic)
+            options.unionInPlace(NSDataWritingOptions.DataWritingAtomic)
         }
         try self.write(data, options: options)
     }
-    
+
 }

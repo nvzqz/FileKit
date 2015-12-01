@@ -27,7 +27,7 @@
 
 import Foundation
 
-extension NSArray : DataType, WritableToFile {
+extension NSArray: DataType, WritableToFile {
 
     /// Returns an array read from the given path.
     public class func readFromPath(path: Path) throws -> Self {
@@ -36,5 +36,5 @@ extension NSArray : DataType, WritableToFile {
         }
         return contents
     }
-    
+
 }

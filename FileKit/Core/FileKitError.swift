@@ -94,7 +94,7 @@ public enum FileKitError: ErrorType {
     case AttributesChangeFail(path: Path)
 }
 
-extension FileKitError : CustomStringConvertible {
+extension FileKitError: CustomStringConvertible {
     // MARK: - CustomStringConvertible
     /// A textual representation of `self`.
     public var description: String {

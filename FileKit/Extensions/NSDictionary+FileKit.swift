@@ -24,7 +24,7 @@
 
 import Foundation
 
-extension NSDictionary : DataType, WritableToFile {
+extension NSDictionary: DataType, WritableToFile {
 
     /// Returns a dictionary read from the given path.
     public class func readFromPath(path: Path) throws -> Self {
@@ -33,5 +33,5 @@ extension NSDictionary : DataType, WritableToFile {
         }
         return contents
     }
-    
+
 }

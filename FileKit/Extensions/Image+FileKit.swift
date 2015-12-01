@@ -41,7 +41,7 @@ public typealias Image = NSImage
 public typealias Image = UIImage
 #endif
 
-extension Image : DataType, WritableConvertible {
+extension Image: DataType, WritableConvertible {
 
     /// Returns an image from the given path.
     ///

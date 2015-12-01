@@ -31,13 +31,13 @@ import Foundation
 
 /// Returns `true` if both files' paths are the same.
 @warn_unused_result
-public func ==<Data : DataType>(lhs: File<Data>, rhs: File<Data>) -> Bool {
+public func ==<Data: DataType>(lhs: File<Data>, rhs: File<Data>) -> Bool {
     return lhs.path == rhs.path
 }
 
 /// Returns `true` if `lhs` is smaller than `rhs` in size.
 @warn_unused_result
-public func < <Data : DataType>(lhs: File<Data>, rhs: File<Data>) -> Bool {
+public func < <Data: DataType>(lhs: File<Data>, rhs: File<Data>) -> Bool {
     return lhs.size < rhs.size
 }
 
@@ -47,7 +47,7 @@ infix operator |> {}
 ///
 /// - Throws: `FileKitError.WriteToFileFail`
 ///
-public func |> <Data : DataType>(data: Data, file: File<Data>) throws {
+public func |> <Data: DataType>(data: Data, file: File<Data>) throws {
     try file.write(data)
 }
 
@@ -57,7 +57,7 @@ public func |> <Data : DataType>(data: Data, file: File<Data>) throws {
 
 /// Returns `true` if both text files have the same path and encoding.
 @warn_unused_result
-public func ==(lhs: TextFile, rhs: TextFile) -> Bool {
+public func == (lhs: TextFile, rhs: TextFile) -> Bool {
     return lhs.path == rhs.path && lhs.encoding == rhs.encoding
 }
 
@@ -101,7 +101,8 @@ public func + (lhs: Path, rhs: Path) -> Path {
     if rhs.rawValue.isEmpty { return lhs }
     switch (lhs.rawValue.hasSuffix(Path.separator), rhs.rawValue.hasPrefix(Path.separator)) {
     case (true, true):
-        return Path("\(lhs.rawValue)\(rhs.rawValue.substringFromIndex(rhs.rawValue.startIndex.successor()))")
+        let rhsRawValue = rhs.rawValue.substringFromIndex(rhs.rawValue.startIndex.successor())
+        return Path("\(lhs.rawValue)\(rhsRawValue)")
     case (false, false):
         return Path("\(lhs.rawValue)\(Path.separator)\(rhs.rawValue)")
     default:
@@ -137,7 +138,7 @@ infix operator <^> {
 
 /// Returns the common ancestor between the two paths.
 @warn_unused_result
-public func <^>(lhs: Path, rhs: Path) -> Path {
+public func <^> (lhs: Path, rhs: Path) -> Path {
     return lhs.commonAncestor(rhs)
 }
 
@@ -168,7 +169,7 @@ public func ->> (lhs: Path, rhs: Path) throws {
 ///
 /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.MoveFileFail`
 ///
-public func ->> <Data : DataType>(lhs: File<Data>, rhs: Path) throws {
+public func ->> <Data: DataType>(lhs: File<Data>, rhs: Path) throws {
     try lhs.moveToPath(rhs)
 }
 
@@ -199,7 +200,7 @@ public func ->! (lhs: Path, rhs: Path) throws {
 ///     `FileKitError.FileDoesNotExist`,
 ///     `FileKitError.CreateSymlinkFail`
 ///
-public func ->! <Data : DataType>(lhs: File<Data>, rhs: Path) throws {
+public func ->! <Data: DataType>(lhs: File<Data>, rhs: Path) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
@@ -227,7 +228,7 @@ public func +>> (lhs: Path, rhs: Path) throws {
 ///
 /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
 ///
-public func +>> <Data : DataType>(lhs: File<Data>, rhs: Path) throws {
+public func +>> <Data: DataType>(lhs: File<Data>, rhs: Path) throws {
     try lhs.copyToPath(rhs)
 }
 
@@ -258,7 +259,7 @@ public func +>! (lhs: Path, rhs: Path) throws {
 ///     `FileKitError.FileDoesNotExist`,
 ///     `FileKitError.CreateSymlinkFail`
 ///
-public func +>! <Data : DataType>(lhs: File<Data>, rhs: Path) throws {
+public func +>! <Data: DataType>(lhs: File<Data>, rhs: Path) throws {
     if rhs.exists {
         try rhs.deleteFile()
     }
@@ -293,7 +294,7 @@ public func =>> (lhs: Path, rhs: Path) throws {
 ///
 /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CreateSymlinkFail`
 ///
-public func =>> <Data : DataType>(lhs: File<Data>, rhs: Path) throws {
+public func =>> <Data: DataType>(lhs: File<Data>, rhs: Path) throws {
     try lhs.symlinkToPath(rhs)
 }
 
@@ -330,7 +331,7 @@ public func =>! (lhs: Path, rhs: Path) throws {
 ///     `FileKitError.FileDoesNotExist`,
 ///     `FileKitError.CreateSymlinkFail`
 ///
-public func =>! <Data : DataType>(lhs: File<Data>, rhs: Path) throws {
+public func =>! <Data: DataType>(lhs: File<Data>, rhs: Path) throws {
     try lhs.path =>! rhs
 }
 

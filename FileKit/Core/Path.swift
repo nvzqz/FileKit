@@ -24,6 +24,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 //
+//  swiftlint:disable file_length
+//
 
 import Foundation
 
@@ -31,7 +33,7 @@ import Foundation
 ///
 /// An Path instance lets you manage files in a much easier way.
 ///
-public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Indexable {
+public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexable {
 
     // MARK: - Static Methods and Properties
 
@@ -56,8 +58,9 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
 
     /// The paths of the mounted volumes available.
     public static func volumes(options: NSVolumeEnumerationOptions = []) -> [Path] {
-        let volumes = Path.fileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil, options: options) ?? []
-        return volumes.flatMap { Path(URL: $0) }
+        let volumes = Path.fileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil,
+            options: options)
+        return (volumes ?? []).flatMap { Path(url: $0) }
     }
 
     // MARK: - Properties
@@ -184,6 +187,10 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         self.rawValue = path
     }
 
+}
+
+extension Path {
+
     // MARK: - Methods
 
     /// Runs `closure` with `self` as its current working directory.
@@ -217,8 +224,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     public func isChildOfPath(path: Path, recursive: Bool = true) -> Bool {
         if recursive {
             return path.isAncestorOfPath(self)
-        }
-        else  {
+        } else {
             return path.parent == self
         }
     }
@@ -251,6 +257,8 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         let ancestorComponents = selfComponents[0..<index]
         return ancestorComponents.reduce("") { $0 + $1 }
     }
+
+    // swiftlint:disable line_length
 
     /// Returns paths in `self` that match a condition.
     ///
@@ -291,6 +299,8 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
             }
         }
     }
+
+    // swiftlint:enable line_length
 
     /// Standardizes the path.
     public mutating func standardize() {
@@ -358,16 +368,17 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     ///     `FileKitError.CreateFileFail`,
     ///     `FileKitError.AttributesChangeFail`
     ///
-    public func touch(updateModificationDate : Bool = true) throws {
+    public func touch(updateModificationDate: Bool = true) throws {
         if self.exists {
             if updateModificationDate {
                 try setAttribute(NSFileModificationDate, value: NSDate())
             }
-        }
-        else {
+        } else {
             try createFile()
         }
     }
+
+    // swiftlint:disable line_length
 
     /// Creates a directory at the path.
     ///
@@ -389,6 +400,8 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
             throw FileKitError.CreateDirectoryFail(path: self)
         }
     }
+
+    // swiftlint:enable line_length
 
     /// Deletes the file or directory at the path.
     ///
@@ -449,6 +462,89 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         }
     }
 
+}
+
+extension Path {
+
+    // MARK: - StringLiteralConvertible
+
+    public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
+
+    public typealias UnicodeScalarLiteralType = StringLiteralType
+
+    /// Initializes a path to the literal.
+    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+        self.rawValue = value
+    }
+
+    /// Initializes a path to the literal.
+    public init(stringLiteral value: StringLiteralType) {
+        self.rawValue = value
+    }
+
+    /// Initializes a path to the literal.
+    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+        self.rawValue = value
+    }
+
+}
+
+extension Path {
+
+    // MARK: - RawRepresentable
+
+    /// Initializes a path to the string value.
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+}
+
+extension Path {
+
+    // MARK: - Hashable
+
+    /// The hash value of the path.
+    public var hashValue: Int {
+        return rawValue.hashValue
+    }
+
+}
+
+extension Path {
+
+    // MARK: - Indexable
+
+    /// The path's start index.
+    public var startIndex: Int {
+        return components.startIndex
+    }
+
+    /// The path's end index; the successor of the last valid subscript argument.
+    public var endIndex: Int {
+        return components.endIndex
+    }
+
+    /// The path's subscript. (read-only)
+    ///
+    /// - Returns: All of the path's elements up to and including the index.
+    ///
+    public subscript(index: Int) -> Path {
+        if index < 0 || index >= components.count {
+            fatalError("Path index out of range")
+        } else {
+            var result = components.first!
+            for i in 1 ..< index + 1 {
+                result += components[i]
+            }
+            return result
+        }
+    }
+
+}
+
+extension Path {
+
     // MARK: - Attributes
 
     /// Returns the path's attributes.
@@ -460,8 +556,7 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     private func setAttributes(attributes: [String : AnyObject]) throws {
         do {
             try Path.fileManager.setAttributes(attributes, ofItemAtPath: self.rawValue)
-        }
-        catch {
+        } catch {
             throw FileKitError.AttributesChangeFail(path: self)
         }
     }
@@ -546,6 +641,9 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         }
         return nil
     }
+}
+
+extension Path {
 
     // MARK: - FileType
 
@@ -557,6 +655,10 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         return FileType(rawValue: value)
     }
 
+}
+
+extension Path {
+
     // MARK: - FilePermissions
 
     /// The permissions for the file at the path.
@@ -564,93 +666,52 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
         return FilePermissions(forPath: self)
     }
 
-    // MARK: - StringLiteralConvertible
+}
 
-    public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
-
-    public typealias UnicodeScalarLiteralType = StringLiteralType
-
-    /// Initializes a path to the literal.
-    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
-        self.rawValue = value
-    }
-
-    /// Initializes a path to the literal.
-    public init(stringLiteral value: StringLiteralType) {
-        self.rawValue = value
-    }
-
-    /// Initializes a path to the literal.
-    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
-        self.rawValue = value
-    }
-
-    // MARK: - RawRepresentable
-
-    /// Initializes a path to the string value.
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    // MARK: - Hashable
-
-    /// The hash value of the path.
-    public var hashValue: Int {
-        return rawValue.hashValue
-    }
-
-    // MARK: - Indexable
-
-    /// The path's start index.
-    public var startIndex: Int {
-        return components.startIndex
-    }
-
-    /// The path's end index; the successor of the last valid subscript argument.
-    public var endIndex: Int {
-        return components.endIndex
-    }
-
-    /// The path's subscript. (read-only)
-    ///
-    /// - Returns: All of the path's elements up to and including the index.
-    ///
-    public subscript(index: Int) -> Path {
-        if index < 0 || index >= components.count {
-            fatalError("Path index out of range")
-        } else {
-            var result = components.first!
-            for i in 1 ..< index + 1 {
-                result += components[i]
-            }
-            return result
-        }
-    }
+extension Path {
 
     // MARK: - NSURL
 
-    public init?(URL: NSURL) {
-        guard let path = URL.path where URL.fileURL
-            else { return nil }
+    public init?(url: NSURL) {
+        guard let path = url.path where url.fileURL else {
+            return nil
+        }
         rawValue = path
     }
 
-    public var URL: NSURL {
+    public var url: NSURL {
         return NSURL(fileURLWithPath: rawValue, isDirectory: self.isDirectory)
     }
 
+}
+
+extension Path {
+
     // MARK: - BookmarkData
 
-    public init?(bookmarkData bookData : NSData) {
-        var isStale : ObjCBool = false
-        guard let fullURL = try? NSURL(byResolvingBookmarkData: bookData, options: [], relativeToURL: nil, bookmarkDataIsStale: &isStale)
-            else { return nil }
-        self.init(URL: fullURL)
+    public init?(bookmarkData bookData: NSData) {
+        var isStale: ObjCBool = false
+        let url = try? NSURL(
+            byResolvingBookmarkData: bookData,
+            options: [],
+            relativeToURL: nil,
+            bookmarkDataIsStale: &isStale)
+        guard let fullURL = url else {
+            return nil
+        }
+        self.init(url: fullURL)
     }
 
-    public var bookmarkData : NSData? {
-        return try? self.URL.bookmarkDataWithOptions(.SuitableForBookmarkFile, includingResourceValuesForKeys: nil, relativeToURL: nil)
+    public var bookmarkData: NSData? {
+        return try? url.bookmarkDataWithOptions(
+            .SuitableForBookmarkFile,
+            includingResourceValuesForKeys: nil,
+            relativeToURL: nil)
     }
+
+}
+
+extension Path {
 
     // MARK: - NSFileHandle
 
@@ -671,6 +732,10 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
     public var fileHandleForUpdating: NSFileHandle? {
         return NSFileHandle(forUpdatingAtPath: rawValue)
     }
+
+}
+
+extension Path {
 
     // MARK: - NSStream
 
@@ -693,9 +758,9 @@ public struct Path : StringLiteralConvertible, RawRepresentable, Hashable, Index
 
 }
 
-// MARK: - StringInterpolationConvertible
+extension Path: StringInterpolationConvertible {
 
-extension Path : StringInterpolationConvertible {
+    // MARK: - StringInterpolationConvertible
 
     /// Initializes a path from the string interpolation paths.
     public init(stringInterpolation paths: Path...) {
@@ -713,30 +778,38 @@ extension Path : StringInterpolationConvertible {
 
 }
 
-// MARK: - CustomStringConvertible
+extension Path: CustomStringConvertible {
 
-extension Path : CustomStringConvertible {
+    // MARK: - CustomStringConvertible
+
     /// A textual representation of `self`.
     public var description: String {
         return rawValue
     }
+
 }
 
-// MARK: - CustomDebugStringConvertible
 
-extension Path : CustomDebugStringConvertible {
+extension Path: CustomDebugStringConvertible {
+
+    // MARK: - CustomDebugStringConvertible
+
     /// A textual representation of `self`, suitable for debugging.
     public var debugDescription: String {
         return "Path(\(rawValue.debugDescription))"
     }
+
 }
 
-extension Path : SequenceType {
+extension Path: SequenceType {
+
     // MARK: - SequenceType
+
     /// Return a *generator* over the contents of the path.
     public func generate() -> DirectoryEnumerator {
         return DirectoryEnumerator(path: self)
     }
+
 }
 
 
@@ -847,10 +920,10 @@ extension Path {
         return pathsInDomains(directory, .SystemDomainMask)[0]
     }
 
-    private static func pathsInDomains(directory: NSSearchPathDirectory, _ domainMask: NSSearchPathDomainMask) -> [Path] {
-        return NSSearchPathForDirectoriesInDomains(directory, domainMask, true).map {
-            Path($0)
-        }
+    private static func pathsInDomains(directory: NSSearchPathDirectory,
+        _ domainMask: NSSearchPathDomainMask) -> [Path] {
+        return NSSearchPathForDirectoriesInDomains(directory, domainMask, true)
+            .map({ Path($0) })
     }
 
 }

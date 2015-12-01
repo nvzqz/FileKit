@@ -29,7 +29,7 @@ import Foundation
 
 /// An enumerator for the contents of a directory that returns the paths of all
 /// files and directories contained within that directory.
-public struct DirectoryEnumerator : GeneratorType {
+public struct DirectoryEnumerator: GeneratorType {
 
     private let _path: Path, _enumerator: NSDirectoryEnumerator?
 

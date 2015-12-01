@@ -31,7 +31,7 @@ import Foundation
 ///
 /// - Precondition: The data type must conform to DataType.
 ///
-public class File<Data : DataType> : Comparable {
+public class File<Data: DataType>: Comparable {
 
     // MARK: - Properties
 
@@ -215,7 +215,7 @@ public class File<Data : DataType> : Comparable {
 
 }
 
-extension File : CustomStringConvertible {
+extension File: CustomStringConvertible {
 
     // MARK: - CustomStringConvertible
 
@@ -226,7 +226,7 @@ extension File : CustomStringConvertible {
 
 }
 
-extension File : CustomDebugStringConvertible {
+extension File: CustomDebugStringConvertible {
 
     // MARK: - CustomDebugStringConvertible
 

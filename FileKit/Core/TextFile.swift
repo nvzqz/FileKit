@@ -30,7 +30,7 @@ import Foundation
 /// A representation of a filesystem text file.
 ///
 /// The data type is String.
-public class TextFile : File<String> {
+public class TextFile: File<String> {
 
     /// The text file's string encoding.
     public var encoding: NSStringEncoding

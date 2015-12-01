@@ -28,7 +28,7 @@
 import Foundation
 
 /// The permissions of a file.
-public struct FilePermissions : OptionSetType, CustomStringConvertible {
+public struct FilePermissions: OptionSetType, CustomStringConvertible {
 
     /// The file can be read from.
     public static let Read = FilePermissions(rawValue: 1)
@@ -68,14 +68,14 @@ public struct FilePermissions : OptionSetType, CustomStringConvertible {
     /// Creates a set of permissions for the file at `path`.
     public init(forPath path: Path) {
         var permissions = FilePermissions(rawValue: 0)
-        if path.isReadable   { permissions.unionInPlace(.Read)    }
-        if path.isWritable   { permissions.unionInPlace(.Write)   }
+        if path.isReadable { permissions.unionInPlace(.Read) }
+        if path.isWritable { permissions.unionInPlace(.Write) }
         if path.isExecutable { permissions.unionInPlace(.Execute) }
         self = permissions
     }
 
     /// Creates a set of permissions for `file`.
-    public init<Data : DataType>(forFile file: File<Data>) {
+    public init<Data: DataType>(forFile file: File<Data>) {
         self.init(forPath: file.path)
     }
 

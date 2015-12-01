@@ -28,12 +28,16 @@
 import Foundation
 
 /// Allows String to be used as a DataType.
-extension String : DataType {
+extension String: DataType {
 
     /// Creates a string from a path.
     public static func readFromPath(path: Path) throws -> String {
-        guard let contents = try? NSString(contentsOfFile: path.rawValue, encoding: NSUTF8StringEncoding)
-            else { throw FileKitError.ReadFromFileFail(path: path) }
+        let possibleContents = try? NSString(
+            contentsOfFile: path.rawValue,
+            encoding: NSUTF8StringEncoding)
+        guard let contents = possibleContents else {
+            throw FileKitError.ReadFromFileFail(path: path)
+        }
         return contents as String
     }
 
@@ -55,7 +59,9 @@ extension String : DataType {
     ///
     public func writeToPath(path: Path, atomically useAuxiliaryFile: Bool) throws {
         do {
-            try self.writeToFile(path.rawValue, atomically: useAuxiliaryFile, encoding: NSUTF8StringEncoding)
+            try self.writeToFile(path.rawValue,
+                atomically: useAuxiliaryFile,
+                encoding: NSUTF8StringEncoding)
         } catch {
             throw FileKitError.WriteToFileFail(path: path)
         }

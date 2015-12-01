@@ -28,7 +28,7 @@
 import Foundation
 
 /// The type attribute for a file at a path.
-public enum FileType : String {
+public enum FileType: String {
 
     /// The file is a directory.
     case Directory

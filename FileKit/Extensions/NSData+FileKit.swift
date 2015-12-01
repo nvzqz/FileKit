@@ -27,7 +27,7 @@
 
 import Foundation
 
-extension NSData : DataType, WritableToFile {
+extension NSData: DataType, WritableToFile {
 
     /// Returns data read from the given path.
     public class func readFromPath(path: Path) throws -> Self {
@@ -36,7 +36,7 @@ extension NSData : DataType, WritableToFile {
         }
         return contents
     }
-    
+
     /// Returns data read from the given path using NSDataReadingOptions.
     public class func readFromPath(path: Path, options: NSDataReadingOptions) throws -> Self {
         do {
@@ -45,5 +45,5 @@ extension NSData : DataType, WritableToFile {
             throw FileKitError.ReadFromFileFail(path: path)
         }
     }
-    
+
 }
