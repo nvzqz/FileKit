@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		520E0E301C110CA900BAEA99 /* Process+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E0E2F1C110CA900BAEA99 /* Process+FileKit.swift */; };
+		520E0E311C110CA900BAEA99 /* Process+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E0E2F1C110CA900BAEA99 /* Process+FileKit.swift */; };
+		520E0E321C110CA900BAEA99 /* Process+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E0E2F1C110CA900BAEA99 /* Process+FileKit.swift */; };
+		520E0E331C110CA900BAEA99 /* Process+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E0E2F1C110CA900BAEA99 /* Process+FileKit.swift */; };
 		52255DCB1C042D6E00AC1DA5 /* FilePermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */; };
 		52255DCC1C042D6E00AC1DA5 /* FilePermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */; };
 		52255DCD1C042D6E00AC1DA5 /* FilePermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */; };
@@ -116,6 +120,7 @@
 		5204B84B1B96B83800AA473F /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5204B84F1B96B83800AA473F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5204B8581B96B85E00AA473F /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		520E0E2F1C110CA900BAEA99 /* Process+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Process+FileKit.swift"; sourceTree = "<group>"; };
 		52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilePermissions.swift; sourceTree = "<group>"; };
 		523C33771B9A7EFC00AB70E4 /* TextFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFile.swift; sourceTree = "<group>"; };
 		523C337A1B9B68D600AB70E4 /* DictionaryFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryFile.swift; sourceTree = "<group>"; };
@@ -242,6 +247,7 @@
 		5204B7E41B96AD3400AA473F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				520E0E2F1C110CA900BAEA99 /* Process+FileKit.swift */,
 				5204B7E51B96ADA100AA473F /* String+FileKit.swift */,
 				52A0170F1C024D840045A9C8 /* NSString+FileKit.swift */,
 				52A016F51C01ACE50045A9C8 /* NSDictionary+FileKit.swift */,
@@ -559,6 +565,7 @@
 				5263A8FC1B96B94D00635A93 /* Path.swift in Sources */,
 				52A016C41C013F3D0045A9C8 /* DirectoryEnumerator.swift in Sources */,
 				524D315F1BC7A02A008B93D0 /* Image+FileKit.swift in Sources */,
+				520E0E301C110CA900BAEA99 /* Process+FileKit.swift in Sources */,
 				523C33991B9B764600AB70E4 /* DataType.swift in Sources */,
 				52BF6BB11B99322000F07E13 /* FileKitError.swift in Sources */,
 				52A017101C024D840045A9C8 /* NSString+FileKit.swift in Sources */,
@@ -588,6 +595,7 @@
 				52A0170B1C01D5400045A9C8 /* FileType.swift in Sources */,
 				523C33A81B9B894A00AB70E4 /* Operators.swift in Sources */,
 				52A017111C024D840045A9C8 /* NSString+FileKit.swift in Sources */,
+				520E0E311C110CA900BAEA99 /* Process+FileKit.swift in Sources */,
 				523C33791B9A7EFC00AB70E4 /* TextFile.swift in Sources */,
 				52A017011C01AD4A0045A9C8 /* NSData+FileKit.swift in Sources */,
 				5263A8FD1B96B94D00635A93 /* Path.swift in Sources */,
@@ -626,6 +634,7 @@
 				52A0170C1C01D5400045A9C8 /* FileType.swift in Sources */,
 				5276124D1BAEA43600503D0A /* DictionaryFile.swift in Sources */,
 				52A017121C024D840045A9C8 /* NSString+FileKit.swift in Sources */,
+				520E0E321C110CA900BAEA99 /* Process+FileKit.swift in Sources */,
 				5276124B1BAEA43600503D0A /* File.swift in Sources */,
 				52A017021C01AD4A0045A9C8 /* NSData+FileKit.swift in Sources */,
 				5276124C1BAEA43600503D0A /* TextFile.swift in Sources */,
@@ -655,6 +664,7 @@
 				52A0170D1C01D5400045A9C8 /* FileType.swift in Sources */,
 				52B938BE1BF3C42A001B7AEB /* DictionaryFile.swift in Sources */,
 				52A017131C024D840045A9C8 /* NSString+FileKit.swift in Sources */,
+				520E0E331C110CA900BAEA99 /* Process+FileKit.swift in Sources */,
 				52B938C11BF3C42A001B7AEB /* Path.swift in Sources */,
 				52B938BC1BF3C42A001B7AEB /* File.swift in Sources */,
 				52A017031C01AD4A0045A9C8 /* NSData+FileKit.swift in Sources */,
