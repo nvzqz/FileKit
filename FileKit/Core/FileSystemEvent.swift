@@ -411,28 +411,36 @@ public class FileSystemWatcher {
     // MARK: - Private Static Properties
 
     /// The event stream callback for when events occur.
-    private static let eventCallback: FSEventStreamCallback = {(
-        stream: ConstFSEventStreamRef,
+    private static let eventCallback: FSEventStreamCallback = {
+        (stream: ConstFSEventStreamRef,
         contextInfo: UnsafeMutablePointer<Void>,
         numEvents: Int,
         eventPaths: UnsafeMutablePointer<Void>,
         eventFlags: UnsafePointer<FSEventStreamEventFlags>,
         eventIds: UnsafePointer<FSEventStreamEventId>) in
 
+        defer {
+            watcher.lastEventId = eventIds[numEvents - 1]
+        }
+
         FileSystemWatcher.log("Callback Fired")
 
-        let fileSystemWatcher: FileSystemWatcher = unsafeBitCast(contextInfo, FileSystemWatcher.self)
-        let paths = unsafeBitCast(eventPaths, NSArray.self) as! [String]
+        let watcher: FileSystemWatcher = unsafeBitCast(contextInfo, FileSystemWatcher.self)
+        guard let paths = unsafeBitCast(eventPaths, NSArray.self) as? [String] else {
+            return
+        }
+
         for index in 0..<numEvents {
             let id = eventIds[index]
             let path = paths[index]
             let flags = eventFlags[index]
 
-            let event = FileSystemEvent(id: id, path: Path(path), flags: FileSystemEventFlags(rawValue: Int(flags)))
-            fileSystemWatcher.processEvent(event)
+            let event = FileSystemEvent(
+                id: id,
+                path: Path(path),
+                flags: FileSystemEventFlags(rawValue: Int(flags)))
+            watcher.processEvent(event)
         }
-
-        fileSystemWatcher.lastEventId = eventIds[numEvents - 1]
     }
 
     // MARK: - Properties
@@ -470,7 +478,13 @@ public class FileSystemWatcher {
     // MARK: - Initialization
 
     /// Creates a watcher for the given paths.
-    public init(paths: [Path], sinceWhen: FSEventStreamEventId = FileSystemEvent.NowEventId, flags: FileSystemEventStreamCreateFlags = [.UseCFTypes, .FileEvents], latency: CFTimeInterval = 0, queue: dispatch_queue_t? = nil, callback: (FileSystemEvent) -> Void) {
+    public init(paths: [Path],
+        sinceWhen: FSEventStreamEventId = FileSystemEvent.NowEventId,
+        flags: FileSystemEventStreamCreateFlags = [.UseCFTypes, .FileEvents],
+        latency: CFTimeInterval = 0,
+        queue: dispatch_queue_t? = nil,
+        callback: (FileSystemEvent) -> Void
+    ) {
         self.lastEventId = sinceWhen
         self.paths       = paths
         self.flags       = flags
