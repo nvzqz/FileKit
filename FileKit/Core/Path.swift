@@ -718,19 +718,19 @@ extension Path {
     /// Returns a file handle for reading the file at the path, or `nil` if no
     /// file exists.
     public var fileHandleForReading: NSFileHandle? {
-        return NSFileHandle(forReadingAtPath: rawValue)
+        return NSFileHandle(forReadingAtPath: standardized.rawValue)
     }
 
     /// Returns a file handle for writing to the file at the path, or `nil` if
     /// no file exists.
     public var fileHandleForWriting: NSFileHandle? {
-        return NSFileHandle(forWritingAtPath: rawValue)
+        return NSFileHandle(forWritingAtPath: standardized.rawValue)
     }
 
     /// Returns a file handle for reading and writing to the file at the path,
     /// or `nil` if no file exists.
     public var fileHandleForUpdating: NSFileHandle? {
-        return NSFileHandle(forUpdatingAtPath: rawValue)
+        return NSFileHandle(forUpdatingAtPath: standardized.rawValue)
     }
 
 }
