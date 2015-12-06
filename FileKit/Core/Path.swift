@@ -37,9 +37,6 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
 
     // MARK: - Static Methods and Properties
 
-    /// The `NSFileManager` instance used by `Path`
-    public static var fileManager = NSFileManager.defaultManager()
-
     /// The standard separator for path components.
     public static let separator = "/"
 
@@ -49,21 +46,23 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
     /// The path of the program's current working directory.
     public static var Current: Path {
         get {
-            return Path(Path.fileManager.currentDirectoryPath)
+            return Path(NSFileManager().currentDirectoryPath)
         }
         set {
-            Path.fileManager.changeCurrentDirectoryPath(newValue.rawValue)
+            NSFileManager().changeCurrentDirectoryPath(newValue.rawValue)
         }
     }
 
     /// The paths of the mounted volumes available.
     public static func volumes(options: NSVolumeEnumerationOptions = []) -> [Path] {
-        let volumes = Path.fileManager.mountedVolumeURLsIncludingResourceValuesForKeys(nil,
+        let volumes = NSFileManager().mountedVolumeURLsIncludingResourceValuesForKeys(nil,
             options: options)
         return (volumes ?? []).flatMap { Path(url: $0) }
     }
 
     // MARK: - Properties
+
+    private var _fileManager = NSFileManager()
 
     /// The stored path string value.
     public private(set) var rawValue: String
@@ -120,38 +119,38 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
 
     /// Returns `true` if a file exists at the path.
     public var exists: Bool {
-        return Path.fileManager.fileExistsAtPath(rawValue)
+        return _fileManager.fileExistsAtPath(rawValue)
     }
 
     /// Returns `true` if the current process has write privileges for the file
     /// at the path.
     public var isWritable: Bool {
-        return Path.fileManager.isWritableFileAtPath(rawValue)
+        return _fileManager.isWritableFileAtPath(rawValue)
     }
 
     /// Returns `true` if the current process has read privileges for the file
     /// at the path.
     public var isReadable: Bool {
-        return Path.fileManager.isReadableFileAtPath(rawValue)
+        return _fileManager.isReadableFileAtPath(rawValue)
     }
 
     /// Returns `true` if the current process has execute privileges for the
     /// file at the path.
     public var isExecutable: Bool {
-        return  Path.fileManager.isExecutableFileAtPath(rawValue)
+        return  _fileManager.isExecutableFileAtPath(rawValue)
     }
 
     /// Returns `true` if the current process has delete privileges for the file
     /// at the path.
     public var isDeletable: Bool {
-        return  Path.fileManager.isDeletableFileAtPath(rawValue)
+        return  _fileManager.isDeletableFileAtPath(rawValue)
     }
 
     /// Returns `true` if the path points to a directory.
     public var isDirectory: Bool {
         var isDirectory: ObjCBool = false
-        return Path.fileManager
-            .fileExistsAtPath(rawValue, isDirectory: &isDirectory) && isDirectory
+        return _fileManager.fileExistsAtPath(rawValue, isDirectory: &isDirectory)
+            && isDirectory
     }
 
     /// Returns `true` if the path is a symbolic link.
@@ -211,8 +210,8 @@ extension Path {
     ///
     public func children(recursive recursive: Bool = false) -> [Path] {
         let obtainFunc = recursive
-            ? Path.fileManager.subpathsOfDirectoryAtPath
-            : Path.fileManager.contentsOfDirectoryAtPath
+            ? _fileManager.subpathsOfDirectoryAtPath
+            : _fileManager.contentsOfDirectoryAtPath
         return (try? obtainFunc(rawValue))?.map { self + Path($0) } ?? []
     }
 
@@ -337,8 +336,7 @@ extension Path {
         let linkPath = path.isDirectory ? path + self.fileName : path
 
         do {
-            let manager = Path.fileManager
-            try manager.createSymbolicLinkAtPath(
+            try _fileManager.createSymbolicLinkAtPath(
                 linkPath.rawValue, withDestinationPath: self.rawValue)
         } catch {
             throw FileKitError.CreateSymlinkFail(from: self, to: linkPath)
@@ -352,8 +350,7 @@ extension Path {
     /// - Throws: `FileKitError.CreateFileFail`
     ///
     public func createFile() throws {
-        let manager = Path.fileManager
-        if !manager.createFileAtPath(rawValue, contents: nil, attributes: nil) {
+        if !_fileManager.createFileAtPath(rawValue, contents: nil, attributes: nil) {
             throw FileKitError.CreateFileFail(path: self)
         }
     }
@@ -392,7 +389,7 @@ extension Path {
     ///
     public func createDirectory(withIntermediateDirectories createIntermediates: Bool = true) throws {
         do {
-            let manager = Path.fileManager
+            let manager = _fileManager
             try manager.createDirectoryAtPath(rawValue,
                 withIntermediateDirectories: createIntermediates,
                 attributes: nil)
@@ -411,7 +408,7 @@ extension Path {
     ///
     public func deleteFile() throws {
         do {
-            try Path.fileManager.removeItemAtPath(rawValue)
+            try _fileManager.removeItemAtPath(rawValue)
         } catch {
             throw FileKitError.DeleteFileFail(path: self)
         }
@@ -427,7 +424,7 @@ extension Path {
         if self.exists {
             if !path.exists {
                 do {
-                    try Path.fileManager.moveItemAtPath(self.rawValue, toPath: path.rawValue)
+                    try _fileManager.moveItemAtPath(self.rawValue, toPath: path.rawValue)
                 } catch {
                     throw FileKitError.MoveFileFail(from: self, to: path)
                 }
@@ -450,7 +447,7 @@ extension Path {
         if self.exists {
             if !path.exists {
                 do {
-                    try Path.fileManager.copyItemAtPath(self.rawValue, toPath: path.rawValue)
+                    try _fileManager.copyItemAtPath(self.rawValue, toPath: path.rawValue)
                 } catch {
                     throw FileKitError.CopyFileFail(from: self, to: path)
                 }
@@ -549,13 +546,13 @@ extension Path {
 
     /// Returns the path's attributes.
     public var attributes: [String : AnyObject] {
-        return (try? Path.fileManager.attributesOfItemAtPath(rawValue)) ?? [:]
+        return (try? _fileManager.attributesOfItemAtPath(rawValue)) ?? [:]
     }
 
     /// Modify attributes
     private func setAttributes(attributes: [String : AnyObject]) throws {
         do {
-            try Path.fileManager.setAttributes(attributes, ofItemAtPath: self.rawValue)
+            try _fileManager.setAttributes(attributes, ofItemAtPath: self.rawValue)
         } catch {
             throw FileKitError.AttributesChangeFail(path: self)
         }

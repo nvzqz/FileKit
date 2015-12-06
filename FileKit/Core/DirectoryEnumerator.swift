@@ -36,7 +36,7 @@ public struct DirectoryEnumerator: GeneratorType {
     /// Creates a directory enumerator for the given path.
     public init(path: Path) {
         _path = path
-        _enumerator = Path.fileManager.enumeratorAtPath(path.rawValue)
+        _enumerator = NSFileManager().enumeratorAtPath(path.rawValue)
     }
 
     /// Returns the next path in the enumeration.
