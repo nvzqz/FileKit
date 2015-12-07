@@ -381,6 +381,11 @@ class FileKitTests: XCTestCase {
         }
     }
 
+    func testGroupIdentifier() {
+        let path = Path(groupIdentifier: "com.nikolaivazquez.FileKitTests")
+        XCTAssertNotNil(path, "Not able to create Path from group identifier")
+    }
+
     func testTouch() {
         let path: Path = .UserTemporary + "filekit_test.touch"
         do {

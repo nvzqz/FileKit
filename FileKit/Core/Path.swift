@@ -727,6 +727,20 @@ extension Path {
 
 extension Path {
 
+    // MARK: - SecurityApplicationGroupIdentifier
+
+    /// Returns the container directory associated with the specified security application group ID.
+    public init?(groupIdentifier: String) {
+        guard let url = NSFileManager().containerURLForSecurityApplicationGroupIdentifier(groupIdentifier) else {
+            return nil
+        }
+        self.init(url: url)
+    }
+
+}
+
+extension Path {
+
     // MARK: - NSFileHandle
 
     /// Returns a file handle for reading the file at the path, or `nil` if no
