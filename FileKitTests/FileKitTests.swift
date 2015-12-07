@@ -35,6 +35,50 @@ class FileKitTests: XCTestCase {
 
     // MARK: - Path
 
+    class Delegate: NSObject, NSFileManagerDelegate {
+        var expectedSourcePath: Path = ""
+        var expectedDestinationPath: Path = ""
+        func fileManager(
+            fileManager: NSFileManager,
+            shouldCopyItemAtPath srcPath: String,
+            toPath dstPath: String
+        ) -> Bool {
+            XCTAssertEqual(srcPath, expectedSourcePath.rawValue)
+            XCTAssertEqual(dstPath, expectedDestinationPath.rawValue)
+            return true
+        }
+    }
+
+    func testPathFileManagerDelegate() {
+        do {
+            var sourcePath = .UserTemporary + "filekit_test_filemanager_delegate"
+            let destinationPath = Path("\(sourcePath)1")
+            try sourcePath.createFile()
+
+            var delegate: Delegate {
+                let delegate = Delegate()
+                delegate.expectedSourcePath = sourcePath
+                delegate.expectedDestinationPath = destinationPath
+                return delegate
+            }
+
+            let d1 = delegate
+            sourcePath.fileManagerDelegate = d1
+            XCTAssertTrue(d1 === sourcePath.fileManagerDelegate)
+
+            try sourcePath +>! destinationPath
+
+            var secondSourcePath = sourcePath
+            secondSourcePath.fileManagerDelegate = delegate
+            XCTAssertFalse(sourcePath.fileManagerDelegate === secondSourcePath.fileManagerDelegate)
+            try secondSourcePath +>! destinationPath
+
+        } catch {
+            XCTFail(String(error))
+        }
+
+    }
+
     func testFindingPaths() {
         let homeFolders = Path.UserHome.find(searchDepth: 0) { $0.isDirectory }
         XCTAssertFalse(homeFolders.isEmpty, "Home folder is not empty")

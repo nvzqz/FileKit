@@ -62,7 +62,24 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
 
     // MARK: - Properties
 
-    private var _fileManager = NSFileManager()
+    private var _fmWraper = _FMWrapper()
+
+    private class _FMWrapper {
+        let fileManager = NSFileManager()
+    }
+
+    /// The delegate for the file manager used by the path.
+    public var fileManagerDelegate: NSFileManagerDelegate? {
+        get {
+            return _fmWraper.fileManager.delegate
+        }
+        set {
+            if !isUniquelyReferencedNonObjC(&_fmWraper) {
+                _fmWraper = _FMWrapper()
+            }
+            _fmWraper.fileManager.delegate = newValue
+        }
+    }
 
     /// The stored path string value.
     public private(set) var rawValue: String
@@ -119,37 +136,37 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
 
     /// Returns `true` if a file exists at the path.
     public var exists: Bool {
-        return _fileManager.fileExistsAtPath(rawValue)
+        return _fmWraper.fileManager.fileExistsAtPath(rawValue)
     }
 
     /// Returns `true` if the current process has write privileges for the file
     /// at the path.
     public var isWritable: Bool {
-        return _fileManager.isWritableFileAtPath(rawValue)
+        return _fmWraper.fileManager.isWritableFileAtPath(rawValue)
     }
 
     /// Returns `true` if the current process has read privileges for the file
     /// at the path.
     public var isReadable: Bool {
-        return _fileManager.isReadableFileAtPath(rawValue)
+        return _fmWraper.fileManager.isReadableFileAtPath(rawValue)
     }
 
     /// Returns `true` if the current process has execute privileges for the
     /// file at the path.
     public var isExecutable: Bool {
-        return  _fileManager.isExecutableFileAtPath(rawValue)
+        return  _fmWraper.fileManager.isExecutableFileAtPath(rawValue)
     }
 
     /// Returns `true` if the current process has delete privileges for the file
     /// at the path.
     public var isDeletable: Bool {
-        return  _fileManager.isDeletableFileAtPath(rawValue)
+        return  _fmWraper.fileManager.isDeletableFileAtPath(rawValue)
     }
 
     /// Returns `true` if the path points to a directory.
     public var isDirectory: Bool {
         var isDirectory: ObjCBool = false
-        return _fileManager.fileExistsAtPath(rawValue, isDirectory: &isDirectory)
+        return _fmWraper.fileManager.fileExistsAtPath(rawValue, isDirectory: &isDirectory)
             && isDirectory
     }
 
@@ -210,8 +227,8 @@ extension Path {
     ///
     public func children(recursive recursive: Bool = false) -> [Path] {
         let obtainFunc = recursive
-            ? _fileManager.subpathsOfDirectoryAtPath
-            : _fileManager.contentsOfDirectoryAtPath
+            ? _fmWraper.fileManager.subpathsOfDirectoryAtPath
+            : _fmWraper.fileManager.contentsOfDirectoryAtPath
         return (try? obtainFunc(rawValue))?.map { self + Path($0) } ?? []
     }
 
@@ -336,7 +353,7 @@ extension Path {
         let linkPath = path.isDirectory ? path + self.fileName : path
 
         do {
-            try _fileManager.createSymbolicLinkAtPath(
+            try _fmWraper.fileManager.createSymbolicLinkAtPath(
                 linkPath.rawValue, withDestinationPath: self.rawValue)
         } catch {
             throw FileKitError.CreateSymlinkFail(from: self, to: linkPath)
@@ -350,7 +367,7 @@ extension Path {
     /// - Throws: `FileKitError.CreateFileFail`
     ///
     public func createFile() throws {
-        if !_fileManager.createFileAtPath(rawValue, contents: nil, attributes: nil) {
+        if !_fmWraper.fileManager.createFileAtPath(rawValue, contents: nil, attributes: nil) {
             throw FileKitError.CreateFileFail(path: self)
         }
     }
@@ -389,7 +406,7 @@ extension Path {
     ///
     public func createDirectory(withIntermediateDirectories createIntermediates: Bool = true) throws {
         do {
-            let manager = _fileManager
+            let manager = _fmWraper.fileManager
             try manager.createDirectoryAtPath(rawValue,
                 withIntermediateDirectories: createIntermediates,
                 attributes: nil)
@@ -408,7 +425,7 @@ extension Path {
     ///
     public func deleteFile() throws {
         do {
-            try _fileManager.removeItemAtPath(rawValue)
+            try _fmWraper.fileManager.removeItemAtPath(rawValue)
         } catch {
             throw FileKitError.DeleteFileFail(path: self)
         }
@@ -424,7 +441,7 @@ extension Path {
         if self.exists {
             if !path.exists {
                 do {
-                    try _fileManager.moveItemAtPath(self.rawValue, toPath: path.rawValue)
+                    try _fmWraper.fileManager.moveItemAtPath(self.rawValue, toPath: path.rawValue)
                 } catch {
                     throw FileKitError.MoveFileFail(from: self, to: path)
                 }
@@ -447,7 +464,7 @@ extension Path {
         if self.exists {
             if !path.exists {
                 do {
-                    try _fileManager.copyItemAtPath(self.rawValue, toPath: path.rawValue)
+                    try _fmWraper.fileManager.copyItemAtPath(self.rawValue, toPath: path.rawValue)
                 } catch {
                     throw FileKitError.CopyFileFail(from: self, to: path)
                 }
@@ -546,13 +563,13 @@ extension Path {
 
     /// Returns the path's attributes.
     public var attributes: [String : AnyObject] {
-        return (try? _fileManager.attributesOfItemAtPath(rawValue)) ?? [:]
+        return (try? _fmWraper.fileManager.attributesOfItemAtPath(rawValue)) ?? [:]
     }
 
     /// Modify attributes
     private func setAttributes(attributes: [String : AnyObject]) throws {
         do {
-            try _fileManager.setAttributes(attributes, ofItemAtPath: self.rawValue)
+            try _fmWraper.fileManager.setAttributes(attributes, ofItemAtPath: self.rawValue)
         } catch {
             throw FileKitError.AttributesChangeFail(path: self)
         }
