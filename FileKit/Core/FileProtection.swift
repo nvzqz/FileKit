@@ -115,7 +115,7 @@ extension Path {
     /// - Throws: `FileKitError.CreateFileFail`
     ///
     public func createFile(fileProtection: FileProtection) throws {
-        let manager = Path.fileManager
+        let manager = NSFileManager()
         let attributes = [NSFileProtectionKey : fileProtection.rawValue]
         if !manager.createFileAtPath(rawValue, contents: nil, attributes: attributes) {
             throw FileKitError.CreateFileFail(path: self)
