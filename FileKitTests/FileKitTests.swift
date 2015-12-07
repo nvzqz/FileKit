@@ -510,6 +510,71 @@ class FileKitTests: XCTestCase {
         }
     }
 
+    func testTextFileStreamReader() {
+        do {
+            let expectedLines = [
+                "Lorem ipsum dolor sit amet",
+                "consectetur adipiscing elit",
+                "Sed non risus"
+            ]
+            let separator = "\n"
+            try expectedLines.joinWithSeparator(separator) |> textFile
+
+            if let reader = textFile.streamReader() {
+                var lines = [String]()
+                for line in reader {
+                    lines.append(line)
+                }
+                XCTAssertEqual(expectedLines, lines)
+
+            } else {
+                XCTFail("Failed to create reader")
+            }
+
+        } catch {
+            XCTFail(String(error))
+        }
+    }
+
+    func testTextFileGrep() {
+        do {
+            let expectedLines = [
+                "Lorem ipsum dolor sit amet",
+                "consectetur adipiscing elit",
+                "Sed non risus"
+            ]
+            let separator = "\n"
+            try expectedLines.joinWithSeparator(separator) |> textFile
+
+            // all
+            var result = textFile | "e"
+            XCTAssertEqual(result, expectedLines)
+
+            // not all
+            result = textFile |- "e"
+            XCTAssertTrue(result.isEmpty)
+
+            // specific line
+            result = textFile | "eli"
+            XCTAssertEqual(result, [expectedLines[1]])
+            
+            // the other line
+            result = textFile |- "eli"
+            XCTAssertEqual(result, [expectedLines[0], expectedLines[2]])
+
+            // regex
+            result = textFile |~ "e.*i.*e.*"
+            XCTAssertEqual(result, [expectedLines[0], expectedLines[1]])
+
+            // this not a regex
+            result = textFile | "e.*i.*e.*"
+            XCTAssertTrue(result.isEmpty)
+
+        } catch {
+            XCTFail(String(error))
+        }
+    }
+
     // MARK: - FileType
 
     func testFileTypeComparable() {

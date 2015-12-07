@@ -66,3 +66,152 @@ public class TextFile: File<String> {
     }
 
 }
+
+// MARK: Line Reader
+
+extension TextFile {
+
+    /// Provide a reader to read line by line.
+    ///
+    /// - Parameter delimiter: the line delimiter (default: \n)
+    /// - Parameter chunkSize: size of buffer (default: 4096)
+    ///
+    /// - Returns: the `TextFileStreamReader`
+    @warn_unused_result
+    public func streamReader(delimiter: String = "\n",
+        chunkSize: Int = 4096) -> TextFileStreamReader? {
+            return TextFileStreamReader(
+                path: self.path,
+                delimiter: delimiter,
+                encoding: encoding,
+                chunkSize: chunkSize
+            )
+    }
+
+    /// Read file and return filtered lines.
+    ///
+    /// - Parameter motif: the motif to compare
+    /// - Parameter include: check if line include motif if true, exclude if not (default: true)
+    /// - Parameter options: optional options  for string comparaison
+    ///
+    /// - Returns: the lines
+    public func grep(motif: String, include: Bool = true,
+        options: NSStringCompareOptions = []) -> [String] {
+            guard let reader = streamReader() else {
+                return []
+            }
+            defer {
+                reader.close()
+            }
+            return reader.filter {($0.rangeOfString(motif, options: options) != nil) == include }
+    }
+
+}
+
+/// A class to read `TextFile` line by line.
+public class TextFileStreamReader {
+
+    public let encoding: NSStringEncoding
+    public let chunkSize: Int
+
+    public var atEOF: Bool = false
+
+    let fileHandle: NSFileHandle!
+    let buffer: NSMutableData!
+    let delimData: NSData!
+
+    // MARK: - Initialization
+
+    /// - Parameter path:      the file path
+    /// - Parameter delimiter: the line delimiter (default: \n)
+    /// - Parameter encoding: file encoding (default: NSUTF8StringEncoding)
+    /// - Parameter chunkSize: size of buffer (default: 4096)
+    public init?(
+        path: Path,
+        delimiter: String = "\n",
+        encoding: NSStringEncoding = NSUTF8StringEncoding,
+        chunkSize: Int = 4096
+    ) {
+        self.chunkSize = chunkSize
+        self.encoding = encoding
+
+        guard let fileHandle = path.fileHandleForReading,
+            delimData = delimiter.dataUsingEncoding(encoding),
+            buffer = NSMutableData(capacity: chunkSize) else {
+                self.fileHandle = nil
+                self.delimData = nil
+                self.buffer = nil
+                return nil
+        }
+        self.fileHandle = fileHandle
+        self.delimData = delimData
+        self.buffer = buffer
+    }
+
+    // MARK: - Deinitialization
+
+    deinit {
+        self.close()
+    }
+
+    // MARK: - public methods
+
+    /// Return next line, or nil on EOF.
+    public func nextLine() -> String? {
+        if atEOF {
+            return nil
+        }
+
+        // Read data chunks from file until a line delimiter is found.
+        var range = buffer.rangeOfData(delimData, options: [], range: NSMakeRange(0, buffer.length))
+        while range.location == NSNotFound {
+            let tmpData = fileHandle.readDataOfLength(chunkSize)
+            if tmpData.length == 0 {
+                // EOF or read error.
+                atEOF = true
+                if buffer.length > 0 {
+                    // Buffer contains last line in file (not terminated by delimiter).
+                    let line = NSString(data: buffer, encoding: encoding)
+
+                    buffer.length = 0
+                    return line as String?
+                }
+                // No more lines.
+                return nil
+            }
+            buffer.appendData(tmpData)
+            range = buffer.rangeOfData(delimData, options: [], range: NSMakeRange(0, buffer.length))
+        }
+
+        // Convert complete line (excluding the delimiter) to a string.
+        let line = NSString(data: buffer.subdataWithRange(NSMakeRange(0, range.location)),
+            encoding: encoding)
+        // Remove line (and the delimiter) from the buffer.
+        let cleaningRange = NSMakeRange(0, range.location + range.length)
+        buffer.replaceBytesInRange(cleaningRange, withBytes: nil, length: 0)
+
+        return line as? String
+    }
+
+    /// Start reading from the beginning of file.
+    public func rewind() -> Void {
+        fileHandle?.seekToFileOffset(0)
+        buffer.length = 0
+        atEOF = false
+    }
+
+    /// Close the underlying file. No reading must be done after calling this method.
+    public func close() -> Void {
+        fileHandle?.closeFile()
+    }
+
+}
+
+// Implement `SequenceType` for `TextFileStreamReader`
+extension TextFileStreamReader : SequenceType {
+    public func generate() -> AnyGenerator<String> {
+        return anyGenerator {
+            return self.nextLine()
+        }
+    }
+}

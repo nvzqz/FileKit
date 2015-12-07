@@ -77,7 +77,25 @@ public func |>> (var data: String, file: TextFile) throws {
     try data |> file
 }
 
+/// Return lines of file that match the motif.
+@warn_unused_result
+public func | (file: TextFile, motif: String) -> [String] {
+    return file.grep(motif)
+}
 
+infix operator |- {}
+/// Return lines of file that does'nt match the motif.
+@warn_unused_result
+public func |- (file: TextFile, motif: String) -> [String] {
+    return file.grep(motif, include: false)
+}
+
+infix operator |~ {}
+/// Return lines of file that match the regex motif.
+@warn_unused_result
+public func |~ (file: TextFile, motif: String) -> [String] {
+    return file.grep(motif, options: NSStringCompareOptions.RegularExpressionSearch)
+}
 
 // MARK: - Path
 
