@@ -871,8 +871,6 @@ extension Path {
         return pathInUserDomain(.CachesDirectory)
     }
 
-    #if os(OSX)
-
     /// Returns the path to the user's applications directory.
     public static var UserApplications: Path {
         return pathInUserDomain(.ApplicationDirectory)
@@ -891,6 +889,11 @@ extension Path {
     /// Returns the path to the user's documents directory.
     public static var UserDocuments: Path {
         return pathInUserDomain(.DocumentDirectory)
+    }
+
+    /// Returns the path to the user's autosaved documents directory.
+    public static var UserAutosavedInformation: Path {
+        return pathInUserDomain(.AutosavedInformationDirectory)
     }
 
     /// Returns the path to the user's downloads directory.
@@ -918,6 +921,25 @@ extension Path {
         return pathInUserDomain(.PicturesDirectory)
     }
 
+    /// Returns the path to the user's Public sharing directory.
+    public static var UserSharedPublic: Path {
+        return pathInUserDomain(.SharedPublicDirectory)
+    }
+
+    #if os(OSX)
+
+    /// Returns the path to the user scripts folder for the calling application
+    public static var UserApplicationScripts: Path {
+        return pathInUserDomain(.ApplicationScriptsDirectory)
+    }
+
+    /// Returns the path to the user's trash directory
+    public static var UserTrash: Path {
+        return pathInUserDomain(.TrashDirectory)
+    }
+
+    #endif
+
     /// Returns the path to the system's applications directory.
     public static var SystemApplications: Path {
         return pathInSystemDomain(.ApplicationDirectory)
@@ -938,7 +960,25 @@ extension Path {
         return pathInSystemDomain(.CoreServiceDirectory)
     }
 
-    #endif
+    /// Returns the path to the system's PPDs directory.
+    public static var SystemPrinterDescription: Path {
+        return pathInSystemDomain(.PrinterDescriptionDirectory)
+    }
+
+    /// Returns the path to the system's PreferencePanes directory.
+    public static var SystemPreferencePanes: Path {
+        return pathInSystemDomain(.PreferencePanesDirectory)
+    }
+
+    /// Returns the paths where resources can occur.
+    public static var AllLibraries: [Path] {
+        return pathsInDomains(.AllLibrariesDirectory, .AllDomainsMask)
+    }
+
+    /// Returns the paths where applications can occur
+    public static var AllApplications: [Path] {
+        return pathsInDomains(.AllApplicationsDirectory, .AllDomainsMask)
+    }
 
     private static func pathInUserDomain(directory: NSSearchPathDirectory) -> Path {
         return pathsInDomains(directory, .UserDomainMask)[0]

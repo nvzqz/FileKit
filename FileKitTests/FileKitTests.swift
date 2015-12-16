@@ -459,10 +459,32 @@ class FileKitTests: XCTestCase {
     }
 
     func testWellKnownDirectories() {
-        XCTAssertTrue(Path.UserHome.exists)
-        XCTAssertTrue(Path.UserTemporary.exists)
-        XCTAssertTrue(Path.UserCaches.exists)
+        var paths: [Path] = [
+            .UserHome, .UserTemporary, .UserCaches, .UserDesktop, .UserDocuments,
+            .UserAutosavedInformation, .UserDownloads, .UserLibrary, .UserMovies,
+            .UserMusic, .UserPictures, .UserApplicationSupport, .UserApplications,
+            .UserSharedPublic
+        ]
+        paths += [
+            .SystemApplications, .SystemApplicationSupport, .SystemLibrary,
+            .SystemCoreServices, .SystemPreferencePanes /* .SystemPrinterDescription,*/
+        ]
+        #if os(OSX)
+            paths += [.UserTrash] // .UserApplicationScripts (not testable)
+        #endif
 
+        for path in paths {
+            XCTAssertTrue(path.exists, path.rawValue)
+        }
+
+        // all
+
+        XCTAssertTrue(Path.AllLibraries.contains(.UserLibrary))
+        XCTAssertTrue(Path.AllLibraries.contains(.SystemLibrary))
+        XCTAssertTrue(Path.AllApplications.contains(.UserApplications))
+        XCTAssertTrue(Path.AllApplications.contains(.SystemApplications))
+
+        // temporary
         XCTAssertFalse(Path.ProcessTemporary.exists)
         XCTAssertFalse(Path.UniqueTemporary.exists)
         XCTAssertNotEqual(Path.UniqueTemporary, Path.UniqueTemporary)
