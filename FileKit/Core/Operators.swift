@@ -150,6 +150,35 @@ public func += (inout lhs: Path, rhs: String) {
     lhs = lhs + rhs
 }
 
+
+/// Concatenates two `Path` instances and returns the result.
+@warn_unused_result
+public func / (lhs: Path, rhs: Path) -> Path {
+    return lhs + rhs
+}
+
+/// Converts a `String` to a `Path` and returns the concatenated result.
+@warn_unused_result
+public func / (lhs: Path, rhs: String) -> Path {
+    return lhs + rhs
+}
+
+/// Converts a `String` to a `Path` and returns the concatenated result.
+@warn_unused_result
+public func / (lhs: String, rhs: Path) -> Path {
+    return lhs + rhs
+}
+
+/// Appends the right path to the left path.
+public func /= (inout lhs: Path, rhs: Path) {
+    lhs += rhs
+}
+
+/// Appends the path value of the String to the left path.
+public func /= (inout lhs: Path, rhs: String) {
+    lhs += rhs
+}
+
 infix operator <^> {
     associativity left
 }
