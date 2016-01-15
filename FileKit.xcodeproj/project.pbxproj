@@ -555,6 +555,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5263A8FE1B96B95000635A93 /* String+FileKit.swift in Sources */,
 				52A016E91C01565C0045A9C8 /* FileKit.swift in Sources */,
 				52A017101C024D840045A9C8 /* NSString+FileKit.swift in Sources */,
 				52A017051C01AD6F0045A9C8 /* NSBundle+FileKit.swift in Sources */,
@@ -571,7 +572,6 @@
 				52A017001C01AD4A0045A9C8 /* NSData+FileKit.swift in Sources */,
 				52A016F61C01ACE50045A9C8 /* NSDictionary+FileKit.swift in Sources */,
 				52B938C91BF402ED001B7AEB /* ImageFile.swift in Sources */,
-				5263A8FE1B96B95000635A93 /* String+FileKit.swift in Sources */,
 				52255DCB1C042D6E00AC1DA5 /* FilePermissions.swift in Sources */,
 				C4F7D01F1C08C0DA00EF359B /* FileSystemEvent.swift in Sources */,
 				524D31571BC79067008B93D0 /* ArrayFile.swift in Sources */,
