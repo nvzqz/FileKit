@@ -44,7 +44,7 @@ public struct FileSystemEvent {
     // MARK: - Properties
 
     /// The ID of the event.
-    public var id: FSEventStreamEventId
+    public var id: FSEventStreamEventId // swiftlint:disable:this variable_name
 
     /// The path for the event.
     public var path: Path
@@ -59,6 +59,11 @@ extension Path {
     // MARK: - Watching
 
     /// Watches a path for filesystem events and handles them in the callback.
+    ///
+    /// - Parameter latency: The latency in seconds.
+    /// - Parameter queue: The queue to be run within.
+    /// - Parameter callback: The callback to handle events.
+    /// - Returns: The `FileSystemWatcher` object.
     public func watch(latency: NSTimeInterval = 0, queue: dispatch_queue_t = dispatch_get_main_queue(), callback: (FileSystemEvent) -> Void) -> FileSystemWatcher {
         let watcher = FileSystemWatcher(paths: [self], latency: latency, queue: queue, callback: callback)
         watcher.watch()
@@ -73,6 +78,11 @@ extension SequenceType where Self.Generator.Element == Path {
 
     /// Watches the sequence of paths for filesystem events and handles them in
     /// the callback.
+    ///
+    /// - Parameter latency: The latency in seconds.
+    /// - Parameter queue: The queue to be run within.
+    /// - Parameter callback: The callback to handle events.
+    /// - Returns: The `FileSystemWatcher` object.
     public func watch(latency: NSTimeInterval = 0, queue: dispatch_queue_t = dispatch_get_main_queue(), callback: (FileSystemEvent) -> Void) -> FileSystemWatcher {
         let watcher = FileSystemWatcher(paths: Array(self), latency: latency, queue: queue, callback: callback)
         watcher.watch()
@@ -84,7 +94,7 @@ extension SequenceType where Self.Generator.Element == Path {
 
 
 /// A set of fileystem event flags.
-public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, CustomDebugStringConvertible {
+public struct FileSystemEventFlags: OptionSetType, CustomStringConvertible, CustomDebugStringConvertible {
 
     // MARK: - Options
 
@@ -189,7 +199,7 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
 
     /// An array of all of the flags.
     public static var allFlags: [FileSystemEventFlags] = {
-        var array: [FileSystemEventFlags] = [
+        var array: [FileSystemEventFlags] = [ // swiftlint:disable comma
             .None,              .MustScanSubDirs,       .UserDropped,
             .KernelDropped,     .EventIdsWrapped,       .HistoryDone,
             .RootChanged,       .Mount,                 .Unmount,
@@ -197,7 +207,7 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
             .ItemModified,      .ItemFinderInfoMod,     .ItemChangeOwner,
             .ItemXattrMod,      .ItemIsFile,            .ItemIsDir,
             .ItemIsSymlink,     .OwnEvent
-        ]
+        ] // swiftlint:enable comma
         if #available(iOS 9, OSX 10.10, *) {
             array += [.ItemIsHardlink, .ItemIsLastHardlink ]
         }
@@ -206,7 +216,7 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
 
     /// The names of all of the flags.
     public static let allFlagNames: [String] = {
-        var array: [String] = [
+        var array: [String] = [ // swiftlint:disable comma
             "None",             "MustScanSubDirs",      "UserDropped",
             "KernelDropped",    "EventIdsWrapped",      "HistoryDone",
             "RootChanged",      "Mount",                "Unmount",
@@ -214,7 +224,7 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
             "ItemModified",     "ItemFinderInfoMod",    "ItemChangeOwner",
             "ItemXattrMod",     "ItemIsFile",           "ItemIsDir",
             "ItemIsSymlink",    "OwnEvent",
-        ]
+        ] // swiftlint:enable comma
         if #available(iOS 9, OSX 10.10, *) {
             array += ["ItemIsHardlink", "ItemIsLastHardlink"]
         }
@@ -230,9 +240,9 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
     public var description: String {
         var result = ""
         for (index, element) in FileSystemEventFlags.allFlags.enumerate() {
-            if self.contains(element){
+            if self.contains(element) {
                 let name = FileSystemEventFlags.allFlagNames[index]
-                result += result.isEmpty ? "\(name)" : ", \(name)"
+                result += result.isEmpty ? "\(name)": ", \(name)"
             }
         }
         return String(self.dynamicType) + "[\(result)]"
@@ -242,9 +252,9 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
     public var debugDescription: String {
         var result = ""
         for (index, element) in FileSystemEventFlags.allFlags.enumerate() {
-            if self.contains(element){
+            if self.contains(element) {
                 let name = FileSystemEventFlags.allFlagNames[index] + "(\(element.rawValue))"
-                result += result.isEmpty ? "\(name)" : ", \(name)"
+                result += result.isEmpty ? "\(name)": ", \(name)"
             }
         }
         return String(self.dynamicType) + "[\(result)]"
@@ -253,13 +263,15 @@ public struct FileSystemEventFlags : OptionSetType, CustomStringConvertible, Cus
     // MARK: - Initialization
 
     /// Creates a set of event stream flags from a raw value.
+    ///
+    /// - Parameter rawValue: The raw value to initialize from.
     public init(rawValue: Int) { self.rawValue = rawValue }
 
 }
 
 
 /// Flags for creating an event stream.
-public struct FileSystemEventStreamCreateFlags : OptionSetType, CustomStringConvertible, CustomDebugStringConvertible {
+public struct FileSystemEventStreamCreateFlags: OptionSetType, CustomStringConvertible, CustomDebugStringConvertible {
 
     // MARK: - Options
 
@@ -300,24 +312,24 @@ public struct FileSystemEventStreamCreateFlags : OptionSetType, CustomStringConv
     public let rawValue: Int
 
     /// A textual representation of `self`.
-    public var description : String {
+    public var description: String {
         var result = ""
         for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerate() {
-            if self.contains(element){
+            if self.contains(element) {
                 let name = FileSystemEventStreamCreateFlags.allFlagNames[index]
-                result += result.isEmpty ? "\(name)" : ", \(name)"
+                result += result.isEmpty ? "\(name)": ", \(name)"
             }
         }
         return String(self.dynamicType) + "[\(result)]"
     }
 
     /// A textual representation of `self`, suitable for debugging.
-    public var debugDescription : String {
+    public var debugDescription: String {
         var result = ""
         for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerate() {
-            if self.contains(element){
+            if self.contains(element) {
                 let name = FileSystemEventStreamCreateFlags.allFlagNames[index] + "(\(element.rawValue))"
-                result += result.isEmpty ? "\(name)" : ", \(name)"
+                result += result.isEmpty ? "\(name)": ", \(name)"
             }
         }
         return String(self.dynamicType) + "[\(result)]"
@@ -326,266 +338,10 @@ public struct FileSystemEventStreamCreateFlags : OptionSetType, CustomStringConv
     // MARK: - Initialization
 
     /// Creates a set of event stream creation flags from a raw value.
+    ///
+    /// - Parameter rawValue: The raw value to initialize from.
     public init(rawValue: Int) { self.rawValue = rawValue }
 
-}
-
-
-/// A filesystem event stream.
-private struct FileSystemEventStream : RawRepresentable {
-
-    /// The raw FSEventStreamRef value of `self`.
-    var rawValue: FSEventStreamRef
-
-    /// Schedules the stream on the specified run loop.
-    func scheduleWithRunLoop(runLoop: CFRunLoopRef, runLoopMode: CFStringRef) {
-        FSEventStreamScheduleWithRunLoop(rawValue, runLoop, runLoopMode)
-    }
-
-    /// Invalidates the stream.
-    func invalidate() {
-        FSEventStreamInvalidate(rawValue)
-    }
-
-    /// Registers the stream.
-    func start() {
-        FSEventStreamStart(rawValue)
-    }
-
-    /// Unregisters the stream.
-    func stop() {
-        FSEventStreamStop(rawValue)
-    }
-
-    /// Removes the stream from the specified run loop.
-    func unscheduleFromRunLoop(runLoop: CFRunLoopRef, runLoopMode: CFStringRef) {
-        FSEventStreamUnscheduleFromRunLoop(rawValue, runLoop, runLoopMode)
-    }
-
-    /// Schedules the stream on the specified dispatch queue
-    func setDispatchQueue(queue: dispatch_queue_t) {
-        FSEventStreamSetDispatchQueue(rawValue, queue)
-    }
-
-    /// Decrements the FSEventStreamRef's refcount.
-    func release() {
-        FSEventStreamRelease(rawValue)
-    }
-
-    /// Asks the FS Events service to flush out any events that have occurred
-    /// but have not yet been delivered, due to the latency parameter that was
-    /// supplied when the stream was created. This flushing occurs
-    /// asynchronously.
-    func flushAsync() {
-        FSEventStreamFlushAsync(rawValue)
-    }
-
-    /// Asks the FS Events service to flush out any events that have occurred
-    /// but have not yet been delivered, due to the latency parameter that was
-    /// supplied when the stream was created. This flushing occurs
-    /// synchronously.
-    func flushSync() {
-        FSEventStreamFlushSync(rawValue)
-    }
-
-    /// Prints a description of the stream to stderr.
-    func show() {
-        FSEventStreamShow(rawValue)
-    }
-
-    /// The dev_t for a device-relative stream, otherwise 0.
-    func deviceBeingWatched() -> dev_t {
-        return FSEventStreamGetDeviceBeingWatched(rawValue)
-    }
-
-    /// The sinceWhen attribute of the stream.
-    var lastEventId: FSEventStreamEventId {
-        return FSEventStreamGetLatestEventId(rawValue)
-    }
-}
-
-
-/// Watches a given set of paths and runs a callback per event.
-public class FileSystemWatcher {
-
-    // MARK: - Private Static Properties
-
-    /// The event stream callback for when events occur.
-    private static let eventCallback: FSEventStreamCallback = {
-        (stream: ConstFSEventStreamRef,
-        contextInfo: UnsafeMutablePointer<Void>,
-        numEvents: Int,
-        eventPaths: UnsafeMutablePointer<Void>,
-        eventFlags: UnsafePointer<FSEventStreamEventFlags>,
-        eventIds: UnsafePointer<FSEventStreamEventId>) in
-
-        defer {
-            watcher.lastEventId = eventIds[numEvents - 1]
-        }
-
-        FileSystemWatcher.log("Callback Fired")
-
-        let watcher: FileSystemWatcher = unsafeBitCast(contextInfo, FileSystemWatcher.self)
-        guard let paths = unsafeBitCast(eventPaths, NSArray.self) as? [String] else {
-            return
-        }
-
-        for index in 0..<numEvents {
-            let id = eventIds[index]
-            let path = paths[index]
-            let flags = eventFlags[index]
-
-            let event = FileSystemEvent(
-                id: id,
-                path: Path(path),
-                flags: FileSystemEventFlags(rawValue: Int(flags)))
-            watcher.processEvent(event)
-        }
-    }
-
-    // MARK: - Properties
-
-    /// The paths being watched.
-    public let paths: [Path]
-
-    /// How often the watcher updates.
-    public let latency: CFTimeInterval
-
-    /// The queue for the watcher.
-    public let queue: dispatch_queue_t?
-
-    /// The flags used to create the watcher.
-    public let flags: FileSystemEventStreamCreateFlags
-
-    /// The run loop mode for the watcher.
-    public var runLoopMode: CFStringRef = kCFRunLoopDefaultMode
-
-    /// The run loop for the watcher.
-    public var runLoop: CFRunLoop = CFRunLoopGetMain()
-
-    /// The callback for filesystem events.
-    private let callback: (FileSystemEvent) -> Void
-
-    /// The last event ID for the watcher.
-    public private(set) var lastEventId: FSEventStreamEventId
-
-    /// Whether or not the watcher has started yet.
-    private var started = false
-
-    /// The event stream for the watcher.
-    private var stream: FileSystemEventStream?
-    
-    // MARK: - Initialization
-
-    /// Creates a watcher for the given paths.
-    public init(paths: [Path],
-        sinceWhen: FSEventStreamEventId = FileSystemEvent.NowEventId,
-        flags: FileSystemEventStreamCreateFlags = [.UseCFTypes, .FileEvents],
-        latency: CFTimeInterval = 0,
-        queue: dispatch_queue_t? = nil,
-        callback: (FileSystemEvent) -> Void
-    ) {
-        self.lastEventId = sinceWhen
-        self.paths       = paths
-        self.flags       = flags
-        self.latency     = latency
-        self.queue       = queue
-        self.callback    = callback
-    }
-
-    // MARK: - Deinitialization
-    
-    deinit {
-        self.close()
-    }
-    
-    // MARK: - Private Methods
-
-    /// Processes the event by logging it and then running the callback.
-    private func processEvent(event: FileSystemEvent) {
-        FileSystemWatcher.log("\t\(event.id) - \(event.flags) - \(event.path)")
-        self.callback(event)
-    }
-
-    /// Prints the message when in debug mode.
-    private static func log(message: String) {
-        #if DEBUG
-            print(message)
-        #endif
-    }
-    
-    // MARK: - Methods
-    
-    // Start watching by creating the stream
-    /// Starts watching.
-    public func watch() {
-        guard started == false else { return }
-        
-        var context = FSEventStreamContext(
-            version: 0,
-            info: nil,
-            retain: nil,
-            release: nil,
-            copyDescription: nil
-        )
-        // add self into context
-        context.info = UnsafeMutablePointer<Void>(unsafeAddressOf(self))
-        
-        let streamRef = FSEventStreamCreate(
-            kCFAllocatorDefault,
-            FileSystemWatcher.eventCallback,
-            &context,
-            paths.map{$0.rawValue},
-            // since when
-            lastEventId,
-            // how long to wait after an event occurs before forwarding it
-            latency,
-            UInt32(flags.rawValue)
-        )
-        stream = FileSystemEventStream(rawValue: streamRef)
-        
-        stream?.scheduleWithRunLoop(runLoop, runLoopMode: runLoopMode)
-        if let q = queue {
-            stream?.setDispatchQueue(q)
-        }
-        stream?.start()
-        
-        started = true
-    }
-    
-    // Stops, invalidates and releases the stream
-    /// Closes the watcher.
-    public func close() {
-        guard started == true else { return }
-        
-        stream?.stop()
-        stream?.invalidate()
-        stream?.release()
-        stream = nil
-        
-        started = false
-    }
-    
-    /// Requests that the fseventsd daemon send any events it has already
-    /// buffered (via the latency parameter).
-    ///
-    /// This occurs asynchronously; clients will not have received all the
-    /// callbacks by the time this call returns to them.
-    public func flushAsync() {
-        stream?.flushAsync()
-    }
-    
-    /// Requests that the fseventsd daemon send any events it has already
-    /// buffered (via the latency). Then runs the runloop in its private mode
-    /// till all events that have occurred have been reported (via the client's
-    /// callback).
-    ///
-    /// This occurs synchronously; clients will have received all the callbacks
-    /// by the time this call returns to them.
-    public func flushSync() {
-        stream?.flushSync()
-    }
-    
 }
 
 #endif

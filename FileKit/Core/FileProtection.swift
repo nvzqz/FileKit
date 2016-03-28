@@ -48,6 +48,9 @@ public enum FileProtection: String {
     case CompleteUntilFirstUserAuthentication
 
     /// Initializes `self` from a file protection value.
+    ///
+    /// - Parameter rawValue: The raw value to initialize from.
+    ///
     public init?(rawValue: String) {
         switch rawValue {
         case NSFileProtectionNone:
