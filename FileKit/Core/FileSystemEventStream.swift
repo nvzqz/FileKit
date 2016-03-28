@@ -31,7 +31,7 @@ import Foundation
     
     
 /// A filesystem event stream.
-private struct FileSystemEventStream: RawRepresentable {
+internal struct FileSystemEventStream: RawRepresentable {
     
     /// The raw FSEventStreamRef value of `self`.
     var rawValue: FSEventStreamRef
