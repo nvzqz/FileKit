@@ -263,14 +263,13 @@ extension Path {
 
         let total = Swift.min(selfComponents.count, pathComponents.count)
 
-        var index = 0
-        for index = 0; index < total; ++index {
+        for index in 0..<total {
             if selfComponents[index].rawValue != pathComponents[index].rawValue {
                 break
             }
         }
 
-        let ancestorComponents = selfComponents[0..<index]
+        let ancestorComponents = selfComponents[0..<total]
         return ancestorComponents.reduce("") { $0 + $1 }
     }
 

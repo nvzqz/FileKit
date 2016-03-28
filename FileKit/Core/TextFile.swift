@@ -210,7 +210,7 @@ public class TextFileStreamReader {
 // Implement `SequenceType` for `TextFileStreamReader`
 extension TextFileStreamReader : SequenceType {
     public func generate() -> AnyGenerator<String> {
-        return anyGenerator {
+        return AnyGenerator {
             return self.nextLine()
         }
     }

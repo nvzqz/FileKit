@@ -133,7 +133,7 @@ extension WritableToFile {
 public protocol WritableConvertible: Writable {
 
     /// The type that allows `Self` to be `Writable`.
-    typealias WritableType: Writable
+    associatedtype WritableType: Writable
 
     /// Allows `self` to be written to a path.
     var writable: WritableType { get }
