@@ -39,6 +39,7 @@ extension File where Data: NSData {
     ///                      described in `NSDataReadingOptions`.
     ///
     /// - Throws: `FileKitError.ReadFromFileFail`
+    /// - Returns: The data read from file.
     public func read(options: NSDataReadingOptions) throws -> Data {
         return try Data.readFromPath(path, options: options)
     }

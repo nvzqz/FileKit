@@ -263,14 +263,13 @@ extension Path {
 
         let total = Swift.min(selfComponents.count, pathComponents.count)
 
-        var index = 0
-        for index = 0; index < total; ++index {
+        for index in 0..<total {
             if selfComponents[index].rawValue != pathComponents[index].rawValue {
                 break
             }
         }
 
-        let ancestorComponents = selfComponents[0..<index]
+        let ancestorComponents = selfComponents[0..<total]
         return ancestorComponents.reduce("") { $0 + $1 }
     }
 
@@ -508,6 +507,8 @@ extension Path {
     // MARK: - RawRepresentable
 
     /// Initializes a path to the string value.
+    ///
+    /// - Parameter rawValue: The raw value to initialize from.
     public init(rawValue: String) {
         self.rawValue = rawValue
     }
@@ -686,6 +687,9 @@ extension Path {
 
     // MARK: - NSURL
 
+    /// Creates a new path with given url if possible.
+    ///
+    /// - Parameter url: The url to create a path for.
     public init?(url: NSURL) {
         guard let path = url.path where url.fileURL else {
             return nil
@@ -693,6 +697,7 @@ extension Path {
         rawValue = path
     }
 
+    /// - Returns: The `Path` objects url.
     public var url: NSURL {
         return NSURL(fileURLWithPath: rawValue, isDirectory: self.isDirectory)
     }
@@ -703,6 +708,9 @@ extension Path {
 
     // MARK: - BookmarkData
 
+    /// Creates a new path with given url if possible.
+    ///
+    /// - Parameter bookmarkData: The bookmark data to create a path for.
     public init?(bookmarkData bookData: NSData) {
         var isStale: ObjCBool = false
         let url = try? NSURL(
@@ -716,6 +724,7 @@ extension Path {
         self.init(url: fullURL)
     }
 
+    /// - Returns: The `Path` objects bookmarkData.
     public var bookmarkData: NSData? {
         return try? url.bookmarkDataWithOptions(
             .SuitableForBookmarkFile,
@@ -730,6 +739,8 @@ extension Path {
     // MARK: - SecurityApplicationGroupIdentifier
 
     /// Returns the container directory associated with the specified security application group ID.
+    ///
+    /// - Parameter groupIdentifier: The group identifier.
     public init?(groupIdentifier: String) {
         guard let url = NSFileManager().containerURLForSecurityApplicationGroupIdentifier(groupIdentifier) else {
             return nil
@@ -833,7 +844,7 @@ extension Path: SequenceType {
 
     // MARK: - SequenceType
 
-    /// Return a *generator* over the contents of the path.
+    /// - Returns: A *generator* over the contents of the path.
     public func generate() -> DirectoryEnumerator {
         return DirectoryEnumerator(path: self)
     }

@@ -61,11 +61,17 @@ public struct FilePermissions: OptionSetType, CustomStringConvertible {
     }
 
     /// Creates a set of file permissions.
+    ///
+    /// - Parameter rawValue: The raw value to initialize from.
+    ///
     public init(rawValue: Int) {
         self.rawValue = rawValue
     }
 
     /// Creates a set of permissions for the file at `path`.
+    ///
+    /// - Parameter path: The path to the file to create a set of persmissions for.
+    ///
     public init(forPath path: Path) {
         var permissions = FilePermissions(rawValue: 0)
         if path.isReadable { permissions.unionInPlace(.Read) }
@@ -75,6 +81,8 @@ public struct FilePermissions: OptionSetType, CustomStringConvertible {
     }
 
     /// Creates a set of permissions for `file`.
+    ///
+    /// - Parameter file: The file to create a set of persmissions for.
     public init<Data: DataType>(forFile file: File<Data>) {
         self.init(forPath: file.path)
     }

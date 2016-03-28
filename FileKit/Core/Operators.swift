@@ -25,6 +25,8 @@
 //  THE SOFTWARE.
 //
 
+// swiftlint:disable file_length
+
 import Foundation
 
 // MARK: - File
@@ -70,7 +72,8 @@ infix operator |>> {}
 ///
 /// - Throws: `FileKitError.WriteToFileFail`
 ///
-public func |>> (var data: String, file: TextFile) throws {
+public func |>> (data: String, file: TextFile) throws {
+    var data = data
     if let contents = try? file.read() {
         data = contents + "\n" + data
     }

@@ -100,6 +100,8 @@
 		52B938CC1BF402ED001B7AEB /* ImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B938C81BF402ED001B7AEB /* ImageFile.swift */; };
 		52BF6BB11B99322000F07E13 /* FileKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FileKitError.swift */; };
 		52BF6BB21B99322000F07E13 /* FileKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FileKitError.swift */; };
+		82F4F2BD1CA95480002C8393 /* FileSystemWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F4F2BC1CA95480002C8393 /* FileSystemWatcher.swift */; };
+		82F4F2C01CA956F2002C8393 /* FileSystemEventStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F4F2BF1CA956F2002C8393 /* FileSystemEventStream.swift */; };
 		C404F01E1BC7CA7200EF9ED9 /* Date+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */; };
 		C4F7D01F1C08C0DA00EF359B /* FileSystemEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F7D01E1C08C0DA00EF359B /* FileSystemEvent.swift */; };
 /* End PBXBuildFile section */
@@ -146,6 +148,9 @@
 		52B938B31BF3C3E5001B7AEB /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52B938C81BF402ED001B7AEB /* ImageFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFile.swift; sourceTree = "<group>"; };
 		52BF6BB01B99322000F07E13 /* FileKitError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileKitError.swift; sourceTree = "<group>"; };
+		82F4F2BB1CA94DEC002C8393 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
+		82F4F2BC1CA95480002C8393 /* FileSystemWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystemWatcher.swift; sourceTree = "<group>"; };
+		82F4F2BF1CA956F2002C8393 /* FileSystemEventStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystemEventStream.swift; sourceTree = "<group>"; };
 		C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+FileKit.swift"; sourceTree = "<group>"; };
 		C4F7D01E1C08C0DA00EF359B /* FileSystemEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystemEvent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -193,6 +198,7 @@
 		5204B7AC1B968B8600AA473F = {
 			isa = PBXGroup;
 			children = (
+				82F4F2BB1CA94DEC002C8393 /* .swiftlint.yml */,
 				5204B7B81B968B8600AA473F /* FileKit */,
 				5263A9051B96BA3D00635A93 /* FileKitTests */,
 				5204B7B71B968B8600AA473F /* Products */,
@@ -239,7 +245,7 @@
 				523C33981B9B764600AB70E4 /* DataType.swift */,
 				52BF6BB01B99322000F07E13 /* FileKitError.swift */,
 				523C33A61B9B894A00AB70E4 /* Operators.swift */,
-				C4F7D01E1C08C0DA00EF359B /* FileSystemEvent.swift */,
+				82F4F2BE1CA956D3002C8393 /* File System Event */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -267,6 +273,16 @@
 				5263A9081B96BA3D00635A93 /* Info.plist */,
 			);
 			path = FileKitTests;
+			sourceTree = "<group>";
+		};
+		82F4F2BE1CA956D3002C8393 /* File System Event */ = {
+			isa = PBXGroup;
+			children = (
+				C4F7D01E1C08C0DA00EF359B /* FileSystemEvent.swift */,
+				82F4F2BF1CA956F2002C8393 /* FileSystemEventStream.swift */,
+				82F4F2BC1CA95480002C8393 /* FileSystemWatcher.swift */,
+			);
+			name = "File System Event";
 			sourceTree = "<group>";
 		};
 		C404F01F1BC7CD0500EF9ED9 /* Extensions */ = {
@@ -560,9 +576,11 @@
 				52A017101C024D840045A9C8 /* NSString+FileKit.swift in Sources */,
 				52A017051C01AD6F0045A9C8 /* NSBundle+FileKit.swift in Sources */,
 				523C33991B9B764600AB70E4 /* DataType.swift in Sources */,
+				82F4F2BD1CA95480002C8393 /* FileSystemWatcher.swift in Sources */,
 				523C33A71B9B894A00AB70E4 /* Operators.swift in Sources */,
 				523C33781B9A7EFC00AB70E4 /* TextFile.swift in Sources */,
 				5263A8FC1B96B94D00635A93 /* Path.swift in Sources */,
+				82F4F2C01CA956F2002C8393 /* FileSystemEventStream.swift in Sources */,
 				52A016C41C013F3D0045A9C8 /* DirectoryEnumerator.swift in Sources */,
 				524D315F1BC7A02A008B93D0 /* Image+FileKit.swift in Sources */,
 				524D315B1BC79331008B93D0 /* DataFile.swift in Sources */,

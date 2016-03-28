@@ -52,6 +52,8 @@ public enum FileType: String {
     case Unknown
 
     /// Creates a FileType from an `NSFileType` attribute.
+    ///
+    /// - Parameter rawValue: The raw value to create from.
     public init?(rawValue: String) {
         switch rawValue {
         case NSFileTypeDirectory:

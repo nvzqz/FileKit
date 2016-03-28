@@ -45,6 +45,7 @@ extension Image: DataType, WritableConvertible {
 
     /// Returns an image from the given path.
     ///
+    /// - Parameter path: The path to be returned the image for.
     /// - Throws: FileKitError.ReadFromFileFail
     ///
     public class func readFromPath(path: Path) throws -> Self {

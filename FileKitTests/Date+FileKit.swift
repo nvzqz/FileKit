@@ -27,10 +27,20 @@
 
 import Foundation
 
+/// Checks equality of two `NSDate` objects.
+///
+/// - Parameter lhs: The left hand side of the comparison.
+/// - Parameter rhs: The right hand side of the comparison.
+/// - Returns: `true` if the two objects are equal, otherwise `false`.
 public func == (lhs: NSDate, rhs: NSDate) -> Bool {
     return lhs === rhs || lhs.compare(rhs) == .OrderedSame
 }
 
+/// Compares two `NSDate` objects.
+///
+/// - Parameter lhs: The left hand side of the comparison.
+/// - Parameter rhs: The right hand side of the comparison.
+/// - Returns: `true` if the left hand side is smaller than the right hand side, otherwise `false`.
 public func < (lhs: NSDate, rhs: NSDate) -> Bool {
     return lhs.compare(rhs) == .OrderedAscending
 }

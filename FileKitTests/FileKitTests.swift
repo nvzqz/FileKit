@@ -126,13 +126,13 @@ class FileKitTests: XCTestCase {
         var i = 0
         let parent = Path.UserTemporary
         for _ in parent {
-            i++
+            i += 1
         }
         print("\(i) files under \(parent)")
 
         i = 0
         for (_, _) in Path.UserTemporary.enumerate() {
-            i++
+            i += 1
         }
     }
 

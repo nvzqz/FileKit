@@ -1,0 +1,13 @@
+# rule identifiers to exclude from running
+disabled_rules:
+- trailing_newline
+- trailing_whitespace
+- valid_docs
+
+# some rules are only opt-in
+opt_in_rules:
+- empty_count
+- missing_docs
+
+# configurable rules can be customized from this configuration file
+line_length: 200

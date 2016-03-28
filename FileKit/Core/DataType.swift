@@ -49,7 +49,7 @@ extension Readable {
     ///
     /// - Parameter path: The path being read from.
     ///
-    public init(contentsOfPath path: Path) throws {
+    public init(contentsOfPath path: Path) throws { // swiftlint:disable:this valid_docs
         self = try Self.readFromPath(path)
     }
 
@@ -81,7 +81,7 @@ extension Writable {
     ///
     /// - Parameter path: The path being written to.
     ///
-    public func writeToPath(path: Path) throws {
+    public func writeToPath(path: Path) throws { // swiftlint:disable:this valid_docs
         try writeToPath(path, atomically: true)
     }
 
@@ -133,7 +133,7 @@ extension WritableToFile {
 public protocol WritableConvertible: Writable {
 
     /// The type that allows `Self` to be `Writable`.
-    typealias WritableType: Writable
+    associatedtype WritableType: Writable
 
     /// Allows `self` to be written to a path.
     var writable: WritableType { get }
