@@ -106,7 +106,17 @@ public func |~ (file: TextFile, motif: String) -> [String] {
 /// path.
 @warn_unused_result
 public func == (lhs: Path, rhs: Path) -> Bool {
-    return lhs.standardized.rawValue == rhs.standardized.rawValue
+    if lhs.isAbsolute || rhs.isAbsolute {
+        return lhs.absolute.rawValue == rhs.absolute.rawValue
+    }
+    return lhs.stdRawWithTilde == rhs.stdRawWithTilde
+}
+
+/// Returns `true` if the standardized form of one path not equals that of another
+/// path.
+@warn_unused_result
+public func != (lhs: Path, rhs: Path) -> Bool {
+    return !(lhs == rhs)
 }
 
 /// Concatenates two `Path` instances and returns the result.
@@ -118,8 +128,8 @@ public func == (lhs: Path, rhs: Path) -> Bool {
 ///
 @warn_unused_result
 public func + (lhs: Path, rhs: Path) -> Path {
-    if lhs.rawValue.isEmpty { return rhs }
-    if rhs.rawValue.isEmpty { return lhs }
+    if lhs.rawValue.isEmpty || lhs.rawValue == "." { return rhs }
+    if rhs.rawValue.isEmpty || rhs.rawValue == "." { return lhs }
     switch (lhs.rawValue.hasSuffix(Path.separator), rhs.rawValue.hasPrefix(Path.separator)) {
     case (true, true):
         let rhsRawValue = rhs.rawValue.substringFromIndex(rhs.rawValue.startIndex.successor())
@@ -235,7 +245,7 @@ infix operator ->! {}
 ///     `FileKitError.CreateSymlinkFail`
 ///
 public func ->! (lhs: Path, rhs: Path) throws {
-    if rhs.exists {
+    if rhs.isAny {
         try rhs.deleteFile()
     }
     try lhs ->> rhs
@@ -251,7 +261,7 @@ public func ->! (lhs: Path, rhs: Path) throws {
 ///     `FileKitError.CreateSymlinkFail`
 ///
 public func ->! <Data: DataType>(lhs: File<Data>, rhs: Path) throws {
-    if rhs.exists {
+    if rhs.isAny {
         try rhs.deleteFile()
     }
     try lhs ->> rhs
@@ -294,7 +304,7 @@ infix operator +>! {}
 ///     `FileKitError.CreateSymlinkFail`
 ///
 public func +>! (lhs: Path, rhs: Path) throws {
-    if rhs.exists {
+    if rhs.isAny {
         try rhs.deleteFile()
     }
     try lhs +>> rhs
@@ -310,7 +320,7 @@ public func +>! (lhs: Path, rhs: Path) throws {
 ///     `FileKitError.CreateSymlinkFail`
 ///
 public func +>! <Data: DataType>(lhs: File<Data>, rhs: Path) throws {
-    if rhs.exists {
+    if rhs.isAny {
         try rhs.deleteFile()
     }
     try lhs +>> rhs
@@ -361,12 +371,12 @@ infix operator =>! {}
 ///     `FileKitError.CreateSymlinkFail`
 ///
 public func =>! (lhs: Path, rhs: Path) throws {
-    guard lhs.exists else {
-        throw FileKitError.FileDoesNotExist(path: lhs)
-    }
+//    guard lhs.exists else {
+//        throw FileKitError.FileDoesNotExist(path: lhs)
+//    }
 
     let linkPath = rhs.isDirectory ? rhs + lhs.fileName : rhs
-    if linkPath.exists { try linkPath.deleteFile() }
+    if linkPath.isAny { try linkPath.deleteFile() }
 
     try lhs =>> rhs
 }

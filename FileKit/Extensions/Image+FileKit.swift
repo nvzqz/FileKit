@@ -25,6 +25,9 @@
 //  THE SOFTWARE.
 //
 
+import Foundation
+import UIKit
+
 #if os(OSX)
 import Cocoa
 #elseif os(iOS) || os(tvOS)
@@ -49,7 +52,7 @@ extension Image: DataType, WritableConvertible {
     /// - Throws: FileKitError.ReadFromFileFail
     ///
     public class func readFromPath(path: Path) throws -> Self {
-        guard let contents = self.init(contentsOfFile: path.rawValue) else {
+        guard let contents = self.init(contentsOfFile: path._rawValue) else {
             throw FileKitError.ReadFromFileFail(path: path)
         }
         return contents
@@ -63,6 +66,21 @@ extension Image: DataType, WritableConvertible {
         #else
         return UIImagePNGRepresentation(self) ?? NSData()
         #endif
+    }
+    
+    public class func imageFromURLString(url: String) -> Image? {
+        #if os(iOS)
+            if let nsurl = NSURL(string: url) {
+                if let data = NSData(contentsOfURL: nsurl) {
+                    return UIImage(data: data)
+                }
+            }
+        #elseif os(OSX)
+            if let nsurl = NSURL(string: url) {
+                return NSImage(contentsOfURL: nsurl)
+            }
+        #endif
+        return nil
     }
 
 }
