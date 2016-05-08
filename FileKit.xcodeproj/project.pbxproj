@@ -123,6 +123,7 @@
 		5204B84F1B96B83800AA473F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5204B8581B96B85E00AA473F /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		520E0E2F1C110CA900BAEA99 /* Process+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Process+FileKit.swift"; sourceTree = "<group>"; };
+		521FC3FB1CDEEC12006C9C3C /* FileKit.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = FileKit.playground; sourceTree = "<group>"; };
 		52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilePermissions.swift; sourceTree = "<group>"; };
 		523C33771B9A7EFC00AB70E4 /* TextFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFile.swift; sourceTree = "<group>"; };
 		523C337A1B9B68D600AB70E4 /* DictionaryFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryFile.swift; sourceTree = "<group>"; };
@@ -202,6 +203,7 @@
 				5204B7B81B968B8600AA473F /* FileKit */,
 				5263A9051B96BA3D00635A93 /* FileKitTests */,
 				5204B7B71B968B8600AA473F /* Products */,
+				521FC3FB1CDEEC12006C9C3C /* FileKit.playground */,
 			);
 			sourceTree = "<group>";
 		};
