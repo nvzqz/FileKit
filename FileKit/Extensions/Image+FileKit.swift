@@ -52,7 +52,7 @@ extension Image: DataType, WritableConvertible {
     /// - Throws: FileKitError.ReadFromFileFail
     ///
     public class func readFromPath(path: Path) throws -> Self {
-        guard let contents = self.init(contentsOfFile: path._rawValue) else {
+        guard let contents = self.init(contentsOfFile: path.safeRawValue) else {
             throw FileKitError.ReadFromFileFail(path: path)
         }
         return contents

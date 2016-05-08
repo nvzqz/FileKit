@@ -9,64 +9,64 @@
 import Foundation
 
 /// Dispatch source type.
-public struct GCDSourceType {
+public struct DispatchSourceType {
     
     // MARK: - Static Properties
     
     /// A dispatch source that monitors a file descriptor for events defined by `dispatch_source_vnode_flags_t`.
-    static let VNODE = DISPATCH_SOURCE_TYPE_VNODE
+    public static let Vnode = DISPATCH_SOURCE_TYPE_VNODE
     
     /// A dispatch source that monitors a file descriptor for pending bytes available to be read.
-    static let READ = DISPATCH_SOURCE_TYPE_READ
+    public static let Read = DISPATCH_SOURCE_TYPE_READ
     
-    /// A dispatch source that monitors a file descriptor for available buffer space to write bytes. 
-    static let WRITE = DISPATCH_SOURCE_TYPE_WRITE
+    /// A dispatch source that monitors a file descriptor for available buffer space to write bytes.
+    public static let Write = DISPATCH_SOURCE_TYPE_WRITE
     
 }
 
 
-/// VNode Events.
-public struct GCDVNodeEvents: OptionSetType, CustomStringConvertible, CustomDebugStringConvertible {
+/// Vnode Events.
+public struct DispatchVnodeEvents: OptionSetType, CustomStringConvertible, CustomDebugStringConvertible {
     
     // MARK: - Events
     
     /// The file-system object was deleted from the namespace.
-    public static let DELETE = GCDVNodeEvents(rawValue: DISPATCH_VNODE_DELETE)
+    public static let Delete = DispatchVnodeEvents(rawValue: DISPATCH_VNODE_DELETE)
     
     /// The file-system object data changed.
-    public static let WRITE = GCDVNodeEvents(rawValue: DISPATCH_VNODE_WRITE)
+    public static let Write = DispatchVnodeEvents(rawValue: DISPATCH_VNODE_WRITE)
     
     /// The file-system object changed in size.
-    public static let EXTEND = GCDVNodeEvents(rawValue: DISPATCH_VNODE_EXTEND)
+    public static let Extend = DispatchVnodeEvents(rawValue: DISPATCH_VNODE_EXTEND)
     
     /// The file-system object metadata changed.
-    public static let ATTRIB = GCDVNodeEvents(rawValue: DISPATCH_VNODE_ATTRIB)
+    public static let Attribute = DispatchVnodeEvents(rawValue: DISPATCH_VNODE_ATTRIB)
     
     /// The file-system object link count changed.
-    public static let LINK = GCDVNodeEvents(rawValue: DISPATCH_VNODE_LINK)
+    public static let Link = DispatchVnodeEvents(rawValue: DISPATCH_VNODE_LINK)
     
     /// The file-system object was renamed in the namespace.
-    public static let RENAME = GCDVNodeEvents(rawValue: DISPATCH_VNODE_RENAME)
+    public static let Rename = DispatchVnodeEvents(rawValue: DISPATCH_VNODE_RENAME)
     
     /// The file-system object was revoked.
-    public static let REVOKE = GCDVNodeEvents(rawValue: DISPATCH_VNODE_REVOKE)
+    public static let Revoke = DispatchVnodeEvents(rawValue: DISPATCH_VNODE_REVOKE)
     
     /// The file-system object was created.
-    public static let CREATE = GCDVNodeEvents(rawValue: 0x1000)
+    public static let Create = DispatchVnodeEvents(rawValue: 0x1000)
     
     /// All of the event IDs.
-    public static let ALL: GCDVNodeEvents = [DELETE, WRITE, EXTEND, ATTRIB, LINK, RENAME, REVOKE, CREATE]
+    public static let All: DispatchVnodeEvents = [.Delete, .Write, .Extend, .Attribute, .Link, .Rename, .Revoke, .Create]
     
     // MARK: - All Events
     
     /// An array of all of the events.
-    public static let allEvents: [GCDVNodeEvents] = [
-        .DELETE, .WRITE, .EXTEND, .ATTRIB, .LINK, .RENAME, .REVOKE, .CREATE
+    public static let allEvents: [DispatchVnodeEvents] = [
+        .Delete, .Write, .Extend, .Attribute, .Link, .Rename, .Revoke, .Create
     ]
     
     /// The names of all of the events.
     public static let allEventNames: [String] = [
-        "Delete", "Write", "Extend", "Attrib", "Link", "Rename", "Revoke", "Create"
+        "Delete", "Write", "Extend", "Attribute", "Link", "Rename", "Revoke", "Create"
     ]
     
     // MARK: - Properties
@@ -77,9 +77,9 @@ public struct GCDVNodeEvents: OptionSetType, CustomStringConvertible, CustomDebu
     /// A textual representation of `self`.
     public var description: String {
         var result = ""
-        for (index, element) in GCDVNodeEvents.allEvents.enumerate() {
+        for (index, element) in DispatchVnodeEvents.allEvents.enumerate() {
             if self.contains(element) {
-                let name = GCDVNodeEvents.allEventNames[index]
+                let name = DispatchVnodeEvents.allEventNames[index]
                 result += result.isEmpty ? "\(name)": ", \(name)"
             }
         }
@@ -89,9 +89,9 @@ public struct GCDVNodeEvents: OptionSetType, CustomStringConvertible, CustomDebu
     /// A textual representation of `self`, suitable for debugging.
     public var debugDescription: String {
         var result = ""
-        for (index, element) in GCDVNodeEvents.allEvents.enumerate() {
+        for (index, element) in DispatchVnodeEvents.allEvents.enumerate() {
             if self.contains(element) {
-                let name = GCDVNodeEvents.allEventNames[index] + "(\(element.rawValue))"
+                let name = DispatchVnodeEvents.allEventNames[index] + "(\(element.rawValue))"
                 result += result.isEmpty ? "\(name)": ", \(name)"
             }
         }

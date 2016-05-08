@@ -109,7 +109,7 @@ public func == (lhs: Path, rhs: Path) -> Bool {
     if lhs.isAbsolute || rhs.isAbsolute {
         return lhs.absolute.rawValue == rhs.absolute.rawValue
     }
-    return lhs.stdRawWithTilde == rhs.stdRawWithTilde
+    return lhs.standardRawValueWithTilde == rhs.standardRawValueWithTilde
 }
 
 /// Returns `true` if the standardized form of one path not equals that of another
@@ -150,7 +150,7 @@ public func + (lhs: String, rhs: Path) -> Path {
 /// Converts a `String` to a `Path` and returns the concatenated result.
 @warn_unused_result
 public func + (lhs: Path, rhs: String) -> Path {
-   return lhs + Path(rhs)
+    return lhs + Path(rhs)
 }
 
 /// Appends the right path to the left path.
@@ -193,7 +193,7 @@ public func /= (inout lhs: Path, rhs: String) {
 }
 
 infix operator <^> {
-    associativity left
+associativity left
 }
 
 /// Returns the common ancestor between the two paths.
@@ -371,13 +371,13 @@ infix operator =>! {}
 ///     `FileKitError.CreateSymlinkFail`
 ///
 public func =>! (lhs: Path, rhs: Path) throws {
-//    guard lhs.exists else {
-//        throw FileKitError.FileDoesNotExist(path: lhs)
-//    }
-
+    //    guard lhs.exists else {
+    //        throw FileKitError.FileDoesNotExist(path: lhs)
+    //    }
+    
     let linkPath = rhs.isDirectory ? rhs + lhs.fileName : rhs
     if linkPath.isAny { try linkPath.deleteFile() }
-
+    
     try lhs =>> rhs
 }
 

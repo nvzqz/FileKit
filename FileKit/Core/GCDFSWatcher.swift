@@ -10,86 +10,86 @@ import Foundation
 
 
 
-/// Delegate for `GCDVNodeWatcher`
-public protocol GCDFSWatcherDelegate: class {
+/// Delegate for `DispatchVnodeWatcher`
+public protocol DispatchVnodeWatcherDelegate: class {
     
     // MARK: - Protocol
     
     /// Call when the file-system object was deleted from the namespace.
-    func fsWatcherDidObserveDelete(watch: GCDVNodeWatcher)
+    func fsWatcherDidObserveDelete(watch: DispatchVnodeWatcher)
     
     /// Call when the file-system object data changed.
-    func fsWatcherDidObserveWrite(watch: GCDVNodeWatcher)
+    func fsWatcherDidObserveWrite(watch: DispatchVnodeWatcher)
     
     /// Call when the file-system object changed in size.
-    func fsWatcherDidObserveExtend(watch: GCDVNodeWatcher)
+    func fsWatcherDidObserveExtend(watch: DispatchVnodeWatcher)
     
     /// Call when the file-system object metadata changed.
-    func fsWatcherDidObserveAttrib(watch: GCDVNodeWatcher)
+    func fsWatcherDidObserveAttrib(watch: DispatchVnodeWatcher)
     
     /// Call when the file-system object link count changed.
-    func fsWatcherDidObserveLink(watch: GCDVNodeWatcher)
+    func fsWatcherDidObserveLink(watch: DispatchVnodeWatcher)
     
     /// Call when the file-system object was renamed in the namespace.
-    func fsWatcherDidObserveRename(watch: GCDVNodeWatcher)
+    func fsWatcherDidObserveRename(watch: DispatchVnodeWatcher)
     
     /// Call when the file-system object was revoked.
-    func fsWatcherDidObserveRevoke(watch: GCDVNodeWatcher)
+    func fsWatcherDidObserveRevoke(watch: DispatchVnodeWatcher)
     
     /// Call when the file-system object was created.
-    func fsWatcherDidObserveCreate(watch: GCDVNodeWatcher)
+    func fsWatcherDidObserveCreate(watch: DispatchVnodeWatcher)
     
     /// Call when the directory changed(additions, deletions, and renamings).
-    /// 
+    ///
     /// call `fsWatcherDidObserveWrite` by default
-    func fsWatcherDidObserveDirectoryChange(watch: GCDVNodeWatcher)
+    func fsWatcherDidObserveDirectoryChange(watch: DispatchVnodeWatcher)
 }
 
 // Optional func and default func for `GCDFSWatcherDelegate`
 // Empty func treated as Optional func
-public extension GCDFSWatcherDelegate {
+public extension DispatchVnodeWatcherDelegate {
     
     // MARK: - Extension
     
-    func fsWatcherDidObserveDelete(watch: GCDVNodeWatcher) {
+    public func fsWatcherDidObserveDelete(watch: DispatchVnodeWatcher) {
         
     }
     
-    func fsWatcherDidObserveWrite(watch: GCDVNodeWatcher) {
+    public func fsWatcherDidObserveWrite(watch: DispatchVnodeWatcher) {
         
     }
     
-    func fsWatcherDidObserveExtend(watch: GCDVNodeWatcher) {
+    public func fsWatcherDidObserveExtend(watch: DispatchVnodeWatcher) {
         
     }
     
-    func fsWatcherDidObserveAttrib(watch: GCDVNodeWatcher) {
+    public func fsWatcherDidObserveAttrib(watch: DispatchVnodeWatcher) {
         
     }
     
-    func fsWatcherDidObserveLink(watch: GCDVNodeWatcher) {
+    public func fsWatcherDidObserveLink(watch: DispatchVnodeWatcher) {
         
     }
     
-    func fsWatcherDidObserveRename(watch: GCDVNodeWatcher) {
+    public func fsWatcherDidObserveRename(watch: DispatchVnodeWatcher) {
         
     }
     
-    func fsWatcherDidObserveRevoke(watch: GCDVNodeWatcher) {
+    public func fsWatcherDidObserveRevoke(watch: DispatchVnodeWatcher) {
         
     }
     
-    func fsWatcherDidObserveCreate(watch: GCDVNodeWatcher) {
+    public func fsWatcherDidObserveCreate(watch: DispatchVnodeWatcher) {
         
     }
     
-    func fsWatcherDidObserveDirectoryChange(watch: GCDVNodeWatcher) {
+    public func fsWatcherDidObserveDirectoryChange(watch: DispatchVnodeWatcher) {
         fsWatcherDidObserveWrite(watch)
     }
 }
 
-/// Watcher for VNODE events
-public class GCDVNodeWatcher {
+/// Watcher for Vnode events
+public class DispatchVnodeWatcher {
     
     // MARK: - Properties
     
@@ -97,16 +97,16 @@ public class GCDVNodeWatcher {
     public let path: Path
     
     /// The events used to create the watcher.
-    public let events: GCDVNodeEvents
+    public let events: DispatchVnodeEvents
     
     /// The delegate to call when events happen
-    weak var delegate: GCDFSWatcherDelegate?
+    weak var delegate: DispatchVnodeWatcherDelegate?
     
     /// The watcher for watching creation event
-    weak var createWatcher: GCDVNodeWatcher?
+    weak var createWatcher: DispatchVnodeWatcher?
     
     /// The callback for vnode events.
-    private let callback: ((GCDVNodeWatcher) -> Void)?
+    private let callback: ((DispatchVnodeWatcher) -> Void)?
     
     /// The queue for the watcher.
     private let queue: dispatch_queue_t?
@@ -118,9 +118,9 @@ public class GCDVNodeWatcher {
     private var source: dispatch_source_t?
     
     /// Current events
-    public var currentEvent: GCDVNodeEvents? {
+    public var currentEvent: DispatchVnodeEvents? {
         if let source = source {
-            return GCDVNodeEvents(rawValue: dispatch_source_get_data(source))
+            return DispatchVnodeEvents(rawValue: dispatch_source_get_data(source))
         }
         return nil
     }
@@ -136,9 +136,9 @@ public class GCDVNodeWatcher {
     ///
     /// This method does follow links.
     init(path: Path,
-        events: GCDVNodeEvents,
-        queue: dispatch_queue_t,
-        callback: ((GCDVNodeWatcher) -> Void)?
+         events: DispatchVnodeEvents,
+         queue: dispatch_queue_t,
+         callback: ((DispatchVnodeWatcher) -> Void)?
         ) {
         self.path = path.absolute
         self.events = events
@@ -163,40 +163,40 @@ public class GCDVNodeWatcher {
     /// If `callback` is set, call the `callback`. Else if `delegate` is set, call the `delegate`
     ///
     /// - Parameter eventType: The current event to be watched.
-    private func dispatchDelegate(eventType: GCDVNodeEvents) {
+    private func dispatchDelegate(eventType: DispatchVnodeEvents) {
         if let callback = self.callback {
             callback(self)
         } else if let delegate = self.delegate {
-            if eventType.contains(.DELETE) {
+            if eventType.contains(.Delete) {
                 delegate.fsWatcherDidObserveDelete(self)
             }
-            if eventType.contains(.WRITE) {
+            if eventType.contains(.Write) {
                 if path.isDirectoryFile {
                     delegate.fsWatcherDidObserveDirectoryChange(self)
                 } else {
                     delegate.fsWatcherDidObserveWrite(self)
                 }
             }
-            if eventType.contains(.EXTEND) {
+            if eventType.contains(.Extend) {
                 delegate.fsWatcherDidObserveExtend(self)
             }
-            if eventType.contains(.ATTRIB) {
+            if eventType.contains(.Attribute) {
                 delegate.fsWatcherDidObserveAttrib(self)
             }
-            if eventType.contains(.LINK) {
+            if eventType.contains(.Link) {
                 delegate.fsWatcherDidObserveLink(self)
             }
-            if eventType.contains(.RENAME) {
+            if eventType.contains(.Rename) {
                 delegate.fsWatcherDidObserveRename(self)
             }
-            if eventType.contains(.REVOKE) {
+            if eventType.contains(.Revoke) {
                 delegate.fsWatcherDidObserveRevoke(self)
             }
-            if eventType.contains(.CREATE) {
+            if eventType.contains(.Create) {
                 delegate.fsWatcherDidObserveCreate(self)
             }
         }
-
+        
     }
     
     // MARK: - Methods
@@ -208,13 +208,13 @@ public class GCDVNodeWatcher {
         
         // create a watcher for CREATE event if path not exists and events contains CREATE
         if !path.exists {
-            if events.contains(.CREATE) {
+            if events.contains(.Create) {
                 let parent = path.parent.absolute
                 var _events = events
-                _events.remove(.CREATE)
+                _events.remove(.Create)
                 // only watch a CREATE event if parent exists and is a directory
                 if parent.isDirectoryFile {
-                    createWatcher = parent.watch(.WRITE) { [unowned self] watch in
+                    createWatcher = parent.watch(.Write) { [unowned self] watch in
                         // stop watching when path created
                         if self.path.isRegular || self.path.isDirectoryFile {
                             self.delegate?.fsWatcherDidObserveCreate(self)
@@ -228,15 +228,15 @@ public class GCDVNodeWatcher {
             return false
         }
             
-        // Only watching for regular file and directory
+            // Only watching for regular file and directory
         else if path.isRegular || path.isDirectoryFile {
             
             if source == nil && fileDescriptor == -1 {
-                fileDescriptor = open(path._rawValue, O_EVTONLY)
+                fileDescriptor = open(path.safeRawValue, O_EVTONLY)
                 if fileDescriptor == -1 { return false }
                 var _events = events
-                _events.remove(.CREATE)
-                source = dispatch_source_create(GCDSourceType.VNODE, UInt(fileDescriptor), _events.rawValue , queue)
+                _events.remove(.Create)
+                source = dispatch_source_create(DispatchSourceType.Vnode, UInt(fileDescriptor), _events.rawValue , queue)
                 
                 // Recheck if open success and source create success
                 if source != nil && fileDescriptor != -1 {
@@ -246,7 +246,7 @@ public class GCDVNodeWatcher {
                     
                     // Define the block to call when a file change is detected.
                     dispatch_source_set_event_handler(source!) { //[unowned self] () in
-                        let eventType = GCDVNodeEvents(rawValue: dispatch_source_get_data(self.source!))
+                        let eventType = DispatchVnodeEvents(rawValue: dispatch_source_get_data(self.source!))
                         self.dispatchDelegate(eventType)
                     }
                     
@@ -291,12 +291,12 @@ extension Path {
     /// - Parameter queue: The queue to be run within.
     /// - Parameter delegate: The delegate to call when events happen.
     /// - Parameter callback: The callback to be called on changes.
-    public func watch2(events: GCDVNodeEvents = .ALL,
-                      queue: dispatch_queue_t = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-                      delegate: GCDFSWatcherDelegate? = nil,
-                      callback: ((GCDVNodeWatcher) -> Void)? = nil
-        ) -> GCDVNodeWatcher {
-        let watcher = GCDVNodeWatcher(path: self, events: events, queue: queue, callback: callback)
+    public func watch2(events: DispatchVnodeEvents = .All,
+                       queue: dispatch_queue_t = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+                       delegate: DispatchVnodeWatcherDelegate? = nil,
+                       callback: ((DispatchVnodeWatcher) -> Void)? = nil
+        ) -> DispatchVnodeWatcher {
+        let watcher = DispatchVnodeWatcher(path: self, events: events, queue: queue, callback: callback)
         watcher.delegate = delegate
         watcher.startWatching()
         return watcher
@@ -311,12 +311,12 @@ extension Path {
     /// - Parameter queue: The queue to be run within.
     /// - Parameter delegate: The delegate to call when events happen.
     /// - Parameter callback: The callback to be called on changes.
-    public func watch(events: GCDVNodeEvents = .ALL,
+    public func watch(events: DispatchVnodeEvents = .All,
                       queue: dispatch_queue_t = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-                      delegate: GCDFSWatcherDelegate? = nil,
-                      callback: ((GCDVNodeWatcher) -> Void)? = nil
-                    ) -> GCDVNodeWatcher {
-        let watcher = GCDVNodeWatcher(path: self, events: events, queue: queue, callback: callback)
+                      delegate: DispatchVnodeWatcherDelegate? = nil,
+                      callback: ((DispatchVnodeWatcher) -> Void)? = nil
+        ) -> DispatchVnodeWatcher {
+        let watcher = DispatchVnodeWatcher(path: self, events: events, queue: queue, callback: callback)
         watcher.delegate = delegate
         watcher.startWatching()
         return watcher

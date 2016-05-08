@@ -65,15 +65,16 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
     private var _fmWraper = _FMWrapper()
 
     private class _FMWrapper {
-        let _fileManager = NSFileManager()
+        let unsafeFileManager = NSFileManager()
         weak var delegate : NSFileManagerDelegate?
+        /// Safe way to use fileManager
         var fileManager: NSFileManager {
             get {
 //                if delegate == nil {
 //                    print("\n\nDelegate is nil\n\n")
 //                }
-                _fileManager.delegate = delegate
-                return _fileManager
+                unsafeFileManager.delegate = delegate
+                return unsafeFileManager
             }
         }
     }
@@ -100,19 +101,24 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
     ///
     /// Some NSAPI may throw `NSInvalidArgumentException` when path is `""`, which can't catch in swift
     /// and cause crash
-    public var _rawValue: String {
+    private var _rawValue: String {
+        return rawValue.isEmpty ? "." : rawValue
+    }
+    
+    /// public function for `_rawValue`
+    public var safeRawValue: String {
         return rawValue.isEmpty ? "." : rawValue
     }
     
     /// The standardized path string value
-    public var stdRaw: String {
+    public var standardRawValue: String {
         get {
             return (self.rawValue as NSString).stringByStandardizingPath
         }
     }
     
     /// The standardized path string value without expanding tilde
-    public var stdRawWithTilde: String {
+    public var standardRawValueWithTilde: String {
         get {
             let comps = components
             if comps.isEmpty {
@@ -171,7 +177,7 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
     }
     
     /// The standardized path string value without expanding tilde
-    public var stdWithTilde: Path {
+    public var standardWithTilde: Path {
         get {
             let comps = components
             if comps.isEmpty {
