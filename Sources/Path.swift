@@ -49,7 +49,7 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
             return Path(NSFileManager.defaultManager().currentDirectoryPath)
         }
         set {
-            NSFileManager.defaultManager().changeCurrentDirectoryPath(newValue._rawValue)
+            NSFileManager.defaultManager().changeCurrentDirectoryPath(newValue._safeRawValue)
         }
     }
 
@@ -97,16 +97,11 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
     /// The stored path string value.
     public private(set) var rawValue: String
 
-    /// The stored non empty path string value.
+    /// The non-empty path string value. For internal use only.
     ///
     /// Some NSAPI may throw `NSInvalidArgumentException` when path is `""`, which can't catch in swift
     /// and cause crash
-    private var _rawValue: String {
-        return rawValue.isEmpty ? "." : rawValue
-    }
-
-    /// public function for `_rawValue`
-    public var safeRawValue: String {
+    internal var _safeRawValue: String {
         return rawValue.isEmpty ? "." : rawValue
     }
 
@@ -224,14 +219,14 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
     ///
     /// this method does follow links.
     public var exists: Bool {
-        return _fmWraper.fileManager.fileExistsAtPath(_rawValue)
+        return _fmWraper.fileManager.fileExistsAtPath(_safeRawValue)
     }
 
     /// Returns `true` if a file or directory or symbolic link exists at the path
     ///
     /// this method does **not** follow links.
 //    public var existsOrLink: Bool {
-//        return self.isSymbolicLink || _fmWraper.fileManager.fileExistsAtPath(_rawValue)
+//        return self.isSymbolicLink || _fmWraper.fileManager.fileExistsAtPath(_safeRawValue)
 //    }
 
     /// Returns `true` if the current process has write privileges for the file
@@ -239,7 +234,7 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
     ///
     /// this method does follow links.
     public var isWritable: Bool {
-        return _fmWraper.fileManager.isWritableFileAtPath(_rawValue)
+        return _fmWraper.fileManager.isWritableFileAtPath(_safeRawValue)
     }
 
     /// Returns `true` if the current process has read privileges for the file
@@ -247,7 +242,7 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
     ///
     /// this method does follow links.
     public var isReadable: Bool {
-        return _fmWraper.fileManager.isReadableFileAtPath(_rawValue)
+        return _fmWraper.fileManager.isReadableFileAtPath(_safeRawValue)
     }
 
     /// Returns `true` if the current process has execute privileges for the
@@ -255,7 +250,7 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
     ///
     /// this method does follow links.
     public var isExecutable: Bool {
-        return  _fmWraper.fileManager.isExecutableFileAtPath(_rawValue)
+        return  _fmWraper.fileManager.isExecutableFileAtPath(_safeRawValue)
     }
 
     /// Returns `true` if the current process has delete privileges for the file
@@ -263,7 +258,7 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
     ///
     /// this method does **not** follow links.
     public var isDeletable: Bool {
-        return  _fmWraper.fileManager.isDeletableFileAtPath(_rawValue)
+        return  _fmWraper.fileManager.isDeletableFileAtPath(_safeRawValue)
     }
 
     /// Returns `true` if the path points to a directory.
@@ -271,7 +266,7 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
     /// this method does follow links.
     public var isDirectory: Bool {
         var isDirectory: ObjCBool = false
-        return _fmWraper.fileManager.fileExistsAtPath(_rawValue, isDirectory: &isDirectory)
+        return _fmWraper.fileManager.fileExistsAtPath(_safeRawValue, isDirectory: &isDirectory)
             && isDirectory
     }
 
@@ -362,7 +357,7 @@ extension Path {
     public func changeDirectory(@noescape closure: () throws -> ()) rethrows {
         let previous = Path.Current
         defer { Path.Current = previous }
-        if _fmWraper.fileManager.changeCurrentDirectoryPath(_rawValue) {
+        if _fmWraper.fileManager.changeCurrentDirectoryPath(_safeRawValue) {
             try closure()
         }
     }
@@ -377,7 +372,7 @@ extension Path {
         let obtainFunc = recursive
             ? _fmWraper.fileManager.subpathsOfDirectoryAtPath
             : _fmWraper.fileManager.contentsOfDirectoryAtPath
-        return (try? obtainFunc(_rawValue))?.map { self + Path($0) } ?? []
+        return (try? obtainFunc(_safeRawValue))?.map { self + Path($0) } ?? []
     }
 
     /// Returns true if `path` is a child of `self`.
@@ -576,7 +571,7 @@ extension Path {
 
         do {
             try _fmWraper.fileManager.createSymbolicLinkAtPath(
-                linkPath._rawValue, withDestinationPath: self._rawValue)
+                linkPath._safeRawValue, withDestinationPath: self._safeRawValue)
         } catch {
             throw FileKitError.CreateSymlinkFail(from: self, to: linkPath)
         }
@@ -592,7 +587,7 @@ extension Path {
     ///
     /// If a file or symlink exists, this method removes the file or symlink and create regular file
     public func createFile() throws {
-        if !_fmWraper.fileManager.createFileAtPath(_rawValue, contents: nil, attributes: nil) {
+        if !_fmWraper.fileManager.createFileAtPath(_safeRawValue, contents: nil, attributes: nil) {
             throw FileKitError.CreateFileFail(path: self)
         }
     }
@@ -634,7 +629,7 @@ extension Path {
     public func createDirectory(withIntermediateDirectories createIntermediates: Bool = true) throws {
         do {
             let manager = _fmWraper.fileManager
-            try manager.createDirectoryAtPath(_rawValue,
+            try manager.createDirectoryAtPath(_safeRawValue,
                 withIntermediateDirectories: createIntermediates,
                 attributes: nil)
         } catch {
@@ -653,7 +648,7 @@ extension Path {
     /// this method does not follow links.
     public func deleteFile() throws {
         do {
-            try _fmWraper.fileManager.removeItemAtPath(_rawValue)
+            try _fmWraper.fileManager.removeItemAtPath(_safeRawValue)
         } catch {
             throw FileKitError.DeleteFileFail(path: self)
         }
@@ -670,7 +665,7 @@ extension Path {
         if self.isAny {
             if !path.isAny {
                 do {
-                    try _fmWraper.fileManager.moveItemAtPath(self._rawValue, toPath: path._rawValue)
+                    try _fmWraper.fileManager.moveItemAtPath(self._safeRawValue, toPath: path._safeRawValue)
                 } catch {
                     throw FileKitError.MoveFileFail(from: self, to: path)
                 }
@@ -694,7 +689,7 @@ extension Path {
         if self.isAny {
             if !path.isAny {
                 do {
-                    try _fmWraper.fileManager.copyItemAtPath(self._rawValue, toPath: path._rawValue)
+                    try _fmWraper.fileManager.copyItemAtPath(self._safeRawValue, toPath: path._safeRawValue)
                 } catch {
                     throw FileKitError.CopyFileFail(from: self, to: path)
                 }
@@ -798,7 +793,7 @@ extension Path {
     ///
     /// this method does not follow links.
     public var attributes: [String : AnyObject] {
-        return (try? _fmWraper.fileManager.attributesOfItemAtPath(_rawValue)) ?? [:]
+        return (try? _fmWraper.fileManager.attributesOfItemAtPath(_safeRawValue)) ?? [:]
     }
 
     /// Modify attributes
@@ -806,7 +801,7 @@ extension Path {
     /// this method does not follow links.
     private func _setAttributes(attributes: [String : AnyObject]) throws {
         do {
-            try _fmWraper.fileManager.setAttributes(attributes, ofItemAtPath: self._rawValue)
+            try _fmWraper.fileManager.setAttributes(attributes, ofItemAtPath: self._safeRawValue)
         } catch {
             throw FileKitError.AttributesChangeFail(path: self)
         }
@@ -935,7 +930,7 @@ extension Path {
 
     /// - Returns: The `Path` objects url.
     public var url: NSURL {
-        return NSURL(fileURLWithPath: _rawValue, isDirectory: self.isDirectory)
+        return NSURL(fileURLWithPath: _safeRawValue, isDirectory: self.isDirectory)
     }
 
 }
@@ -993,19 +988,19 @@ extension Path {
     /// Returns a file handle for reading the file at the path, or `nil` if no
     /// file exists.
     public var fileHandleForReading: NSFileHandle? {
-        return NSFileHandle(forReadingAtPath: absolute._rawValue)
+        return NSFileHandle(forReadingAtPath: absolute._safeRawValue)
     }
 
     /// Returns a file handle for writing to the file at the path, or `nil` if
     /// no file exists.
     public var fileHandleForWriting: NSFileHandle? {
-        return NSFileHandle(forWritingAtPath: absolute._rawValue)
+        return NSFileHandle(forWritingAtPath: absolute._safeRawValue)
     }
 
     /// Returns a file handle for reading and writing to the file at the path,
     /// or `nil` if no file exists.
     public var fileHandleForUpdating: NSFileHandle? {
-        return NSFileHandle(forUpdatingAtPath: absolute._rawValue)
+        return NSFileHandle(forUpdatingAtPath: absolute._safeRawValue)
     }
 
 }
@@ -1017,7 +1012,7 @@ extension Path {
     /// Returns an input stream that reads data from the file at the path, or
     /// `nil` if no file exists.
     public func inputStream() -> NSInputStream? {
-        return NSInputStream(fileAtPath: absolute._rawValue)
+        return NSInputStream(fileAtPath: absolute._safeRawValue)
     }
 
     /// Returns an output stream for writing to the file at the path, or `nil`
@@ -1028,7 +1023,7 @@ extension Path {
     ///                           `false` otherwise. Default value is `false`.
     ///
     public func outputStream(append shouldAppend: Bool = false) -> NSOutputStream? {
-        return NSOutputStream(toFileAtPath: absolute._rawValue, append: shouldAppend)
+        return NSOutputStream(toFileAtPath: absolute._safeRawValue, append: shouldAppend)
     }
 
 }

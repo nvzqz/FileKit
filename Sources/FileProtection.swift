@@ -122,7 +122,7 @@ extension Path {
     public func createFile(fileProtection: FileProtection) throws {
         let manager = NSFileManager()
         let attributes = [NSFileProtectionKey : fileProtection.rawValue]
-        if !manager.createFileAtPath(safeRawValue, contents: nil, attributes: attributes) {
+        if !manager.createFileAtPath(_safeRawValue, contents: nil, attributes: attributes) {
             throw FileKitError.CreateFileFail(path: self)
         }
     }

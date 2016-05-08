@@ -250,7 +250,7 @@ public class DispatchVnodeWatcher {
         else if path.isRegular || path.isDirectoryFile {
 
             if source == nil && fileDescriptor == -1 {
-                fileDescriptor = open(path.safeRawValue, O_EVTONLY)
+                fileDescriptor = open(path._safeRawValue, O_EVTONLY)
                 if fileDescriptor == -1 { return false }
                 var _events = events
                 _events.remove(.Create)

@@ -64,7 +64,7 @@ public class TextFile: File<String> {
     ///
     public override func write(data: String, atomically useAuxiliaryFile: Bool) throws {
         do {
-            try data.writeToFile(path.safeRawValue, atomically: useAuxiliaryFile, encoding: encoding)
+            try data.writeToFile(path._safeRawValue, atomically: useAuxiliaryFile, encoding: encoding)
         } catch {
             throw FileKitError.WriteToFileFail(path: path)
         }

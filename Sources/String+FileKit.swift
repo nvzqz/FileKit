@@ -33,7 +33,7 @@ extension String: DataType {
     /// Creates a string from a path.
     public static func readFromPath(path: Path) throws -> String {
         let possibleContents = try? NSString(
-            contentsOfFile: path.safeRawValue,
+            contentsOfFile: path._safeRawValue,
             encoding: NSUTF8StringEncoding)
         guard let contents = possibleContents else {
             throw FileKitError.ReadFromFileFail(path: path)
@@ -59,7 +59,7 @@ extension String: DataType {
     ///
     public func writeToPath(path: Path, atomically useAuxiliaryFile: Bool) throws {
         do {
-            try self.writeToFile(path.safeRawValue,
+            try self.writeToFile(path._safeRawValue,
                 atomically: useAuxiliaryFile,
                 encoding: NSUTF8StringEncoding)
         } catch {
