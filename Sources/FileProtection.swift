@@ -27,6 +27,8 @@
 
 import Foundation
 
+#if os(iOS) || os(watchOS) || os(tvOS)
+
 /// The values that can be obtained from `NSFileProtectionKey` on a
 /// file's attributes. Only available on iOS, watchOS, and tvOS.
 public enum FileProtection: String {
@@ -172,3 +174,5 @@ extension File where Data: NSData {
     }
 
 }
+
+#endif

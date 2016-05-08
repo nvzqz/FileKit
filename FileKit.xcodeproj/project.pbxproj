@@ -135,9 +135,11 @@
 		5204B7C31B968E8000AA473F /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		5204B7E51B96ADA100AA473F /* String+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+FileKit.swift"; sourceTree = "<group>"; };
 		5204B84B1B96B83800AA473F /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5204B84F1B96B83800AA473F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5204B8581B96B85E00AA473F /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		520E0E2F1C110CA900BAEA99 /* Process+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Process+FileKit.swift"; sourceTree = "<group>"; };
+		521FC3FB1CDEEC12006C9C3C /* FileKit.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = FileKit.playground; sourceTree = "<group>"; };
+		521FC3FD1CDEFED6006C9C3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		521FC3FE1CDF0144006C9C3C /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilePermissions.swift; sourceTree = "<group>"; };
 		523C33771B9A7EFC00AB70E4 /* TextFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFile.swift; sourceTree = "<group>"; };
 		523C337A1B9B68D600AB70E4 /* DictionaryFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryFile.swift; sourceTree = "<group>"; };
@@ -210,22 +212,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		17217D5B1CDCD72E00723D11 /* GCD File System Event */ = {
-			isa = PBXGroup;
-			children = (
-				17217D5C1CDCD74000723D11 /* DispatchEvent.swift */,
-				17217D5D1CDCD74000723D11 /* DispatchWatcher.swift */,
-			);
-			name = "GCD File System Event";
-			sourceTree = "<group>";
-		};
 		5204B7AC1B968B8600AA473F = {
 			isa = PBXGroup;
 			children = (
-				82F4F2BB1CA94DEC002C8393 /* .swiftlint.yml */,
-				5204B7B81B968B8600AA473F /* FileKit */,
-				5263A9051B96BA3D00635A93 /* FileKitTests */,
+				5204B7B81B968B8600AA473F /* Sources */,
+				521FC3FC1CDEFED6006C9C3C /* Support */,
+				5263A9051B96BA3D00635A93 /* Tests */,
 				5204B7B71B968B8600AA473F /* Products */,
+				521FC3FB1CDEEC12006C9C3C /* FileKit.playground */,
+				521FC3FE1CDF0144006C9C3C /* Package.swift */,
+				82F4F2BB1CA94DEC002C8393 /* .swiftlint.yml */,
 			);
 			sourceTree = "<group>";
 		};
@@ -241,17 +237,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5204B7B81B968B8600AA473F /* FileKit */ = {
-			isa = PBXGroup;
-			children = (
-				5204B7E31B96AD2300AA473F /* Core */,
-				5204B7E41B96AD3400AA473F /* Extensions */,
-				5204B84F1B96B83800AA473F /* Info.plist */,
-			);
-			path = FileKit;
-			sourceTree = "<group>";
-		};
-		5204B7E31B96AD2300AA473F /* Core */ = {
+		5204B7B81B968B8600AA473F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				17217D551CDCD13700723D11 /* RelativePathType.swift */,
@@ -266,19 +252,15 @@
 				52A016F11C0184CA0045A9C8 /* FileProtection.swift */,
 				52A017091C01D5400045A9C8 /* FileType.swift */,
 				52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */,
+				C4F7D01E1C08C0DA00EF359B /* FileSystemEvent.swift */,
+				82F4F2BF1CA956F2002C8393 /* FileSystemEventStream.swift */,
+				82F4F2BC1CA95480002C8393 /* FileSystemWatcher.swift */,
 				52A016C31C013F3D0045A9C8 /* DirectoryEnumerator.swift */,
 				523C33981B9B764600AB70E4 /* DataType.swift */,
 				52BF6BB01B99322000F07E13 /* FileKitError.swift */,
 				523C33A61B9B894A00AB70E4 /* Operators.swift */,
-				17217D5B1CDCD72E00723D11 /* GCD File System Event */,
-				82F4F2BE1CA956D3002C8393 /* File System Event */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		5204B7E41B96AD3400AA473F /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
+				17217D5C1CDCD74000723D11 /* DispatchEvent.swift */,
+				17217D5D1CDCD74000723D11 /* DispatchWatcher.swift */,
 				520E0E2F1C110CA900BAEA99 /* Process+FileKit.swift */,
 				5204B7E51B96ADA100AA473F /* String+FileKit.swift */,
 				52A0170F1C024D840045A9C8 /* NSString+FileKit.swift */,
@@ -288,35 +270,25 @@
 				52A017041C01AD6F0045A9C8 /* NSBundle+FileKit.swift */,
 				524D315E1BC7A02A008B93D0 /* Image+FileKit.swift */,
 			);
-			path = Extensions;
+			path = Sources;
 			sourceTree = "<group>";
 		};
-		5263A9051B96BA3D00635A93 /* FileKitTests */ = {
+		521FC3FC1CDEFED6006C9C3C /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				521FC3FD1CDEFED6006C9C3C /* Info.plist */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		5263A9051B96BA3D00635A93 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				5263A9061B96BA3D00635A93 /* FileKitTests.swift */,
-				C404F01F1BC7CD0500EF9ED9 /* Extensions */,
+				C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */,
 				5263A9081B96BA3D00635A93 /* Info.plist */,
 			);
-			path = FileKitTests;
-			sourceTree = "<group>";
-		};
-		82F4F2BE1CA956D3002C8393 /* File System Event */ = {
-			isa = PBXGroup;
-			children = (
-				C4F7D01E1C08C0DA00EF359B /* FileSystemEvent.swift */,
-				82F4F2BF1CA956F2002C8393 /* FileSystemEventStream.swift */,
-				82F4F2BC1CA95480002C8393 /* FileSystemWatcher.swift */,
-			);
-			name = "File System Event";
-			sourceTree = "<group>";
-		};
-		C404F01F1BC7CD0500EF9ED9 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */,
-			);
-			name = Extensions;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -846,7 +818,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = FileKit/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Support/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
@@ -864,7 +836,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = FileKit/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Support/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
@@ -881,7 +853,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = FileKit/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Support/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
@@ -900,7 +872,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = FileKit/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Support/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
@@ -916,7 +888,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = FileKitTests/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FileKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -927,7 +899,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = FileKitTests/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FileKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -941,7 +913,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = FileKit/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Support/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
@@ -960,7 +932,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = FileKit/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Support/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
@@ -980,7 +952,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/FileKit/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Support/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
@@ -999,7 +971,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/FileKit/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Support/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";

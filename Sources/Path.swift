@@ -431,7 +431,7 @@ extension Path {
         let minCount = Swift.min(selfComponents.count, pathComponents.count)
         var total = minCount
 
-        for index in 0..<total {
+        for index in 0 ..< total {
             if selfComponents[index].rawValue != pathComponents[index].rawValue {
                 total = index
                 break

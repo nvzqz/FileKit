@@ -584,7 +584,7 @@ class FileKitTests: XCTestCase {
             // specific line
             result = textFile | "eli"
             XCTAssertEqual(result, [expectedLines[1]])
-            
+
             // the other line
             result = textFile |- "eli"
             XCTAssertEqual(result, [expectedLines[0], expectedLines[2]])
