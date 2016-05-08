@@ -120,7 +120,7 @@ extension WritableToFile {
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
     public func writeToPath(path: Path, atomically useAuxiliaryFile: Bool) throws {
-        guard writeToFile(path.rawValue, atomically: useAuxiliaryFile) else {
+        guard writeToFile(path.safeRawValue, atomically: useAuxiliaryFile) else {
             throw FileKitError.WriteToFileFail(path: path)
         }
     }

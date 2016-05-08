@@ -31,6 +31,7 @@ import Foundation
 ///
 /// - Precondition: The data type must conform to DataType.
 ///
+/// All method do not follow links.
 public class File<Data: DataType>: Comparable {
 
     // MARK: - Properties
@@ -52,10 +53,12 @@ public class File<Data: DataType>: Comparable {
             path.pathExtension = newValue
         }
     }
-
-    /// True if the file exists.
+    
+    /// True if the item exists and is a regular file.
+    ///
+    /// this method does not follow links.
     public var exists: Bool {
-        return path.exists
+        return path.isRegular
     }
 
     /// The size of `self` in bytes.
@@ -138,7 +141,7 @@ public class File<Data: DataType>: Comparable {
     /// - Throws: `FileKitError.MoveFileFail`
     ///
     public func moveToPath(path: Path) throws {
-        try path.moveFileToPath(path)
+        try self.path.moveFileToPath(path)
         self.path = path
     }
 
@@ -152,7 +155,7 @@ public class File<Data: DataType>: Comparable {
     /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
     ///
     public func copyToPath(path: Path) throws {
-        try path.copyFileToPath(path)
+        try self.path.copyFileToPath(path)
     }
 
     /// Symlinks the file to a path.

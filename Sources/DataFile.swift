@@ -54,7 +54,7 @@ extension File where Data: NSData {
     ///
     public func write(data: Data, options: NSDataWritingOptions) throws {
         do {
-            try data.writeToFile(self.path.rawValue, options: options)
+            try data.writeToFile(self.path.safeRawValue, options: options)
         } catch {
             throw FileKitError.WriteToFileFail(path: path)
         }
