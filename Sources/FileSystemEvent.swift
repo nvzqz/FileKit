@@ -29,7 +29,6 @@ import Foundation
 
 #if os(OSX)
 
-
 /// A filesystem event.
 public struct FileSystemEvent {
 

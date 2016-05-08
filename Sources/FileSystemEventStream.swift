@@ -28,8 +28,7 @@
 import Foundation
 
 #if os(OSX)
-    
-    
+
 /// A filesystem event stream.
 internal struct FileSystemEventStream: RawRepresentable {
     
@@ -112,6 +111,5 @@ internal struct FileSystemEventStream: RawRepresentable {
         return FSEventStreamGetLatestEventId(rawValue)
     }
 }
-
 
 #endif

@@ -28,8 +28,7 @@
 import Foundation
 
 #if os(OSX)
-    
-    
+
 /// Watches a given set of paths and runs a callback per event.
 public class FileSystemWatcher {
     
@@ -223,5 +222,5 @@ public class FileSystemWatcher {
     }
     
 }
-    
+
 #endif
