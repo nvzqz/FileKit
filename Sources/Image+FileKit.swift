@@ -65,20 +65,24 @@ extension Image: DataType, WritableConvertible {
         #endif
     }
 
-    /// Retrieves an image from a URL string.
-    public class func imageFromURLString(url: String) -> Image? {
-        #if os(iOS)
-            if let nsurl = NSURL(string: url) {
-                if let data = NSData(contentsOfURL: nsurl) {
-                    return UIImage(data: data)
-                }
+    /// Retrieves an image from a URL.
+    public convenience init?(url: NSURL) {
+        #if os(OSX)
+            self.init(contentsOfURL: url)
+        #else
+            guard let data = NSData(contentsOfURL: url) else {
+                return nil
             }
-        #elseif os(OSX)
-            if let nsurl = NSURL(string: url) {
-                return NSImage(contentsOfURL: nsurl)
-            }
+            self.init(data: data)
         #endif
-        return nil
+    }
+
+    /// Retrieves an image from a URL string.
+    public convenience init?(urlString string: String) {
+        guard let url = NSURL(string: string) else {
+            return nil
+        }
+        self.init(url: url)
     }
 
 }
