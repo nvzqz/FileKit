@@ -124,6 +124,7 @@
 		520E0E2F1C110CA900BAEA99 /* Process+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Process+FileKit.swift"; sourceTree = "<group>"; };
 		521FC3FB1CDEEC12006C9C3C /* FileKit.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = FileKit.playground; sourceTree = "<group>"; };
 		521FC3FD1CDEFED6006C9C3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		521FC3FE1CDF0144006C9C3C /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilePermissions.swift; sourceTree = "<group>"; };
 		523C33771B9A7EFC00AB70E4 /* TextFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFile.swift; sourceTree = "<group>"; };
 		523C337A1B9B68D600AB70E4 /* DictionaryFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryFile.swift; sourceTree = "<group>"; };
@@ -204,6 +205,7 @@
 				5263A9051B96BA3D00635A93 /* Tests */,
 				5204B7B71B968B8600AA473F /* Products */,
 				521FC3FB1CDEEC12006C9C3C /* FileKit.playground */,
+				521FC3FE1CDF0144006C9C3C /* Package.swift */,
 				82F4F2BB1CA94DEC002C8393 /* .swiftlint.yml */,
 			);
 			sourceTree = "<group>";
