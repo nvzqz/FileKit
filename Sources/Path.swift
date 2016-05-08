@@ -66,7 +66,7 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
 
     private class _FMWrapper {
         let unsafeFileManager = NSFileManager()
-        weak var delegate : NSFileManagerDelegate?
+        weak var delegate: NSFileManagerDelegate?
         /// Safe way to use fileManager
         var fileManager: NSFileManager {
             get {
@@ -96,7 +96,7 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
 
     /// The stored path string value.
     public private(set) var rawValue: String
-    
+
     /// The stored non empty path string value.
     ///
     /// Some NSAPI may throw `NSInvalidArgumentException` when path is `""`, which can't catch in swift
@@ -104,19 +104,19 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
     private var _rawValue: String {
         return rawValue.isEmpty ? "." : rawValue
     }
-    
+
     /// public function for `_rawValue`
     public var safeRawValue: String {
         return rawValue.isEmpty ? "." : rawValue
     }
-    
+
     /// The standardized path string value
     public var standardRawValue: String {
         get {
             return (self.rawValue as NSString).stringByStandardizingPath
         }
     }
-    
+
     /// The standardized path string value without expanding tilde
     public var standardRawValueWithTilde: String {
         get {
@@ -149,14 +149,13 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
             return _cleanComponents(cleanComps)
         }
     }
-    
+
     /// resolving `..` if possible
     private func _cleanComponents(comps: [Path]) -> [Path] {
         var isContinue = false
         let count = comps.count
         let cleanComps: [Path] = comps.enumerate().flatMap {
-            if (($1.rawValue != ".." && $0 < count - 1 && comps[$0 + 1].rawValue == "..") ||
-                ($1.rawValue == ".." && $0 > 0 && comps[$0 - 1].rawValue != "..")) {
+            if ($1.rawValue != ".." && $0 < count - 1 && comps[$0 + 1].rawValue == "..") || ($1.rawValue == ".." && $0 > 0 && comps[$0 - 1].rawValue != "..") {
                 isContinue = true
                 return nil
             } else {
@@ -175,7 +174,7 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
     public var standardized: Path {
         return Path((self.rawValue as NSString).stringByStandardizingPath)
     }
-    
+
     /// The standardized path string value without expanding tilde
     public var standardWithTilde: Path {
         get {
@@ -227,7 +226,7 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
     public var exists: Bool {
         return _fmWraper.fileManager.fileExistsAtPath(_rawValue)
     }
-    
+
     /// Returns `true` if a file or directory or symbolic link exists at the path
     ///
     /// this method does **not** follow links.
@@ -275,35 +274,35 @@ public struct Path: StringLiteralConvertible, RawRepresentable, Hashable, Indexa
         return _fmWraper.fileManager.fileExistsAtPath(_rawValue, isDirectory: &isDirectory)
             && isDirectory
     }
-    
+
     /// Returns `true` if the path is a directory file.
     ///
     /// this method does not follow links.
     public var isDirectoryFile: Bool {
         return fileType == .Directory
     }
-    
+
     /// Returns `true` if the path is a symbolic link.
     ///
     /// this method does not follow links.
     public var isSymbolicLink: Bool {
         return fileType == .SymbolicLink
     }
-    
+
     /// Returns `true` if the path is a regular file.
     ///
     /// this method does not follow links.
     public var isRegular: Bool {
         return fileType == .Regular
     }
-    
+
     /// Returns `true` if the path exists any fileType item.
     ///
     /// this method does not follow links.
     public var isAny: Bool {
         return fileType != nil
     }
-    
+
     /// The path's extension.
     public var pathExtension: String {
         get {
@@ -399,7 +398,7 @@ extension Path {
             return path.parent == self
         }
     }
-    
+
     /// Returns true if `path` is a parent of `self`.
     ///
     /// Relative paths can't be compared return `false`. like `../../path1/path2` and `../path2`
@@ -427,7 +426,7 @@ extension Path {
         }
         let selfComponents = self.components
         let pathComponents = path.components
-        
+
         let minCount = Swift.min(selfComponents.count, pathComponents.count)
         var total = minCount
 
@@ -475,10 +474,10 @@ extension Path {
             }
         }
     }
-    
+
     /// Returns the relative path type.
     ///
-    public var relativePathType : RelativePathType {
+    public var relativePathType: RelativePathType {
         if isAbsolute {
             return .Absolute
         } else {
@@ -569,7 +568,7 @@ extension Path {
 //        }
 
         let linkPath = path.isDirectory ? path + self.fileName : path
-        
+
         // Throws if linking to an existing non-directory file.
         guard !linkPath.isAny else {
             throw FileKitError.CreateSymlinkFail(from: self, to: path)

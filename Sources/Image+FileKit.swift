@@ -64,7 +64,8 @@ extension Image: DataType, WritableConvertible {
         return UIImagePNGRepresentation(self) ?? NSData()
         #endif
     }
-    
+
+    /// Retrieves an image from a URL string.
     public class func imageFromURLString(url: String) -> Image? {
         #if os(iOS)
             if let nsurl = NSURL(string: url) {

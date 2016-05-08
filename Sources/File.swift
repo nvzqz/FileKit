@@ -53,7 +53,7 @@ public class File<Data: DataType>: Comparable {
             path.pathExtension = newValue
         }
     }
-    
+
     /// True if the item exists and is a regular file.
     ///
     /// this method does not follow links.

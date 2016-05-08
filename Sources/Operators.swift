@@ -374,10 +374,10 @@ public func =>! (lhs: Path, rhs: Path) throws {
     //    guard lhs.exists else {
     //        throw FileKitError.FileDoesNotExist(path: lhs)
     //    }
-    
+
     let linkPath = rhs.isDirectory ? rhs + lhs.fileName : rhs
     if linkPath.isAny { try linkPath.deleteFile() }
-    
+
     try lhs =>> rhs
 }
 

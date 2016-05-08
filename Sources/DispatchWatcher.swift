@@ -12,77 +12,88 @@ import Foundation
 
 /// Delegate for `DispatchVnodeWatcher`
 public protocol DispatchVnodeWatcherDelegate: class {
-    
+
     // MARK: - Protocol
-    
+
     /// Call when the file-system object was deleted from the namespace.
     func fsWatcherDidObserveDelete(watch: DispatchVnodeWatcher)
-    
+
     /// Call when the file-system object data changed.
     func fsWatcherDidObserveWrite(watch: DispatchVnodeWatcher)
-    
+
     /// Call when the file-system object changed in size.
     func fsWatcherDidObserveExtend(watch: DispatchVnodeWatcher)
-    
+
     /// Call when the file-system object metadata changed.
     func fsWatcherDidObserveAttrib(watch: DispatchVnodeWatcher)
-    
+
     /// Call when the file-system object link count changed.
     func fsWatcherDidObserveLink(watch: DispatchVnodeWatcher)
-    
+
     /// Call when the file-system object was renamed in the namespace.
     func fsWatcherDidObserveRename(watch: DispatchVnodeWatcher)
-    
+
     /// Call when the file-system object was revoked.
     func fsWatcherDidObserveRevoke(watch: DispatchVnodeWatcher)
-    
+
     /// Call when the file-system object was created.
     func fsWatcherDidObserveCreate(watch: DispatchVnodeWatcher)
-    
-    /// Call when the directory changed(additions, deletions, and renamings).
+
+    /// Call when the directory changed (additions, deletions, and renamings).
     ///
-    /// call `fsWatcherDidObserveWrite` by default
+    /// Calls `fsWatcherDidObserveWrite` by default.
     func fsWatcherDidObserveDirectoryChange(watch: DispatchVnodeWatcher)
 }
 
 // Optional func and default func for `GCDFSWatcherDelegate`
 // Empty func treated as Optional func
 public extension DispatchVnodeWatcherDelegate {
-    
+
     // MARK: - Extension
-    
+
+    /// Call when the file-system object was deleted from the namespace.
     public func fsWatcherDidObserveDelete(watch: DispatchVnodeWatcher) {
-        
+
     }
-    
+
+    /// Call when the file-system object data changed.
     public func fsWatcherDidObserveWrite(watch: DispatchVnodeWatcher) {
-        
+
     }
-    
+
+    /// Call when the file-system object changed in size.
     public func fsWatcherDidObserveExtend(watch: DispatchVnodeWatcher) {
-        
+
     }
-    
+
+    /// Call when the file-system object metadata changed.
     public func fsWatcherDidObserveAttrib(watch: DispatchVnodeWatcher) {
-        
+
     }
-    
+
+    /// Call when the file-system object link count changed.
     public func fsWatcherDidObserveLink(watch: DispatchVnodeWatcher) {
-        
+
     }
-    
+
+    /// Call when the file-system object was renamed in the namespace.
     public func fsWatcherDidObserveRename(watch: DispatchVnodeWatcher) {
-        
+
     }
-    
+
+    /// Call when the file-system object was revoked.
     public func fsWatcherDidObserveRevoke(watch: DispatchVnodeWatcher) {
-        
+
     }
-    
+
+    /// Call when the file-system object was created.
     public func fsWatcherDidObserveCreate(watch: DispatchVnodeWatcher) {
-        
+
     }
-    
+
+    /// Call when the directory changed (additions, deletions, and renamings).
+    ///
+    /// Calls `fsWatcherDidObserveWrite` by default.
     public func fsWatcherDidObserveDirectoryChange(watch: DispatchVnodeWatcher) {
         fsWatcherDidObserveWrite(watch)
     }
@@ -90,33 +101,33 @@ public extension DispatchVnodeWatcherDelegate {
 
 /// Watcher for Vnode events
 public class DispatchVnodeWatcher {
-    
+
     // MARK: - Properties
-    
+
     /// The paths being watched.
     public let path: Path
-    
+
     /// The events used to create the watcher.
     public let events: DispatchVnodeEvents
-    
+
     /// The delegate to call when events happen
     weak var delegate: DispatchVnodeWatcherDelegate?
-    
+
     /// The watcher for watching creation event
     weak var createWatcher: DispatchVnodeWatcher?
-    
+
     /// The callback for vnode events.
     private let callback: ((DispatchVnodeWatcher) -> Void)?
-    
+
     /// The queue for the watcher.
     private let queue: dispatch_queue_t?
-    
+
     /// A file descriptor for the path.
     private var fileDescriptor: CInt = -1
-    
+
     /// A dispatch source to monitor a file descriptor created from the path.
     private var source: dispatch_source_t?
-    
+
     /// Current events
     public var currentEvent: DispatchVnodeEvents? {
         if let source = source {
@@ -127,9 +138,9 @@ public class DispatchVnodeWatcher {
         }
         return nil
     }
-    
+
     // MARK: - Initialization
-    
+
     /// Creates a watcher for the given paths.
     ///
     /// - Parameter paths: The paths.
@@ -148,16 +159,16 @@ public class DispatchVnodeWatcher {
         self.queue = queue
         self.callback = callback
     }
-    
+
     // MARK: - Deinitialization
-    
+
     deinit {
         //print("\(path): Deinit")
         close()
     }
-    
+
     // MARK: - Private Methods
-    
+
     /// Dispatch the event.
     ///
     /// If `callback` is set, call the `callback`. Else if `delegate` is set, call the `delegate`
@@ -196,16 +207,16 @@ public class DispatchVnodeWatcher {
                 delegate.fsWatcherDidObserveCreate(self)
             }
         }
-        
+
     }
-    
+
     // MARK: - Methods
-    
+
     /// Start watching.
     ///
     /// This method does follow links.
     public func startWatching() -> Bool {
-        
+
         // create a watcher for CREATE event if path not exists and events contains CREATE
         if !path.exists {
             if events.contains(.Create) {
@@ -234,36 +245,36 @@ public class DispatchVnodeWatcher {
             }
             return false
         }
-            
+
             // Only watching for regular file and directory
         else if path.isRegular || path.isDirectoryFile {
-            
+
             if source == nil && fileDescriptor == -1 {
                 fileDescriptor = open(path.safeRawValue, O_EVTONLY)
                 if fileDescriptor == -1 { return false }
                 var _events = events
                 _events.remove(.Create)
-                source = dispatch_source_create(DispatchSourceType.Vnode, UInt(fileDescriptor), _events.rawValue , queue)
-                
+                source = dispatch_source_create(DispatchSourceType.Vnode, UInt(fileDescriptor), _events.rawValue, queue)
+
                 // Recheck if open success and source create success
                 if source != nil && fileDescriptor != -1 {
                     guard callback != nil || delegate != nil else {
                         return false
                     }
-                    
+
                     // Define the block to call when a file change is detected.
                     dispatch_source_set_event_handler(source!) { //[unowned self] () in
                         let eventType = DispatchVnodeEvents(rawValue: dispatch_source_get_data(self.source!))
                         self.dispatchDelegate(eventType)
                     }
-                    
+
                     // Define a cancel handler to ensure the path is closed when the source is cancelled.
                     dispatch_source_set_cancel_handler(source!) { //[unowned self] () in
                         Darwin.close(self.fileDescriptor)
                         self.fileDescriptor = -1
                         self.source = nil
                     }
-                    
+
                     // Start monitoring the path via the source.
                     dispatch_resume(source!)
                     return true
@@ -273,9 +284,9 @@ public class DispatchVnodeWatcher {
         } else {
             return false
         }
-        
+
     }
-    
+
     /// Stop watching.
     ///
     /// **Note:** make sure call this func, or `self` will not release
@@ -284,7 +295,7 @@ public class DispatchVnodeWatcher {
             dispatch_source_cancel(source!)
         }
     }
-    
+
     /// Closes the watcher.
     public func close() {
         createWatcher?.stopWatching()
@@ -292,15 +303,15 @@ public class DispatchVnodeWatcher {
         self.fileDescriptor = -1
         self.source = nil
     }
-    
-    
+
+
 }
 
 extension Path {
-    
+
     #if os(OSX)
     // MARK: - Watching
-    
+
     /// Watches a path for filesystem events and handles them in the callback or delegate.
     ///
     /// - Parameter events: The create events.
@@ -317,11 +328,11 @@ extension Path {
         watcher.startWatching()
         return watcher
     }
-    
+
     #else
-    
+
     // MARK: - Watching
-    
+
     /// Watches a path for filesystem events and handles them in the callback or delegate.
     ///
     /// - Parameter events: The create events.
@@ -340,5 +351,3 @@ extension Path {
     }
     #endif
 }
-
-
