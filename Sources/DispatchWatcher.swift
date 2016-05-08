@@ -214,7 +214,12 @@ public class DispatchVnodeWatcher {
                 _events.remove(.Create)
                 // only watch a CREATE event if parent exists and is a directory
                 if parent.isDirectoryFile {
-                    createWatcher = parent.watch(.Write) { [weak self] watch in
+                    #if os(OSX)
+                        let watch = { parent.watch2($0, callback: $1) }
+                    #else
+                        let watch = { parent.watch($0, callback: $1) }
+                    #endif
+                    createWatcher = watch(.Write) { [weak self] watch in
                         // stop watching when path created
                         if self?.path.isRegular == true || self?.path.isDirectoryFile == true {
                             self?.dispatchDelegate(.Create)
