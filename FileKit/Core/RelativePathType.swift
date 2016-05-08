@@ -26,41 +26,4 @@ public enum RelativePathType: String {
     /// path like "/path".
     case Absolute
     
-    
-    /// Creates a RelativePathType from an `String` attribute.
-    ///
-    /// - Parameter rawValue: The raw value to create from.
-    public init?(rawValue: String) {
-        switch rawValue {
-        case "Normal":
-            self = Normal
-        case "Current":
-            self = Current
-        case "Ancestor":
-            self = Ancestor
-        case "Parent":
-            self = Parent
-        case "Absolute":
-            self = Absolute
-        default:
-            return nil
-        }
-    }
-    
-    /// The rawValue attribute for `self`.
-    public var rawValue: String {
-        switch self {
-        case .Normal:
-            return "Normal"
-        case .Current:
-            return "Current"
-        case .Ancestor:
-            return "Ancestor"
-        case .Parent:
-            return "Parent"
-        case .Absolute:
-            return "Absolute"
-        }
-    }
-    
 }

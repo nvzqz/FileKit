@@ -25,9 +25,6 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
-import UIKit
-
 #if os(OSX)
 import Cocoa
 #elseif os(iOS) || os(tvOS)

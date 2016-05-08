@@ -122,6 +122,9 @@ public class DispatchVnodeWatcher {
         if let source = source {
             return DispatchVnodeEvents(rawValue: dispatch_source_get_data(source))
         }
+        if createWatcher != nil {
+            return .Create
+        }
         return nil
     }
     
@@ -150,10 +153,7 @@ public class DispatchVnodeWatcher {
     
     deinit {
         //print("\(path): Deinit")
-        createWatcher?.stopWatching()
-        close(self.fileDescriptor)
-        self.fileDescriptor = -1
-        self.source = nil
+        close()
     }
     
     // MARK: - Private Methods
@@ -214,11 +214,13 @@ public class DispatchVnodeWatcher {
                 _events.remove(.Create)
                 // only watch a CREATE event if parent exists and is a directory
                 if parent.isDirectoryFile {
-                    createWatcher = parent.watch(.Write) { [unowned self] watch in
+                    createWatcher = parent.watch(.Write) { [weak self] watch in
                         // stop watching when path created
-                        if self.path.isRegular || self.path.isDirectoryFile {
-                            self.delegate?.fsWatcherDidObserveCreate(self)
-                            self.startWatching()
+                        if self?.path.isRegular == true || self?.path.isDirectoryFile == true {
+                            self?.dispatchDelegate(.Create)
+                            //self.delegate?.fsWatcherDidObserveCreate(self)
+                            self?.createWatcher = nil
+                            self?.startWatching()
                             watch.stopWatching()
                         }
                     }
@@ -252,7 +254,7 @@ public class DispatchVnodeWatcher {
                     
                     // Define a cancel handler to ensure the path is closed when the source is cancelled.
                     dispatch_source_set_cancel_handler(source!) { //[unowned self] () in
-                        close(self.fileDescriptor)
+                        Darwin.close(self.fileDescriptor)
                         self.fileDescriptor = -1
                         self.source = nil
                     }
@@ -269,7 +271,7 @@ public class DispatchVnodeWatcher {
         
     }
     
-    /// Start watching.
+    /// Stop watching.
     ///
     /// **Note:** make sure call this func, or `self` will not release
     public func stopWatching() {
@@ -278,11 +280,20 @@ public class DispatchVnodeWatcher {
         }
     }
     
+    /// Closes the watcher.
+    public func close() {
+        createWatcher?.stopWatching()
+        Darwin.close(self.fileDescriptor)
+        self.fileDescriptor = -1
+        self.source = nil
+    }
+    
     
 }
 
 extension Path {
     
+    #if os(OSX)
     // MARK: - Watching
     
     /// Watches a path for filesystem events and handles them in the callback or delegate.
@@ -302,7 +313,8 @@ extension Path {
         return watcher
     }
     
-    #if os(iOS)
+    #else
+    
     // MARK: - Watching
     
     /// Watches a path for filesystem events and handles them in the callback or delegate.
