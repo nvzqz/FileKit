@@ -118,7 +118,7 @@ public class TextFileStreamReader {
 
     /// The text encoding.
     public let encoding: NSStringEncoding
-    
+
     /// The chunk size when reading.
     public let chunkSize: Int
 

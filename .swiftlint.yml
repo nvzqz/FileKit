@@ -3,8 +3,6 @@ included:
 
 # rule identifiers to exclude from running
 disabled_rules:
-    - trailing_newline
-    - trailing_whitespace
     - valid_docs
 
 # some rules are only opt-in
