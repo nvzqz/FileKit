@@ -4,6 +4,8 @@ included:
 # rule identifiers to exclude from running
 disabled_rules:
     - valid_docs
+    - function_body_length
+    - cyclomatic_complexity
 
 # some rules are only opt-in
 opt_in_rules:
