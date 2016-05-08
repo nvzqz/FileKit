@@ -1,12 +1,4 @@
 //
-//  FileSystemWatcher.swift
-//  FileKit
-//
-//  Created by Cihat Gündüz on 28.03.16.
-//  Copyright © 2016 Nikolai Vazquez. All rights reserved.
-//
-
-//
 //  FileSystemEvent.swift
 //  FileKit
 //
@@ -44,7 +36,7 @@ public class FileSystemWatcher {
     // MARK: - Private Static Properties
     
     /// The event stream callback for when events occur.
-    private static let eventCallback: FSEventStreamCallback = {
+    private static let _eventCallback: FSEventStreamCallback = {
         (stream: ConstFSEventStreamRef,
         contextInfo: UnsafeMutablePointer<Void>,
         numEvents: Int,
@@ -72,7 +64,7 @@ public class FileSystemWatcher {
                 id: id,
                 path: Path(path),
                 flags: FileSystemEventFlags(rawValue: Int(flags)))
-            watcher.processEvent(event)
+            watcher._processEvent(event)
         }
     }
     
@@ -97,16 +89,16 @@ public class FileSystemWatcher {
     public var runLoop: CFRunLoop = CFRunLoopGetMain()
     
     /// The callback for filesystem events.
-    private let callback: (FileSystemEvent) -> Void
+    private let _callback: (FileSystemEvent) -> Void
     
     /// The last event ID for the watcher.
     public private(set) var lastEventId: FSEventStreamEventId
     
     /// Whether or not the watcher has started yet.
-    private var started = false
+    private var _started = false
     
     /// The event stream for the watcher.
-    private var stream: FileSystemEventStream?
+    private var _stream: FileSystemEventStream?
     
     // MARK: - Initialization
     
@@ -130,7 +122,7 @@ public class FileSystemWatcher {
         self.flags       = flags
         self.latency     = latency
         self.queue       = queue
-        self.callback    = callback
+        self._callback   = callback
     }
     
     // MARK: - Deinitialization
@@ -144,9 +136,9 @@ public class FileSystemWatcher {
     /// Processes the event by logging it and then running the callback.
     ///
     /// - Parameter event: The file system event to be logged.
-    private func processEvent(event: FileSystemEvent) {
+    private func _processEvent(event: FileSystemEvent) {
         FileSystemWatcher.log("\t\(event.id) - \(event.flags) - \(event.path)")
-        self.callback(event)
+        self._callback(event)
     }
     
     /// Prints the message when in debug mode.
@@ -163,7 +155,7 @@ public class FileSystemWatcher {
     // Start watching by creating the stream
     /// Starts watching.
     public func watch() {
-        guard started == false else { return }
+        guard _started == false else { return }
         
         var context = FSEventStreamContext(
             version: 0,
@@ -177,7 +169,7 @@ public class FileSystemWatcher {
         
         let streamRef = FSEventStreamCreate(
             kCFAllocatorDefault,
-            FileSystemWatcher.eventCallback,
+            FileSystemWatcher._eventCallback,
             &context,
             paths.map {$0.rawValue},
             // since when
@@ -186,28 +178,28 @@ public class FileSystemWatcher {
             latency,
             UInt32(flags.rawValue)
         )
-        stream = FileSystemEventStream(rawValue: streamRef)
+        _stream = FileSystemEventStream(rawValue: streamRef)
         
-        stream?.scheduleWithRunLoop(runLoop, runLoopMode: runLoopMode)
+        _stream?.scheduleWithRunLoop(runLoop, runLoopMode: runLoopMode)
         if let q = queue {
-            stream?.setDispatchQueue(q)
+            _stream?.setDispatchQueue(q)
         }
-        stream?.start()
+        _stream?.start()
         
-        started = true
+        _started = true
     }
     
     // Stops, invalidates and releases the stream
     /// Closes the watcher.
     public func close() {
-        guard started == true else { return }
+        guard _started == true else { return }
         
-        stream?.stop()
-        stream?.invalidate()
-        stream?.release()
-        stream = nil
+        _stream?.stop()
+        _stream?.invalidate()
+        _stream?.release()
+        _stream = nil
         
-        started = false
+        _started = false
     }
     
     /// Requests that the fseventsd daemon send any events it has already
@@ -216,7 +208,7 @@ public class FileSystemWatcher {
     /// This occurs asynchronously; clients will not have received all the
     /// callbacks by the time this call returns to them.
     public func flushAsync() {
-        stream?.flushAsync()
+        _stream?.flushAsync()
     }
     
     /// Requests that the fseventsd daemon send any events it has already
@@ -227,7 +219,7 @@ public class FileSystemWatcher {
     /// This occurs synchronously; clients will have received all the callbacks
     /// by the time this call returns to them.
     public func flushSync() {
-        stream?.flushSync()
+        _stream?.flushSync()
     }
     
 }

@@ -386,7 +386,7 @@ extension Path {
     public func touch(updateModificationDate: Bool = true) throws {
         if self.exists {
             if updateModificationDate {
-                try setAttribute(NSFileModificationDate, value: NSDate())
+                try _setAttribute(NSFileModificationDate, value: NSDate())
             }
         } else {
             try createFile()
@@ -570,7 +570,7 @@ extension Path {
     }
 
     /// Modify attributes
-    private func setAttributes(attributes: [String : AnyObject]) throws {
+    private func _setAttributes(attributes: [String : AnyObject]) throws {
         do {
             try _fmWraper.fileManager.setAttributes(attributes, ofItemAtPath: self.rawValue)
         } catch {
@@ -579,8 +579,8 @@ extension Path {
     }
 
     /// Modify one attribute
-    private func setAttribute(key: String, value: AnyObject) throws {
-        try setAttributes([key : value])
+    private func _setAttribute(key: String, value: AnyObject) throws {
+        try _setAttributes([key : value])
     }
 
     /// The creation date of the file at the path.
@@ -881,127 +881,127 @@ extension Path {
 
     /// Returns the path to the user's caches directory.
     public static var UserCaches: Path {
-        return pathInUserDomain(.CachesDirectory)
+        return _pathInUserDomain(.CachesDirectory)
     }
 
     /// Returns the path to the user's applications directory.
     public static var UserApplications: Path {
-        return pathInUserDomain(.ApplicationDirectory)
+        return _pathInUserDomain(.ApplicationDirectory)
     }
 
     /// Returns the path to the user's application support directory.
     public static var UserApplicationSupport: Path {
-        return pathInUserDomain(.ApplicationSupportDirectory)
+        return _pathInUserDomain(.ApplicationSupportDirectory)
     }
 
     /// Returns the path to the user's desktop directory.
     public static var UserDesktop: Path {
-        return pathInUserDomain(.DesktopDirectory)
+        return _pathInUserDomain(.DesktopDirectory)
     }
 
     /// Returns the path to the user's documents directory.
     public static var UserDocuments: Path {
-        return pathInUserDomain(.DocumentDirectory)
+        return _pathInUserDomain(.DocumentDirectory)
     }
 
     /// Returns the path to the user's autosaved documents directory.
     public static var UserAutosavedInformation: Path {
-        return pathInUserDomain(.AutosavedInformationDirectory)
+        return _pathInUserDomain(.AutosavedInformationDirectory)
     }
 
     /// Returns the path to the user's downloads directory.
     public static var UserDownloads: Path {
-        return pathInUserDomain(.DownloadsDirectory)
+        return _pathInUserDomain(.DownloadsDirectory)
     }
 
     /// Returns the path to the user's library directory.
     public static var UserLibrary: Path {
-        return pathInUserDomain(.LibraryDirectory)
+        return _pathInUserDomain(.LibraryDirectory)
     }
 
     /// Returns the path to the user's movies directory.
     public static var UserMovies: Path {
-        return pathInUserDomain(.MoviesDirectory)
+        return _pathInUserDomain(.MoviesDirectory)
     }
 
     /// Returns the path to the user's music directory.
     public static var UserMusic: Path {
-        return pathInUserDomain(.MusicDirectory)
+        return _pathInUserDomain(.MusicDirectory)
     }
 
     /// Returns the path to the user's pictures directory.
     public static var UserPictures: Path {
-        return pathInUserDomain(.PicturesDirectory)
+        return _pathInUserDomain(.PicturesDirectory)
     }
 
     /// Returns the path to the user's Public sharing directory.
     public static var UserSharedPublic: Path {
-        return pathInUserDomain(.SharedPublicDirectory)
+        return _pathInUserDomain(.SharedPublicDirectory)
     }
 
     #if os(OSX)
 
     /// Returns the path to the user scripts folder for the calling application
     public static var UserApplicationScripts: Path {
-        return pathInUserDomain(.ApplicationScriptsDirectory)
+        return _pathInUserDomain(.ApplicationScriptsDirectory)
     }
 
     /// Returns the path to the user's trash directory
     public static var UserTrash: Path {
-        return pathInUserDomain(.TrashDirectory)
+        return _pathInUserDomain(.TrashDirectory)
     }
 
     #endif
 
     /// Returns the path to the system's applications directory.
     public static var SystemApplications: Path {
-        return pathInSystemDomain(.ApplicationDirectory)
+        return _pathInSystemDomain(.ApplicationDirectory)
     }
 
     /// Returns the path to the system's application support directory.
     public static var SystemApplicationSupport: Path {
-        return pathInSystemDomain(.ApplicationSupportDirectory)
+        return _pathInSystemDomain(.ApplicationSupportDirectory)
     }
 
     /// Returns the path to the system's library directory.
     public static var SystemLibrary: Path {
-        return pathInSystemDomain(.LibraryDirectory)
+        return _pathInSystemDomain(.LibraryDirectory)
     }
 
     /// Returns the path to the system's core services directory.
     public static var SystemCoreServices: Path {
-        return pathInSystemDomain(.CoreServiceDirectory)
+        return _pathInSystemDomain(.CoreServiceDirectory)
     }
 
     /// Returns the path to the system's PPDs directory.
     public static var SystemPrinterDescription: Path {
-        return pathInSystemDomain(.PrinterDescriptionDirectory)
+        return _pathInSystemDomain(.PrinterDescriptionDirectory)
     }
 
     /// Returns the path to the system's PreferencePanes directory.
     public static var SystemPreferencePanes: Path {
-        return pathInSystemDomain(.PreferencePanesDirectory)
+        return _pathInSystemDomain(.PreferencePanesDirectory)
     }
 
     /// Returns the paths where resources can occur.
     public static var AllLibraries: [Path] {
-        return pathsInDomains(.AllLibrariesDirectory, .AllDomainsMask)
+        return _pathsInDomains(.AllLibrariesDirectory, .AllDomainsMask)
     }
 
     /// Returns the paths where applications can occur
     public static var AllApplications: [Path] {
-        return pathsInDomains(.AllApplicationsDirectory, .AllDomainsMask)
+        return _pathsInDomains(.AllApplicationsDirectory, .AllDomainsMask)
     }
 
-    private static func pathInUserDomain(directory: NSSearchPathDirectory) -> Path {
-        return pathsInDomains(directory, .UserDomainMask)[0]
+    private static func _pathInUserDomain(directory: NSSearchPathDirectory) -> Path {
+        return _pathsInDomains(directory, .UserDomainMask)[0]
     }
 
-    private static func pathInSystemDomain(directory: NSSearchPathDirectory) -> Path {
-        return pathsInDomains(directory, .SystemDomainMask)[0]
+    private static func _pathInSystemDomain(directory: NSSearchPathDirectory) -> Path {
+        return _pathsInDomains(directory, .SystemDomainMask)[0]
     }
 
-    private static func pathsInDomains(directory: NSSearchPathDirectory,
+    private static func _pathsInDomains(directory: NSSearchPathDirectory,
         _ domainMask: NSSearchPathDomainMask) -> [Path] {
         return NSSearchPathForDirectoriesInDomains(directory, domainMask, true)
             .map({ Path($0) })
