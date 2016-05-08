@@ -240,35 +240,19 @@
 		5204B7B81B968B8600AA473F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				17217D551CDCD13700723D11 /* RelativePathType.swift */,
 				52A016E81C01565C0045A9C8 /* FileKit.swift */,
-				523C33A01B9B772A00AB70E4 /* File.swift */,
-				523C33771B9A7EFC00AB70E4 /* TextFile.swift */,
-				523C337A1B9B68D600AB70E4 /* DictionaryFile.swift */,
-				524D31561BC79067008B93D0 /* ArrayFile.swift */,
-				524D315A1BC79331008B93D0 /* DataFile.swift */,
-				52B938C81BF402ED001B7AEB /* ImageFile.swift */,
 				5204B7C31B968E8000AA473F /* Path.swift */,
+				17217D551CDCD13700723D11 /* RelativePathType.swift */,
 				52A016F11C0184CA0045A9C8 /* FileProtection.swift */,
 				52A017091C01D5400045A9C8 /* FileType.swift */,
 				52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */,
-				C4F7D01E1C08C0DA00EF359B /* FileSystemEvent.swift */,
-				82F4F2BF1CA956F2002C8393 /* FileSystemEventStream.swift */,
-				82F4F2BC1CA95480002C8393 /* FileSystemWatcher.swift */,
 				52A016C31C013F3D0045A9C8 /* DirectoryEnumerator.swift */,
 				523C33981B9B764600AB70E4 /* DataType.swift */,
 				52BF6BB01B99322000F07E13 /* FileKitError.swift */,
 				523C33A61B9B894A00AB70E4 /* Operators.swift */,
-				17217D5C1CDCD74000723D11 /* DispatchEvent.swift */,
-				17217D5D1CDCD74000723D11 /* DispatchWatcher.swift */,
-				520E0E2F1C110CA900BAEA99 /* Process+FileKit.swift */,
-				5204B7E51B96ADA100AA473F /* String+FileKit.swift */,
-				52A0170F1C024D840045A9C8 /* NSString+FileKit.swift */,
-				52A016F51C01ACE50045A9C8 /* NSDictionary+FileKit.swift */,
-				52A016FA1C01AD1E0045A9C8 /* NSArray+FileKit.swift */,
-				52A016FF1C01AD4A0045A9C8 /* NSData+FileKit.swift */,
-				52A017041C01AD6F0045A9C8 /* NSBundle+FileKit.swift */,
-				524D315E1BC7A02A008B93D0 /* Image+FileKit.swift */,
+				52F3AFA71CDFB48600C2BBBD /* File Types */,
+				52F3AFA61CDFB46300C2BBBD /* Watching */,
+				52F3AFA51CDFB45100C2BBBD /* Extensions */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -289,6 +273,46 @@
 				5263A9081B96BA3D00635A93 /* Info.plist */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		52F3AFA51CDFB45100C2BBBD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				520E0E2F1C110CA900BAEA99 /* Process+FileKit.swift */,
+				5204B7E51B96ADA100AA473F /* String+FileKit.swift */,
+				52A0170F1C024D840045A9C8 /* NSString+FileKit.swift */,
+				52A016F51C01ACE50045A9C8 /* NSDictionary+FileKit.swift */,
+				52A016FA1C01AD1E0045A9C8 /* NSArray+FileKit.swift */,
+				52A016FF1C01AD4A0045A9C8 /* NSData+FileKit.swift */,
+				52A017041C01AD6F0045A9C8 /* NSBundle+FileKit.swift */,
+				524D315E1BC7A02A008B93D0 /* Image+FileKit.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		52F3AFA61CDFB46300C2BBBD /* Watching */ = {
+			isa = PBXGroup;
+			children = (
+				C4F7D01E1C08C0DA00EF359B /* FileSystemEvent.swift */,
+				82F4F2BF1CA956F2002C8393 /* FileSystemEventStream.swift */,
+				82F4F2BC1CA95480002C8393 /* FileSystemWatcher.swift */,
+				17217D5C1CDCD74000723D11 /* DispatchEvent.swift */,
+				17217D5D1CDCD74000723D11 /* DispatchWatcher.swift */,
+			);
+			name = Watching;
+			sourceTree = "<group>";
+		};
+		52F3AFA71CDFB48600C2BBBD /* File Types */ = {
+			isa = PBXGroup;
+			children = (
+				523C33A01B9B772A00AB70E4 /* File.swift */,
+				523C33771B9A7EFC00AB70E4 /* TextFile.swift */,
+				523C337A1B9B68D600AB70E4 /* DictionaryFile.swift */,
+				524D31561BC79067008B93D0 /* ArrayFile.swift */,
+				524D315A1BC79331008B93D0 /* DataFile.swift */,
+				52B938C81BF402ED001B7AEB /* ImageFile.swift */,
+			);
+			name = "File Types";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
