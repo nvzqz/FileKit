@@ -176,6 +176,24 @@ public class File<Data: DataType>: Comparable {
         try self.path.symlinkFileToPath(path)
     }
 
+    /// Hardlinks the file to a path.
+    ///
+    /// If the path already exists and _is not_ a directory, an error will be
+    /// thrown and a link will not be created.
+    ///
+    /// If the path already exists and _is_ a directory, the link will be made
+    /// to `self` in that directory.
+    ///
+    ///
+    /// - Parameter path: The path to hardlink the file to.
+    /// - Throws:
+    ///     `FileKitError.FileDoesNotExist`,
+    ///     `FileKitError.CreateHardlinkFail`
+    ///
+    public func hardlinkToPath(path: Path) throws {
+        try self.path.hardlinkFileToPath(path)
+    }
+
     // MARK: - FileType
 
     /// The FileType attribute for `self`.

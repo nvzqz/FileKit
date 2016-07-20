@@ -577,6 +577,32 @@ extension Path {
         }
     }
 
+    /// Creates a hard link at a path that points to `self`.
+    ///
+    /// - Parameter path: The Path to which the link of the file at
+    ///                   `self` will be created.
+    ///                   If `path` exists and is a directory, then the link
+    ///                   will be made inside of `path`. Otherwise, an error
+    ///                   will be thrown.
+    ///
+    /// - Throws:
+    ///     `FileKitError.FileDoesNotExist`,
+    ///     `FileKitError.CreateHardlinkFail`
+    ///
+    public func hardlinkFileToPath(path: Path) throws {
+        let linkPath = path.isDirectory ? path + self.fileName : path
+
+        guard !linkPath.isAny else {
+            throw FileKitError.CreateHardlinkFail(from: self, to: path)
+        }
+
+        do {
+            try _fmWraper.fileManager.linkItemAtPath(self._safeRawValue, toPath: linkPath._safeRawValue)
+        } catch {
+            throw FileKitError.CreateHardlinkFail(from: self, to: path)
+        }
+    }
+
     /// Creates a file at path.
     ///
     /// Throws an error if the file cannot be created.
