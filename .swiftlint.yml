@@ -11,7 +11,6 @@ disabled_rules:
 # some rules are only opt-in
 opt_in_rules:
     - empty_count
-    - missing_docs
 
 # configurable rules can be customized from this configuration file
 line_length: 200
