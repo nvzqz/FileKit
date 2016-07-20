@@ -33,7 +33,7 @@
 ///
 /// - Copyright: [MIT License](https://opensource.org/licenses/MIT)
 ///
-/// - Version: [v2.0.0](https://github.com/nvzqz/FileKit/releases/tag/v2.0.0)
+/// - Version: [v3.0.0](https://github.com/nvzqz/FileKit/releases/tag/v3.0.0)
 ///
 /// - Requires: Xcode 7+, Swift 2.0+
 ///
@@ -42,10 +42,10 @@ public enum FileKit {
     /// The current version.
     ///
     /// FileKit follows [Semantic Versioning v2.0.0](http://semver.org/).
-    public static let version = "v2.0.0"
+    public static let version = "v3.0.0"
 
     /// The current release.
-    public static let release = 9
+    public static let release = 10
 
     /// FileKit is licensed under the [MIT License](https://opensource.org/licenses/MIT).
     public static let license = "MIT"
