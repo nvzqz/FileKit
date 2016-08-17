@@ -82,7 +82,7 @@ extension TextFile {
     /// - Parameter chunkSize: size of buffer (default: 4096)
     ///
     /// - Returns: the `TextFileStreamReader`
-    @warn_unused_result
+    
     public func streamReader(_ delimiter: String = "\n",
         chunkSize: Int = 4096) -> TextFileStreamReader? {
             return TextFileStreamReader(

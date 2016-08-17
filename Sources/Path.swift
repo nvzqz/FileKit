@@ -267,7 +267,7 @@ public struct Path: ExpressibleByStringLiteral, RawRepresentable, Hashable, Inde
     public var isDirectory: Bool {
         var isDirectory: ObjCBool = false
         return _fmWraper.fileManager.fileExists(atPath: _safeRawValue, isDirectory: &isDirectory)
-            && isDirectory
+            && isDirectory.boolValue
     }
 
     /// Returns `true` if the path is a directory file.
@@ -354,7 +354,7 @@ extension Path {
     ///
     /// - Parameter closure: The block to run while `Path.Current` is changed.
     ///
-    public func changeDirectory(closure: () throws -> ()) rethrows {
+    public func changeDirectory(_ closure: () throws -> ()) rethrows {
         let previous = Path.Current
         defer { Path.Current = previous }
         if _fmWraper.fileManager.changeCurrentDirectoryPath(_safeRawValue) {
@@ -631,7 +631,7 @@ extension Path {
     public func touch(_ updateModificationDate: Bool = true) throws {
         if self.exists {
             if updateModificationDate {
-                try _setAttribute(FileAttributeKey.modificationDate.rawValue, value: Date() as AnyObject)
+                try _setAttribute(FileAttributeKey.modificationDate, value: Date())
             }
         } else {
             try createFile()
@@ -796,17 +796,37 @@ extension Path {
     ///
     /// - Returns: All of the path's elements up to and including the index.
     ///
-    public subscript(index: Int) -> Path {
+    public subscript(position: Int) -> Path {
         let components = self.components
-        if index < 0 || index >= components.count {
+        if position < 0 || position >= components.count {
             fatalError("Path index out of range")
         } else {
             var result = components.first!
-            for i in 1 ..< index + 1 {
+            for i in 1 ..< position + 1 {
                 result += components[i]
             }
             return result
         }
+    }
+    
+    public subscript(bounds: Range<Int>) -> Path {
+        let components = self.components
+        if bounds.lowerBound < 0 || bounds.upperBound >= components.count {
+            fatalError("Path bounds out of range")
+        }
+        var result = components[bounds.lowerBound]
+        for i in (bounds.lowerBound + 1) ..< bounds.upperBound {
+            result += components[i]
+        }
+        return result
+    }
+    
+    public func index(after i: Int) -> Int {
+        return components.index(after: i)
+    }
+    
+    public func formIndex(after i: inout Int) {
+        return components.formIndex(after: &i)
     }
 
 }
@@ -818,23 +838,23 @@ extension Path {
     /// Returns the path's attributes.
     ///
     /// this method does not follow links.
-    public var attributes: [String : AnyObject] {
-        return (try? _fmWraper.fileManager.attributesOfItem(atPath: _safeRawValue) as! [String : AnyObject]?) ?? [:]
+    public var attributes: [FileAttributeKey : Any] {
+        return (try? _fmWraper.fileManager.attributesOfItem(atPath: _safeRawValue)) ?? [:]
     }
 
     /// Modify attributes
     ///
     /// this method does not follow links.
-    fileprivate func _setAttributes(_ attributes: [String : AnyObject]) throws {
+    fileprivate func _setAttributes(_ attributes: [FileAttributeKey : Any]) throws {
         do {
-            try _fmWraper.fileManager.setAttributes(attributes as! [FileAttributeKey : Any], ofItemAtPath: self._safeRawValue)
+            try _fmWraper.fileManager.setAttributes(attributes, ofItemAtPath: self._safeRawValue)
         } catch {
             throw FileKitError.attributesChangeFail(path: self)
         }
     }
 
     /// Modify one attribute
-    fileprivate func _setAttribute(_ key: String, value: AnyObject) throws {
+    fileprivate func _setAttribute(_ key: FileAttributeKey, value: Any) throws {
         try _setAttributes([key : value])
     }
 
@@ -948,10 +968,10 @@ extension Path {
     ///
     /// - Parameter url: The url to create a path for.
     public init?(url: URL) {
-        guard let path = url.path , url.isFileURL else {
+        guard url.isFileURL else {
             return nil
         }
-        rawValue = path
+        rawValue = url.path
     }
 
     /// - Returns: The `Path` objects url.
@@ -1054,7 +1074,7 @@ extension Path {
 
 }
 
-extension Path: StringInterpolationConvertible {
+extension Path: ExpressibleByStringInterpolation {
 
     // MARK: - StringInterpolationConvertible
 
@@ -1068,7 +1088,7 @@ extension Path: StringInterpolationConvertible {
         if let path = expr as? Path {
             self = path
         } else {
-            self = Path(String(expr))
+            self = Path(String(describing: expr))
         }
     }
 
@@ -1098,14 +1118,16 @@ extension Path: CustomDebugStringConvertible {
 }
 
 extension Path: Sequence {
-
-    // MARK: - SequenceType
-
-    /// - Returns: A *generator* over the contents of the path.
+    
+    // MARK: - Sequence
+    
+    public typealias Subsequence = Path
+    
+    /// - Returns: An *iterator* over the contents of the path.
     public func makeIterator() -> DirectoryEnumerator {
         return DirectoryEnumerator(path: self)
     }
-
+    
 }
 
 

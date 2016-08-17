@@ -103,7 +103,7 @@ extension FileKitError: CustomStringConvertible {
     // MARK: - CustomStringConvertible
     /// A textual representation of `self`.
     public var description: String {
-        return String(type(of: self)) + "(" + message + ")"
+        return String(describing: type(of: self)) + "(" + message + ")"
     }
 
 }

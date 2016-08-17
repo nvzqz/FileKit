@@ -57,11 +57,11 @@ extension Image: DataType, WritableConvertible {
 
     /// Returns `TIFFRepresentation` on OS X and `UIImagePNGRepresentation` on
     /// iOS, watchOS, and tvOS.
-    public var writable: Data {
+    public var writable: NSData {
         #if os(OSX)
         return self.TIFFRepresentation ?? NSData()
         #else
-        return UIImagePNGRepresentation(self) ?? Data()
+        return UIImagePNGRepresentation(self) as NSData? ?? NSData()
         #endif
     }
 

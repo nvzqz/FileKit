@@ -34,7 +34,7 @@ extension String: DataType {
     public static func readFromPath(_ path: Path) throws -> String {
         let possibleContents = try? NSString(
             contentsOfFile: path._safeRawValue,
-            encoding: String.Encoding.utf8)
+            encoding: String.Encoding.utf8.rawValue)
         guard let contents = possibleContents else {
             throw FileKitError.readFromFileFail(path: path)
         }

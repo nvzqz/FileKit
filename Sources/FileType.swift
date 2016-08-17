@@ -56,19 +56,19 @@ public enum FileType: String {
     /// - Parameter rawValue: The raw value to create from.
     public init?(rawValue: String) {
         switch rawValue {
-        case FileAttributeType.typeDirectory:
+        case FileAttributeType.typeDirectory.rawValue:
             self = .Directory
-        case FileAttributeType.typeRegular:
+        case FileAttributeType.typeRegular.rawValue:
             self = .Regular
-        case FileAttributeType.typeSymbolicLink:
+        case FileAttributeType.typeSymbolicLink.rawValue:
             self = .SymbolicLink
-        case FileAttributeType.typeSocket:
+        case FileAttributeType.typeSocket.rawValue:
             self = .Socket
-        case FileAttributeType.typeCharacterSpecial:
+        case FileAttributeType.typeCharacterSpecial.rawValue:
             self = .CharacterSpecial
-        case FileAttributeType.typeBlockSpecial:
+        case FileAttributeType.typeBlockSpecial.rawValue:
             self = .BlockSpecial
-        case FileAttributeType.typeUnknown:
+        case FileAttributeType.typeUnknown.rawValue:
             self = .Unknown
         default:
             return nil
@@ -79,19 +79,19 @@ public enum FileType: String {
     public var rawValue: String {
         switch self {
         case .Directory:
-            return FileAttributeType.typeDirectory
+            return FileAttributeType.typeDirectory.rawValue
         case .Regular:
-            return FileAttributeType.typeRegular
+            return FileAttributeType.typeRegular.rawValue
         case .SymbolicLink:
-            return FileAttributeType.typeSymbolicLink
+            return FileAttributeType.typeSymbolicLink.rawValue
         case .Socket:
-            return FileAttributeType.typeSocket
+            return FileAttributeType.typeSocket.rawValue
         case .CharacterSpecial:
-            return FileAttributeType.typeCharacterSpecial
+            return FileAttributeType.typeCharacterSpecial.rawValue
         case .BlockSpecial:
-            return FileAttributeType.typeBlockSpecial
+            return FileAttributeType.typeBlockSpecial.rawValue
         case .Unknown:
-            return FileAttributeType.typeUnknown
+            return FileAttributeType.typeUnknown.rawValue
         }
     }
 

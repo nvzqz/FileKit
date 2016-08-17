@@ -28,7 +28,7 @@
 import Foundation
 
 /// A type that can be used to read from and write to File instances.
-public typealias DataType = protocol<Readable, Writable>
+public typealias DataType = Readable & Writable
 
 
 

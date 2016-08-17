@@ -55,13 +55,13 @@ public enum FileProtection: String {
     ///
     public init?(rawValue: String) {
         switch rawValue {
-        case FileProtectionType.none:
+        case FileProtectionType.none.rawValue:
             self = .None
-        case FileProtectionType.complete:
+        case FileProtectionType.complete.rawValue:
             self = .Complete
-        case FileProtectionType.completeUnlessOpen:
+        case FileProtectionType.completeUnlessOpen.rawValue:
             self = .CompleteUnlessOpen
-        case FileProtectionType.completeUntilFirstUserAuthentication:
+        case FileProtectionType.completeUntilFirstUserAuthentication.rawValue:
             self = .CompleteUntilFirstUserAuthentication
         default:
             return nil
@@ -72,13 +72,13 @@ public enum FileProtection: String {
     public var rawValue: String {
         switch self {
         case .None:
-            return FileProtectionType.none
+            return FileProtectionType.none.rawValue
         case .Complete:
-            return FileProtectionType.complete
+            return FileProtectionType.complete.rawValue
         case .CompleteUnlessOpen:
-            return FileProtectionType.completeUnlessOpen
+            return FileProtectionType.completeUnlessOpen.rawValue
         case .CompleteUntilFirstUserAuthentication:
-            return FileProtectionType.completeUntilFirstUserAuthentication
+            return FileProtectionType.completeUntilFirstUserAuthentication.rawValue
         }
     }
 
@@ -121,7 +121,7 @@ extension Path {
     ///
     public func createFile(_ fileProtection: FileProtection) throws {
         let manager = FileManager()
-        let attributes = [FileAttributeKey.protectionKey : fileProtection.rawValue]
+        let attributes = [FileAttributeKey.protectionKey.rawValue : fileProtection.rawValue]
         if !manager.createFile(atPath: _safeRawValue, contents: nil, attributes: attributes) {
             throw FileKitError.createFileFail(path: self)
         }
@@ -152,7 +152,7 @@ extension File {
 
 }
 
-extension File where Data: Foundation.Data {
+extension File where Data: NSData {
 
     /// Writes data to the file.
     ///

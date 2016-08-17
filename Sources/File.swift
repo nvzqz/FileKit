@@ -255,7 +255,7 @@ extension File: CustomStringConvertible {
 
     /// A textual representation of `self`.
     public var description: String {
-        return String(type(of: self)) + "('" + path.description + "')"
+        return String(describing: type(of: self)) + "('" + path.description + "')"
     }
 
 }

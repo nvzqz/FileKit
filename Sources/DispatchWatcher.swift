@@ -108,7 +108,7 @@ open class DispatchVnodeWatcher {
     open let path: Path
 
     /// The events used to create the watcher.
-    open let events: DispatchVnodeEvents
+    open let events: DispatchFileSystemEvents
 
     /// The delegate to call when events happen
     weak var delegate: DispatchVnodeWatcherDelegate?
@@ -126,12 +126,12 @@ open class DispatchVnodeWatcher {
     fileprivate var fileDescriptor: CInt = -1
 
     /// A dispatch source to monitor a file descriptor created from the path.
-    fileprivate var source: DispatchSource?
+    fileprivate var source: DispatchSourceProtocol?
 
     /// Current events
-    open var currentEvent: DispatchVnodeEvents? {
+    open var currentEvent: DispatchFileSystemEvents? {
         if let source = source {
-            return DispatchVnodeEvents(rawValue: source.data)
+            return DispatchFileSystemEvents(rawValue: source.data)
         }
         if createWatcher != nil {
             return .Create
@@ -150,7 +150,7 @@ open class DispatchVnodeWatcher {
     ///
     /// This method does follow links.
     init(path: Path,
-         events: DispatchVnodeEvents,
+         events: DispatchFileSystemEvents,
          queue: DispatchQueue,
          callback: ((DispatchVnodeWatcher) -> Void)?
         ) {
@@ -174,7 +174,7 @@ open class DispatchVnodeWatcher {
     /// If `callback` is set, call the `callback`. Else if `delegate` is set, call the `delegate`
     ///
     /// - Parameter eventType: The current event to be watched.
-    fileprivate func dispatchDelegate(_ eventType: DispatchVnodeEvents) {
+    fileprivate func dispatchDelegate(_ eventType: DispatchFileSystemEvents) {
         if let callback = self.callback {
             callback(self)
         } else if let delegate = self.delegate {
@@ -215,6 +215,7 @@ open class DispatchVnodeWatcher {
     /// Start watching.
     ///
     /// This method does follow links.
+    @discardableResult
     open func startWatching() -> Bool {
 
         // create a watcher for CREATE event if path not exists and events contains CREATE
@@ -254,8 +255,8 @@ open class DispatchVnodeWatcher {
                 if fileDescriptor == -1 { return false }
                 var _events = events
                 _events.remove(.Create)
-                source = dispatch_source_create(DispatchSourceType.Vnode, UInt(fileDescriptor), _events.rawValue, queue)
-
+                source = DispatchSource.makeFileSystemObjectSource(fileDescriptor: fileDescriptor, eventMask: DispatchSource.FileSystemEvent(rawValue: _events.rawValue), queue: queue)
+                
                 // Recheck if open success and source create success
                 if source != nil && fileDescriptor != -1 {
                     guard callback != nil || delegate != nil else {
@@ -264,13 +265,13 @@ open class DispatchVnodeWatcher {
 
                     // Define the block to call when a file change is detected.
                     source!.setEventHandler { //[unowned self] () in
-                        let eventType = DispatchVnodeEvents(rawValue: self.source!.data)
+                        let eventType = DispatchFileSystemEvents(rawValue: self.source!.data)
                         self.dispatchDelegate(eventType)
                     }
 
                     // Define a cancel handler to ensure the path is closed when the source is cancelled.
                     source!.setCancelHandler { //[unowned self] () in
-                        Darwin.close(self.fileDescriptor)
+                        _ = Darwin.close(self.fileDescriptor)
                         self.fileDescriptor = -1
                         self.source = nil
                     }
@@ -299,7 +300,7 @@ open class DispatchVnodeWatcher {
     /// Closes the watcher.
     open func close() {
         createWatcher?.stopWatching()
-        Darwin.close(self.fileDescriptor)
+        _ = Darwin.close(self.fileDescriptor)
         self.fileDescriptor = -1
         self.source = nil
     }
@@ -319,7 +320,7 @@ extension Path {
     /// - Parameter delegate: The delegate to call when events happen.
     /// - Parameter callback: The callback to be called on changes.
     public func watch2(_ events: DispatchVnodeEvents = .All,
-                       queue: DispatchQueue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default),
+                       queue: DispatchQueue = DispatchQueue.global(qos: .default),
                        delegate: DispatchVnodeWatcherDelegate? = nil,
                        callback: ((DispatchVnodeWatcher) -> Void)? = nil
         ) -> DispatchVnodeWatcher {
@@ -339,8 +340,8 @@ extension Path {
     /// - Parameter queue: The queue to be run within.
     /// - Parameter delegate: The delegate to call when events happen.
     /// - Parameter callback: The callback to be called on changes.
-    public func watch(_ events: DispatchVnodeEvents = .All,
-                      queue: DispatchQueue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default),
+    public func watch(_ events: DispatchFileSystemEvents = .All,
+                      queue: DispatchQueue = DispatchQueue.global(qos: .default),
                       delegate: DispatchVnodeWatcherDelegate? = nil,
                       callback: ((DispatchVnodeWatcher) -> Void)? = nil
         ) -> DispatchVnodeWatcher {

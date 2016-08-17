@@ -57,7 +57,7 @@ public struct FilePermissions: OptionSet, CustomStringConvertible {
                 }
             }
         }
-        return String(type(of: self)) + "[" + description + "]"
+        return String(describing: type(of: self)) + "[" + description + "]"
     }
 
     /// Creates a set of file permissions.

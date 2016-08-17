@@ -27,18 +27,18 @@
 
 import Foundation
 
-extension Data: DataType, WritableToFile {
+extension NSData: DataType, WritableToFile {
 
     /// Returns data read from the given path.
-    public static func readFromPath(_ path: Path) throws -> Data {
+    public static func readFromPath(_ path: Path) throws -> Self {
         guard let contents = self.init(contentsOfFile: path._safeRawValue) else {
             throw FileKitError.readFromFileFail(path: path)
         }
         return contents
     }
 
-    /// Returns data read from the given path using NSDataReadingOptions.
-    public static func readFromPath(_ path: Path, options: Data.ReadingOptions) throws -> Data {
+    /// Returns data read from the given path using Data.ReadingOptions.
+    public static func readFromPath(_ path: Path, options: Data.ReadingOptions) throws -> Self {
         do {
             return try self.init(contentsOfFile: path._safeRawValue, options: options)
         } catch {
