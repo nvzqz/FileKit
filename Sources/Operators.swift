@@ -28,6 +28,17 @@
 // swiftlint:disable file_length
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 // MARK: - File
 
@@ -97,7 +108,7 @@ infix operator |~ {}
 /// Return lines of file that match the regex motif.
 @warn_unused_result
 public func |~ (file: TextFile, motif: String) -> [String] {
-    return file.grep(motif, options: NSStringCompareOptions.RegularExpressionSearch)
+    return file.grep(motif, options: NSString.CompareOptions.regularExpression)
 }
 
 // MARK: - Path
@@ -132,7 +143,7 @@ public func + (lhs: Path, rhs: Path) -> Path {
     if rhs.rawValue.isEmpty || rhs.rawValue == "." { return lhs }
     switch (lhs.rawValue.hasSuffix(Path.separator), rhs.rawValue.hasPrefix(Path.separator)) {
     case (true, true):
-        let rhsRawValue = rhs.rawValue.substringFromIndex(rhs.rawValue.startIndex.successor())
+        let rhsRawValue = rhs.rawValue.substring(from: rhs.rawValue.characters.index(after: rhs.rawValue.startIndex))
         return Path("\(lhs.rawValue)\(rhsRawValue)")
     case (false, false):
         return Path("\(lhs.rawValue)\(Path.separator)\(rhs.rawValue)")
@@ -154,12 +165,12 @@ public func + (lhs: Path, rhs: String) -> Path {
 }
 
 /// Appends the right path to the left path.
-public func += (inout lhs: Path, rhs: Path) {
+public func += (lhs: inout Path, rhs: Path) {
     lhs = lhs + rhs
 }
 
 /// Appends the path value of the String to the left path.
-public func += (inout lhs: Path, rhs: String) {
+public func += (lhs: inout Path, rhs: String) {
     lhs = lhs + rhs
 }
 
@@ -183,12 +194,12 @@ public func / (lhs: String, rhs: Path) -> Path {
 }
 
 /// Appends the right path to the left path.
-public func /= (inout lhs: Path, rhs: Path) {
+public func /= (lhs: inout Path, rhs: Path) {
     lhs += rhs
 }
 
 /// Appends the path value of the String to the left path.
-public func /= (inout lhs: Path, rhs: String) {
+public func /= (lhs: inout Path, rhs: String) {
     lhs += rhs
 }
 
@@ -205,7 +216,7 @@ public func <^> (lhs: Path, rhs: Path) -> Path {
 infix operator </> {}
 
 /// Runs `closure` with the path as its current working directory.
-public func </> (path: Path, @noescape closure: () throws -> ()) rethrows {
+public func </> (path: Path, closure: () throws -> ()) rethrows {
     try path.changeDirectory(closure)
 }
 

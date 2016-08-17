@@ -55,14 +55,14 @@ public enum FileProtection: String {
     ///
     public init?(rawValue: String) {
         switch rawValue {
-        case NSFileProtectionNone:
-            self = None
-        case NSFileProtectionComplete:
-            self = Complete
-        case NSFileProtectionCompleteUnlessOpen:
-            self = CompleteUnlessOpen
-        case NSFileProtectionCompleteUntilFirstUserAuthentication:
-            self = CompleteUntilFirstUserAuthentication
+        case FileProtectionType.none:
+            self = .None
+        case FileProtectionType.complete:
+            self = .Complete
+        case FileProtectionType.completeUnlessOpen:
+            self = .CompleteUnlessOpen
+        case FileProtectionType.completeUntilFirstUserAuthentication:
+            self = .CompleteUntilFirstUserAuthentication
         default:
             return nil
         }
@@ -72,27 +72,27 @@ public enum FileProtection: String {
     public var rawValue: String {
         switch self {
         case .None:
-            return NSFileProtectionNone
+            return FileProtectionType.none
         case .Complete:
-            return NSFileProtectionComplete
+            return FileProtectionType.complete
         case .CompleteUnlessOpen:
-            return NSFileProtectionCompleteUnlessOpen
+            return FileProtectionType.completeUnlessOpen
         case .CompleteUntilFirstUserAuthentication:
-            return NSFileProtectionCompleteUntilFirstUserAuthentication
+            return FileProtectionType.completeUntilFirstUserAuthentication
         }
     }
 
     ///  Return the equivalent NSDataWritingOptions
-    public var dataWritingOption: NSDataWritingOptions {
+    public var dataWritingOption: NSData.WritingOptions {
         switch self {
         case .None:
-            return .DataWritingFileProtectionNone
+            return .noFileProtection
         case .Complete:
-            return .DataWritingFileProtectionComplete
+            return .completeFileProtection
         case .CompleteUnlessOpen:
-            return .DataWritingFileProtectionCompleteUnlessOpen
+            return .completeFileProtectionUnlessOpen
         case .CompleteUntilFirstUserAuthentication:
-            return .DataWritingFileProtectionCompleteUntilFirstUserAuthentication
+            return .completeFileProtectionUntilFirstUserAuthentication
         }
     }
 
@@ -104,8 +104,8 @@ extension Path {
 
     /// The protection of the file at the path.
     public var fileProtection: FileProtection? {
-        guard let value = attributes[NSFileProtectionKey] as? String,
-            protection  = FileProtection(rawValue: value) else {
+        guard let value = attributes[FileAttributeKey.protectionKey] as? String,
+            let protection  = FileProtection(rawValue: value) else {
             return nil
         }
         return protection
@@ -119,11 +119,11 @@ extension Path {
     ///
     /// - Throws: `FileKitError.CreateFileFail`
     ///
-    public func createFile(fileProtection: FileProtection) throws {
-        let manager = NSFileManager()
-        let attributes = [NSFileProtectionKey : fileProtection.rawValue]
-        if !manager.createFileAtPath(_safeRawValue, contents: nil, attributes: attributes) {
-            throw FileKitError.CreateFileFail(path: self)
+    public func createFile(_ fileProtection: FileProtection) throws {
+        let manager = FileManager()
+        let attributes = [FileAttributeKey.protectionKey : fileProtection.rawValue]
+        if !manager.createFile(atPath: _safeRawValue, contents: nil, attributes: attributes) {
+            throw FileKitError.createFileFail(path: self)
         }
     }
 
@@ -146,13 +146,13 @@ extension File {
     ///
     /// - Throws: `FileKitError.CreateFileFail`
     ///
-    public func create(fileProtection: FileProtection) throws {
+    public func create(_ fileProtection: FileProtection) throws {
         try path.createFile(fileProtection)
     }
 
 }
 
-extension File where Data: NSData {
+extension File where Data: Foundation.Data {
 
     /// Writes data to the file.
     ///
@@ -165,10 +165,10 @@ extension File where Data: NSData {
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
-    public func write(data: Data, fileProtection: FileProtection, atomically: Bool = true) throws {
+    public func write(_ data: Data, fileProtection: FileProtection, atomically: Bool = true) throws {
         var options = fileProtection.dataWritingOption
         if atomically {
-            options.unionInPlace(NSDataWritingOptions.DataWritingAtomic)
+            options.formUnion(Foundation.Data.WritingOptions.atomic)
         }
         try self.write(data, options: options)
     }

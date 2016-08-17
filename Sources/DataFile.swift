@@ -30,9 +30,9 @@ import Foundation
 /// A representation of a filesystem data file.
 ///
 /// The data type is NSData.
-public typealias DataFile = File<NSData>
+public typealias DataFile = File<Data>
 
-extension File where Data: NSData {
+extension File where Data: Foundation.Data {
 
     /// Reads the file and returns its data.
     /// - Parameter options: A mask that specifies write options
@@ -40,7 +40,7 @@ extension File where Data: NSData {
     ///
     /// - Throws: `FileKitError.ReadFromFileFail`
     /// - Returns: The data read from file.
-    public func read(options: NSDataReadingOptions) throws -> Data {
+    public func read(_ options: Foundation.Data.ReadingOptions) throws -> Data {
         return try Data.readFromPath(path, options: options)
     }
 
@@ -52,11 +52,11 @@ extension File where Data: NSData {
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
-    public func write(data: Data, options: NSDataWritingOptions) throws {
+    public func write(_ data: Data, options: Foundation.Data.WritingOptions) throws {
         do {
-            try data.writeToFile(self.path._safeRawValue, options: options)
+            try data.write(toFile: self.path._safeRawValue, options: options)
         } catch {
-            throw FileKitError.WriteToFileFail(path: path)
+            throw FileKitError.writeToFileFail(path: path)
         }
     }
 

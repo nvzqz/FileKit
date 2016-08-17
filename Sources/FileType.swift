@@ -56,20 +56,20 @@ public enum FileType: String {
     /// - Parameter rawValue: The raw value to create from.
     public init?(rawValue: String) {
         switch rawValue {
-        case NSFileTypeDirectory:
-            self = Directory
-        case NSFileTypeRegular:
-            self = Regular
-        case NSFileTypeSymbolicLink:
-            self = SymbolicLink
-        case NSFileTypeSocket:
-            self = Socket
-        case NSFileTypeCharacterSpecial:
-            self = CharacterSpecial
-        case NSFileTypeBlockSpecial:
-            self = BlockSpecial
-        case NSFileTypeUnknown:
-            self = Unknown
+        case FileAttributeType.typeDirectory:
+            self = .Directory
+        case FileAttributeType.typeRegular:
+            self = .Regular
+        case FileAttributeType.typeSymbolicLink:
+            self = .SymbolicLink
+        case FileAttributeType.typeSocket:
+            self = .Socket
+        case FileAttributeType.typeCharacterSpecial:
+            self = .CharacterSpecial
+        case FileAttributeType.typeBlockSpecial:
+            self = .BlockSpecial
+        case FileAttributeType.typeUnknown:
+            self = .Unknown
         default:
             return nil
         }
@@ -79,19 +79,19 @@ public enum FileType: String {
     public var rawValue: String {
         switch self {
         case .Directory:
-            return NSFileTypeDirectory
+            return FileAttributeType.typeDirectory
         case .Regular:
-            return NSFileTypeRegular
+            return FileAttributeType.typeRegular
         case .SymbolicLink:
-            return NSFileTypeSymbolicLink
+            return FileAttributeType.typeSymbolicLink
         case .Socket:
-            return NSFileTypeSocket
+            return FileAttributeType.typeSocket
         case .CharacterSpecial:
-            return NSFileTypeCharacterSpecial
+            return FileAttributeType.typeCharacterSpecial
         case .BlockSpecial:
-            return NSFileTypeBlockSpecial
+            return FileAttributeType.typeBlockSpecial
         case .Unknown:
-            return NSFileTypeUnknown
+            return FileAttributeType.typeUnknown
         }
     }
 

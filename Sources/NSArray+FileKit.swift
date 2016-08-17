@@ -32,9 +32,9 @@ extension NSArray: DataType, WritableToFile {
     /// Returns an array read from the given path.
     ///
     /// - Parameter path: The path an array to be read from.
-    public class func readFromPath(path: Path) throws -> Self {
+    public class func readFromPath(_ path: Path) throws -> Self {
         guard let contents = self.init(contentsOfFile: path._safeRawValue) else {
-            throw FileKitError.ReadFromFileFail(path: path)
+            throw FileKitError.readFromFileFail(path: path)
         }
         return contents
     }

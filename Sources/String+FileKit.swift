@@ -31,12 +31,12 @@ import Foundation
 extension String: DataType {
 
     /// Creates a string from a path.
-    public static func readFromPath(path: Path) throws -> String {
+    public static func readFromPath(_ path: Path) throws -> String {
         let possibleContents = try? NSString(
             contentsOfFile: path._safeRawValue,
-            encoding: NSUTF8StringEncoding)
+            encoding: String.Encoding.utf8)
         guard let contents = possibleContents else {
-            throw FileKitError.ReadFromFileFail(path: path)
+            throw FileKitError.readFromFileFail(path: path)
         }
         return contents as String
     }
@@ -45,7 +45,7 @@ extension String: DataType {
     ///
     /// - Parameter path: The path being written to.
     ///
-    public func writeToPath(path: Path) throws {
+    public func writeToPath(_ path: Path) throws {
         try writeToPath(path, atomically: true)
     }
 
@@ -57,13 +57,13 @@ extension String: DataType {
     ///                               file. If `false`, the data is written to
     ///                               the file directly.
     ///
-    public func writeToPath(path: Path, atomically useAuxiliaryFile: Bool) throws {
+    public func writeToPath(_ path: Path, atomically useAuxiliaryFile: Bool) throws {
         do {
-            try self.writeToFile(path._safeRawValue,
+            try self.write(toFile: path._safeRawValue,
                 atomically: useAuxiliaryFile,
-                encoding: NSUTF8StringEncoding)
+                encoding: String.Encoding.utf8)
         } catch {
-            throw FileKitError.WriteToFileFail(path: path)
+            throw FileKitError.writeToFileFail(path: path)
         }
     }
 

@@ -25,7 +25,7 @@
 //  THE SOFTWARE.
 //
 
-extension Process {
+extension CommandLine {
 
     /// The working directory for the current process.
     public static var workingDirectory: Path {

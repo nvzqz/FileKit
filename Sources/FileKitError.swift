@@ -28,82 +28,82 @@
 import Foundation
 
 /// An error that can be thrown by FileKit.
-public enum FileKitError: ErrorType {
+public enum FileKitError: Error {
 
     // MARK: FileKitError
 
     /// The reason for why the error occured.
     public var message: String {
         switch self {
-        case let FileDoesNotExist(path):
+        case let .fileDoesNotExist(path):
             return "File does not exist at \"\(path)\""
-        case let ChangeDirectoryFail(fromPath, toPath):
+        case let .changeDirectoryFail(fromPath, toPath):
             return "Could not change the directory from \"\(fromPath)\" to \"\(toPath)\""
-        case let CreateSymlinkFail(fromPath, toPath):
+        case let .createSymlinkFail(fromPath, toPath):
             return "Could not create symlink from \"\(fromPath)\" to \"\(toPath)\""
-        case let CreateHardlinkFail(fromPath, toPath):
+        case let .createHardlinkFail(fromPath, toPath):
             return "Could not create a hard link from \"\(fromPath)\" to \"\(toPath)\""
-        case let CreateFileFail(path):
+        case let .createFileFail(path):
             return "Could not create file at \"\(path)\""
-        case let CreateDirectoryFail(path):
+        case let .createDirectoryFail(path):
             return "Could not create a directory at \"\(path)\""
-        case let DeleteFileFail(path):
+        case let .deleteFileFail(path):
             return "Could not delete file at \"\(path)\""
-        case let ReadFromFileFail(path):
+        case let .readFromFileFail(path):
             return "Could not read from file at \"\(path)\""
-        case let WriteToFileFail(path):
+        case let .writeToFileFail(path):
             return "Could not write to file at \"\(path)\""
-        case let MoveFileFail(fromPath, toPath):
+        case let .moveFileFail(fromPath, toPath):
             return "Could not move file at \"\(fromPath)\" to \"\(toPath)\""
-        case let CopyFileFail(fromPath, toPath):
+        case let .copyFileFail(fromPath, toPath):
             return "Could not copy file from \"\(fromPath)\" to \"\(toPath)\""
-        case let AttributesChangeFail(path):
+        case let .attributesChangeFail(path):
             return "Could not change file attrubutes at \"\(path)\""
         }
     }
 
     /// A file does not exist.
-    case FileDoesNotExist(path: Path)
+    case fileDoesNotExist(path: Path)
 
     /// Could not change the current directory.
-    case ChangeDirectoryFail(from: Path, to: Path)
+    case changeDirectoryFail(from: Path, to: Path)
 
     /// A symbolic link could not be created.
-    case CreateSymlinkFail(from: Path, to: Path)
+    case createSymlinkFail(from: Path, to: Path)
 
     /// A hard link could not be created.
-    case CreateHardlinkFail(from: Path, to: Path)
+    case createHardlinkFail(from: Path, to: Path)
 
     /// A file could not be created.
-    case CreateFileFail(path: Path)
+    case createFileFail(path: Path)
 
     /// A directory could not be created.
-    case CreateDirectoryFail(path: Path)
+    case createDirectoryFail(path: Path)
 
     /// A file could not be deleted.
-    case DeleteFileFail(path: Path)
+    case deleteFileFail(path: Path)
 
     /// A file could not be read from.
-    case ReadFromFileFail(path: Path)
+    case readFromFileFail(path: Path)
 
     /// A file could not be written to.
-    case WriteToFileFail(path: Path)
+    case writeToFileFail(path: Path)
 
     /// A file could not be moved.
-    case MoveFileFail(from: Path, to: Path)
+    case moveFileFail(from: Path, to: Path)
 
     /// A file could not be copied.
-    case CopyFileFail(from: Path, to: Path)
+    case copyFileFail(from: Path, to: Path)
 
     /// One or many attributes could not be changed.
-    case AttributesChangeFail(path: Path)
+    case attributesChangeFail(path: Path)
 }
 
 extension FileKitError: CustomStringConvertible {
     // MARK: - CustomStringConvertible
     /// A textual representation of `self`.
     public var description: String {
-        return String(self.dynamicType) + "(" + message + ")"
+        return String(type(of: self)) + "(" + message + ")"
     }
 
 }

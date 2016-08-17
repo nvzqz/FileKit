@@ -27,7 +27,7 @@
 
 import Foundation
 
-extension NSBundle {
+extension Bundle {
 
     /// Returns an NSBundle for the given directory path.
     public convenience init?(path: Path) {
