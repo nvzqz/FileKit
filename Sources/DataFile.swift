@@ -40,7 +40,7 @@ extension File where Data: NSData {
     ///
     /// - Throws: `FileKitError.ReadFromFileFail`
     /// - Returns: The data read from file.
-    public func read(_ options: Foundation.Data.ReadingOptions) throws -> Data {
+    public func read(_ options: NSData.ReadingOptions) throws -> Data {
         return try Data.readFromPath(path, options: options)
     }
 
@@ -52,7 +52,7 @@ extension File where Data: NSData {
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
-    public func write(_ data: Data, options: Foundation.Data.WritingOptions) throws {
+    public func write(_ data: Data, options: NSData.WritingOptions) throws {
         do {
             try data.write(toFile: self.path._safeRawValue, options: options)
         } catch {

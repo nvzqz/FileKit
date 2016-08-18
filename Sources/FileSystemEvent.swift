@@ -63,7 +63,7 @@ extension Path {
     /// - Parameter queue: The queue to be run within.
     /// - Parameter callback: The callback to handle events.
     /// - Returns: The `FileSystemWatcher` object.
-    public func watch(latency: NSTimeInterval = 0, queue: dispatch_queue_t = dispatch_get_main_queue(), callback: (FileSystemEvent) -> Void) -> FileSystemWatcher {
+    public func watch(_ latency: TimeInterval = 0, queue: DispatchQueue = DispatchQueue.main, callback: @escaping (FileSystemEvent) -> Void) -> FileSystemWatcher {
         let watcher = FileSystemWatcher(paths: [self], latency: latency, queue: queue, callback: callback)
         watcher.watch()
         return watcher
@@ -71,7 +71,7 @@ extension Path {
 }
 
 
-extension SequenceType where Self.Generator.Element == Path {
+extension Sequence where Self.Iterator.Element == Path {
 
     // MARK: - Watching
 
@@ -82,7 +82,7 @@ extension SequenceType where Self.Generator.Element == Path {
     /// - Parameter queue: The queue to be run within.
     /// - Parameter callback: The callback to handle events.
     /// - Returns: The `FileSystemWatcher` object.
-    public func watch(latency: NSTimeInterval = 0, queue: dispatch_queue_t = dispatch_get_main_queue(), callback: (FileSystemEvent) -> Void) -> FileSystemWatcher {
+    public func watch(_ latency: TimeInterval = 0, queue: DispatchQueue = DispatchQueue.main, callback: @escaping (FileSystemEvent) -> Void) -> FileSystemWatcher {
         let watcher = FileSystemWatcher(paths: Array(self), latency: latency, queue: queue, callback: callback)
         watcher.watch()
         return watcher
@@ -93,7 +93,7 @@ extension SequenceType where Self.Generator.Element == Path {
 
 
 /// A set of fileystem event flags.
-public struct FileSystemEventFlags: OptionSetType, CustomStringConvertible, CustomDebugStringConvertible {
+public struct FileSystemEventFlags: OptionSet, CustomStringConvertible, CustomDebugStringConvertible {
 
     // MARK: - Options
 
@@ -238,25 +238,25 @@ public struct FileSystemEventFlags: OptionSetType, CustomStringConvertible, Cust
     /// A textual representation of `self`.
     public var description: String {
         var result = ""
-        for (index, element) in FileSystemEventFlags.allFlags.enumerate() {
+        for (index, element) in FileSystemEventFlags.allFlags.enumerated() {
             if self.contains(element) {
                 let name = FileSystemEventFlags.allFlagNames[index]
                 result += result.isEmpty ? "\(name)": ", \(name)"
             }
         }
-        return String(self.dynamicType) + "[\(result)]"
+        return String(describing: type(of: self)) + "[\(result)]"
     }
 
     /// A textual representation of `self`, suitable for debugging.
     public var debugDescription: String {
         var result = ""
-        for (index, element) in FileSystemEventFlags.allFlags.enumerate() {
+        for (index, element) in FileSystemEventFlags.allFlags.enumerated() {
             if self.contains(element) {
                 let name = FileSystemEventFlags.allFlagNames[index] + "(\(element.rawValue))"
                 result += result.isEmpty ? "\(name)": ", \(name)"
             }
         }
-        return String(self.dynamicType) + "[\(result)]"
+        return String(describing: type(of: self)) + "[\(result)]"
     }
 
     // MARK: - Initialization
@@ -270,7 +270,7 @@ public struct FileSystemEventFlags: OptionSetType, CustomStringConvertible, Cust
 
 
 /// Flags for creating an event stream.
-public struct FileSystemEventStreamCreateFlags: OptionSetType, CustomStringConvertible, CustomDebugStringConvertible {
+public struct FileSystemEventStreamCreateFlags: OptionSet, CustomStringConvertible, CustomDebugStringConvertible {
 
     // MARK: - Options
 
@@ -313,25 +313,25 @@ public struct FileSystemEventStreamCreateFlags: OptionSetType, CustomStringConve
     /// A textual representation of `self`.
     public var description: String {
         var result = ""
-        for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerate() {
+        for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerated() {
             if self.contains(element) {
                 let name = FileSystemEventStreamCreateFlags.allFlagNames[index]
                 result += result.isEmpty ? "\(name)": ", \(name)"
             }
         }
-        return String(self.dynamicType) + "[\(result)]"
+        return String(describing: type(of: self)) + "[\(result)]"
     }
 
     /// A textual representation of `self`, suitable for debugging.
     public var debugDescription: String {
         var result = ""
-        for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerate() {
+        for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerated() {
             if self.contains(element) {
                 let name = FileSystemEventStreamCreateFlags.allFlagNames[index] + "(\(element.rawValue))"
                 result += result.isEmpty ? "\(name)": ", \(name)"
             }
         }
-        return String(self.dynamicType) + "[\(result)]"
+        return String(describing: type(of: self)) + "[\(result)]"
     }
 
     // MARK: - Initialization

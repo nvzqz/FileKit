@@ -33,7 +33,8 @@ import Foundation
 ///
 /// An Path instance lets you manage files in a much easier way.
 ///
-public struct Path: ExpressibleByStringLiteral, RawRepresentable, Hashable, Indexable {
+
+public struct Path {
 
     // MARK: - Static Methods and Properties
 
@@ -729,9 +730,9 @@ extension Path {
 
 }
 
-extension Path {
+extension Path: ExpressibleByStringLiteral {
 
-    // MARK: - StringLiteralConvertible
+    // MARK: - ExpressibleByStringLiteral
 
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
 
@@ -754,7 +755,7 @@ extension Path {
 
 }
 
-extension Path {
+extension Path: RawRepresentable {
 
     // MARK: - RawRepresentable
 
@@ -767,7 +768,7 @@ extension Path {
 
 }
 
-extension Path {
+extension Path: Hashable {
 
     // MARK: - Hashable
 
@@ -778,7 +779,7 @@ extension Path {
 
 }
 
-extension Path {
+extension Path { // : Indexable {
 
     // MARK: - Indexable
 
@@ -823,10 +824,6 @@ extension Path {
     
     public func index(after i: Int) -> Int {
         return components.index(after: i)
-    }
-    
-    public func formIndex(after i: inout Int) {
-        return components.formIndex(after: &i)
     }
 
 }
@@ -1105,7 +1102,6 @@ extension Path: CustomStringConvertible {
 
 }
 
-
 extension Path: CustomDebugStringConvertible {
 
     // MARK: - CustomDebugStringConvertible
@@ -1120,8 +1116,6 @@ extension Path: CustomDebugStringConvertible {
 extension Path: Sequence {
     
     // MARK: - Sequence
-    
-    public typealias Subsequence = Path
     
     /// - Returns: An *iterator* over the contents of the path.
     public func makeIterator() -> DirectoryEnumerator {
@@ -1220,12 +1214,12 @@ extension Path {
 
     /// Returns the path to the user scripts folder for the calling application
     public static var UserApplicationScripts: Path {
-        return _pathInUserDomain(.ApplicationScriptsDirectory)
+        return _pathInUserDomain(.applicationScriptsDirectory)
     }
 
     /// Returns the path to the user's trash directory
     public static var UserTrash: Path {
-        return _pathInUserDomain(.TrashDirectory)
+        return _pathInUserDomain(.trashDirectory)
     }
 
     #endif

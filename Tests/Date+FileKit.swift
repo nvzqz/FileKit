@@ -32,17 +32,17 @@ import Foundation
 /// - Parameter lhs: The left hand side of the comparison.
 /// - Parameter rhs: The right hand side of the comparison.
 /// - Returns: `true` if the two objects are equal, otherwise `false`.
-public func == (lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs === rhs || lhs.compare(rhs) == .OrderedSame
-}
+//public func == (lhs: Date, rhs: Date) -> Bool {
+//    return lhs === rhs || lhs.compare(rhs) == .orderedSame
+//}
 
 /// Compares two `NSDate` objects.
 ///
 /// - Parameter lhs: The left hand side of the comparison.
 /// - Parameter rhs: The right hand side of the comparison.
 /// - Returns: `true` if the left hand side is smaller than the right hand side, otherwise `false`.
-public func < (lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs.compare(rhs) == .OrderedAscending
-}
-
-extension NSDate: Comparable { }
+//public func < (lhs: Date, rhs: Date) -> Bool {
+//    return lhs.compare(rhs) == .orderedAscending
+//}
+//
+//extension Date: Comparable { }

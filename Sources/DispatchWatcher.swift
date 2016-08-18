@@ -319,12 +319,18 @@ extension Path {
     /// - Parameter queue: The queue to be run within.
     /// - Parameter delegate: The delegate to call when events happen.
     /// - Parameter callback: The callback to be called on changes.
-    public func watch2(_ events: DispatchVnodeEvents = .All,
-                       queue: DispatchQueue = DispatchQueue.global(qos: .default),
+    public func watch2(_ events: DispatchFileSystemEvents = .All,
+                       queue: DispatchQueue? = nil,
                        delegate: DispatchVnodeWatcherDelegate? = nil,
                        callback: ((DispatchVnodeWatcher) -> Void)? = nil
         ) -> DispatchVnodeWatcher {
-        let watcher = DispatchVnodeWatcher(path: self, events: events, queue: queue, callback: callback)
+        let dispathQueue: DispatchQueue
+        if #available(OSX 10.10, *) {
+            dispathQueue = queue ?? DispatchQueue.global(qos: .default)
+        } else {
+            dispathQueue = queue ?? DispatchQueue.global(priority: .default)
+        }
+        let watcher = DispatchVnodeWatcher(path: self, events: events, queue: dispathQueue, callback: callback)
         watcher.delegate = delegate
         watcher.startWatching()
         return watcher
