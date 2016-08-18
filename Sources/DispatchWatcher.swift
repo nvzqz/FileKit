@@ -16,33 +16,33 @@ public protocol DispatchVnodeWatcherDelegate: class {
     // MARK: - Protocol
 
     /// Call when the file-system object was deleted from the namespace.
-    func fsWatcherDidObserveDelete(_ watch: DispatchVnodeWatcher)
+    func fsWatcherDidObserveDelete(_ watch: DispatchFileSystemWatcher)
 
     /// Call when the file-system object data changed.
-    func fsWatcherDidObserveWrite(_ watch: DispatchVnodeWatcher)
+    func fsWatcherDidObserveWrite(_ watch: DispatchFileSystemWatcher)
 
     /// Call when the file-system object changed in size.
-    func fsWatcherDidObserveExtend(_ watch: DispatchVnodeWatcher)
+    func fsWatcherDidObserveExtend(_ watch: DispatchFileSystemWatcher)
 
     /// Call when the file-system object metadata changed.
-    func fsWatcherDidObserveAttrib(_ watch: DispatchVnodeWatcher)
+    func fsWatcherDidObserveAttrib(_ watch: DispatchFileSystemWatcher)
 
     /// Call when the file-system object link count changed.
-    func fsWatcherDidObserveLink(_ watch: DispatchVnodeWatcher)
+    func fsWatcherDidObserveLink(_ watch: DispatchFileSystemWatcher)
 
     /// Call when the file-system object was renamed in the namespace.
-    func fsWatcherDidObserveRename(_ watch: DispatchVnodeWatcher)
+    func fsWatcherDidObserveRename(_ watch: DispatchFileSystemWatcher)
 
     /// Call when the file-system object was revoked.
-    func fsWatcherDidObserveRevoke(_ watch: DispatchVnodeWatcher)
+    func fsWatcherDidObserveRevoke(_ watch: DispatchFileSystemWatcher)
 
     /// Call when the file-system object was created.
-    func fsWatcherDidObserveCreate(_ watch: DispatchVnodeWatcher)
+    func fsWatcherDidObserveCreate(_ watch: DispatchFileSystemWatcher)
 
     /// Call when the directory changed (additions, deletions, and renamings).
     ///
     /// Calls `fsWatcherDidObserveWrite` by default.
-    func fsWatcherDidObserveDirectoryChange(_ watch: DispatchVnodeWatcher)
+    func fsWatcherDidObserveDirectoryChange(_ watch: DispatchFileSystemWatcher)
 }
 
 // Optional func and default func for `GCDFSWatcherDelegate`
@@ -52,55 +52,55 @@ public extension DispatchVnodeWatcherDelegate {
     // MARK: - Extension
 
     /// Call when the file-system object was deleted from the namespace.
-    public func fsWatcherDidObserveDelete(_ watch: DispatchVnodeWatcher) {
+    public func fsWatcherDidObserveDelete(_ watch: DispatchFileSystemWatcher) {
 
     }
 
     /// Call when the file-system object data changed.
-    public func fsWatcherDidObserveWrite(_ watch: DispatchVnodeWatcher) {
+    public func fsWatcherDidObserveWrite(_ watch: DispatchFileSystemWatcher) {
 
     }
 
     /// Call when the file-system object changed in size.
-    public func fsWatcherDidObserveExtend(_ watch: DispatchVnodeWatcher) {
+    public func fsWatcherDidObserveExtend(_ watch: DispatchFileSystemWatcher) {
 
     }
 
     /// Call when the file-system object metadata changed.
-    public func fsWatcherDidObserveAttrib(_ watch: DispatchVnodeWatcher) {
+    public func fsWatcherDidObserveAttrib(_ watch: DispatchFileSystemWatcher) {
 
     }
 
     /// Call when the file-system object link count changed.
-    public func fsWatcherDidObserveLink(_ watch: DispatchVnodeWatcher) {
+    public func fsWatcherDidObserveLink(_ watch: DispatchFileSystemWatcher) {
 
     }
 
     /// Call when the file-system object was renamed in the namespace.
-    public func fsWatcherDidObserveRename(_ watch: DispatchVnodeWatcher) {
+    public func fsWatcherDidObserveRename(_ watch: DispatchFileSystemWatcher) {
 
     }
 
     /// Call when the file-system object was revoked.
-    public func fsWatcherDidObserveRevoke(_ watch: DispatchVnodeWatcher) {
+    public func fsWatcherDidObserveRevoke(_ watch: DispatchFileSystemWatcher) {
 
     }
 
     /// Call when the file-system object was created.
-    public func fsWatcherDidObserveCreate(_ watch: DispatchVnodeWatcher) {
+    public func fsWatcherDidObserveCreate(_ watch: DispatchFileSystemWatcher) {
 
     }
 
     /// Call when the directory changed (additions, deletions, and renamings).
     ///
     /// Calls `fsWatcherDidObserveWrite` by default.
-    public func fsWatcherDidObserveDirectoryChange(_ watch: DispatchVnodeWatcher) {
+    public func fsWatcherDidObserveDirectoryChange(_ watch: DispatchFileSystemWatcher) {
         fsWatcherDidObserveWrite(watch)
     }
 }
 
 /// Watcher for Vnode events
-open class DispatchVnodeWatcher {
+open class DispatchFileSystemWatcher {
 
     // MARK: - Properties
 
@@ -114,10 +114,10 @@ open class DispatchVnodeWatcher {
     weak var delegate: DispatchVnodeWatcherDelegate?
 
     /// The watcher for watching creation event
-    weak var createWatcher: DispatchVnodeWatcher?
+    weak var createWatcher: DispatchFileSystemWatcher?
 
     /// The callback for vnode events.
-    fileprivate let callback: ((DispatchVnodeWatcher) -> Void)?
+    fileprivate let callback: ((DispatchFileSystemWatcher) -> Void)?
 
     /// The queue for the watcher.
     fileprivate let queue: DispatchQueue?
@@ -152,7 +152,7 @@ open class DispatchVnodeWatcher {
     init(path: Path,
          events: DispatchFileSystemEvents,
          queue: DispatchQueue,
-         callback: ((DispatchVnodeWatcher) -> Void)?
+         callback: ((DispatchFileSystemWatcher) -> Void)?
         ) {
         self.path = path.absolute
         self.events = events
@@ -322,15 +322,15 @@ extension Path {
     public func watch2(_ events: DispatchFileSystemEvents = .All,
                        queue: DispatchQueue? = nil,
                        delegate: DispatchVnodeWatcherDelegate? = nil,
-                       callback: ((DispatchVnodeWatcher) -> Void)? = nil
-        ) -> DispatchVnodeWatcher {
+                       callback: ((DispatchFileSystemWatcher) -> Void)? = nil
+        ) -> DispatchFileSystemWatcher {
         let dispathQueue: DispatchQueue
         if #available(OSX 10.10, *) {
             dispathQueue = queue ?? DispatchQueue.global(qos: .default)
         } else {
             dispathQueue = queue ?? DispatchQueue.global(priority: .default)
         }
-        let watcher = DispatchVnodeWatcher(path: self, events: events, queue: dispathQueue, callback: callback)
+        let watcher = DispatchFileSystemWatcher(path: self, events: events, queue: dispathQueue, callback: callback)
         watcher.delegate = delegate
         watcher.startWatching()
         return watcher
@@ -348,10 +348,10 @@ extension Path {
     /// - Parameter callback: The callback to be called on changes.
     public func watch(_ events: DispatchFileSystemEvents = .All,
                       queue: DispatchQueue = DispatchQueue.global(qos: .default),
-                      delegate: DispatchVnodeWatcherDelegate? = nil,
-                      callback: ((DispatchVnodeWatcher) -> Void)? = nil
-        ) -> DispatchVnodeWatcher {
-        let watcher = DispatchVnodeWatcher(path: self, events: events, queue: queue, callback: callback)
+                      delegate: DispatchFileSystemWatcherDelegate? = nil,
+                      callback: ((DispatchFileSystemWatcher) -> Void)? = nil
+        ) -> DispatchFileSystemWatcher {
+        let watcher = DispatchFileSystemWatcher(path: self, events: events, queue: queue, callback: callback)
         watcher.delegate = delegate
         watcher.startWatching()
         return watcher

@@ -641,13 +641,14 @@ class FileKitTests: XCTestCase {
 
     func testWriteToDictionaryFile() {
         do {
-            let dict = NSMutableDictionary()
-            dict["FileKit"] = true
-            dict["Hello"] = "World"
+            let dict: [NSString: Any] = [
+                "FileKit": true,
+                "Hello": "World"
+            ]
 
-            try dictionaryFile.write(dict)
+            try dictionaryFile.write(dict as NSDictionary)
             let contents = try dictionaryFile.read()
-            XCTAssertEqual(contents, dict)
+            XCTAssertEqual(contents, dict as NSDictionary)
 
         } catch {
             XCTFail(String(describing: error))
