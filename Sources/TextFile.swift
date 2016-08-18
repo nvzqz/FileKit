@@ -175,7 +175,7 @@ open class TextFileStreamReader {
         var range = buffer.range(of: delimData, options: [], in: NSRange(location: 0, length: buffer.length))
         while range.location == NSNotFound {
             let tmpData = fileHandle.readData(ofLength: chunkSize)
-            if tmpData.count == 0 {
+            if tmpData.isEmpty {
                 // EOF or read error.
                 atEOF = true
                 if buffer.length > 0 {
