@@ -29,16 +29,16 @@ import Foundation
 
 /// An enumerator for the contents of a directory that returns the paths of all
 /// files and directories contained within that directory.
-public struct DirectoryEnumerator: GeneratorType {
+public struct DirectoryEnumerator: IteratorProtocol {
 
-    private let _path: Path, _enumerator: NSDirectoryEnumerator?
+    fileprivate let _path: Path, _enumerator: FileManager.DirectoryEnumerator?
 
     /// Creates a directory enumerator for the given path.
     ///
     /// - Parameter path: The path a directory enumerator to be created for.
     public init(path: Path) {
         _path = path
-        _enumerator = NSFileManager().enumeratorAtPath(path._safeRawValue)
+        _enumerator = FileManager().enumerator(atPath: path._safeRawValue)
     }
 
     /// Returns the next path in the enumeration.

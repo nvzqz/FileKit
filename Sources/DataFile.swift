@@ -36,11 +36,11 @@ extension File where Data: NSData {
 
     /// Reads the file and returns its data.
     /// - Parameter options: A mask that specifies write options
-    ///                      described in `NSDataReadingOptions`.
+    ///                      described in `NSData.ReadingOptions`.
     ///
     /// - Throws: `FileKitError.ReadFromFileFail`
     /// - Returns: The data read from file.
-    public func read(options: NSDataReadingOptions) throws -> Data {
+    public func read(_ options: NSData.ReadingOptions) throws -> Data {
         return try Data.readFromPath(path, options: options)
     }
 
@@ -48,15 +48,15 @@ extension File where Data: NSData {
     ///
     /// - Parameter data: The data to be written to the file.
     /// - Parameter options: A mask that specifies write options
-    ///                      described in `NSDataWritingOptions`.
+    ///                      described in `NSData.WritingOptions`.
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
-    public func write(data: Data, options: NSDataWritingOptions) throws {
+    public func write(_ data: Data, options: NSData.WritingOptions) throws {
         do {
-            try data.writeToFile(self.path._safeRawValue, options: options)
+            try data.write(toFile: self.path._safeRawValue, options: options)
         } catch {
-            throw FileKitError.WriteToFileFail(path: path)
+            throw FileKitError.writeToFileFail(path: self.path)
         }
     }
 

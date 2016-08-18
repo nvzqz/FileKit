@@ -35,11 +35,11 @@ class FileKitTests: XCTestCase {
 
     // MARK: - Path
 
-    class Delegate: NSObject, NSFileManagerDelegate {
+    class Delegate: NSObject, FileManagerDelegate {
         var expectedSourcePath: Path = ""
         var expectedDestinationPath: Path = ""
         func fileManager(
-            fileManager: NSFileManager,
+            _ fileManager: FileManager,
             shouldCopyItemAtPath srcPath: String,
             toPath dstPath: String
         ) -> Bool {
@@ -74,7 +74,7 @@ class FileKitTests: XCTestCase {
             try secondSourcePath +>! destinationPath
 
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
 
     }
@@ -131,7 +131,7 @@ class FileKitTests: XCTestCase {
         print("\(i) files under \(parent)")
 
         i = 0
-        for (_, _) in Path.UserTemporary.enumerate() {
+        for (_, _) in Path.UserTemporary.enumerated() {
             i += 1
         }
     }
@@ -199,7 +199,7 @@ class FileKitTests: XCTestCase {
 
         let directories = children.filter { $0.isDirectory }
 
-        guard let directory  = directories.first, childOfChild = directory.children().first else {
+        guard let directory  = directories.first, let childOfChild = directory.children().first else {
             XCTFail("No child of child into \(p)")
             return
         }
@@ -222,7 +222,7 @@ class FileKitTests: XCTestCase {
             try "Hello there, sir" |> TextFile(path: a)
             try b.createDirectory()
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
 
         for p in [a, b] {
@@ -303,7 +303,7 @@ class FileKitTests: XCTestCase {
             XCTAssertEqual(symLinkContents, "FileKit test")
 
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
@@ -347,7 +347,7 @@ class FileKitTests: XCTestCase {
             XCTAssertNotNil("\(volume)")
         }
 
-        volumes = Path.volumes(.SkipHiddenVolumes)
+        volumes = Path.volumes(.skipHiddenVolumes)
         XCTAssertFalse(volumes.isEmpty, "No visible volume")
 
         for volume in volumes {
@@ -362,7 +362,7 @@ class FileKitTests: XCTestCase {
             XCTAssertEqual(pathFromURL, path)
 
             let subPath = pathFromURL + "test"
-            XCTAssertEqual(Path(url: url.URLByAppendingPathComponent("test")), subPath)
+            XCTAssertEqual(Path(url: url.appendingPathComponent("test")), subPath)
         } else {
             XCTFail("Not able to create Path from URL")
         }
@@ -412,7 +412,7 @@ class FileKitTests: XCTestCase {
             XCTAssertTrue(modificationDate < newModificationDate)
 
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
@@ -422,14 +422,14 @@ class FileKitTests: XCTestCase {
         do {
             if dir.exists { try dir.deleteFile() }
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
 
         defer {
             do {
                 if dir.exists { try dir.deleteFile() }
             } catch {
-                XCTFail(String(error))
+                XCTFail(String(describing: error))
             }
         }
 
@@ -438,23 +438,23 @@ class FileKitTests: XCTestCase {
             try dir.createDirectory()
             XCTAssertTrue(dir.exists)
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
         do {
             XCTAssertTrue(dir.exists)
             try dir.createDirectory(withIntermediateDirectories: false)
             XCTFail("must throw exception")
-        } catch FileKitError.CreateDirectoryFail {
+        } catch FileKitError.createDirectoryFail {
             print("Create directory fail ok")
         } catch {
-            XCTFail("Unknown error: " + String(error))
+            XCTFail("Unknown error: " + String(describing: error))
         }
         do {
             XCTAssertTrue(dir.exists)
             try dir.createDirectory(withIntermediateDirectories: true)
             XCTAssertTrue(dir.exists)
         } catch {
-            XCTFail("Unexpected error: " + String(error))
+            XCTFail("Unexpected error: " + String(describing: error))
         }
     }
 
@@ -507,7 +507,7 @@ class FileKitTests: XCTestCase {
             try textFile.create()
             XCTAssertTrue(textFile.exists)
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
@@ -516,7 +516,7 @@ class FileKitTests: XCTestCase {
             try textFile.write("This is some test.")
             try textFile.write("This is another test.", atomically: false)
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
@@ -533,7 +533,7 @@ class FileKitTests: XCTestCase {
             XCTAssertTrue(contents.hasSuffix(text + "\n" + text))
 
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
@@ -545,7 +545,7 @@ class FileKitTests: XCTestCase {
                 "Sed non risus"
             ]
             let separator = "\n"
-            try expectedLines.joinWithSeparator(separator) |> textFile
+            try expectedLines.joined(separator: separator) |> textFile
 
             if let reader = textFile.streamReader() {
                 var lines = [String]()
@@ -559,7 +559,7 @@ class FileKitTests: XCTestCase {
             }
 
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
@@ -571,7 +571,7 @@ class FileKitTests: XCTestCase {
                 "Sed non risus"
             ]
             let separator = "\n"
-            try expectedLines.joinWithSeparator(separator) |> textFile
+            try expectedLines.joined(separator: separator) |> textFile
 
             // all
             var result = textFile | "e"
@@ -598,7 +598,7 @@ class FileKitTests: XCTestCase {
             XCTAssertTrue(result.isEmpty)
 
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
@@ -613,7 +613,7 @@ class FileKitTests: XCTestCase {
             XCTAssert(textFile1 > textFile2)
 
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
@@ -631,7 +631,7 @@ class FileKitTests: XCTestCase {
             try file.createFile()
             XCTAssertTrue(file.filePermissions.contains([.Read, .Write]))
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
@@ -642,15 +642,15 @@ class FileKitTests: XCTestCase {
     func testWriteToDictionaryFile() {
         do {
             let dict = NSMutableDictionary()
-            dict["FileKit"] = true
-            dict["Hello"] = "World"
+            dict["FileKit" as NSString] = true
+            dict["Hello" as NSString] = "World"
 
             try dictionaryFile.write(dict)
             let contents = try dictionaryFile.read()
             XCTAssertEqual(contents, dict)
 
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
@@ -667,7 +667,7 @@ class FileKitTests: XCTestCase {
             XCTAssertEqual(contents, array)
 
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
@@ -677,12 +677,12 @@ class FileKitTests: XCTestCase {
 
     func testWriteToDataFile() {
         do {
-            let data = ("FileKit test" as NSString).dataUsingEncoding(NSUTF8StringEncoding)!
+            let data = ("FileKit test" as NSString).data(using: String.Encoding.utf8.rawValue)! as NSData
             try dataFile.write(data)
             let contents = try dataFile.read()
             XCTAssertEqual(contents, data)
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
@@ -697,7 +697,7 @@ class FileKitTests: XCTestCase {
             let contents = try String(contentsOfPath: stringFile.path)
             XCTAssertEqual(contents, message)
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
@@ -708,20 +708,20 @@ class FileKitTests: XCTestCase {
             let contents = try String(contentsOfPath: stringFile.path)
             XCTAssertEqual(contents, message)
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
     // MARK: - Image
 
     func testImageWriting() {
-        let url = NSURL(string: "https://raw.githubusercontent.com/nvzqz/FileKit/assets/logo.png")!
-        let img = Image(contentsOfURL: url) ?? Image()
+        let url = URL(string: "https://raw.githubusercontent.com/nvzqz/FileKit/assets/logo.png")!
+        let img = Image(contentsOf: url) ?? Image()
         do {
             let path: Path = .UserTemporary + "filekit_imagetest.png"
             try img.writeToPath(path)
         } catch {
-            XCTFail(String(error))
+            XCTFail(String(describing: error))
         }
     }
 
@@ -735,12 +735,12 @@ class FileKitTests: XCTestCase {
                 let message = "Testing file system event when writing..."
                 try message.writeToPath(pathToWatch, atomically: false)
             } catch {
-                XCTFail(String(error))
+                XCTFail(String(describing: error))
             }
         }
 
         // Do watch test
-        let expt = self.expectationWithDescription(expectation)
+        let expt = self.expectation(description: expectation)
         let watcher = pathToWatch.watch { event in
             print(event)
             // XXX here could check expected event type according to operation
@@ -750,6 +750,6 @@ class FileKitTests: XCTestCase {
             watcher.close()
         }
         operation()
-        self.waitForExpectationsWithTimeout(10, handler: nil)
+        self.waitForExpectations(timeout: 10, handler: nil)
     }
 }

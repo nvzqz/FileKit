@@ -114,7 +114,6 @@
 		52BF6BB21B99322000F07E13 /* FileKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FileKitError.swift */; };
 		82F4F2BD1CA95480002C8393 /* FileSystemWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F4F2BC1CA95480002C8393 /* FileSystemWatcher.swift */; };
 		82F4F2C01CA956F2002C8393 /* FileSystemEventStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F4F2BF1CA956F2002C8393 /* FileSystemEventStream.swift */; };
-		C404F01E1BC7CA7200EF9ED9 /* Date+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */; };
 		C4F7D01F1C08C0DA00EF359B /* FileSystemEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F7D01E1C08C0DA00EF359B /* FileSystemEvent.swift */; };
 /* End PBXBuildFile section */
 
@@ -168,7 +167,6 @@
 		82F4F2BB1CA94DEC002C8393 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		82F4F2BC1CA95480002C8393 /* FileSystemWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystemWatcher.swift; sourceTree = "<group>"; };
 		82F4F2BF1CA956F2002C8393 /* FileSystemEventStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystemEventStream.swift; sourceTree = "<group>"; };
-		C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+FileKit.swift"; sourceTree = "<group>"; };
 		C4F7D01E1C08C0DA00EF359B /* FileSystemEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystemEvent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -269,7 +267,6 @@
 			isa = PBXGroup;
 			children = (
 				5263A9061B96BA3D00635A93 /* FileKitTests.swift */,
-				C404F01D1BC7CA7200EF9ED9 /* Date+FileKit.swift */,
 				5263A9081B96BA3D00635A93 /* Info.plist */,
 			);
 			path = Tests;
@@ -455,12 +452,15 @@
 				TargetAttributes = {
 					5204B84A1B96B83800AA473F = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0800;
 					};
 					5204B8571B96B85E00AA473F = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0800;
 					};
 					5263A9031B96BA3D00635A93 = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0800;
 					};
 					527612411BAEA3EE00503D0A = {
 						CreatedOnToolsVersion = 7.0;
@@ -662,7 +662,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5263A9071B96BA3D00635A93 /* FileKitTests.swift in Sources */,
-				C404F01E1BC7CA7200EF9ED9 /* Date+FileKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -850,6 +849,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nikolaivazquez.$(PROJECT_NAME)";
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -869,6 +869,7 @@
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -887,6 +888,7 @@
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -907,6 +909,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -920,6 +923,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FileKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -932,6 +936,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FileKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

@@ -12,18 +12,18 @@ import Foundation
 public enum RelativePathType: String {
 
     /// path like "dir/path".
-    case Normal
+    case normal
 
     /// path like "." and "".
-    case Current
+    case current
 
     /// path like "../path".
-    case Ancestor
+    case ancestor
 
     /// path like "..".
-    case Parent
+    case parent
 
     /// path like "/path".
-    case Absolute
+    case absolute
 
 }

@@ -39,8 +39,8 @@ internal struct FileSystemEventStream: RawRepresentable {
     ///
     /// - Parameter runLoop: The run loop.
     /// - Parameter runLoopMode: The run loop mode.
-    func scheduleWithRunLoop(runLoop: CFRunLoopRef, runLoopMode: CFStringRef) {
-        FSEventStreamScheduleWithRunLoop(rawValue, runLoop, runLoopMode)
+    func scheduleWithRunLoop(_ runLoop: CFRunLoop, runLoopMode: CFRunLoopMode) {
+        FSEventStreamScheduleWithRunLoop(rawValue, runLoop, runLoopMode.rawValue)
     }
 
     /// Invalidates the stream.
@@ -62,14 +62,14 @@ internal struct FileSystemEventStream: RawRepresentable {
     ///
     /// - Parameter runLoop: The run loop.
     /// - Parameter runLoopMode: The run loop mode.
-    func unscheduleFromRunLoop(runLoop: CFRunLoopRef, runLoopMode: CFStringRef) {
+    func unscheduleFromRunLoop(_ runLoop: CFRunLoop, runLoopMode: CFString) {
         FSEventStreamUnscheduleFromRunLoop(rawValue, runLoop, runLoopMode)
     }
 
     /// Schedules the stream on the specified dispatch queue
     ///
     /// - Parameter queue: The queue to be run within.
-    func setDispatchQueue(queue: dispatch_queue_t) {
+    func setDispatchQueue(_ queue: DispatchQueue) {
         FSEventStreamSetDispatchQueue(rawValue, queue)
     }
 

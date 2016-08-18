@@ -32,15 +32,15 @@ import Foundation
 /// - Precondition: The data type must conform to DataType.
 ///
 /// All method do not follow links.
-public class File<Data: DataType>: Comparable {
+open class File<Data: DataType>: Comparable {
 
     // MARK: - Properties
 
     /// The file's filesystem path.
-    public var path: Path
+    open var path: Path
 
     /// The file's name.
-    public var name: String {
+    open var name: String {
         return path.fileName
     }
 
@@ -57,12 +57,12 @@ public class File<Data: DataType>: Comparable {
     /// True if the item exists and is a regular file.
     ///
     /// this method does not follow links.
-    public var exists: Bool {
+    open var exists: Bool {
         return path.isRegular
     }
 
     /// The size of `self` in bytes.
-    public var size: UInt64? {
+    open var size: UInt64? {
         return path.fileSize
     }
 
@@ -81,7 +81,7 @@ public class File<Data: DataType>: Comparable {
     ///
     /// - Throws: `FileKitError.ReadFromFileFail`
     /// - Returns: The data read from file.
-    public func read() throws -> Data {
+    open func read() throws -> Data {
         return try Data.readFromPath(path)
     }
 
@@ -93,7 +93,7 @@ public class File<Data: DataType>: Comparable {
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
-    public func write(data: Data) throws {
+    open func write(_ data: Data) throws {
         try self.write(data, atomically: true)
     }
 
@@ -107,7 +107,7 @@ public class File<Data: DataType>: Comparable {
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
-    public func write(data: Data, atomically useAuxiliaryFile: Bool) throws {
+    open func write(_ data: Data, atomically useAuxiliaryFile: Bool) throws {
         try data.writeToPath(path, atomically: useAuxiliaryFile)
     }
 
@@ -117,7 +117,7 @@ public class File<Data: DataType>: Comparable {
     ///
     /// - Throws: `FileKitError.CreateFileFail`
     ///
-    public func create() throws {
+    open func create() throws {
         try path.createFile()
     }
 
@@ -127,7 +127,7 @@ public class File<Data: DataType>: Comparable {
     ///
     /// - Throws: `FileKitError.DeleteFileFail`
     ///
-    public func delete() throws {
+    open func delete() throws {
         try path.deleteFile()
     }
 
@@ -140,7 +140,7 @@ public class File<Data: DataType>: Comparable {
     /// - Parameter path: The path to move the file to.
     /// - Throws: `FileKitError.MoveFileFail`
     ///
-    public func moveToPath(path: Path) throws {
+    open func moveToPath(_ path: Path) throws {
         try self.path.moveFileToPath(path)
         self.path = path
     }
@@ -154,7 +154,7 @@ public class File<Data: DataType>: Comparable {
     /// - Parameter path: The path to copy the file to.
     /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
     ///
-    public func copyToPath(path: Path) throws {
+    open func copyToPath(_ path: Path) throws {
         try self.path.copyFileToPath(path)
     }
 
@@ -172,7 +172,7 @@ public class File<Data: DataType>: Comparable {
     ///     `FileKitError.FileDoesNotExist`,
     ///     `FileKitError.CreateSymlinkFail`
     ///
-    public func symlinkToPath(path: Path) throws {
+    open func symlinkToPath(_ path: Path) throws {
         try self.path.symlinkFileToPath(path)
     }
 
@@ -190,49 +190,49 @@ public class File<Data: DataType>: Comparable {
     ///     `FileKitError.FileDoesNotExist`,
     ///     `FileKitError.CreateHardlinkFail`
     ///
-    public func hardlinkToPath(path: Path) throws {
+    open func hardlinkToPath(_ path: Path) throws {
         try self.path.hardlinkFileToPath(path)
     }
 
     // MARK: - FileType
 
     /// The FileType attribute for `self`.
-    public var type: FileType? {
+    open var type: FileType? {
         return path.fileType
     }
 
     // MARK: - FilePermissions
 
     /// The file permissions for `self`.
-    public var permissions: FilePermissions {
+    open var permissions: FilePermissions {
         return FilePermissions(forFile: self)
     }
 
-    // MARK: - NSFileHandle
+    // MARK: - FileHandle
 
     /// Returns a file handle for reading from `self`, or `nil` if `self`
     /// doesn't exist.
-    public var handleForReading: NSFileHandle? {
+    open var handleForReading: FileHandle? {
         return path.fileHandleForReading
     }
 
     /// Returns a file handle for writing to `self`, or `nil` if `self` doesn't
     /// exist.
-    public var handleForWriting: NSFileHandle? {
+    open var handleForWriting: FileHandle? {
         return path.fileHandleForWriting
     }
 
     /// Returns a file handle for reading from and writing to `self`, or `nil`
     /// if `self` doesn't exist.
-    public var handleForUpdating: NSFileHandle? {
+    open var handleForUpdating: FileHandle? {
         return path.fileHandleForUpdating
     }
 
-    // MARK: - NSStream
+    // MARK: - Stream
 
     /// Returns an input stream that reads data from `self`, or `nil` if `self`
     /// doesn't exist.
-    public func inputStream() -> NSInputStream? {
+    open func inputStream() -> InputStream? {
         return path.inputStream()
     }
 
@@ -243,7 +243,7 @@ public class File<Data: DataType>: Comparable {
     ///                           appended to any existing file contents,
     ///                           `false` otherwise. Default value is `false`.
     ///
-    public func outputStream(append shouldAppend: Bool = false) -> NSOutputStream? {
+    open func outputStream(append shouldAppend: Bool = false) -> OutputStream? {
         return path.outputStream(append: shouldAppend)
     }
 
@@ -255,7 +255,7 @@ extension File: CustomStringConvertible {
 
     /// A textual representation of `self`.
     public var description: String {
-        return String(self.dynamicType) + "('" + path.description + "')"
+        return String(describing: type(of: self)) + "('" + path.description + "')"
     }
 
 }

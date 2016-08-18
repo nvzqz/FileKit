@@ -28,7 +28,7 @@
 import Foundation
 
 /// A type that can be used to read from and write to File instances.
-public typealias DataType = protocol<Readable, Writable>
+public typealias DataType = Readable & Writable
 
 
 
@@ -39,7 +39,7 @@ public protocol Readable {
     ///
     /// - Parameter path: The path being read from.
     ///
-    static func readFromPath(path: Path) throws -> Self
+    static func readFromPath(_ path: Path) throws -> Self
 
 }
 
@@ -61,7 +61,7 @@ extension Readable {
 public protocol Writable {
 
     /// Writes `self` to a Path.
-    func writeToPath(path: Path) throws
+    func writeToPath(_ path: Path) throws
 
     /// Writes `self` to a Path.
     ///
@@ -71,7 +71,7 @@ public protocol Writable {
     ///                               file. If `false`, the data is written to
     ///                               the file directly.
     ///
-    func writeToPath(path: Path, atomically useAuxiliaryFile: Bool) throws
+    func writeToPath(_ path: Path, atomically useAuxiliaryFile: Bool) throws
 
 }
 
@@ -81,7 +81,7 @@ extension Writable {
     ///
     /// - Parameter path: The path being written to.
     ///
-    public func writeToPath(path: Path) throws { // swiftlint:disable:this valid_docs
+    public func writeToPath(_ path: Path) throws { // swiftlint:disable:this valid_docs
         try writeToPath(path, atomically: true)
     }
 
@@ -101,7 +101,7 @@ public protocol WritableToFile: Writable {
     /// - Returns: `true` if the writing completed successfully, or `false` if
     ///            the writing failed.
     ///
-    func writeToFile(path: String, atomically useAuxiliaryFile: Bool) -> Bool
+    func writeToFile(_ path: String, atomically useAuxiliaryFile: Bool) -> Bool
 
 }
 
@@ -119,9 +119,9 @@ extension WritableToFile {
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
-    public func writeToPath(path: Path, atomically useAuxiliaryFile: Bool) throws {
+    public func writeToPath(_ path: Path, atomically useAuxiliaryFile: Bool) throws {
         guard writeToFile(path._safeRawValue, atomically: useAuxiliaryFile) else {
-            throw FileKitError.WriteToFileFail(path: path)
+            throw FileKitError.writeToFileFail(path: path)
         }
     }
 
@@ -154,7 +154,7 @@ extension WritableConvertible {
     ///     `FileKitError.WriteToFileFail`,
     ///     `FileKitError.WritableConvertiblePropertyNil`
     ///
-    public func writeToPath(path: Path, atomically useAuxiliaryFile: Bool) throws {
+    public func writeToPath(_ path: Path, atomically useAuxiliaryFile: Bool) throws {
         try writable.writeToPath(path, atomically: useAuxiliaryFile)
     }
 

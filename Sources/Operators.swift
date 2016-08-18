@@ -29,21 +29,32 @@
 
 import Foundation
 
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+    switch (lhs, rhs) {
+    case let (l?, r?):
+        return l < r
+    case (nil, _?):
+        return true
+    default:
+        return false
+    }
+}
+
 // MARK: - File
 
 /// Returns `true` if both files' paths are the same.
-@warn_unused_result
+
 public func ==<Data: DataType>(lhs: File<Data>, rhs: File<Data>) -> Bool {
     return lhs.path == rhs.path
 }
 
 /// Returns `true` if `lhs` is smaller than `rhs` in size.
-@warn_unused_result
+
 public func < <Data: DataType>(lhs: File<Data>, rhs: File<Data>) -> Bool {
     return lhs.size < rhs.size
 }
 
-infix operator |> {}
+infix operator |>
 
 /// Writes data to a file.
 ///
@@ -58,12 +69,12 @@ public func |> <Data: DataType>(data: Data, file: File<Data>) throws {
 // MARK: - TextFile
 
 /// Returns `true` if both text files have the same path and encoding.
-@warn_unused_result
+
 public func == (lhs: TextFile, rhs: TextFile) -> Bool {
     return lhs.path == rhs.path && lhs.encoding == rhs.encoding
 }
 
-infix operator |>> {}
+infix operator |>>
 
 /// Appends a string to a text file.
 ///
@@ -81,30 +92,30 @@ public func |>> (data: String, file: TextFile) throws {
 }
 
 /// Return lines of file that match the motif.
-@warn_unused_result
+
 public func | (file: TextFile, motif: String) -> [String] {
     return file.grep(motif)
 }
 
-infix operator |- {}
+infix operator |-
 /// Return lines of file that does'nt match the motif.
-@warn_unused_result
+
 public func |- (file: TextFile, motif: String) -> [String] {
     return file.grep(motif, include: false)
 }
 
-infix operator |~ {}
+infix operator |~
 /// Return lines of file that match the regex motif.
-@warn_unused_result
+
 public func |~ (file: TextFile, motif: String) -> [String] {
-    return file.grep(motif, options: NSStringCompareOptions.RegularExpressionSearch)
+    return file.grep(motif, options: NSString.CompareOptions.regularExpression)
 }
 
 // MARK: - Path
 
 /// Returns `true` if the standardized form of one path equals that of another
 /// path.
-@warn_unused_result
+
 public func == (lhs: Path, rhs: Path) -> Bool {
     if lhs.isAbsolute || rhs.isAbsolute {
         return lhs.absolute.rawValue == rhs.absolute.rawValue
@@ -114,7 +125,7 @@ public func == (lhs: Path, rhs: Path) -> Bool {
 
 /// Returns `true` if the standardized form of one path not equals that of another
 /// path.
-@warn_unused_result
+
 public func != (lhs: Path, rhs: Path) -> Bool {
     return !(lhs == rhs)
 }
@@ -126,13 +137,13 @@ public func != (lhs: Path, rhs: Path) -> Bool {
 /// print(systemLib + "Fonts")  // "/System/Library/Fonts"
 /// ```
 ///
-@warn_unused_result
+
 public func + (lhs: Path, rhs: Path) -> Path {
     if lhs.rawValue.isEmpty || lhs.rawValue == "." { return rhs }
     if rhs.rawValue.isEmpty || rhs.rawValue == "." { return lhs }
     switch (lhs.rawValue.hasSuffix(Path.separator), rhs.rawValue.hasPrefix(Path.separator)) {
     case (true, true):
-        let rhsRawValue = rhs.rawValue.substringFromIndex(rhs.rawValue.startIndex.successor())
+        let rhsRawValue = rhs.rawValue.substring(from: rhs.rawValue.characters.index(after: rhs.rawValue.startIndex))
         return Path("\(lhs.rawValue)\(rhsRawValue)")
     case (false, false):
         return Path("\(lhs.rawValue)\(Path.separator)\(rhs.rawValue)")
@@ -142,74 +153,76 @@ public func + (lhs: Path, rhs: Path) -> Path {
 }
 
 /// Converts a `String` to a `Path` and returns the concatenated result.
-@warn_unused_result
+
 public func + (lhs: String, rhs: Path) -> Path {
     return Path(lhs) + rhs
 }
 
 /// Converts a `String` to a `Path` and returns the concatenated result.
-@warn_unused_result
+
 public func + (lhs: Path, rhs: String) -> Path {
     return lhs + Path(rhs)
 }
 
 /// Appends the right path to the left path.
-public func += (inout lhs: Path, rhs: Path) {
+public func += (lhs: inout Path, rhs: Path) {
     lhs = lhs + rhs
 }
 
 /// Appends the path value of the String to the left path.
-public func += (inout lhs: Path, rhs: String) {
+public func += (lhs: inout Path, rhs: String) {
     lhs = lhs + rhs
 }
 
 
 /// Concatenates two `Path` instances and returns the result.
-@warn_unused_result
+
 public func / (lhs: Path, rhs: Path) -> Path {
     return lhs + rhs
 }
 
 /// Converts a `String` to a `Path` and returns the concatenated result.
-@warn_unused_result
+
 public func / (lhs: Path, rhs: String) -> Path {
     return lhs + rhs
 }
 
 /// Converts a `String` to a `Path` and returns the concatenated result.
-@warn_unused_result
+
 public func / (lhs: String, rhs: Path) -> Path {
     return lhs + rhs
 }
 
 /// Appends the right path to the left path.
-public func /= (inout lhs: Path, rhs: Path) {
+public func /= (lhs: inout Path, rhs: Path) {
     lhs += rhs
 }
 
 /// Appends the path value of the String to the left path.
-public func /= (inout lhs: Path, rhs: String) {
+public func /= (lhs: inout Path, rhs: String) {
     lhs += rhs
 }
 
-infix operator <^> {
-associativity left
+precedencegroup FileCommonAncestorPrecedence {
+    associativity: left
 }
 
+infix operator <^> : FileCommonAncestorPrecedence
+
 /// Returns the common ancestor between the two paths.
-@warn_unused_result
+
 public func <^> (lhs: Path, rhs: Path) -> Path {
     return lhs.commonAncestor(rhs)
 }
 
-infix operator </> {}
+infix operator </>
 
 /// Runs `closure` with the path as its current working directory.
-public func </> (path: Path, @noescape closure: () throws -> ()) rethrows {
+public func </> (path: Path, closure: () throws -> ()) rethrows {
     try path.changeDirectory(closure)
 }
 
-infix operator ->> {}
+infix operator ->>
 
 /// Moves the file at the left path to a path.
 ///
@@ -233,7 +246,7 @@ public func ->> <Data: DataType>(lhs: File<Data>, rhs: Path) throws {
     try lhs.moveToPath(rhs)
 }
 
-infix operator ->! {}
+infix operator ->!
 
 /// Forcibly moves the file at the left path to the right path.
 ///
@@ -268,7 +281,7 @@ public func ->! <Data: DataType>(lhs: File<Data>, rhs: Path) throws {
 }
 
 
-infix operator +>> {}
+infix operator +>>
 
 /// Copies the file at the left path to the right path.
 ///
@@ -292,7 +305,7 @@ public func +>> <Data: DataType>(lhs: File<Data>, rhs: Path) throws {
     try lhs.copyToPath(rhs)
 }
 
-infix operator +>! {}
+infix operator +>!
 
 /// Forcibly copies the file at the left path to the right path.
 ///
@@ -326,7 +339,7 @@ public func +>! <Data: DataType>(lhs: File<Data>, rhs: Path) throws {
     try lhs +>> rhs
 }
 
-infix operator =>> {}
+infix operator =>>
 
 /// Creates a symlink of the left path at the right path.
 ///
@@ -358,7 +371,7 @@ public func =>> <Data: DataType>(lhs: File<Data>, rhs: Path) throws {
     try lhs.symlinkToPath(rhs)
 }
 
-infix operator =>! {}
+infix operator =>!
 
 /// Forcibly creates a symlink of the left path at the right path by deleting
 /// anything at the right path before creating the symlink.
@@ -395,27 +408,27 @@ public func =>! <Data: DataType>(lhs: File<Data>, rhs: Path) throws {
     try lhs.path =>! rhs
 }
 
-postfix operator % {}
+postfix operator %
 
 /// Returns the standardized version of the path.
-@warn_unused_result
+
 public postfix func % (path: Path) -> Path {
     return path.standardized
 }
 
-postfix operator * {}
+postfix operator *
 
 /// Returns the resolved version of the path.
-@warn_unused_result
+
 public postfix func * (path: Path) -> Path {
     return path.resolved
 }
 
 
-postfix operator ^ {}
+postfix operator ^
 
 /// Returns the path's parent path.
-@warn_unused_result
+
 public postfix func ^ (path: Path) -> Path {
     return path.parent
 }

@@ -33,24 +33,26 @@ import Foundation
 public class FileSystemWatcher {
 
     // MARK: - Private Static Properties
-
+    
     /// The event stream callback for when events occur.
     private static let _eventCallback: FSEventStreamCallback = {
         (stream: ConstFSEventStreamRef,
-        contextInfo: UnsafeMutablePointer<Void>,
+        contextInfo: UnsafeMutableRawPointer?,
         numEvents: Int,
-        eventPaths: UnsafeMutablePointer<Void>,
-        eventFlags: UnsafePointer<FSEventStreamEventFlags>,
-        eventIds: UnsafePointer<FSEventStreamEventId>) in
+        eventPaths: UnsafeMutableRawPointer,
+        eventFlags: UnsafePointer<FSEventStreamEventFlags>?,
+        eventIds: UnsafePointer<FSEventStreamEventId>?) in
 
         defer {
-            watcher.lastEventId = eventIds[numEvents - 1]
+            if let lastEventId = eventIds?[numEvents - 1] {
+                watcher.lastEventId = lastEventId
+            }
         }
 
         FileSystemWatcher.log("Callback Fired")
 
-        let watcher: FileSystemWatcher = unsafeBitCast(contextInfo, FileSystemWatcher.self)
-        guard let paths = unsafeBitCast(eventPaths, NSArray.self) as? [String] else {
+        let watcher: FileSystemWatcher = unsafeBitCast(contextInfo, to: FileSystemWatcher.self)
+        guard let paths = unsafeBitCast(eventPaths, to: NSArray.self) as? [String], let eventFlags = eventFlags, let eventIds = eventIds else {
             return
         }
 
@@ -76,13 +78,13 @@ public class FileSystemWatcher {
     public let latency: CFTimeInterval
 
     /// The queue for the watcher.
-    public let queue: dispatch_queue_t?
+    public let queue: DispatchQueue?
 
     /// The flags used to create the watcher.
     public let flags: FileSystemEventStreamCreateFlags
 
     /// The run loop mode for the watcher.
-    public var runLoopMode: CFStringRef = kCFRunLoopDefaultMode
+    public var runLoopMode: CFRunLoopMode = CFRunLoopMode.defaultMode
 
     /// The run loop for the watcher.
     public var runLoop: CFRunLoop = CFRunLoopGetMain()
@@ -113,8 +115,8 @@ public class FileSystemWatcher {
                 sinceWhen: FSEventStreamEventId = FileSystemEvent.NowEventId,
                 flags: FileSystemEventStreamCreateFlags = [.UseCFTypes, .FileEvents],
                 latency: CFTimeInterval = 0,
-                queue: dispatch_queue_t? = nil,
-                callback: (FileSystemEvent) -> Void
+                queue: DispatchQueue? = nil,
+                callback: @escaping (FileSystemEvent) -> Void
         ) {
         self.lastEventId = sinceWhen
         self.paths       = paths
@@ -135,7 +137,7 @@ public class FileSystemWatcher {
     /// Processes the event by logging it and then running the callback.
     ///
     /// - Parameter event: The file system event to be logged.
-    private func _processEvent(event: FileSystemEvent) {
+    private func _processEvent(_ event: FileSystemEvent) {
         FileSystemWatcher.log("\t\(event.id) - \(event.flags) - \(event.path)")
         self._callback(event)
     }
@@ -143,7 +145,7 @@ public class FileSystemWatcher {
     /// Prints the message when in debug mode.
     ///
     /// - Parameter message: The message to be logged.
-    private static func log(message: String) {
+    private static func log(_ message: String) {
         #if DEBUG
             print(message)
         #endif
@@ -164,19 +166,21 @@ public class FileSystemWatcher {
             copyDescription: nil
         )
         // add self into context
-        context.info = UnsafeMutablePointer<Void>(unsafeAddressOf(self))
+        context.info = Unmanaged.passUnretained(self).toOpaque()
 
-        let streamRef = FSEventStreamCreate(
+        guard let streamRef = FSEventStreamCreate(
             kCFAllocatorDefault,
             FileSystemWatcher._eventCallback,
             &context,
-            paths.map {$0.rawValue},
+            paths.map {$0.rawValue} as CFArray,
             // since when
             lastEventId,
             // how long to wait after an event occurs before forwarding it
             latency,
             UInt32(flags.rawValue)
-        )
+            ) else {
+                return
+        }
         _stream = FileSystemEventStream(rawValue: streamRef)
 
         _stream?.scheduleWithRunLoop(runLoop, runLoopMode: runLoopMode)
