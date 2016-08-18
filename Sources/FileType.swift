@@ -31,66 +31,66 @@ import Foundation
 public enum FileType: String {
 
     /// The file is a directory.
-    case Directory
+    case directory
 
     /// The file is a regular file.
-    case Regular
+    case regular
 
     /// The file is a symbolic link.
-    case SymbolicLink
+    case symbolicLink
 
     /// The file is a socket.
-    case Socket
+    case socket
 
     /// The file is a characer special file.
-    case CharacterSpecial
+    case characterSpecial
 
     /// The file is a block special file.
-    case BlockSpecial
+    case blockSpecial
 
     /// The type of the file is unknown.
-    case Unknown
+    case unknown
 
-    /// Creates a FileType from an `NSFileType` attribute.
+    /// Creates a FileType from an `FileAttributeType` attribute.
     ///
     /// - Parameter rawValue: The raw value to create from.
     public init?(rawValue: String) {
         switch rawValue {
         case FileAttributeType.typeDirectory.rawValue:
-            self = .Directory
+            self = .directory
         case FileAttributeType.typeRegular.rawValue:
-            self = .Regular
+            self = .regular
         case FileAttributeType.typeSymbolicLink.rawValue:
-            self = .SymbolicLink
+            self = .symbolicLink
         case FileAttributeType.typeSocket.rawValue:
-            self = .Socket
+            self = .socket
         case FileAttributeType.typeCharacterSpecial.rawValue:
-            self = .CharacterSpecial
+            self = .characterSpecial
         case FileAttributeType.typeBlockSpecial.rawValue:
-            self = .BlockSpecial
+            self = .blockSpecial
         case FileAttributeType.typeUnknown.rawValue:
-            self = .Unknown
+            self = .unknown
         default:
             return nil
         }
     }
 
-    /// The `NSFileType` attribute for `self`.
+    /// The `FileAttributeType` attribute for `self`.
     public var rawValue: String {
         switch self {
-        case .Directory:
+        case .directory:
             return FileAttributeType.typeDirectory.rawValue
-        case .Regular:
+        case .regular:
             return FileAttributeType.typeRegular.rawValue
-        case .SymbolicLink:
+        case .symbolicLink:
             return FileAttributeType.typeSymbolicLink.rawValue
-        case .Socket:
+        case .socket:
             return FileAttributeType.typeSocket.rawValue
-        case .CharacterSpecial:
+        case .characterSpecial:
             return FileAttributeType.typeCharacterSpecial.rawValue
-        case .BlockSpecial:
+        case .blockSpecial:
             return FileAttributeType.typeBlockSpecial.rawValue
-        case .Unknown:
+        case .unknown:
             return FileAttributeType.typeUnknown.rawValue
         }
     }

@@ -275,21 +275,21 @@ public struct Path {
     ///
     /// this method does not follow links.
     public var isDirectoryFile: Bool {
-        return fileType == .Directory
+        return fileType == .directory
     }
 
     /// Returns `true` if the path is a symbolic link.
     ///
     /// this method does not follow links.
     public var isSymbolicLink: Bool {
-        return fileType == .SymbolicLink
+        return fileType == .symbolicLink
     }
 
     /// Returns `true` if the path is a regular file.
     ///
     /// this method does not follow links.
     public var isRegular: Bool {
-        return fileType == .Regular
+        return fileType == .regular
     }
 
     /// Returns `true` if the path exists any fileType item.
@@ -436,9 +436,9 @@ extension Path {
         let ancestorComponents = selfComponents[0..<total]
         let common =  ancestorComponents.reduce("") { $0 + $1 }
         switch (self.relativePathType, path.relativePathType) {
-        case (.Absolute, .Absolute), (.Normal, .Normal), (.Normal, .Current), (.Current, .Normal), (.Current, .Current):
+        case (.absolute, .absolute), (.normal, .normal), (.normal, .current), (.current, .normal), (.current, .current):
             return common
-        case (.Normal, .Parent), (.Current, .Parent), (.Parent, .Normal), (.Parent, .Current), (.Parent, .Parent):
+        case (.normal, .parent), (.current, .parent), (.parent, .normal), (.parent, .current), (.parent, .parent):
             return Path("..")
         default:
             // count for prefix ".." in components
@@ -475,18 +475,18 @@ extension Path {
     ///
     public var relativePathType: RelativePathType {
         if isAbsolute {
-            return .Absolute
+            return .absolute
         } else {
             let comp = self.components
             switch comp.first?.rawValue {
             case nil:
-                return .Current
+                return .current
             case ".."? where comp.count > 1:
-                return .Ancestor
+                return .ancestor
             case ".."?:
-                return .Parent
+                return .parent
             default:
-                return .Normal
+                return .normal
             }
         }
     }

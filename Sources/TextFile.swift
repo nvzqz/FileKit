@@ -30,10 +30,10 @@ import Foundation
 /// A representation of a filesystem text file.
 ///
 /// The data type is String.
-public class TextFile: File<String> {
+open class TextFile: File<String> {
 
     /// The text file's string encoding.
-    public var encoding: String.Encoding
+    open var encoding: String.Encoding
 
     /// Initializes a text file from a path.
     ///
@@ -62,7 +62,7 @@ public class TextFile: File<String> {
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
-    public override func write(_ data: String, atomically useAuxiliaryFile: Bool) throws {
+    open override func write(_ data: String, atomically useAuxiliaryFile: Bool) throws {
         do {
             try data.write(toFile: path._safeRawValue, atomically: useAuxiliaryFile, encoding: encoding)
         } catch {

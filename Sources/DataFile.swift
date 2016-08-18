@@ -36,7 +36,7 @@ extension File where Data: NSData {
 
     /// Reads the file and returns its data.
     /// - Parameter options: A mask that specifies write options
-    ///                      described in `Foundation.Data.ReadingOptions`.
+    ///                      described in `NSData.ReadingOptions`.
     ///
     /// - Throws: `FileKitError.ReadFromFileFail`
     /// - Returns: The data read from file.
@@ -48,7 +48,7 @@ extension File where Data: NSData {
     ///
     /// - Parameter data: The data to be written to the file.
     /// - Parameter options: A mask that specifies write options
-    ///                      described in `Foundation.Data.WritingOptions`.
+    ///                      described in `NSData.WritingOptions`.
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///

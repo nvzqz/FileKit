@@ -208,7 +208,7 @@ open class File<Data: DataType>: Comparable {
         return FilePermissions(forFile: self)
     }
 
-    // MARK: - NSFileHandle
+    // MARK: - FileHandle
 
     /// Returns a file handle for reading from `self`, or `nil` if `self`
     /// doesn't exist.
@@ -228,7 +228,7 @@ open class File<Data: DataType>: Comparable {
         return path.fileHandleForUpdating
     }
 
-    // MARK: - NSStream
+    // MARK: - Stream
 
     /// Returns an input stream that reads data from `self`, or `nil` if `self`
     /// doesn't exist.

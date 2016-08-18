@@ -29,25 +29,25 @@ import Foundation
 
 #if os(iOS) || os(watchOS) || os(tvOS)
 
-/// The values that can be obtained from `NSFileProtectionKey` on a
+/// The values that can be obtained from `FileAttributeKey.protectionKey` on a
 /// file's attributes. Only available on iOS, watchOS, and tvOS.
 public enum FileProtection: String {
 
     /// The file has no special protections associated with it.
-    case None
+    case none
 
     /// The file is stored in an encrypted format on disk and cannot be read
     /// from or written to while the device is locked or booting.
-    case Complete
+    case complete
 
     /// The file is stored in an encrypted format on disk. Files can be created
     /// while the device is locked, but once closed, cannot be opened again
     /// until the device is unlocked.
-    case CompleteUnlessOpen
+    case completeUnlessOpen
 
     /// The file is stored in an encrypted format on disk and cannot be accessed
     /// until after the device has booted.
-    case CompleteUntilFirstUserAuthentication
+    case completeUntilFirstUserAuthentication
 
     /// Initializes `self` from a file protection value.
     ///
@@ -56,13 +56,13 @@ public enum FileProtection: String {
     public init?(rawValue: String) {
         switch rawValue {
         case FileProtectionType.none.rawValue:
-            self = .None
+            self = .none
         case FileProtectionType.complete.rawValue:
-            self = .Complete
+            self = .complete
         case FileProtectionType.completeUnlessOpen.rawValue:
-            self = .CompleteUnlessOpen
+            self = .completeUnlessOpen
         case FileProtectionType.completeUntilFirstUserAuthentication.rawValue:
-            self = .CompleteUntilFirstUserAuthentication
+            self = .completeUntilFirstUserAuthentication
         default:
             return nil
         }
@@ -71,27 +71,27 @@ public enum FileProtection: String {
     /// The file protection string value of `self`.
     public var rawValue: String {
         switch self {
-        case .None:
+        case .none:
             return FileProtectionType.none.rawValue
-        case .Complete:
+        case .complete:
             return FileProtectionType.complete.rawValue
-        case .CompleteUnlessOpen:
+        case .completeUnlessOpen:
             return FileProtectionType.completeUnlessOpen.rawValue
-        case .CompleteUntilFirstUserAuthentication:
+        case .completeUntilFirstUserAuthentication:
             return FileProtectionType.completeUntilFirstUserAuthentication.rawValue
         }
     }
 
-    ///  Return the equivalent NSDataWritingOptions
+    ///  Return the equivalent NSData.WritingOptions
     public var dataWritingOption: NSData.WritingOptions {
         switch self {
-        case .None:
+        case .none:
             return .noFileProtection
-        case .Complete:
+        case .complete:
             return .completeFileProtection
-        case .CompleteUnlessOpen:
+        case .completeUnlessOpen:
             return .completeFileProtectionUnlessOpen
-        case .CompleteUntilFirstUserAuthentication:
+        case .completeUntilFirstUserAuthentication:
             return .completeFileProtectionUntilFirstUserAuthentication
         }
     }
