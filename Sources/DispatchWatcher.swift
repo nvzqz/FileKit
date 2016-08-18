@@ -10,8 +10,8 @@ import Foundation
 
 
 
-/// Delegate for `DispatchVnodeWatcher`
-public protocol DispatchVnodeWatcherDelegate: class {
+/// Delegate for `DispatchFileSystemWatcher`
+public protocol DispatchFileSystemWatcherDelegate: class {
 
     // MARK: - Protocol
 
@@ -47,7 +47,7 @@ public protocol DispatchVnodeWatcherDelegate: class {
 
 // Optional func and default func for `GCDFSWatcherDelegate`
 // Empty func treated as Optional func
-public extension DispatchVnodeWatcherDelegate {
+public extension DispatchFileSystemWatcherDelegate {
 
     // MARK: - Extension
 
@@ -111,12 +111,12 @@ open class DispatchFileSystemWatcher {
     open let events: DispatchFileSystemEvents
 
     /// The delegate to call when events happen
-    weak var delegate: DispatchVnodeWatcherDelegate?
+    weak var delegate: DispatchFileSystemWatcherDelegate?
 
     /// The watcher for watching creation event
     weak var createWatcher: DispatchFileSystemWatcher?
 
-    /// The callback for vnode events.
+    /// The callback for file system events.
     fileprivate let callback: ((DispatchFileSystemWatcher) -> Void)?
 
     /// The queue for the watcher.
@@ -321,7 +321,7 @@ extension Path {
     /// - Parameter callback: The callback to be called on changes.
     public func watch2(_ events: DispatchFileSystemEvents = .All,
                        queue: DispatchQueue? = nil,
-                       delegate: DispatchVnodeWatcherDelegate? = nil,
+                       delegate: DispatchFileSystemWatcherDelegate? = nil,
                        callback: ((DispatchFileSystemWatcher) -> Void)? = nil
         ) -> DispatchFileSystemWatcher {
         let dispathQueue: DispatchQueue
