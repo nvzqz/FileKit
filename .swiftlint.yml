@@ -7,6 +7,7 @@ disabled_rules:
     - function_body_length
     - cyclomatic_complexity
     - variable_name
+    - type_name
 
 # some rules are only opt-in
 opt_in_rules:
