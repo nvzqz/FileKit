@@ -256,7 +256,7 @@ open class DispatchFileSystemWatcher {
                 var _events = events
                 _events.remove(.Create)
                 source = DispatchSource.makeFileSystemObjectSource(fileDescriptor: fileDescriptor, eventMask: DispatchSource.FileSystemEvent(rawValue: _events.rawValue), queue: queue)
-                
+
                 // Recheck if open success and source create success
                 if source != nil && fileDescriptor != -1 {
                     guard callback != nil || delegate != nil else {

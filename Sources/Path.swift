@@ -809,7 +809,7 @@ extension Path { // : Indexable {
             return result
         }
     }
-    
+
     public subscript(bounds: Range<Int>) -> Path {
         let components = self.components
         if bounds.lowerBound < 0 || bounds.upperBound >= components.count {
@@ -821,7 +821,7 @@ extension Path { // : Indexable {
         }
         return result
     }
-    
+
     public func index(after i: Int) -> Int {
         return components.index(after: i)
     }
@@ -1114,14 +1114,14 @@ extension Path: CustomDebugStringConvertible {
 }
 
 extension Path: Sequence {
-    
+
     // MARK: - Sequence
-    
+
     /// - Returns: An *iterator* over the contents of the path.
     public func makeIterator() -> DirectoryEnumerator {
         return DirectoryEnumerator(path: self)
     }
-    
+
 }
 
 

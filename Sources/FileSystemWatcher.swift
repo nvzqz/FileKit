@@ -33,7 +33,7 @@ import Foundation
 public class FileSystemWatcher {
 
     // MARK: - Private Static Properties
-    
+
     /// The event stream callback for when events occur.
     private static let _eventCallback: FSEventStreamCallback = {
         (stream: ConstFSEventStreamRef,
