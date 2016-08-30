@@ -29,17 +29,19 @@
 import Cocoa
 #elseif os(iOS) || os(tvOS)
 import UIKit
-#else
+#elseif os(watchOS)
 import WatchKit
 #endif
 
 #if os(OSX)
 /// The image type for the current platform.
 public typealias Image = NSImage
-#else
+#elseif os(iOS) || os(tvOS) || os(watchOS)
 /// The image type for the current platform.
 public typealias Image = UIImage
 #endif
+
+#if os(OSX) || os(iOS) || os(tvOS) || os(watchOS)
 
 extension Image: DataType, WritableConvertible {
 
@@ -86,3 +88,5 @@ extension Image: DataType, WritableConvertible {
     }
 
 }
+
+#endif
