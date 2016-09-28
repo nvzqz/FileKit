@@ -42,10 +42,10 @@ public struct Path {
     public static let separator = "/"
 
     /// The root path.
-    public static let Root = Path(separator)
+    public static let root = Path(separator)
 
     /// The path of the program's current working directory.
-    public static var Current: Path {
+    public static var current: Path {
         get {
             return Path(FileManager.default.currentDirectoryPath)
         }
@@ -198,7 +198,7 @@ public struct Path {
     public var absolute: Path {
         return self.isAbsolute
             ? self.standardized
-            : (Path.Current + self).standardized
+            : (Path.current + self).standardized
     }
 
     /// Returns `true` if the path is equal to "/".
@@ -332,7 +332,7 @@ public struct Path {
 
     /// Initializes a path to root.
     public init() {
-        self = .Root
+        self = .root
     }
 
     /// Initializes a path to the string's value.
@@ -356,8 +356,8 @@ extension Path {
     /// - Parameter closure: The block to run while `Path.Current` is changed.
     ///
     public func changeDirectory(_ closure: () throws -> ()) rethrows {
-        let previous = Path.Current
-        defer { Path.Current = previous }
+        let previous = Path.current
+        defer { Path.current = previous }
         if _fmWraper.fileManager.changeCurrentDirectoryPath(_safeRawValue) {
             try closure()
         }
@@ -557,7 +557,7 @@ extension Path {
     ///     `FileKitError.FileDoesNotExist`,
     ///     `FileKitError.CreateSymlinkFail`
     ///
-    public func symlinkFileToPath(_ path: Path) throws {
+    public func symlinkFile(to path: Path) throws {
         // it's possible to create symbolic links to locations that do not yet exist.
 //        guard self.exists else {
 //            throw FileKitError.FileDoesNotExist(path: self)
@@ -590,7 +590,7 @@ extension Path {
     ///     `FileKitError.FileDoesNotExist`,
     ///     `FileKitError.CreateHardlinkFail`
     ///
-    public func hardlinkFileToPath(_ path: Path) throws {
+    public func hardlinkFile(to path: Path) throws {
         let linkPath = path.isDirectory ? path + self.fileName : path
 
         guard !linkPath.isAny else {
@@ -688,7 +688,7 @@ extension Path {
     /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.MoveFileFail`
     ///
     /// this method does not follow links.
-    public func moveFileToPath(_ path: Path) throws {
+    public func moveFile(to path: Path) throws {
         if self.isAny {
             if !path.isAny {
                 do {
@@ -712,7 +712,7 @@ extension Path {
     /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
     ///
     /// this method does not follow links.
-    public func copyFileToPath(_ path: Path) throws {
+    public func copyFile(to path: Path) throws {
         if self.isAny {
             if !path.isAny {
                 do {
@@ -1131,136 +1131,138 @@ extension Path {
 
     /// Returns the path to the user's or application's home directory,
     /// depending on the platform.
-    public static var UserHome: Path {
+    public static var userHome: Path {
+        // same as FileManager.default.homeDirectoryForCurrentUser
         return Path(NSHomeDirectory()).standardized
     }
 
     /// Returns the path to the user's temporary directory.
-    public static var UserTemporary: Path {
+    public static var userTemporary: Path {
+        // same as FileManager.default.temporaryDirectory
         return Path(NSTemporaryDirectory()).standardized
     }
 
     /// Returns a temporary path for the process.
-    public static var ProcessTemporary: Path {
-        return Path.UserTemporary + ProcessInfo.processInfo.globallyUniqueString
+    public static var processTemporary: Path {
+        return Path.userTemporary + ProcessInfo.processInfo.globallyUniqueString
     }
 
     /// Returns a unique temporary path.
-    public static var UniqueTemporary: Path {
-        return Path.ProcessTemporary + UUID().uuidString
+    public static var uniqueTemporary: Path {
+        return Path.processTemporary + UUID().uuidString
     }
 
     /// Returns the path to the user's caches directory.
-    public static var UserCaches: Path {
+    public static var userCaches: Path {
         return _pathInUserDomain(.cachesDirectory)
     }
 
     /// Returns the path to the user's applications directory.
-    public static var UserApplications: Path {
+    public static var userApplications: Path {
         return _pathInUserDomain(.applicationDirectory)
     }
 
     /// Returns the path to the user's application support directory.
-    public static var UserApplicationSupport: Path {
+    public static var userApplicationSupport: Path {
         return _pathInUserDomain(.applicationSupportDirectory)
     }
 
     /// Returns the path to the user's desktop directory.
-    public static var UserDesktop: Path {
+    public static var userDesktop: Path {
         return _pathInUserDomain(.desktopDirectory)
     }
 
     /// Returns the path to the user's documents directory.
-    public static var UserDocuments: Path {
+    public static var userDocuments: Path {
         return _pathInUserDomain(.documentDirectory)
     }
 
     /// Returns the path to the user's autosaved documents directory.
-    public static var UserAutosavedInformation: Path {
+    public static var userAutosavedInformation: Path {
         return _pathInUserDomain(.autosavedInformationDirectory)
     }
 
     /// Returns the path to the user's downloads directory.
-    public static var UserDownloads: Path {
+    public static var userDownloads: Path {
         return _pathInUserDomain(.downloadsDirectory)
     }
 
     /// Returns the path to the user's library directory.
-    public static var UserLibrary: Path {
+    public static var userLibrary: Path {
         return _pathInUserDomain(.libraryDirectory)
     }
 
     /// Returns the path to the user's movies directory.
-    public static var UserMovies: Path {
+    public static var userMovies: Path {
         return _pathInUserDomain(.moviesDirectory)
     }
 
     /// Returns the path to the user's music directory.
-    public static var UserMusic: Path {
+    public static var userMusic: Path {
         return _pathInUserDomain(.musicDirectory)
     }
 
     /// Returns the path to the user's pictures directory.
-    public static var UserPictures: Path {
+    public static var userPictures: Path {
         return _pathInUserDomain(.picturesDirectory)
     }
 
     /// Returns the path to the user's Public sharing directory.
-    public static var UserSharedPublic: Path {
+    public static var userSharedPublic: Path {
         return _pathInUserDomain(.sharedPublicDirectory)
     }
 
     #if os(OSX)
 
     /// Returns the path to the user scripts folder for the calling application
-    public static var UserApplicationScripts: Path {
+    public static var userApplicationScripts: Path {
         return _pathInUserDomain(.applicationScriptsDirectory)
     }
 
     /// Returns the path to the user's trash directory
-    public static var UserTrash: Path {
+    public static var userTrash: Path {
         return _pathInUserDomain(.trashDirectory)
     }
 
     #endif
 
     /// Returns the path to the system's applications directory.
-    public static var SystemApplications: Path {
+    public static var systemApplications: Path {
         return _pathInSystemDomain(.applicationDirectory)
     }
 
     /// Returns the path to the system's application support directory.
-    public static var SystemApplicationSupport: Path {
+    public static var systemApplicationSupport: Path {
         return _pathInSystemDomain(.applicationSupportDirectory)
     }
 
     /// Returns the path to the system's library directory.
-    public static var SystemLibrary: Path {
+    public static var systemLibrary: Path {
         return _pathInSystemDomain(.libraryDirectory)
     }
 
     /// Returns the path to the system's core services directory.
-    public static var SystemCoreServices: Path {
+    public static var systemCoreServices: Path {
         return _pathInSystemDomain(.coreServiceDirectory)
     }
 
     /// Returns the path to the system's PPDs directory.
-    public static var SystemPrinterDescription: Path {
+    public static var systemPrinterDescription: Path {
         return _pathInSystemDomain(.printerDescriptionDirectory)
     }
 
     /// Returns the path to the system's PreferencePanes directory.
-    public static var SystemPreferencePanes: Path {
+    public static var systemPreferencePanes: Path {
         return _pathInSystemDomain(.preferencePanesDirectory)
     }
 
     /// Returns the paths where resources can occur.
-    public static var AllLibraries: [Path] {
+    public static var allLibraries: [Path] {
         return _pathsInDomains(.allLibrariesDirectory, .allDomainsMask)
     }
 
     /// Returns the paths where applications can occur
-    public static var AllApplications: [Path] {
+    public static var allApplications: [Path] {
         return _pathsInDomains(.allApplicationsDirectory, .allDomainsMask)
     }
 

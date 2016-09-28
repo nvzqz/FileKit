@@ -1,5 +1,5 @@
 //
-//  ArrayFile.swift
+//  NSArrayFile.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -30,4 +30,9 @@ import Foundation
 /// A representation of a filesystem array file.
 ///
 /// The data type is NSArray.
-public typealias ArrayFile = File<NSArray>
+public typealias NSArrayFile = File<NSArray>
+
+/// A representation of a filesystem array file.
+///
+/// The data type is Array.
+public typealias ArrayFile<T> = File<Array<T>>

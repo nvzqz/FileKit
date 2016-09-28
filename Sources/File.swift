@@ -29,10 +29,10 @@ import Foundation
 
 /// A representation of a filesystem file of a given data type.
 ///
-/// - Precondition: The data type must conform to DataType.
+/// - Precondition: The data type must conform to ReadableWritable.
 ///
 /// All method do not follow links.
-open class File<Data: DataType>: Comparable {
+open class File<DataType: ReadableWritable>: Comparable {
 
     // MARK: - Properties
 
@@ -81,8 +81,8 @@ open class File<Data: DataType>: Comparable {
     ///
     /// - Throws: `FileKitError.ReadFromFileFail`
     /// - Returns: The data read from file.
-    open func read() throws -> Data {
-        return try Data.readFromPath(path)
+    open func read() throws -> DataType {
+        return try DataType.read(from: path)
     }
 
     /// Writes data to the file.
@@ -93,7 +93,7 @@ open class File<Data: DataType>: Comparable {
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
-    open func write(_ data: Data) throws {
+    open func write(_ data: DataType) throws {
         try self.write(data, atomically: true)
     }
 
@@ -107,8 +107,8 @@ open class File<Data: DataType>: Comparable {
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
-    open func write(_ data: Data, atomically useAuxiliaryFile: Bool) throws {
-        try data.writeToPath(path, atomically: useAuxiliaryFile)
+    open func write(_ data: DataType, atomically useAuxiliaryFile: Bool) throws {
+        try data.write(to: path, atomically: useAuxiliaryFile)
     }
 
     /// Creates the file.
@@ -140,8 +140,8 @@ open class File<Data: DataType>: Comparable {
     /// - Parameter path: The path to move the file to.
     /// - Throws: `FileKitError.MoveFileFail`
     ///
-    open func moveToPath(_ path: Path) throws {
-        try self.path.moveFileToPath(path)
+    open func move(to path: Path) throws {
+        try self.path.moveFile(to: path)
         self.path = path
     }
 
@@ -154,8 +154,8 @@ open class File<Data: DataType>: Comparable {
     /// - Parameter path: The path to copy the file to.
     /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
     ///
-    open func copyToPath(_ path: Path) throws {
-        try self.path.copyFileToPath(path)
+    open func copy(to path: Path) throws {
+        try self.path.copyFile(to: path)
     }
 
     /// Symlinks the file to a path.
@@ -172,8 +172,8 @@ open class File<Data: DataType>: Comparable {
     ///     `FileKitError.FileDoesNotExist`,
     ///     `FileKitError.CreateSymlinkFail`
     ///
-    open func symlinkToPath(_ path: Path) throws {
-        try self.path.symlinkFileToPath(path)
+    open func symlink(to path: Path) throws {
+        try self.path.symlinkFile(to: path)
     }
 
     /// Hardlinks the file to a path.
@@ -190,8 +190,8 @@ open class File<Data: DataType>: Comparable {
     ///     `FileKitError.FileDoesNotExist`,
     ///     `FileKitError.CreateHardlinkFail`
     ///
-    open func hardlinkToPath(_ path: Path) throws {
-        try self.path.hardlinkFileToPath(path)
+    open func hardlink(to path: Path) throws {
+        try self.path.hardlinkFile(to: path)
     }
 
     // MARK: - FileType

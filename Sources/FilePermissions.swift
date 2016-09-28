@@ -31,13 +31,16 @@ import Foundation
 public struct FilePermissions: OptionSet, CustomStringConvertible {
 
     /// The file can be read from.
-    public static let Read = FilePermissions(rawValue: 1)
+    public static let read = FilePermissions(rawValue: 1)
 
     /// The file can be written to.
-    public static let Write = FilePermissions(rawValue: 2)
+    public static let write = FilePermissions(rawValue: 2)
 
     /// The file can be executed.
-    public static let Execute = FilePermissions(rawValue: 4)
+    public static let execute = FilePermissions(rawValue: 4)
+    
+    /// All FilePermissions
+    public static let all: [FilePermissions] =  [.read, .write, .execute]
 
     /// The raw integer value of `self`.
     public let rawValue: Int
@@ -45,14 +48,14 @@ public struct FilePermissions: OptionSet, CustomStringConvertible {
     /// A textual representation of `self`.
     public var description: String {
         var description = ""
-        for permission in [.Read, .Write, .Execute] as [FilePermissions] {
+        for permission in FilePermissions.all  {
             if self.contains(permission) {
                 description += !description.isEmpty ? ", " : ""
-                if permission == .Read {
+                if permission == .read {
                     description += "Read"
-                } else if permission == .Write {
+                } else if permission == .write {
                     description += "Write"
-                } else if permission == .Execute {
+                } else if permission == .execute {
                     description += "Execute"
                 }
             }
@@ -74,16 +77,16 @@ public struct FilePermissions: OptionSet, CustomStringConvertible {
     ///
     public init(forPath path: Path) {
         var permissions = FilePermissions(rawValue: 0)
-        if path.isReadable { permissions.formUnion(.Read) }
-        if path.isWritable { permissions.formUnion(.Write) }
-        if path.isExecutable { permissions.formUnion(.Execute) }
+        if path.isReadable { permissions.formUnion(.read) }
+        if path.isWritable { permissions.formUnion(.write) }
+        if path.isExecutable { permissions.formUnion(.execute) }
         self = permissions
     }
 
     /// Creates a set of permissions for `file`.
     ///
     /// - Parameter file: The file to create a set of persmissions for.
-    public init<Data: DataType>(forFile file: File<Data>) {
+    public init<DataType: ReadableWritable>(forFile file: File<DataType>) {
         self.init(forPath: file.path)
     }
 

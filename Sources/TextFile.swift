@@ -218,7 +218,7 @@ open class TextFileStreamReader {
 
 // Implement `SequenceType` for `TextFileStreamReader`
 extension TextFileStreamReader : Sequence {
-    /// - Returns: A generator to be used for iterating over a `TextFileStreamReader` object.
+    /// - Returns: An iterator to be used for iterating over a `TextFileStreamReader` object.
     public func makeIterator() -> AnyIterator<String> {
         return AnyIterator {
             return self.nextLine()

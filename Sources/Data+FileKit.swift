@@ -1,10 +1,11 @@
 //
-//  NSString+FileKit.swift
+//  Data+FileKit.swift
 //  FileKit
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2015-2016 Nikolai Vazquez
+//  Copyright (c) 2016 Nikolai Vazquez
+//  Copyright (c) 2016 Marchand Eric
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -27,26 +28,35 @@
 
 import Foundation
 
-extension NSString {
+extension Data: ReadableWritable {
+    
+    /// Returns data read from the given path.
+    public static func read(from path: Path) throws -> Data {
+        do {
+            return try self.init(contentsOf: path.url, options: [])
+        }
+        catch {
+            throw FileKitError.readFromFileFail(path: path)
+        }
+    }
 
-    /// Returns an String object initialized by copying the characters from
-    /// the raw value of a given path.
-    public convenience init(path: Path) {
-        self.init(string: path.rawValue)
+    /// Returns data read from the given path using Data.ReadingOptions.
+    public static func read(from path: Path, options: Data.ReadingOptions) throws -> Data {
+        do {
+            return try self.init(contentsOf: path.url, options: options)
+        }
+        catch {
+            throw FileKitError.readFromFileFail(path: path)
+        }
     }
     
-}
-
-extension NSString: Writable {
-    /// Writes the string to a path atomically.
-    ///
-    /// - Parameter path: The path being written to.
-    ///
+    
+    /// Writes `self` to a Path.
     public func write(to path: Path) throws {
         try write(to: path, atomically: true)
     }
     
-    /// Writes the string to a path with `NSUTF8StringEncoding` encoding.
+    /// Writes `self` to a path.
     ///
     /// - Parameter path: The path being written to.
     /// - Parameter useAuxiliaryFile: If `true`, the data is written to an
@@ -55,31 +65,21 @@ extension NSString: Writable {
     ///                               the file directly.
     ///
     public func write(to path: Path, atomically useAuxiliaryFile: Bool) throws {
+        let options: Data.WritingOptions = useAuxiliaryFile ? [.atomic] : []
+        try self.write(to: path, options: options)
+    }
+
+    /// Writes `self` to a path.
+    ///
+    /// - Parameter path: The path being written to.
+    /// - Parameter options: writing options.
+    ///
+    public func write(to path: Path, options: Data.WritingOptions) throws {
         do {
-            try self.write(toFile: path._safeRawValue,
-                           atomically: useAuxiliaryFile,
-                           encoding: String.Encoding.utf8.rawValue)
+            try self.write(to: path.url, options: options)
         } catch {
             throw FileKitError.writeToFileFail(path: path)
         }
     }
 
-
 }
-
-/*
- extension NSString: Readable {
- 
- /// Creates a string from a path.
- public class func read(from path: Path) throws -> Self {
- let possibleContents = try? NSString(
- contentsOfFile: path._safeRawValue,
- encoding: String.Encoding.utf8.rawValue)
- guard let contents = possibleContents else {
- throw FileKitError.readFromFileFail(path: path)
- }
- return contents
- }
- }
- */
-

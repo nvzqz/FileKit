@@ -51,7 +51,7 @@ class FileKitTests: XCTestCase {
 
     func testPathFileManagerDelegate() {
         do {
-            var sourcePath = .UserTemporary + "filekit_test_filemanager_delegate"
+            var sourcePath = .userTemporary + "filekit_test_filemanager_delegate"
             let destinationPath = Path("\(sourcePath)1")
             try sourcePath.createFile()
 
@@ -80,10 +80,10 @@ class FileKitTests: XCTestCase {
     }
 
     func testFindingPaths() {
-        let homeFolders = Path.UserHome.find(searchDepth: 0) { $0.isDirectory }
+        let homeFolders = Path.userHome.find(searchDepth: 0) { $0.isDirectory }
         XCTAssertFalse(homeFolders.isEmpty, "Home folder is not empty")
 
-        let rootFiles = Path.Root.find(searchDepth: 1) { !$0.isDirectory }
+        let rootFiles = Path.root.find(searchDepth: 1) { !$0.isDirectory }
         XCTAssertFalse(rootFiles.isEmpty)
     }
 
@@ -97,8 +97,8 @@ class FileKitTests: XCTestCase {
     }
 
     func testPathStringInterpolationConvertible() {
-        let path: Path = "\(Path.UserTemporary)/testfile_\(10)"
-        XCTAssertEqual(path.rawValue, Path.UserTemporary.rawValue + "/testfile_10")
+        let path: Path = "\(Path.userTemporary)/testfile_\(10)"
+        XCTAssertEqual(path.rawValue, Path.userTemporary.rawValue + "/testfile_10")
     }
 
     func testPathEquality() {
@@ -118,26 +118,26 @@ class FileKitTests: XCTestCase {
     }
 
     func testPathIsDirectory() {
-        let d = Path.SystemApplications
+        let d = Path.systemApplications
         XCTAssertTrue(d.isDirectory)
     }
 
     func testSequence() {
         var i = 0
-        let parent = Path.UserTemporary
+        let parent = Path.userTemporary
         for _ in parent {
             i += 1
         }
         print("\(i) files under \(parent)")
 
         i = 0
-        for (_, _) in Path.UserTemporary.enumerated() {
+        for (_, _) in Path.userTemporary.enumerated() {
             i += 1
         }
     }
 
     func testPathExtension() {
-        var path = Path.UserTemporary + "file.txt"
+        var path = Path.userTemporary + "file.txt"
         XCTAssertEqual(path.pathExtension, "txt")
         path.pathExtension = "pdf"
         XCTAssertEqual(path.pathExtension, "pdf")
@@ -155,20 +155,20 @@ class FileKitTests: XCTestCase {
     }
 
     func testPathRecursiveChildren() {
-        let p: Path = Path.UserTemporary
+        let p: Path = Path.userTemporary
         let children = p.children(recursive: true)
         XCTAssertNotEqual(children, [])
     }
 
     func testRoot() {
 
-        let root = Path.Root
+        let root = Path.root
         XCTAssertTrue(root.isRoot)
 
         XCTAssertEqual(root.standardized, root)
         XCTAssertEqual(root.parent, root)
 
-        var p: Path = Path.UserTemporary
+        var p: Path = Path.userTemporary
         XCTAssertFalse(p.isRoot)
 
         while !p.isRoot { p = p.parent }
@@ -183,7 +183,7 @@ class FileKitTests: XCTestCase {
     }
 
     func testFamily() {
-        let p: Path = Path.UserTemporary
+        let p: Path = Path.userTemporary
         let children = p.children()
 
         guard let child  = children.first else {
@@ -209,15 +209,15 @@ class FileKitTests: XCTestCase {
 
 
         // common ancestor
-        XCTAssertTrue(p.commonAncestor(Path.Root).isRoot)
-        XCTAssertEqual(.UserDownloads <^> .UserDocuments, Path.UserHome)
+        XCTAssertTrue(p.commonAncestor(Path.root).isRoot)
+        XCTAssertEqual(.userDownloads <^> .userDocuments, Path.userHome)
         XCTAssertEqual(("~/Downloads" <^> "~/Documents").rawValue, "~")
     }
 
     func testPathAttributes() {
 
-        let a = .UserTemporary + "test.txt"
-        let b = .UserTemporary + "TestDir"
+        let a = .userTemporary + "test.txt"
+        let b = .userTemporary + "TestDir"
         do {
             try "Hello there, sir" |> TextFile(path: a)
             try b.createDirectory()
@@ -267,7 +267,7 @@ class FileKitTests: XCTestCase {
 
     func testPathSymlinking() {
         do {
-            let testDir: Path = .UserTemporary + "filekit_test_symlinking"
+            let testDir: Path = .userTemporary + "filekit_test_symlinking"
             if testDir.exists && !testDir.isDirectory {
                 try testDir.deleteFile()
                 XCTAssertFalse(testDir.exists)
@@ -315,28 +315,28 @@ class FileKitTests: XCTestCase {
     }
 
     func testCurrent() {
-        let oldCurrent: Path = .Current
-        let newCurrent: Path = .UserTemporary
+        let oldCurrent: Path = .current
+        let newCurrent: Path = .userTemporary
 
         XCTAssertNotEqual(oldCurrent, newCurrent) // else there is no test
 
-        Path.Current = newCurrent
-        XCTAssertEqual(Path.Current, newCurrent)
+        Path.current = newCurrent
+        XCTAssertEqual(Path.current, newCurrent)
 
-        Path.Current = oldCurrent
-        XCTAssertEqual(Path.Current, oldCurrent)
+        Path.current = oldCurrent
+        XCTAssertEqual(Path.current, oldCurrent)
     }
 
     func testChangeDirectory() {
-        Path.UserTemporary.changeDirectory {
-            XCTAssertEqual(Path.Current, Path.UserTemporary)
+        Path.userTemporary.changeDirectory {
+            XCTAssertEqual(Path.current, Path.userTemporary)
         }
 
-        Path.UserDesktop </> {
-            XCTAssertEqual(Path.Current, Path.UserDesktop)
+        Path.userDesktop </> {
+            XCTAssertEqual(Path.current, Path.userDesktop)
         }
 
-        XCTAssertNotEqual(Path.Current, Path.UserTemporary)
+        XCTAssertNotEqual(Path.current, Path.userTemporary)
     }
 
     func testVolumes() {
@@ -356,7 +356,7 @@ class FileKitTests: XCTestCase {
     }
 
     func testURL() {
-        let path: Path = .UserTemporary
+        let path: Path = .userTemporary
         let url = path.url
         if let pathFromURL = Path(url: url) {
             XCTAssertEqual(pathFromURL, path)
@@ -369,7 +369,7 @@ class FileKitTests: XCTestCase {
     }
 
     func testBookmarkData() {
-        let path: Path = .UserTemporary
+        let path: Path = .userTemporary
         XCTAssertNotNil(path.bookmarkData)
 
         if let bookmarkData = path.bookmarkData {
@@ -387,7 +387,7 @@ class FileKitTests: XCTestCase {
     }
 
     func testTouch() {
-        let path: Path = .UserTemporary + "filekit_test.touch"
+        let path: Path = .userTemporary + "filekit_test.touch"
         do {
             if path.exists { try path.deleteFile() }
             XCTAssertFalse(path.exists)
@@ -417,7 +417,7 @@ class FileKitTests: XCTestCase {
     }
 
     func testCreateDirectory() {
-        let dir: Path = .UserTemporary + "filekit_testdir"
+        let dir: Path = .userTemporary + "filekit_testdir"
 
         do {
             if dir.exists { try dir.deleteFile() }
@@ -460,17 +460,17 @@ class FileKitTests: XCTestCase {
 
     func testWellKnownDirectories() {
         var paths: [Path] = [
-            .UserHome, .UserTemporary, .UserCaches, .UserDesktop, .UserDocuments,
-            .UserAutosavedInformation, .UserDownloads, .UserLibrary, .UserMovies,
-            .UserMusic, .UserPictures, .UserApplicationSupport, .UserApplications,
-            .UserSharedPublic
+            .userHome, .userTemporary, .userCaches, .userDesktop, .userDocuments,
+            .userAutosavedInformation, .userDownloads, .userLibrary, .userMovies,
+            .userMusic, .userPictures, .userApplicationSupport, .userApplications,
+            .userSharedPublic
         ]
         paths += [
-            .SystemApplications, .SystemApplicationSupport, .SystemLibrary,
-            .SystemCoreServices, .SystemPreferencePanes /* .SystemPrinterDescription,*/
+            .systemApplications, .systemApplicationSupport, .systemLibrary,
+            .systemCoreServices, .systemPreferencePanes /* .systemPrinterDescription,*/
         ]
         #if os(OSX)
-            paths += [.UserTrash] // .UserApplicationScripts (not testable)
+            paths += [.userTrash] // .userApplicationScripts (not testable)
         #endif
 
         for path in paths {
@@ -479,20 +479,20 @@ class FileKitTests: XCTestCase {
 
         // all
 
-        XCTAssertTrue(Path.AllLibraries.contains(.UserLibrary))
-        XCTAssertTrue(Path.AllLibraries.contains(.SystemLibrary))
-        XCTAssertTrue(Path.AllApplications.contains(.UserApplications))
-        XCTAssertTrue(Path.AllApplications.contains(.SystemApplications))
+        XCTAssertTrue(Path.allLibraries.contains(.userLibrary))
+        XCTAssertTrue(Path.allLibraries.contains(.systemLibrary))
+        XCTAssertTrue(Path.allApplications.contains(.userApplications))
+        XCTAssertTrue(Path.allApplications.contains(.systemApplications))
 
         // temporary
-        XCTAssertFalse(Path.ProcessTemporary.exists)
-        XCTAssertFalse(Path.UniqueTemporary.exists)
-        XCTAssertNotEqual(Path.UniqueTemporary, Path.UniqueTemporary)
+        XCTAssertFalse(Path.processTemporary.exists)
+        XCTAssertFalse(Path.uniqueTemporary.exists)
+        XCTAssertNotEqual(Path.uniqueTemporary, Path.uniqueTemporary)
     }
 
     // MARK: - TextFile
 
-    let textFile = TextFile(path: .UserTemporary + "filekit_test.txt")
+    let textFile = TextFile(path: .userTemporary + "filekit_test.txt")
 
     func testFileName() {
         XCTAssertEqual(TextFile(path: "/Users/").name, "Users")
@@ -605,8 +605,8 @@ class FileKitTests: XCTestCase {
     // MARK: - FileType
 
     func testFileTypeComparable() {
-        let textFile1 = TextFile(path: .UserTemporary + "filekit_test_comparable1.txt")
-        let textFile2 = TextFile(path: .UserTemporary + "filekit_test_comparable2.txt")
+        let textFile1 = TextFile(path: .userTemporary + "filekit_test_comparable1.txt")
+        let textFile2 = TextFile(path: .userTemporary + "filekit_test_comparable2.txt")
         do {
             try "1234567890" |> textFile1
             try "12345"      |> textFile2
@@ -622,14 +622,14 @@ class FileKitTests: XCTestCase {
     func testFilePermissions() {
         let swift: Path = "/usr/bin/swift"
         if swift.exists {
-            XCTAssertTrue(swift.filePermissions.contains([.Read, .Execute]))
+            XCTAssertTrue(swift.filePermissions.contains([.read, .execute]))
         }
 
-        let file: Path = .UserTemporary + "filekit_test_filepermissions"
+        let file: Path = .userTemporary + "filekit_test_filepermissions"
 
         do {
             try file.createFile()
-            XCTAssertTrue(file.filePermissions.contains([.Read, .Write]))
+            XCTAssertTrue(file.filePermissions.contains([.read, .write]))
         } catch {
             XCTFail(String(describing: error))
         }
@@ -637,18 +637,69 @@ class FileKitTests: XCTestCase {
 
     // MARK: - DictionaryFile
 
-    let dictionaryFile = DictionaryFile(path: .UserTemporary + "filekit_test_dictionary.plist")
+    let nsDictionaryFile = NSDictionaryFile(path: .userTemporary + "filekit_test_nsdictionary.plist")
 
-    func testWriteToDictionaryFile() {
+    func testWriteToNSDictionaryFile() {
         do {
             let dict = NSMutableDictionary()
             dict["FileKit" as NSString] = true
             dict["Hello" as NSString] = "World"
 
-            try dictionaryFile.write(dict)
-            let contents = try dictionaryFile.read()
+            try nsDictionaryFile.write(dict)
+            let contents = try nsDictionaryFile.read()
             XCTAssertEqual(contents, dict)
 
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+    
+    // MARK: - DictionaryFile
+    
+    let dictionaryFile = DictionaryFile<String, Any>(path: .userTemporary + "filekit_test_dictionary.plist")
+    
+    func testWriteToDictionaryFile() {
+        do {
+            var dict: [String: Any] = [:]
+            dict["FileKit"] = true
+            dict["Hello"] = "World"
+            
+            try dictionaryFile.write(dict)
+            let contents = try dictionaryFile.read()
+            
+            XCTAssertEqual(contents.count, dict.count)
+            
+            for (kc, vc) in contents {
+                let v = dict[kc]
+                
+                if let vb = v as? Bool , let vcb = vc as? Bool {
+                    XCTAssertEqual(vb, vcb)
+                }
+                else if let vb = v as? String , let vcb = vc as? String {
+                    XCTAssertEqual(vb, vcb)
+                }
+                else {
+                    XCTFail("unknow type")
+                }
+            }
+            
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+    
+    // MARK: - ArrayFile
+    
+    let nsArrayFile = NSArrayFile(path: .userTemporary + "filekit_test_nsarray.plist")
+    
+    func testWriteToNSArrayFile() {
+        do {
+            let array: NSArray = ["ABCD", "WXYZ"]
+            
+            try nsArrayFile.write(array)
+            let contents = try nsArrayFile.read()
+            XCTAssertEqual(contents, array)
+            
         } catch {
             XCTFail(String(describing: error))
         }
@@ -656,11 +707,11 @@ class FileKitTests: XCTestCase {
 
     // MARK: - ArrayFile
 
-    let arrayFile = ArrayFile(path: .UserTemporary + "filekit_test_array.plist")
+    let arrayFile = ArrayFile<String>(path: .userTemporary + "filekit_test_array.plist")
 
     func testWriteToArrayFile() {
         do {
-            let array: NSArray = ["ABCD", "WXYZ"]
+            let array = ["ABCD", "WXYZ"]
 
             try arrayFile.write(array)
             let contents = try arrayFile.read()
@@ -671,13 +722,28 @@ class FileKitTests: XCTestCase {
         }
     }
 
-    // MARK: - DataFile
+    // MARK: - NSDataFile
 
-    let dataFile = DataFile(path: .UserTemporary + "filekit_test_data")
+    let nsDataFile = NSDataFile(path: .userTemporary + "filekit_test_nsdata")
 
-    func testWriteToDataFile() {
+    func testWriteToNSDataFile() {
         do {
             let data = ("FileKit test" as NSString).data(using: String.Encoding.utf8.rawValue)! as NSData
+            try nsDataFile.write(data)
+            let contents = try nsDataFile.read()
+            XCTAssertEqual(contents, data)
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+    
+    // MARK: - DataFile
+    
+    let dataFile = DataFile(path: .userTemporary + "filekit_test_data")
+    
+    func testWriteToDataFile() {
+        do {
+            let data = "FileKit test".data(using: String.Encoding.utf8)!
             try dataFile.write(data)
             let contents = try dataFile.read()
             XCTAssertEqual(contents, data)
@@ -688,7 +754,7 @@ class FileKitTests: XCTestCase {
 
     // MARK: - String+FileKit
 
-    let stringFile = File<String>(path: .UserTemporary + "filekit_stringtest.txt")
+    let stringFile = File<String>(path: .userTemporary + "filekit_stringtest.txt")
 
     func testStringInitializationFromPath() {
         do {
@@ -704,7 +770,7 @@ class FileKitTests: XCTestCase {
     func testStringWriting() {
         do {
             let message = "Testing string writing..."
-            try message.writeToPath(stringFile.path)
+            try message.write(to: stringFile.path)
             let contents = try String(contentsOfPath: stringFile.path)
             XCTAssertEqual(contents, message)
         } catch {
@@ -718,8 +784,8 @@ class FileKitTests: XCTestCase {
         let url = URL(string: "https://raw.githubusercontent.com/nvzqz/FileKit/assets/logo.png")!
         let img = Image(contentsOf: url) ?? Image()
         do {
-            let path: Path = .UserTemporary + "filekit_imagetest.png"
-            try img.writeToPath(path)
+            let path: Path = .userTemporary + "filekit_imagetest.png"
+            try img.write(to: path)
         } catch {
             XCTFail(String(describing: error))
         }
@@ -728,12 +794,12 @@ class FileKitTests: XCTestCase {
     // MARK: - Watch
 
     func testWatch() {
-        let pathToWatch = .UserTemporary + "filekit_test_watch"
+        let pathToWatch = .userTemporary + "filekit_test_watch"
         let expectation = "event"
         let operation = {
             do {
                 let message = "Testing file system event when writing..."
-                try message.writeToPath(pathToWatch, atomically: false)
+                try message.write(to: pathToWatch, atomically: false)
             } catch {
                 XCTFail(String(describing: error))
             }

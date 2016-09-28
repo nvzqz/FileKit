@@ -1,5 +1,5 @@
 //
-//  DataType.swift
+//  ReadableWritable.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -28,7 +28,7 @@
 import Foundation
 
 /// A type that can be used to read from and write to File instances.
-public typealias DataType = Readable & Writable
+public typealias ReadableWritable = Readable & Writable
 
 
 
@@ -39,7 +39,7 @@ public protocol Readable {
     ///
     /// - Parameter path: The path being read from.
     ///
-    static func readFromPath(_ path: Path) throws -> Self
+    static func read(from path: Path) throws -> Self
 
 }
 
@@ -50,7 +50,7 @@ extension Readable {
     /// - Parameter path: The path being read from.
     ///
     public init(contentsOfPath path: Path) throws { // swiftlint:disable:this valid_docs
-        self = try Self.readFromPath(path)
+        self = try Self.read(from: path)
     }
 
 }
@@ -61,7 +61,7 @@ extension Readable {
 public protocol Writable {
 
     /// Writes `self` to a Path.
-    func writeToPath(_ path: Path) throws
+    func write(to path: Path) throws
 
     /// Writes `self` to a Path.
     ///
@@ -71,7 +71,8 @@ public protocol Writable {
     ///                               file. If `false`, the data is written to
     ///                               the file directly.
     ///
-    func writeToPath(_ path: Path, atomically useAuxiliaryFile: Bool) throws
+    func write(to path: Path, atomically useAuxiliaryFile: Bool) throws
+    
 
 }
 
@@ -81,8 +82,8 @@ extension Writable {
     ///
     /// - Parameter path: The path being written to.
     ///
-    public func writeToPath(_ path: Path) throws { // swiftlint:disable:this valid_docs
-        try writeToPath(path, atomically: true)
+    public func write(to path: Path) throws { // swiftlint:disable:this valid_docs
+        try write(to: path, atomically: true)
     }
 
 }
@@ -101,14 +102,12 @@ public protocol WritableToFile: Writable {
     /// - Returns: `true` if the writing completed successfully, or `false` if
     ///            the writing failed.
     ///
-    func writeToFile(_ path: String, atomically useAuxiliaryFile: Bool) -> Bool
+    func write(toFile path: String, atomically useAuxiliaryFile: Bool) -> Bool
 
 }
 
-
-
 extension WritableToFile {
-
+    
     /// Writes `self` to a Path.
     ///
     /// - Parameter path: The path being written to.
@@ -119,15 +118,13 @@ extension WritableToFile {
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
-    public func writeToPath(_ path: Path, atomically useAuxiliaryFile: Bool) throws {
-        guard writeToFile(path._safeRawValue, atomically: useAuxiliaryFile) else {
+    public func write(to path: Path, atomically useAuxiliaryFile: Bool) throws {
+        guard write(toFile: path._safeRawValue, atomically: useAuxiliaryFile) else {
             throw FileKitError.writeToFileFail(path: path)
         }
     }
-
+    
 }
-
-
 
 /// A type that can be converted to a Writable.
 public protocol WritableConvertible: Writable {
@@ -154,8 +151,8 @@ extension WritableConvertible {
     ///     `FileKitError.WriteToFileFail`,
     ///     `FileKitError.WritableConvertiblePropertyNil`
     ///
-    public func writeToPath(_ path: Path, atomically useAuxiliaryFile: Bool) throws {
-        try writable.writeToPath(path, atomically: useAuxiliaryFile)
+    public func write(to path: Path, atomically useAuxiliaryFile: Bool) throws {
+        try writable.write(to: path, atomically: useAuxiliaryFile)
     }
 
 }

@@ -1,5 +1,5 @@
 //
-//  DictionaryFile.swift
+//  NSDictionaryFile.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -30,4 +30,9 @@ import Foundation
 /// A representation of a filesystem dictionary file.
 ///
 /// The data type is NSDictionary.
-public typealias DictionaryFile = File<NSDictionary>
+public typealias NSDictionaryFile = File<NSDictionary>
+
+/// A representation of a filesystem dictionary file.
+///
+/// The data type is DictionaryFile.
+public typealias DictionaryFile<K: Hashable, V> = File<Dictionary<K, V>>

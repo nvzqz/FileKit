@@ -1,10 +1,11 @@
 //
-//  NSArray+FileKit.swift
+//  Array+File.swift
 //  FileKit
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2015-2016 Nikolai Vazquez
+//  Copyright (c) 2016 Nikolai Vazquez
+//  Copyright (c) 2016 Marchand Eric
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -27,16 +28,26 @@
 
 import Foundation
 
-extension NSArray: ReadableWritable, WritableToFile {
-
-    /// Returns an array read from the given path.
+extension Array: ReadableWritable, WritableConvertible {
+    
+    /// Returns an array from the given path.
     ///
-    /// - Parameter path: The path an array to be read from.
-    public class func read(from path: Path) throws -> Self {
-        guard let contents = self.init(contentsOfFile: path._safeRawValue) else {
+    /// - Parameter path: The path to be returned the array for.
+    /// - Throws: FileKitError.ReadFromFileFail
+    ///
+    public static func read(from path: Path) throws -> Array {
+        guard let contents = NSArray(contentsOfFile: path._safeRawValue) else {
             throw FileKitError.readFromFileFail(path: path)
         }
-        return contents
+        guard let dict = contents as? Array else {
+            throw FileKitError.readFromFileFail(path: path)
+        }
+        return dict
+    }
+    
+    // Return an bridged NSArray value
+    public var writable: NSArray {
+        return self as NSArray
     }
 
 }

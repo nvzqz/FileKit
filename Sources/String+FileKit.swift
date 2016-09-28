@@ -27,29 +27,31 @@
 
 import Foundation
 
-/// Allows String to be used as a DataType.
-extension String: DataType {
+var ReadableWritableStringEncoding = String.Encoding.utf8
+
+/// Allows String to be used as a ReadableWritable.
+extension String: ReadableWritable {
 
     /// Creates a string from a path.
-    public static func readFromPath(_ path: Path) throws -> String {
-        let possibleContents = try? NSString(
+    public static func read(from path: Path) throws -> String {
+        let possibleContents = try? String(
             contentsOfFile: path._safeRawValue,
-            encoding: String.Encoding.utf8.rawValue)
+            encoding: ReadableWritableStringEncoding)
         guard let contents = possibleContents else {
             throw FileKitError.readFromFileFail(path: path)
         }
-        return contents as String
+        return contents
     }
 
     /// Writes the string to a path atomically.
     ///
     /// - Parameter path: The path being written to.
     ///
-    public func writeToPath(_ path: Path) throws {
-        try writeToPath(path, atomically: true)
+    public func write(to path: Path) throws {
+        try write(to: path, atomically: true)
     }
 
-    /// Writes the string to a path with `NSUTF8StringEncoding` encoding.
+    /// Writes the string to a path with `ReadableWritableStringEncoding` encoding.
     ///
     /// - Parameter path: The path being written to.
     /// - Parameter useAuxiliaryFile: If `true`, the data is written to an
@@ -57,11 +59,11 @@ extension String: DataType {
     ///                               file. If `false`, the data is written to
     ///                               the file directly.
     ///
-    public func writeToPath(_ path: Path, atomically useAuxiliaryFile: Bool) throws {
+    public func write(to path: Path, atomically useAuxiliaryFile: Bool) throws {
         do {
             try self.write(toFile: path._safeRawValue,
                 atomically: useAuxiliaryFile,
-                encoding: String.Encoding.utf8)
+                encoding: ReadableWritableStringEncoding)
         } catch {
             throw FileKitError.writeToFileFail(path: path)
         }

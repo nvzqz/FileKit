@@ -1,10 +1,11 @@
 //
-//  NSBundle+FileKit.swift
+//  Dictionary+File.swift
 //  FileKit
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2015-2016 Nikolai Vazquez
+//  Copyright (c) 2016 Nikolai Vazquez
+//  Copyright (c) 2016 Marchand Eric
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -27,11 +28,26 @@
 
 import Foundation
 
-extension Bundle {
-
-    /// Returns an NSBundle for the given directory path.
-    public convenience init?(path: Path) {
-        self.init(path: path.absolute.rawValue)
+extension Dictionary: ReadableWritable, WritableConvertible {
+    
+    /// Returns a dictionary from the given path.
+    ///
+    /// - Parameter path: The path to be returned the dictionary for.
+    /// - Throws: FileKitError.ReadFromFileFail
+    ///
+    public static func read(from path: Path) throws -> Dictionary {
+        guard let contents = NSDictionary(contentsOfFile: path._safeRawValue) else {
+            throw FileKitError.readFromFileFail(path: path)
+        }
+        guard let dict = contents as? Dictionary else {
+             throw FileKitError.readFromFileFail(path: path)
+        }
+        return dict
+    }
+    
+    // Return an bridged NSDictionary value
+    public var writable: NSDictionary {
+        return self as NSDictionary
     }
 
 }

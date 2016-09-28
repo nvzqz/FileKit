@@ -1,5 +1,5 @@
 //
-//  NSArray+FileKit.swift
+//  DataFile.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -27,16 +27,37 @@
 
 import Foundation
 
-extension NSArray: ReadableWritable, WritableToFile {
+/// A representation of a filesystem data file.
+///
+/// The data type is NSData.
+public typealias NSDataFile = File<NSData>
 
-    /// Returns an array read from the given path.
+extension File where DataType: NSData {
+
+    /// Reads the file and returns its data.
+    /// - Parameter options: A mask that specifies write options
+    ///                      described in `NSData.ReadingOptions`.
     ///
-    /// - Parameter path: The path an array to be read from.
-    public class func read(from path: Path) throws -> Self {
-        guard let contents = self.init(contentsOfFile: path._safeRawValue) else {
-            throw FileKitError.readFromFileFail(path: path)
+    /// - Throws: `FileKitError.ReadFromFileFail`
+    /// - Returns: The data read from file.
+    public func read(_ options: NSData.ReadingOptions) throws -> NSData {
+        return try NSData.read(from: path, options: options)
+    }
+
+    /// Writes data to the file.
+    ///
+    /// - Parameter data: The data to be written to the file.
+    /// - Parameter options: A mask that specifies write options
+    ///                      described in `NSData.WritingOptions`.
+    ///
+    /// - Throws: `FileKitError.WriteToFileFail`
+    ///
+    public func write(_ data: NSData, options: NSData.WritingOptions) throws {
+        do {
+            try data.write(toFile: self.path._safeRawValue, options: options)
+        } catch {
+            throw FileKitError.writeToFileFail(path: self.path)
         }
-        return contents
     }
 
 }

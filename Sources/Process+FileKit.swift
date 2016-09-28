@@ -30,10 +30,10 @@ extension CommandLine {
     /// The working directory for the current process.
     public static var workingDirectory: Path {
         get {
-            return Path.Current
+            return Path.current
         }
         set {
-            Path.Current = newValue
+            Path.current = newValue
         }
     }
 

@@ -82,7 +82,7 @@ public enum FileProtection: String {
         }
     }
 
-    ///  Return the equivalent NSData.WritingOptions
+    ///  Return the equivalent Data.WritingOptions
     public var dataWritingOption: NSData.WritingOptions {
         switch self {
         case .none:
@@ -152,7 +152,7 @@ extension File {
 
 }
 
-extension File where Data: NSData {
+extension File where DataType: NSData {
 
     /// Writes data to the file.
     ///
@@ -165,7 +165,7 @@ extension File where Data: NSData {
     ///
     /// - Throws: `FileKitError.WriteToFileFail`
     ///
-    public func write(_ data: Data, fileProtection: FileProtection, atomically: Bool = true) throws {
+    public func write(_ data: DataType, fileProtection: FileProtection, atomically: Bool = true) throws {
         var options = fileProtection.dataWritingOption
         if atomically {
             options.formUnion(Foundation.Data.WritingOptions.atomic)

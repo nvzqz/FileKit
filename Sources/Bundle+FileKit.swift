@@ -1,5 +1,5 @@
 //
-//  NSArray+FileKit.swift
+//  Bundle+FileKit.swift
 //  FileKit
 //
 //  The MIT License (MIT)
@@ -27,16 +27,11 @@
 
 import Foundation
 
-extension NSArray: ReadableWritable, WritableToFile {
+extension Bundle {
 
-    /// Returns an array read from the given path.
-    ///
-    /// - Parameter path: The path an array to be read from.
-    public class func read(from path: Path) throws -> Self {
-        guard let contents = self.init(contentsOfFile: path._safeRawValue) else {
-            throw FileKitError.readFromFileFail(path: path)
-        }
-        return contents
+    /// Returns an NSBundle for the given directory path.
+    public convenience init?(path: Path) {
+        self.init(path: path.absolute.rawValue)
     }
 
 }

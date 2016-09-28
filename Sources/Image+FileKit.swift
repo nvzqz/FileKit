@@ -43,14 +43,14 @@ public typealias Image = UIImage
 
 #if os(OSX) || os(iOS) || os(tvOS) || os(watchOS)
 
-extension Image: DataType, WritableConvertible {
+extension Image: ReadableWritable, WritableConvertible {
 
     /// Returns an image from the given path.
     ///
     /// - Parameter path: The path to be returned the image for.
     /// - Throws: FileKitError.ReadFromFileFail
     ///
-    public class func readFromPath(_ path: Path) throws -> Self {
+    public class func read(from path: Path) throws -> Self {
         guard let contents = self.init(contentsOfFile: path._safeRawValue) else {
             throw FileKitError.readFromFileFail(path: path)
         }
@@ -59,11 +59,11 @@ extension Image: DataType, WritableConvertible {
 
     /// Returns `TIFFRepresentation` on OS X and `UIImagePNGRepresentation` on
     /// iOS, watchOS, and tvOS.
-    public var writable: NSData {
+    public var writable: Data {
         #if os(OSX)
-        return self.tiffRepresentation as NSData? ?? NSData()
+        return self.tiffRepresentation ?? Data()
         #else
-        return UIImagePNGRepresentation(self) as NSData? ?? NSData()
+        return UIImagePNGRepresentation(self) ?? Data()
         #endif
     }
 
