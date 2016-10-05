@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name                      = "FileKit"
-    s.version                   = "3.0.0"
+    s.version                   = "4.0.0"
     s.summary                   = "Simple and expressive file management in Swift."
     s.homepage                  = "https://github.com/nvzqz/FileKit"
     s.license                   = { :type => "MIT", :file => "LICENSE.md" }
