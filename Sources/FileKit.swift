@@ -37,7 +37,7 @@
 ///
 /// - Requires: Xcode 7+, Swift 2.0+
 ///
-public enum FileKit {
+public enum FileKitInfo {
 
     /// The current version.
     ///
