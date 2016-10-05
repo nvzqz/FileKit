@@ -29,7 +29,7 @@
 import Foundation
 
 extension Array: ReadableWritable, WritableConvertible {
-    
+
     /// Returns an array from the given path.
     ///
     /// - Parameter path: The path to be returned the array for.
@@ -44,7 +44,7 @@ extension Array: ReadableWritable, WritableConvertible {
         }
         return dict
     }
-    
+
     // Return an bridged NSArray value
     public var writable: NSArray {
         return self as NSArray

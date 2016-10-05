@@ -653,25 +653,25 @@ class FileKitTests: XCTestCase {
             XCTFail(String(describing: error))
         }
     }
-    
+
     // MARK: - DictionaryFile
-    
+
     let dictionaryFile = DictionaryFile<String, Any>(path: .userTemporary + "filekit_test_dictionary.plist")
-    
+
     func testWriteToDictionaryFile() {
         do {
             var dict: [String: Any] = [:]
             dict["FileKit"] = true
             dict["Hello"] = "World"
-            
+
             try dictionaryFile.write(dict)
             let contents = try dictionaryFile.read()
-            
+
             XCTAssertEqual(contents.count, dict.count)
-            
+
             for (kc, vc) in contents {
                 let v = dict[kc]
-                
+
                 if let vb = v as? Bool , let vcb = vc as? Bool {
                     XCTAssertEqual(vb, vcb)
                 }
@@ -682,24 +682,24 @@ class FileKitTests: XCTestCase {
                     XCTFail("unknow type")
                 }
             }
-            
+
         } catch {
             XCTFail(String(describing: error))
         }
     }
-    
+
     // MARK: - ArrayFile
-    
+
     let nsArrayFile = NSArrayFile(path: .userTemporary + "filekit_test_nsarray.plist")
-    
+
     func testWriteToNSArrayFile() {
         do {
             let array: NSArray = ["ABCD", "WXYZ"]
-            
+
             try nsArrayFile.write(array)
             let contents = try nsArrayFile.read()
             XCTAssertEqual(contents, array)
-            
+
         } catch {
             XCTFail(String(describing: error))
         }
@@ -736,11 +736,11 @@ class FileKitTests: XCTestCase {
             XCTFail(String(describing: error))
         }
     }
-    
+
     // MARK: - DataFile
-    
+
     let dataFile = DataFile(path: .userTemporary + "filekit_test_data")
-    
+
     func testWriteToDataFile() {
         do {
             let data = "FileKit test".data(using: String.Encoding.utf8)!

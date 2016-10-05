@@ -72,7 +72,7 @@ public protocol Writable {
     ///                               the file directly.
     ///
     func write(to path: Path, atomically useAuxiliaryFile: Bool) throws
-    
+
 
 }
 
@@ -107,7 +107,7 @@ public protocol WritableToFile: Writable {
 }
 
 extension WritableToFile {
-    
+
     /// Writes `self` to a Path.
     ///
     /// - Parameter path: The path being written to.
@@ -123,7 +123,7 @@ extension WritableToFile {
             throw FileKitError.writeToFileFail(path: path)
         }
     }
-    
+
 }
 
 /// A type that can be converted to a Writable.

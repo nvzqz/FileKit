@@ -29,7 +29,7 @@
 import Foundation
 
 extension Data: ReadableWritable {
-    
+
     /// Returns data read from the given path.
     public static func read(from path: Path) throws -> Data {
         do {
@@ -49,13 +49,13 @@ extension Data: ReadableWritable {
             throw FileKitError.readFromFileFail(path: path)
         }
     }
-    
-    
+
+
     /// Writes `self` to a Path.
     public func write(to path: Path) throws {
         try write(to: path, atomically: true)
     }
-    
+
     /// Writes `self` to a path.
     ///
     /// - Parameter path: The path being written to.

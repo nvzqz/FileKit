@@ -29,7 +29,7 @@
 import Foundation
 
 extension Dictionary: ReadableWritable, WritableConvertible {
-    
+
     /// Returns a dictionary from the given path.
     ///
     /// - Parameter path: The path to be returned the dictionary for.
@@ -44,7 +44,7 @@ extension Dictionary: ReadableWritable, WritableConvertible {
         }
         return dict
     }
-    
+
     // Return an bridged NSDictionary value
     public var writable: NSDictionary {
         return self as NSDictionary

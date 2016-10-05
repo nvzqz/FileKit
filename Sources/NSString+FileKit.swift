@@ -34,7 +34,7 @@ extension NSString {
     public convenience init(path: Path) {
         self.init(string: path.rawValue)
     }
-    
+
 }
 
 extension NSString: Writable {
@@ -45,7 +45,7 @@ extension NSString: Writable {
     public func write(to path: Path) throws {
         try write(to: path, atomically: true)
     }
-    
+
     /// Writes the string to a path with `NSUTF8StringEncoding` encoding.
     ///
     /// - Parameter path: The path being written to.
@@ -69,7 +69,7 @@ extension NSString: Writable {
 
 /*
  extension NSString: Readable {
- 
+
  /// Creates a string from a path.
  public class func read(from path: Path) throws -> Self {
  let possibleContents = try? NSString(

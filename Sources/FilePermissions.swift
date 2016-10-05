@@ -38,7 +38,7 @@ public struct FilePermissions: OptionSet, CustomStringConvertible {
 
     /// The file can be executed.
     public static let execute = FilePermissions(rawValue: 4)
-    
+
     /// All FilePermissions
     public static let all: [FilePermissions] =  [.read, .write, .execute]
 
