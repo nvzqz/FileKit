@@ -127,7 +127,7 @@ Intermediate directories are created by default.
 A symbolic link can be created by calling `createSymlinkToPath(_:)` on an `Path`.
 
 ```swift
-try Path("path/to/MyApp.app").createSymlinkToPath("~/Applications")
+try Path("path/to/MyApp.app").symlinkFile(to: "~/Applications")
 print(Path("~/Applications/MyApp.app").exists)  // true
 ```
 
@@ -137,7 +137,7 @@ You can find all paths with the ".txt" extension five folders deep into the
 Desktop with:
 
 ```swift
-let textFiles = Path.UserDesktop.find(searchDepth: 5) { path in
+let textFiles = Path.userDesktop.find(searchDepth: 5) { path in
     path.pathExtension == "txt"
 }
 ```
@@ -148,7 +148,7 @@ against.
 You can even map a function to paths found and get the non-nil results:
 
 ```swift
-let documents = Path.UserDocuments.find(searchDepth: 1) { path in
+let documents = Path.userDocuments.find(searchDepth: 1) { path in
     String(path)
 }
 ```
@@ -159,7 +159,7 @@ Because `Path` conforms to `SequenceType`, it can be iterated through with a
 `for` loop.
 
 ```swift
-for download in Path.UserDownloads {
+for download in Path.userDownloads {
     print("Downloaded file: \(download)")
 }
 ```
@@ -172,8 +172,8 @@ To quickly change the current working directory to a path and back, there's the
 `changeDirectory(_:)` method:
 
 ```swift
-Path.UserDesktop.changeDirectory {
-    print(Path.Current)  // "/Users/nvzqz/Desktop"
+Path.userDesktop.changeDirectory {
+    print(Path.current)  // "/Users/nvzqz/Desktop"
 }
 ```
 
@@ -182,7 +182,7 @@ Path.UserDesktop.changeDirectory {
 A common ancestor between two paths can be obtained:
 
 ```swift
-print(Path.Root.commonAncestor(.UserHome))       // "/"
+print(Path.root.commonAncestor(.userHome))       // "/"
 print("~/Desktop"  <^> "~/Downloads")            // "~"
 print(.UserLibrary <^> .UserApplicationSupport)  // "/Users/nvzqz/Library"
 ```
@@ -193,7 +193,7 @@ Appends two paths and returns the result
 
 ```swift
 // ~/Documents/My Essay.docx
-let essay = Path.UserDocuments + "My Essay.docx"
+let essay = Path.userDocuments + "My Essay.docx"
 ```
 
 It can also be used to concatenate a string and a path, making the string value
@@ -208,7 +208,7 @@ let numberedFile: Path = "path/to/dir" + String(10)  // "path/to/dir/10"
 Appends the right path to the left path. Also works with a `String`.
 
 ```swift
-var photos = Path.UserPictures + "My Photos"  // ~/Pictures/My Photos
+var photos = Path.userPictures + "My Photos"  // ~/Pictures/My Photos
 photos += "../My Other Photos"                // ~/Pictures/My Photos/../My Other Photos
 ```
 
@@ -243,9 +243,9 @@ path^ == "~"  // true
 
 Moves the file at the left path to the right path.
 
-`Path` counterpart: **`moveFileToPath(_:)`**
+`Path` counterpart: **`moveFile(to:)`**
 
-`File` counterpart: **`moveToPath(_:)`**
+`File` counterpart: **`move(to:)`**
 
 ##### `->!` Operator
 
@@ -256,9 +256,9 @@ at the left path before moving the file.
 
 Copies the file at the left path to the right path.
 
-`Path` counterpart: **`copyFileToPath(_:)`**
+`Path` counterpart: **`copyFile(to:)`**
 
-`File` counterpart: **`copyToPath(_:)`**
+`File` counterpart: **`copy(to:)`**
 
 ##### `+>!` Operator
 
@@ -269,9 +269,9 @@ at the left path before copying the file.
 
 Creates a symlink of the left path at the right path.
 
-`Path` counterpart: **`symlinkFileToPath(_:)`**
+`Path` counterpart: **`symlinkFile(to:)`**
 
-`File` counterpart: **`symlinkToPath(_:)`**
+`File` counterpart: **`symlink(to:)`**
 
 ##### `=>!` Operator
 
@@ -310,7 +310,7 @@ somePath = somePath.resolved
 A file can be made using `File` with a `DataType` for its data type.
 
 ```swift
-let plistFile = File<NSDictionary>(path: Path.UserDesktop + "sample.plist")
+let plistFile = File<Dictionary>(path: Path.userDesktop + "sample.plist")
 ```
 
 Files can be compared by size.
@@ -323,7 +323,7 @@ Writes the data on the left to the file on the right.
 
 ```swift
 do {
-    try "My name is Bob." |> TextFile(path: Path.UserDesktop + "name.txt")
+    try "My name is Bob." |> TextFile(path: Path.userDesktop + "name.txt")
 } catch {
     print("I can't write to a desktop file?!")
 }
@@ -346,17 +346,24 @@ try "My Awesome Project" |> readme
 try "This is an awesome project." |>> readme
 ```
 
-#### DictionaryFile
+#### NSDictionaryFile
 
 A typealias to `File<NSDictionary>`.
 
-#### ArrayFile
+#### NSArrayFile
 
 A typealias to `File<NSArray>`
 
-#### DataFile
+#### NSDataFile
 
 A typealias to `File<NSData>`
+
+#### DataFile
+
+The `DataFile` class allows for reading and writing `Data` to a file.
+
+Although it is a subclass of `File<Data>`, `DataFile` offers some functionality
+that `File<Data>` doesn't. You could specify `Data.ReadingOptions` and `Data.WritingOptions`
 
 ### File Permissions
 
@@ -365,7 +372,7 @@ process for a given file.
 
 ```swift
 let swift: Path = "/usr/bin/swift"
-print(swift.filePermissions)  // FilePermissions[Read, Execute]
+print(swift.filePermissions)  // FilePermissions[read, execute]
 ```
 
 ### Data Types
@@ -375,19 +382,19 @@ All types that conform to `DataType` can be used to satisfy the generic type for
 
 #### Readable Protocol
 
-A `Readable` type must implement the static method `readFromPath(_:)`.
+A `Readable` type must implement the static method `read(from: Path)`.
 
 All `Readable` types can be initialized with `init(contentsOfPath:)`.
 
 #### Writable Protocol
 
-A `Writable` type must implement `writeToPath(_:atomically:)`.
+A `Writable` type must implement `write(to: Path, atomically: Bool)`.
 
-Writing done by `writeToPath(_:)` is done atomically by default.
+Writing done by `write(to: Path)` is done atomically by default.
 
 ##### WritableToFile
 
-Types that have a `writeToFile(_:atomically:)` method that takes in a `String`
+Types that have a `write(toFile:atomically:)` method that takes in a `String`
 for the file path can conform to `Writable` by simply conforming to
 `WritableToFile`.
 
@@ -406,7 +413,7 @@ error occurred.
 
 ```swift
 // FileKitError(Could not copy file from "path/to/file" to "path/to/destination")
-String(FileKitError.CopyFileFail(from: "path/to/file", to: "path/to/destination"))
+String(FileKitError.copyFileFail(from: "path/to/file", to: "path/to/destination"))
 ```
 
 ## License
