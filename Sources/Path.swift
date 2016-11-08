@@ -629,11 +629,9 @@ extension Path {
     ///     `FileKitError.CreateFileFail`,
     ///     `FileKitError.AttributesChangeFail`
     ///
-    public func touch(_ updateModificationDate: Bool = true) throws {
+    public func touch(modificationDate: Date = Date()) throws {
         if self.exists {
-            if updateModificationDate {
-                try _setAttribute(FileAttributeKey.modificationDate, value: Date())
-            }
+            try _setAttribute(FileAttributeKey.modificationDate, value: modificationDate)
         } else {
             try createFile()
         }
