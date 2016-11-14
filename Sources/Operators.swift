@@ -84,6 +84,7 @@ infix operator |>>
 /// - Throws: `FileKitError.WriteToFileFail`
 ///
 public func |>> (data: String, file: TextFile) throws {
+    // TODO use TextFileStreamWritter
     var data = data
     if let contents = try? file.read() {
         data = contents + "\n" + data

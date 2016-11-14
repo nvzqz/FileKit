@@ -491,7 +491,7 @@ class FileKitTests: XCTestCase {
     }
 
     // MARK: - TextFile
-
+    let testFilePath: Path = .userTemporary + "filekit_test.txt"
     let textFile = TextFile(path: .userTemporary + "filekit_test.txt")
 
     func testFileName() {
@@ -548,6 +548,9 @@ class FileKitTests: XCTestCase {
             try expectedLines.joined(separator: separator) |> textFile
 
             if let reader = textFile.streamReader() {
+                defer {
+                    reader.close()
+                }
                 var lines = [String]()
                 for line in reader {
                     lines.append(line)
@@ -597,6 +600,40 @@ class FileKitTests: XCTestCase {
             result = textFile | "e.*i.*e.*"
             XCTAssertTrue(result.isEmpty)
 
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+    
+    func testTextFileStreamWritter() {
+        if testFilePath.exists {
+            try? testFilePath.deleteFile()
+        }
+        do {
+            let lines = [
+                "Lorem ipsum dolor sit amet",
+                "consectetur adipiscing elit",
+                "Sed non risus"
+            ]
+            let separator = "\n"
+            
+            if let writter = textFile.streamWritter(separator) {
+                defer {
+                    writter.close()
+                }
+                for line in lines {
+                    let delim = line != lines.last
+                    writter.write(line: line, delim: delim)
+                }
+                
+                let expected = try textFile.read()
+                let expectedLines = expected.components(separatedBy: separator)
+                XCTAssertEqual(expectedLines, lines)
+                
+            } else {
+                XCTFail("Failed to create writter")
+            }
+            
         } catch {
             XCTFail(String(describing: error))
         }
