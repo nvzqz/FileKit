@@ -148,6 +148,10 @@ open class TextFileStream {
         return fileHandle?.offsetInFile ?? 0
     }
     
+    open func seek(toFileOffset offset: UInt64) {
+        fileHandle?.seek(toFileOffset: offset)
+    }
+
     /// Close the underlying file. No reading must be done after calling this method.
     open func close() -> Void {
         fileHandle?.closeFile()
@@ -248,9 +252,9 @@ extension TextFileStreamReader : Sequence {
 }
 
 
-// MARK: Line Writter
-/// A class to read `TextFile` line by line.
-open class TextFileStreamWritter: TextFileStream {
+// MARK: Line Writer
+/// A class to write a `TextFile` line by line.
+open class TextFileStreamWriter: TextFileStream {
 
     // MARK: - Initialization
     
@@ -303,15 +307,15 @@ open class TextFileStreamWritter: TextFileStream {
 
 extension TextFile {
     
-    /// Provide a writter to writte line by line.
+    /// Provide a writer to write line by line.
     ///
     /// - Parameter delimiter: the line delimiter (default: \n)
     /// - Parameter append: if true append at file end (default: false)
     ///
-    /// - Returns: the `TextFileStreamReader`
+    /// - Returns: the `TextFileStreamWriter`
     
-    public func streamWritter(_ delimiter: String = "\n", append: Bool = false) -> TextFileStreamWritter? {
-        return TextFileStreamWritter(
+    public func streamWriter(_ delimiter: String = "\n", append: Bool = false) -> TextFileStreamWriter? {
+        return TextFileStreamWriter(
             path: self.path,
             delimiter: delimiter,
             encoding: encoding,

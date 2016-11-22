@@ -617,13 +617,13 @@ class FileKitTests: XCTestCase {
             ]
             let separator = "\n"
             
-            if let writter = textFile.streamWritter(separator) {
+            if let writer = textFile.streamWriter(separator) {
                 defer {
-                    writter.close()
+                    writer.close()
                 }
                 for line in lines {
                     let delim = line != lines.last
-                    writter.write(line: line, delim: delim)
+                    writer.write(line: line, delim: delim)
                 }
                 
                 let expected = try textFile.read()
@@ -631,7 +631,7 @@ class FileKitTests: XCTestCase {
                 XCTAssertEqual(expectedLines, lines)
                 
             } else {
-                XCTFail("Failed to create writter")
+                XCTFail("Failed to create writer")
             }
             
         } catch {
