@@ -28,7 +28,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "FileKit"
+    name: "FileKit",
     exclude: [
 	"Tests"
     ]
