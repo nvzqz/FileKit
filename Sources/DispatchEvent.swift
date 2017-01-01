@@ -3,7 +3,7 @@
 //  FileKit
 //
 //  Created by ijump on 5/2/16.
-//  Copyright © 2016 Nikolai Vazquez. All rights reserved.
+//  Copyright © 2017 Nikolai Vazquez. All rights reserved.
 //
 
 import Foundation

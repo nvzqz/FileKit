@@ -168,6 +168,7 @@
 		5263A9061B96BA3D00635A93 /* FileKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileKitTests.swift; sourceTree = "<group>"; };
 		5263A9081B96BA3D00635A93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		527612421BAEA3EE00503D0A /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		527848661E18CADD007E14F0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		52A016C31C013F3D0045A9C8 /* DirectoryEnumerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectoryEnumerator.swift; sourceTree = "<group>"; };
 		52A016E81C01565C0045A9C8 /* FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileKit.swift; sourceTree = "<group>"; };
 		52A016F11C0184CA0045A9C8 /* FileProtection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileProtection.swift; sourceTree = "<group>"; };
@@ -242,6 +243,7 @@
 				521FC3FE1CDF0144006C9C3C /* Package.swift */,
 				52EF7A981DA58DE00093B983 /* .swift-version */,
 				82F4F2BB1CA94DEC002C8393 /* .swiftlint.yml */,
+				527848661E18CADD007E14F0 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};

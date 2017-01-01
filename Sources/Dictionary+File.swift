@@ -4,8 +4,8 @@
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2016 Nikolai Vazquez
-//  Copyright (c) 2016 Marchand Eric
+//  Copyright (c) 2017 Nikolai Vazquez
+//  Copyright (c) 2017 Marchand Eric
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
