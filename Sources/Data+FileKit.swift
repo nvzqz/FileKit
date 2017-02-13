@@ -34,8 +34,7 @@ extension Data: ReadableWritable {
     public static func read(from path: Path) throws -> Data {
         do {
             return try self.init(contentsOf: path.url, options: [])
-        }
-        catch {
+        } catch {
             throw FileKitError.readFromFileFail(path: path)
         }
     }
@@ -44,12 +43,10 @@ extension Data: ReadableWritable {
     public static func read(from path: Path, options: Data.ReadingOptions) throws -> Data {
         do {
             return try self.init(contentsOf: path.url, options: options)
-        }
-        catch {
+        } catch {
             throw FileKitError.readFromFileFail(path: path)
         }
     }
-
 
     /// Writes `self` to a Path.
     public func write(to path: Path) throws {

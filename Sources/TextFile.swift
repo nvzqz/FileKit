@@ -84,7 +84,7 @@ extension TextFile {
     /// - Returns: the `TextFileStreamReader`
 
     public func streamReader(_ delimiter: String = "\n",
-        chunkSize: Int = 4096) -> TextFileStreamReader? {
+                             chunkSize: Int = 4096) -> TextFileStreamReader? {
             return TextFileStreamReader(
                 path: self.path,
                 delimiter: delimiter,
@@ -101,7 +101,7 @@ extension TextFile {
     ///
     /// - Returns: the lines
     public func grep(_ motif: String, include: Bool = true,
-        options: NSString.CompareOptions = []) -> [String] {
+                     options: NSString.CompareOptions = []) -> [String] {
             guard let reader = streamReader() else {
                 return []
             }
@@ -115,13 +115,13 @@ extension TextFile {
 
 /// A class to read or write `TextFile`.
 open class TextFileStream {
-    
+
     /// The text encoding.
     open let encoding: String.Encoding
 
     let delimData: Data!
     var fileHandle: FileHandle?
-    
+
     // MARK: - Initialization
     public init?(
         fileHandle: FileHandle,
@@ -135,25 +135,25 @@ open class TextFileStream {
         }
         self.delimData = delimData
     }
-    
+
     // MARK: - Deinitialization
-    
+
     deinit {
         self.close()
     }
-    
+
     // MARK: - public methods
-    
+
     open var offset: UInt64 {
         return fileHandle?.offsetInFile ?? 0
     }
-    
+
     open func seek(toFileOffset offset: UInt64) {
         fileHandle?.seek(toFileOffset: offset)
     }
 
     /// Close the underlying file. No reading must be done after calling this method.
-    open func close() -> Void {
+    open func close() {
         fileHandle?.closeFile()
         fileHandle = nil
     }
@@ -191,7 +191,6 @@ open class TextFileStreamReader: TextFileStream {
         self.buffer = buffer
         super.init(fileHandle: fileHandle, delimiter: delimiter, encoding: encoding)
     }
-
 
     // MARK: - public methods
 
@@ -233,7 +232,7 @@ open class TextFileStreamReader: TextFileStream {
     }
 
     /// Start reading from the beginning of file.
-    open func rewind() -> Void {
+    open func rewind() {
         fileHandle?.seek(toFileOffset: 0)
         buffer.length = 0
         atEOF = false
@@ -251,13 +250,12 @@ extension TextFileStreamReader : Sequence {
     }
 }
 
-
 // MARK: Line Writer
 /// A class to write a `TextFile` line by line.
 open class TextFileStreamWriter: TextFileStream {
 
     // MARK: - Initialization
-    
+
     /// - Parameter path:      the file path
     /// - Parameter delimiter: the line delimiter (default: \n)
     /// - Parameter encoding: file encoding (default: .utf8)
@@ -306,14 +304,14 @@ open class TextFileStreamWriter: TextFileStream {
 }
 
 extension TextFile {
-    
+
     /// Provide a writer to write line by line.
     ///
     /// - Parameter delimiter: the line delimiter (default: \n)
     /// - Parameter append: if true append at file end (default: false)
     ///
     /// - Returns: the `TextFileStreamWriter`
-    
+
     public func streamWriter(_ delimiter: String = "\n", append: Bool = false) -> TextFileStreamWriter? {
         return TextFileStreamWriter(
             path: self.path,
@@ -324,5 +322,3 @@ extension TextFile {
     }
 
 }
-
-

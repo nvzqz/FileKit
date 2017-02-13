@@ -48,7 +48,7 @@ public struct FilePermissions: OptionSet, CustomStringConvertible {
     /// A textual representation of `self`.
     public var description: String {
         var description = ""
-        for permission in FilePermissions.all  {
+        for permission in FilePermissions.all {
             if self.contains(permission) {
                 description += !description.isEmpty ? ", " : ""
                 if permission == .read {

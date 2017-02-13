@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 /// Delegate for `DispatchFileSystemWatcher`
 public protocol DispatchFileSystemWatcherDelegate: class {
 
@@ -304,7 +302,6 @@ open class DispatchFileSystemWatcher {
         self.fileDescriptor = -1
         self.source = nil
     }
-
 
 }
 

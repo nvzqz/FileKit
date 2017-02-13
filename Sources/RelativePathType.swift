@@ -25,7 +25,6 @@
 //  THE SOFTWARE.
 //
 
-
 import Foundation
 
 /// The type attribute for a relative path.

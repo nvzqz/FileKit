@@ -35,4 +35,4 @@ public typealias NSArrayFile = File<NSArray>
 /// A representation of a filesystem array file.
 ///
 /// The data type is Array.
-public typealias ArrayFile<T> = File<Array<T>>
+public typealias ArrayFile<T> = File<[T]>

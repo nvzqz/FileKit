@@ -27,7 +27,6 @@
 
 import Foundation
 
-
 /// A representation of a filesystem data file.
 ///
 /// The data type is Data.
@@ -64,7 +63,7 @@ open class DataFile: File<Data> {
 open class DataFileWithOptions: DataFile {
 
     open var readingOptions: Data.ReadingOptions = []
-    open var writingOptions: Data.WritingOptions? = nil
+    open var writingOptions: Data.WritingOptions?
 
     /// Initializes a file from a path with options.
     ///

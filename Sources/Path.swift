@@ -70,13 +70,11 @@ public struct Path {
         weak var delegate: FileManagerDelegate?
         /// Safe way to use fileManager
         var fileManager: FileManager {
-            get {
-//                if delegate == nil {
-//                    print("\n\nDelegate is nil\n\n")
-//                }
-                unsafeFileManager.delegate = delegate
-                return unsafeFileManager
-            }
+            //if delegate == nil {
+            //   print("\n\nDelegate is nil\n\n")
+            //}
+            unsafeFileManager.delegate = delegate
+            return unsafeFileManager
         }
     }
 
@@ -108,20 +106,16 @@ public struct Path {
 
     /// The standardized path string value
     public var standardRawValue: String {
-        get {
-            return (self.rawValue as NSString).standardizingPath
-        }
+        return (self.rawValue as NSString).standardizingPath
     }
 
     /// The standardized path string value without expanding tilde
     public var standardRawValueWithTilde: String {
-        get {
-            let comps = components
-            if comps.isEmpty {
-                return ""
-            } else {
-                return self[comps.count - 1].rawValue
-            }
+        let comps = components
+        if comps.isEmpty {
+            return ""
+        } else {
+            return self[comps.count - 1].rawValue
         }
     }
 
@@ -173,13 +167,11 @@ public struct Path {
 
     /// The standardized path string value without expanding tilde
     public var standardWithTilde: Path {
-        get {
-            let comps = components
-            if comps.isEmpty {
-                return Path("")
-            } else {
-                return self[comps.count - 1]
-            }
+        let comps = components
+        if comps.isEmpty {
+            return Path("")
+        } else {
+            return self[comps.count - 1]
         }
     }
 
@@ -355,7 +347,7 @@ extension Path {
     ///
     /// - Parameter closure: The block to run while `Path.Current` is changed.
     ///
-    public func changeDirectory(_ closure: () throws -> ()) rethrows {
+    public func changeDirectory(_ closure: () throws -> Void) rethrows {
         let previous = Path.current
         defer { Path.current = previous }
         if _fmWraper.fileManager.changeCurrentDirectoryPath(_safeRawValue) {
@@ -852,7 +844,7 @@ extension Path {
 
     /// Modify one attribute
     fileprivate func _setAttribute(_ key: FileAttributeKey, value: Any) throws {
-        try _setAttributes([key : value])
+        try _setAttributes([key: value])
     }
 
     /// The creation date of the file at the path.
@@ -1124,7 +1116,6 @@ extension Path: Sequence {
 
 }
 
-
 extension Path {
 
     // MARK: - Paths
@@ -1275,7 +1266,7 @@ extension Path {
     }
 
     fileprivate static func _pathsInDomains(_ directory: FileManager.SearchPathDirectory,
-        _ domainMask: FileManager.SearchPathDomainMask) -> [Path] {
+                                            _ domainMask: FileManager.SearchPathDomainMask) -> [Path] {
         return NSSearchPathForDirectoriesInDomains(directory, domainMask, true)
             .map({ Path($0).standardized })
     }

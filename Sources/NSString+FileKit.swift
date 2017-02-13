@@ -64,7 +64,6 @@ extension NSString: Writable {
         }
     }
 
-
 }
 
 /*
@@ -82,4 +81,3 @@ extension NSString: Writable {
  }
  }
  */
-
