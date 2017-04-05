@@ -165,12 +165,12 @@ public func + (lhs: Path, rhs: String) -> Path {
 
 /// Appends the right path to the left path.
 public func += (lhs: inout Path, rhs: Path) {
-    lhs = lhs + rhs
+    lhs += rhs
 }
 
 /// Appends the path value of the String to the left path.
 public func += (lhs: inout Path, rhs: String) {
-    lhs = lhs + rhs
+    lhs += rhs
 }
 
 /// Concatenates two `Path` instances and returns the result.
