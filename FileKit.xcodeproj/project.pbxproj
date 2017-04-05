@@ -165,7 +165,7 @@
 		524D315A1BC79331008B93D0 /* NSDataFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDataFile.swift; sourceTree = "<group>"; };
 		524D315E1BC7A02A008B93D0 /* Image+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+FileKit.swift"; sourceTree = "<group>"; };
 		5263A9041B96BA3D00635A93 /* FileKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FileKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5263A9061B96BA3D00635A93 /* FileKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileKitTests.swift; sourceTree = "<group>"; };
+		5263A9061B96BA3D00635A93 /* FileKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FileKitTests.swift; path = FileKitTests/FileKitTests.swift; sourceTree = "<group>"; };
 		5263A9081B96BA3D00635A93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		527612421BAEA3EE00503D0A /* FileKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FileKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		527848661E18CADD007E14F0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
