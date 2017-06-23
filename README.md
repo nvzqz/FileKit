@@ -16,6 +16,8 @@
              alt="Carthage">
     </a>
     <br>
+    <img src="https://img.shields.io/cocoapods/dt/FileKit.svg"
+         alt="downloads">
     <a href="https://trello.com/b/s1MOyp2h/filekit">
         <img src="https://img.shields.io/badge/Trello-filekit-blue.svg"
              alt="Trello Board">
