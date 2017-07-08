@@ -27,9 +27,13 @@
 
 import Foundation
 
-extension NSData: ReadableWritable, WritableToFile {
+extension NSData: Readable, WritableToFile {
 
-    /// Returns data read from the given path.
+    /**
+     Returns data read from the given path.
+
+     - Parameter path: The path of data to be read from.
+    */
     public class func read(from path: Path) throws -> Self {
         guard let contents = self.init(contentsOfFile: path._safeRawValue) else {
             throw FileKitError.readFromFileFail(path: path)

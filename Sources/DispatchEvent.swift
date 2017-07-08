@@ -6,7 +6,7 @@
 //  Copyright © 2017 Nikolai Vazquez. All rights reserved.
 //
 
-import Foundation
+import Dispatch
 
 /// File System Events.
 public struct DispatchFileSystemEvents: OptionSet, CustomStringConvertible, CustomDebugStringConvertible {

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Nikolai Vazquez. All rights reserved.
 //
 
-import Foundation
+import Dispatch
 
 /// Delegate for `DispatchFileSystemWatcher`
 public protocol DispatchFileSystemWatcherDelegate: class {
@@ -161,7 +161,9 @@ open class DispatchFileSystemWatcher {
     // MARK: - Deinitialization
 
     deinit {
-        //print("\(path): Deinit")
+        #if DEBUG
+            print("\(path): Deinit")
+        #endif
         close()
     }
 
@@ -224,7 +226,7 @@ open class DispatchFileSystemWatcher {
                 _events.remove(.Create)
                 // only watch a CREATE event if parent exists and is a directory
                 if parent.isDirectoryFile {
-                    #if os(OSX)
+                    #if os(OSX) || os(macOS)
                         let watch = { parent.watch2($0, callback: $1) }
                     #else
                         let watch = { parent.watch($0, callback: $1) }
@@ -307,7 +309,7 @@ open class DispatchFileSystemWatcher {
 
 extension Path {
 
-    #if os(OSX)
+    #if os(OSX) || os(macOS)
     // MARK: - Watching
 
     /// Watches a path for filesystem events and handles them in the callback or delegate.
@@ -321,13 +323,13 @@ extension Path {
                        delegate: DispatchFileSystemWatcherDelegate? = nil,
                        callback: ((DispatchFileSystemWatcher) -> Void)? = nil
         ) -> DispatchFileSystemWatcher {
-        let dispathQueue: DispatchQueue
+        let dispatchQueue: DispatchQueue
         if #available(OSX 10.10, *) {
-            dispathQueue = queue ?? DispatchQueue.global(qos: .default)
+            dispatchQueue = queue ?? DispatchQueue.global(qos: .default)
         } else {
-            dispathQueue = queue ?? DispatchQueue.global(priority: .default)
+            dispatchQueue = queue ?? DispatchQueue.global(priority: .default)
         }
-        let watcher = DispatchFileSystemWatcher(path: self, events: events, queue: dispathQueue, callback: callback)
+        let watcher = DispatchFileSystemWatcher(path: self, events: events, queue: dispatchQueue, callback: callback)
         watcher.delegate = delegate
         watcher.startWatching()
         return watcher

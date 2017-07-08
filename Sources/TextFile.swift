@@ -101,7 +101,7 @@ extension TextFile {
     ///
     /// - Returns: the lines
     public func grep(_ motif: String, include: Bool = true,
-                     options: NSString.CompareOptions = []) -> [String] {
+                     options: String.CompareOptions = []) -> [String] {
             guard let reader = streamReader() else {
                 return []
             }
@@ -168,7 +168,7 @@ open class TextFileStreamReader: TextFileStream {
     /// Tells if the position is at the end of file.
     open var atEOF: Bool = false
 
-    let buffer: NSMutableData!
+    var buffer: Data!
 
     // MARK: - Initialization
 
@@ -183,12 +183,11 @@ open class TextFileStreamReader: TextFileStream {
         chunkSize: Int = 4096
     ) {
         self.chunkSize = chunkSize
-        guard let fileHandle = path.fileHandleForReading,
-            let buffer = NSMutableData(capacity: chunkSize) else {
-                self.buffer = nil
-                return nil
+        guard let fileHandle = path.fileHandleForReading else {
+            self.buffer = nil
+            return nil
         }
-        self.buffer = buffer
+        self.buffer = Data(capacity: chunkSize)
         super.init(fileHandle: fileHandle, delimiter: delimiter, encoding: encoding)
     }
 
@@ -201,40 +200,39 @@ open class TextFileStreamReader: TextFileStream {
         }
 
         // Read data chunks from file until a line delimiter is found.
-        var range = buffer.range(of: delimData, options: [], in: NSRange(location: 0, length: buffer.length))
-        while range.location == NSNotFound {
+        var range = buffer.range(of: delimData, options: [], in: 0..<buffer.count)
+        while range == nil {
             let tmpData = fileHandle?.readData(ofLength: chunkSize)
             if tmpData == nil || tmpData!.isEmpty {
                 // EOF or read error.
                 atEOF = true
-                if buffer.length > 0 {
+                if !buffer.isEmpty {
                     // Buffer contains last line in file (not terminated by delimiter).
-                    let line = NSString(data: buffer as Data, encoding: encoding.rawValue)
+                    let line = String(data: buffer, encoding: encoding)
 
-                    buffer.length = 0
-                    return line as String?
+                    buffer.count = 0
+                    return line
                 }
                 // No more lines.
                 return nil
             }
             buffer.append(tmpData!)
-            range = buffer.range(of: delimData, options: [], in: NSRange(location: 0, length: buffer.length))
+            range = buffer.range(of: delimData, options: [], in: 0..<buffer.count)
         }
 
         // Convert complete line (excluding the delimiter) to a string.
-        let line = NSString(data: buffer.subdata(with: NSRange(location: 0, length: range.location)),
-            encoding: encoding.rawValue)
+        let line = String(data: buffer.subdata(in: 0..<range!.lowerBound), encoding: encoding)
         // Remove line (and the delimiter) from the buffer.
-        let cleaningRange = NSRange(location: 0, length: range.location + range.length)
-        buffer.replaceBytes(in: cleaningRange, withBytes: nil, length: 0)
+        let cleaningRange: Range<Data.Index> = 0..<range!.upperBound
+        buffer.replaceSubrange(cleaningRange, with: Data())
 
-        return line as? String
+        return line
     }
 
     /// Start reading from the beginning of file.
     open func rewind() {
         fileHandle?.seek(toFileOffset: 0)
-        buffer.length = 0
+        buffer.count = 0
         atEOF = false
     }
 
@@ -254,6 +252,7 @@ extension TextFileStreamReader : Sequence {
 /// A class to write a `TextFile` line by line.
 open class TextFileStreamWriter: TextFileStream {
 
+    public var append: Bool
     // MARK: - Initialization
 
     /// - Parameter path:      the file path
@@ -274,6 +273,7 @@ open class TextFileStreamWriter: TextFileStream {
         guard let fileHandle = path.fileHandleForWriting else {
             return nil
         }
+        self.append = append
         if append {
             fileHandle.seekToEndOfFile()
         }
@@ -288,8 +288,11 @@ open class TextFileStreamWriter: TextFileStream {
     @discardableResult
     open func write(line: String, delim: Bool = true) -> Bool {
         if let handle = fileHandle, let data = line.data(using: self.encoding) {
+            if delim && append {
+                handle.write(delimData)
+            }
             handle.write(data)
-            if delim {
+            if delim && !append {
                 handle.write(delimData)
             }
             return true

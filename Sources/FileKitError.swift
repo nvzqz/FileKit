@@ -25,8 +25,6 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
-
 /// An error that can be thrown by FileKit.
 public enum FileKitError: Error {
 

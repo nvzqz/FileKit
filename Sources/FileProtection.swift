@@ -25,9 +25,9 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
-
 #if os(iOS) || os(watchOS) || os(tvOS)
+
+import Foundation
 
 /// The values that can be obtained from `FileAttributeKey.protectionKey` on a
 /// file's attributes. Only available on iOS, watchOS, and tvOS.
@@ -168,7 +168,7 @@ extension File where DataType: NSData {
     public func write(_ data: DataType, fileProtection: FileProtection, atomically: Bool = true) throws {
         var options = fileProtection.dataWritingOption
         if atomically {
-            options.formUnion(Foundation.Data.WritingOptions.atomic)
+            options.formUnion(Data.WritingOptions.atomic)
         }
         try self.write(data, options: options)
     }
