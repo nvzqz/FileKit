@@ -30,7 +30,11 @@ import Foundation
 
 extension Data: ReadableWritable {
 
-    /// Returns data read from the given path.
+    /**
+     Returns data read from the given path.
+
+     - Parameter path: The path of data to be read from.
+    */
     public static func read(from path: Path) throws -> Data {
         do {
             return try self.init(contentsOf: path.url, options: [])
@@ -39,7 +43,13 @@ extension Data: ReadableWritable {
         }
     }
 
-    /// Returns data read from the given path using Data.ReadingOptions.
+    /**
+     Returns data read from the given path using Data.ReadingOptions
+
+     - Parameters:
+         - path: The path of data to be read from.
+         - options: Reading options
+    */
     public static func read(from path: Path, options: Data.ReadingOptions) throws -> Data {
         do {
             return try self.init(contentsOf: path.url, options: options)
@@ -53,24 +63,28 @@ extension Data: ReadableWritable {
         try write(to: path, atomically: true)
     }
 
-    /// Writes `self` to a path.
-    ///
-    /// - Parameter path: The path being written to.
-    /// - Parameter useAuxiliaryFile: If `true`, the data is written to an
-    ///                               auxiliary file that is then renamed to the
-    ///                               file. If `false`, the data is written to
-    ///                               the file directly.
-    ///
+    /**
+     Writes `self` to a path.
+
+     - Parameters:
+         - path: The path being written to.
+         - useAuxiliaryFile: If `true`, the data is written to an
+                             auxiliary file that is then renamed to the
+                             file. If `false`, the data is written to
+                             the file directly.
+    */
     public func write(to path: Path, atomically useAuxiliaryFile: Bool) throws {
         let options: Data.WritingOptions = useAuxiliaryFile ? [.atomic] : []
         try self.write(to: path, options: options)
     }
 
-    /// Writes `self` to a path.
-    ///
-    /// - Parameter path: The path being written to.
-    /// - Parameter options: writing options.
-    ///
+    /**
+     Writes `self` to a path.
+
+     - Parameters:
+         - path: The path being written to.
+         - options: Writing options.
+    */
     public func write(to path: Path, options: Data.WritingOptions) throws {
         do {
             try self.write(to: path.url, options: options)

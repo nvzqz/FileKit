@@ -27,11 +27,13 @@
 
 import Foundation
 
-/// A representation of a filesystem file of a given data type.
-///
-/// - Precondition: The data type must conform to ReadableWritable.
-///
-/// All method do not follow links.
+/**
+ A representation of a filesystem file of a given data type.
+
+ - Precondition: The data type must conform to ReadableWritable.
+
+ - Note: Not all methods follow links.
+*/
 open class File<DataType: ReadableWritable>: Comparable {
 
     // MARK: - Properties
@@ -54,9 +56,11 @@ open class File<DataType: ReadableWritable>: Comparable {
         }
     }
 
-    /// True if the item exists and is a regular file.
-    ///
-    /// this method does not follow links.
+    /**
+     True if the item exists and is a regular file.
+
+     - Note: This method does not follow links.
+    */
     open var exists: Bool {
         return path.isRegular
     }
@@ -68,128 +72,141 @@ open class File<DataType: ReadableWritable>: Comparable {
 
     // MARK: - Initialization
 
-    /// Initializes a file from a path.
-    ///
-    /// - Parameter path: The path a file to initialize from.
+    /**
+     Initializes a file from a path.
+
+     - Parameter path: The path a file to initialize from.
+    */
     public init(path: Path) {
         self.path = path
     }
 
     // MARK: - Filesystem Operations
 
-    /// Reads the file and returns its data.
-    ///
-    /// - Throws: `FileKitError.ReadFromFileFail`
-    /// - Returns: The data read from file.
+    /**
+     Reads the file and returns its data.
+
+     - Throws: `FileKitError.ReadFromFileFail`
+     - Returns: The data read from file.
+    */
     open func read() throws -> DataType {
         return try DataType.read(from: path)
     }
 
-    /// Writes data to the file.
-    ///
-    /// Writing is done atomically by default.
-    ///
-    /// - Parameter data: The data to be written to the file.
-    ///
-    /// - Throws: `FileKitError.WriteToFileFail`
-    ///
+    /**
+     Writes data to the file.
+
+     Writing is done atomically by default.
+
+     - Parameter data: The data to be written to the file.
+
+     - Throws: `FileKitError.WriteToFileFail`
+    */
     open func write(_ data: DataType) throws {
         try self.write(data, atomically: true)
     }
 
-    /// Writes data to the file.
-    ///
-    /// - Parameter data: The data to be written to the file.
-    /// - Parameter useAuxiliaryFile: If `true`, the data is written to an
-    ///                               auxiliary file that is then renamed to the
-    ///                               file. If `false`, the data is written to
-    ///                               the file directly.
-    ///
-    /// - Throws: `FileKitError.WriteToFileFail`
-    ///
+    /**
+     Writes data to the file.
+
+     - Parameters:
+         - data: The data to be written to the file.
+         - useAuxiliaryFile: If `true`, the data is written to an
+                             auxiliary file that is then renamed to the
+                             file. If `false`, the data is written to
+                             the file directly.
+
+     - Throws: `FileKitError.WriteToFileFail`
+    */
     open func write(_ data: DataType, atomically useAuxiliaryFile: Bool) throws {
         try data.write(to: path, atomically: useAuxiliaryFile)
     }
 
-    /// Creates the file.
-    ///
-    /// Throws an error if the file cannot be created.
-    ///
-    /// - Throws: `FileKitError.CreateFileFail`
-    ///
+    /**
+     Creates the file.
+
+     Throws an error if the file cannot be created.
+
+     - Throws: `FileKitError.CreateFileFail`
+    */
     open func create() throws {
         try path.createFile()
     }
 
-    /// Deletes the file.
-    ///
-    /// Throws an error if the file could not be deleted.
-    ///
-    /// - Throws: `FileKitError.DeleteFileFail`
-    ///
+    /**
+     Deletes the file.
+
+     Throws an error if the file could not be deleted.
+
+     - Throws: `FileKitError.DeleteFileFail`
+    */
     open func delete() throws {
         try path.deleteFile()
     }
 
-    /// Moves the file to a path.
-    ///
-    /// Changes the path property to the given path.
-    ///
-    /// Throws an error if the file cannot be moved.
-    ///
-    /// - Parameter path: The path to move the file to.
-    /// - Throws: `FileKitError.MoveFileFail`
-    ///
+    /**
+     Moves the file to a path.
+
+     Changes the path property to the given path.
+
+     Throws an error if the file cannot be moved.
+
+     - Parameter path: The path to move the file to.
+     - Throws: `FileKitError.MoveFileFail`
+    */
     open func move(to path: Path) throws {
         try self.path.moveFile(to: path)
         self.path = path
     }
 
-    /// Copies the file to a path.
-    ///
-    /// Throws an error if the file could not be copied or if a file already
-    /// exists at the destination path.
-    ///
-    ///
-    /// - Parameter path: The path to copy the file to.
-    /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
-    ///
+    /**
+     Copies the file to a path.
+
+     Throws an error if the file could not be copied or if a file already
+     exists at the destination path.
+
+
+     - Parameter path: The path to copy the file to.
+     - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
+    */
     open func copy(to path: Path) throws {
         try self.path.copyFile(to: path)
     }
 
-    /// Symlinks the file to a path.
-    ///
-    /// If the path already exists and _is not_ a directory, an error will be
-    /// thrown and a link will not be created.
-    ///
-    /// If the path already exists and _is_ a directory, the link will be made
-    /// to `self` in that directory.
-    ///
-    ///
-    /// - Parameter path: The path to symlink the file to.
-    /// - Throws:
-    ///     `FileKitError.FileDoesNotExist`,
-    ///     `FileKitError.CreateSymlinkFail`
-    ///
+    /**
+     Symlinks the file to a path.
+
+     If the path already exists and _is not_ a directory, an error will be
+     thrown and a link will not be created.
+
+     If the path already exists and _is_ a directory, the link will be made
+     to `self` in that directory.
+
+
+     - Parameter path: The path to symlink the file to.
+     - Throws:
+         `FileKitError.FileDoesNotExist`,
+         `FileKitError.CreateSymlinkFail`
+    */
     open func symlink(to path: Path) throws {
         try self.path.symlinkFile(to: path)
     }
 
-    /// Hardlinks the file to a path.
-    ///
-    /// If the path already exists and _is not_ a directory, an error will be
-    /// thrown and a link will not be created.
-    ///
-    /// If the path already exists and _is_ a directory, the link will be made
-    /// to `self` in that directory.
-    ///
-    ///
-    /// - Parameter path: The path to hardlink the file to.
-    /// - Throws:
-    ///     `FileKitError.FileDoesNotExist`,
-    ///     `FileKitError.CreateHardlinkFail`
-    ///
+    /**
+     Hardlinks the file to a path.
+
+     If the path already exists and _is not_ a directory, an error will be
+     thrown and a link will not be created.
+
+     If the path already exists and _is_ a directory, the link will be made
+     to `self` in that directory.
+
+
+     - Parameter path: The path to hardlink the file to.
+     - Throws:
+         `FileKitError.FileDoesNotExist`,
+         `FileKitError.CreateHardlinkFail`
+    */
     open func hardlink(to path: Path) throws {
         try self.path.hardlinkFile(to: path)
     }
@@ -236,13 +253,14 @@ open class File<DataType: ReadableWritable>: Comparable {
         return path.inputStream()
     }
 
-    /// Returns an input stream that writes data to `self`, or `nil` if `self`
-    /// doesn't exist.
-    ///
-    /// - Parameter shouldAppend: `true` if newly written data should be
-    ///                           appended to any existing file contents,
-    ///                           `false` otherwise. Default value is `false`.
-    ///
+    /**
+     Returns an input stream that writes data to `self`, or `nil` if `self`
+     doesn't exist.
+
+     - Parameter shouldAppend: `true` if newly written data should be
+                               appended to any existing file contents,
+                               `false` otherwise. Default value is `false`.
+    */
     open func outputStream(append shouldAppend: Bool = false) -> OutputStream? {
         return path.outputStream(append: shouldAppend)
     }

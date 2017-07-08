@@ -27,12 +27,16 @@
 
 import Foundation
 
-/// A representation of a filesystem dictionary file.
-///
-/// The data type is NSDictionary.
+/**
+ A representation of a filesystem dictionary file.
+
+ The data type is NSDictionary.
+*/
 public typealias NSDictionaryFile = File<NSDictionary>
 
-/// A representation of a filesystem dictionary file.
-///
-/// The data type is DictionaryFile.
+/**
+ A representation of a filesystem dictionary file.
+
+ The data type is DictionaryFile.
+*/
 public typealias DictionaryFile<K: Hashable, V> = File<[K: V]>

@@ -35,10 +35,13 @@ internal struct FileSystemEventStream: RawRepresentable {
     /// The raw FSEventStreamRef value of `self`.
     var rawValue: FSEventStreamRef
 
-    /// Schedules the stream on the specified run loop.
-    ///
-    /// - Parameter runLoop: The run loop.
-    /// - Parameter runLoopMode: The run loop mode.
+    /**
+     Schedules the stream on the specified run loop.
+
+     - Parameters:
+         - runLoop: The run loop.
+         - runLoopMode: The run loop mode.
+    */
     func scheduleWithRunLoop(_ runLoop: CFRunLoop, runLoopMode: CFRunLoopMode) {
         FSEventStreamScheduleWithRunLoop(rawValue, runLoop, runLoopMode.rawValue)
     }
@@ -58,17 +61,22 @@ internal struct FileSystemEventStream: RawRepresentable {
         FSEventStreamStop(rawValue)
     }
 
-    /// Removes the stream from the specified run loop.
-    ///
-    /// - Parameter runLoop: The run loop.
-    /// - Parameter runLoopMode: The run loop mode.
+    /**
+     Removes the stream from the specified run loop.
+
+     - Parameters:
+         - runLoop: The run loop.
+         - runLoopMode: The run loop mode.
+    */
     func unscheduleFromRunLoop(_ runLoop: CFRunLoop, runLoopMode: CFString) {
         FSEventStreamUnscheduleFromRunLoop(rawValue, runLoop, runLoopMode)
     }
 
-    /// Schedules the stream on the specified dispatch queue
-    ///
-    /// - Parameter queue: The queue to be run within.
+    /**
+     Schedules the stream on the specified dispatch queue
+
+     - Parameter queue: The queue to be run within.
+    */
     func setDispatchQueue(_ queue: DispatchQueue) {
         FSEventStreamSetDispatchQueue(rawValue, queue)
     }
@@ -78,18 +86,22 @@ internal struct FileSystemEventStream: RawRepresentable {
         FSEventStreamRelease(rawValue)
     }
 
-    /// Asks the FS Events service to flush out any events that have occurred
-    /// but have not yet been delivered, due to the latency parameter that was
-    /// supplied when the stream was created. This flushing occurs
-    /// asynchronously.
+    /**
+     Asks the FS Events service to flush out any events that have occurred
+     but have not yet been delivered, due to the latency parameter that was
+     supplied when the stream was created. This flushing occurs
+     asynchronously.
+    */
     func flushAsync() {
         FSEventStreamFlushAsync(rawValue)
     }
 
-    /// Asks the FS Events service to flush out any events that have occurred
-    /// but have not yet been delivered, due to the latency parameter that was
-    /// supplied when the stream was created. This flushing occurs
-    /// synchronously.
+    /**
+     Asks the FS Events service to flush out any events that have occurred
+     but have not yet been delivered, due to the latency parameter that was
+     supplied when the stream was created. This flushing occurs
+     synchronously.
+    */
     func flushSync() {
         FSEventStreamFlushSync(rawValue)
     }
@@ -99,9 +111,11 @@ internal struct FileSystemEventStream: RawRepresentable {
         FSEventStreamShow(rawValue)
     }
 
-    /// The dev_t for a device-relative stream, otherwise 0.
-    ///
-    /// - Returns: The dev_t for a device-relative stream or 0.
+    /**
+     The dev_t for a device-relative stream, otherwise 0.
+
+     - Returns: The dev_t for a device-relative stream or 0.
+    */
     func deviceBeingWatched() -> dev_t {
         return FSEventStreamGetDeviceBeingWatched(rawValue)
     }

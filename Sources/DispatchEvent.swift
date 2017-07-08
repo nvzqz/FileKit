@@ -83,9 +83,11 @@ public struct DispatchFileSystemEvents: OptionSet, CustomStringConvertible, Cust
 
     // MARK: - Initialization
 
-    /// Creates a set of events from a raw value.
-    ///
-    /// - Parameter rawValue: The raw value to initialize from.
+    /**
+     Creates a set of events from a raw value.
+
+     - Parameter rawValue: The raw value to initialize from.
+    */
     public init(rawValue: UInt) {
         self.rawValue = rawValue
     }

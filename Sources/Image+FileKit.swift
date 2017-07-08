@@ -45,11 +45,12 @@ public typealias Image = UIImage
 
 extension Image: ReadableWritable, WritableConvertible {
 
-    /// Returns an image from the given path.
-    ///
-    /// - Parameter path: The path to be returned the image for.
-    /// - Throws: FileKitError.ReadFromFileFail
-    ///
+    /**
+     Returns an image from the given path.
+
+     - Parameter path: The path to be returned the image for.
+     - Throws: FileKitError.ReadFromFileFail
+    */
     public class func read(from path: Path) throws -> Self {
         guard let contents = self.init(contentsOfFile: path._safeRawValue) else {
             throw FileKitError.readFromFileFail(path: path)

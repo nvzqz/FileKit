@@ -30,11 +30,12 @@ import Foundation
 
 extension Array: ReadableWritable, WritableConvertible {
 
-    /// Returns an array from the given path.
-    ///
-    /// - Parameter path: The path to be returned the array for.
-    /// - Throws: FileKitError.ReadFromFileFail
-    ///
+    /**
+     Returns an array from the given path.
+
+     - Parameter path: The path to be returned the array for.
+     - Throws: FileKitError.ReadFromFileFail
+    */
     public static func read(from path: Path) throws -> Array {
         guard let contents = NSArray(contentsOfFile: path._safeRawValue) else {
             throw FileKitError.readFromFileFail(path: path)

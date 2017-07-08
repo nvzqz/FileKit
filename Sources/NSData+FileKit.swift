@@ -41,7 +41,13 @@ extension NSData: Readable, WritableToFile {
         return contents
     }
 
-    /// Returns data read from the given path using Data.ReadingOptions.
+    /**
+     Returns data read from the given path using NSData.ReadingOptions
+
+     - Parameters:
+         - path: The path of data to be read from.
+         - options: Reading options
+     */
     public class func read(from path: Path, options: NSData.ReadingOptions) throws -> Self {
         do {
             return try self.init(contentsOfFile: path._safeRawValue, options: options)

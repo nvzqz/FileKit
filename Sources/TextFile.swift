@@ -27,41 +27,50 @@
 
 import Foundation
 
-/// A representation of a filesystem text file.
-///
-/// The data type is String.
+/**
+ A representation of a filesystem text file.
+
+ The data type is String.
+*/
 open class TextFile: File<String> {
 
     /// The text file's string encoding.
     open var encoding: String.Encoding
 
-    /// Initializes a text file from a path.
-    ///
-    /// - Parameter path: The path to be created a text file from.
+    /**
+     Initializes a text file from a path.
+
+     - Parameter path: The path to be created a text file from.
+    */
     public override init(path: Path) {
         self.encoding = String.Encoding.utf8
         super.init(path: path)
     }
 
-    /// Initializes a text file from a path with an encoding.
-    ///
-    /// - Parameter path: The path to be created a text file from.
-    /// - Parameter encoding: The encoding to be used for the text file.
+    /**
+     Initializes a text file from a path with an encoding.
+
+     - Parameters:
+         - path: The path to be created a text file from.
+         - encoding: The encoding to be used for the text file.
+    */
     public init(path: Path, encoding: String.Encoding) {
         self.encoding = encoding
         super.init(path: path)
     }
 
-    /// Writes a string to a text file using the file's encoding.
-    ///
-    /// - Parameter data: The string to be written to the text file.
-    /// - Parameter useAuxiliaryFile: If `true`, the data is written to an
-    ///                               auxiliary file that is then renamed to the
-    ///                               file. If `false`, the data is written to
-    ///                               the file directly.
-    ///
-    /// - Throws: `FileKitError.WriteToFileFail`
-    ///
+    /**
+     Writes a string to a text file using the file's encoding.
+
+     - Parameters:
+         - data: The string to be written to the text file.
+         - useAuxiliaryFile: If `true`, the data is written to an
+                             auxiliary file that is then renamed to the
+                             file. If `false`, the data is written to
+                             the file directly.
+
+     - Throws: `FileKitError.WriteToFileFail`
+    */
     open override func write(_ data: String, atomically useAuxiliaryFile: Bool) throws {
         do {
             try data.write(toFile: path._safeRawValue, atomically: useAuxiliaryFile, encoding: encoding)
@@ -76,13 +85,15 @@ open class TextFile: File<String> {
 
 extension TextFile {
 
-    /// Provide a reader to read line by line.
-    ///
-    /// - Parameter delimiter: the line delimiter (default: \n)
-    /// - Parameter chunkSize: size of buffer (default: 4096)
-    ///
-    /// - Returns: the `TextFileStreamReader`
+    /**
+     Provide a reader to read line by line.
 
+     - Parameters:
+         - delimiter: the line delimiter (default: \n)
+         - chunkSize: size of buffer (default: 4096)
+
+     - Returns: the `TextFileStreamReader`
+    */
     public func streamReader(_ delimiter: String = "\n",
                              chunkSize: Int = 4096) -> TextFileStreamReader? {
             return TextFileStreamReader(
@@ -93,13 +104,16 @@ extension TextFile {
             )
     }
 
-    /// Read file and return filtered lines.
-    ///
-    /// - Parameter motif: the motif to compare
-    /// - Parameter include: check if line include motif if true, exclude if not (default: true)
-    /// - Parameter options: optional options  for string comparaison
-    ///
-    /// - Returns: the lines
+    /**
+     Read file and return filtered lines.
+
+     - Parameters:
+         - motif: the motif to compare
+         - include: check if line include motif if true, exclude if not (default: true)
+         - options: optional options  for string comparaison
+
+     - Returns: the lines
+    */
     public func grep(_ motif: String, include: Bool = true,
                      options: String.CompareOptions = []) -> [String] {
             guard let reader = streamReader() else {
@@ -172,10 +186,13 @@ open class TextFileStreamReader: TextFileStream {
 
     // MARK: - Initialization
 
-    /// - Parameter path:      the file path
-    /// - Parameter delimiter: the line delimiter (default: \n)
-    /// - Parameter encoding: file encoding (default: .utf8)
-    /// - Parameter chunkSize: size of buffer (default: 4096)
+    /**
+     - Parameters:
+         - path: the file path
+         - delimiter: the line delimiter (default: \n)
+         - encoding: file encoding (default: .utf8)
+         - chunkSize: size of buffer (default: 4096)
+    */
     public init?(
         path: Path,
         delimiter: String = "\n",
@@ -255,11 +272,14 @@ open class TextFileStreamWriter: TextFileStream {
     public var append: Bool
     // MARK: - Initialization
 
-    /// - Parameter path:      the file path
-    /// - Parameter delimiter: the line delimiter (default: \n)
-    /// - Parameter encoding: file encoding (default: .utf8)
-    /// - Parameter append: if true append at file end (default: false)
-    /// - Parameter createIfNotExist: if true create file if not exixt (default: true)
+    /**
+     - Parameters:
+         - path: the file path
+         - delimiter: the line delimiter (default: \n)
+         - encoding: file encoding (default: .utf8)
+         - append: if true append at file end (default: false)
+         - createIfNotExist: if true create file if not exixt (default: true)
+    */
     public init?(
         path: Path,
         delimiter: String = "\n",
@@ -280,11 +300,15 @@ open class TextFileStreamWriter: TextFileStream {
         super.init(fileHandle: fileHandle, delimiter: delimiter, encoding: encoding)
     }
 
-    /// Write a new line in file
-    /// - Parameter line:      the line
-    /// - Parameter delim:     append the delimiter (default: true)
-    ///
-    /// - Returns: true if successfully.
+    /**
+     Write a new line in file
+
+     - Parameters:
+         - line: the line
+         - delim: append the delimiter (default: true)
+
+     - Returns: true if successfully.
+    */
     @discardableResult
     open func write(line: String, delim: Bool = true) -> Bool {
         if let handle = fileHandle, let data = line.data(using: self.encoding) {
@@ -308,13 +332,15 @@ open class TextFileStreamWriter: TextFileStream {
 
 extension TextFile {
 
-    /// Provide a writer to write line by line.
-    ///
-    /// - Parameter delimiter: the line delimiter (default: \n)
-    /// - Parameter append: if true append at file end (default: false)
-    ///
-    /// - Returns: the `TextFileStreamWriter`
+    /**
+     Provide a writer to write line by line.
 
+     - Parameters:
+         - delimiter: the line delimiter (default: \n)
+         - append: if true append at file end (default: false)
+
+     - Returns: the `TextFileStreamWriter`
+    */
     public func streamWriter(_ delimiter: String = "\n", append: Bool = false) -> TextFileStreamWriter? {
         return TextFileStreamWriter(
             path: self.path,

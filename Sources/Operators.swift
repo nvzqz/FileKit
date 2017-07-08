@@ -70,13 +70,14 @@ public func == (lhs: TextFile, rhs: TextFile) -> Bool {
 
 infix operator |>>
 
-/// Appends a string to a text file.
-///
-/// If the text file can't be read from, such in the case that it doesn't exist,
-/// then it will try to write the data directly to the file.
-///
-/// - Throws: `FileKitError.WriteToFileFail`
-///
+/**
+ Appends a string to a text file.
+
+ If the text file can't be read from, such in the case that it doesn't exist,
+ then it will try to write the data directly to the file.
+
+ - Throws: `FileKitError.WriteToFileFail`
+*/
 public func |>> (data: String, file: TextFile) throws {
     guard let textStreamWriter = file.streamWriter(append: true) else {
         throw FileKitError.writeToFileFail(path: file.path)
@@ -125,6 +126,11 @@ public func != (lhs: Path, rhs: Path) -> Bool {
 /**
  Concatenates two `Path` instances and returns the result.
 
+ ```swift
+ let systemLib: Path = "/System/Library"
+ print(systemLib + "Fonts")  // "/System/Library/Fonts"
+ ```
+*/
 public func + (lhs: Path, rhs: Path) -> Path {
     guard !lhs.components.isEmpty else { return rhs }
     guard !rhs.components.isEmpty else { return lhs }
@@ -204,13 +210,14 @@ public func </> (path: Path, closure: () throws -> Void) rethrows {
 
 infix operator ->>
 
-/// Moves the file at the left path to a path.
-///
-/// Throws an error if the file at the left path could not be moved or if a file
-/// already exists at the right path.
-///
-/// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.MoveFileFail`
-///
+/**
+ Moves the file at the left path to a path.
+
+ Throws an error if the file at the left path could not be moved or if a file
+ already exists at the right path.
+
+ - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.MoveFileFail`
+*/
 public func ->> (lhs: Path, rhs: Path) throws {
     try lhs.moveFile(to: rhs)
 }
@@ -229,15 +236,16 @@ public func ->> <DataType>(lhs: File<DataType>, rhs: Path) throws {
 
 infix operator ->!
 
-/// Forcibly moves the file at the left path to the right path.
-///
-/// - Warning: If a file at the right path already exists, it will be deleted.
-///
-/// - Throws:
-///     `FileKitError.DeleteFileFail`,
-///     `FileKitError.FileDoesNotExist`,
-///     `FileKitError.CreateSymlinkFail`
-///
+/**
+ Forcibly moves the file at the left path to the right path.
+
+ - Warning: If a file at the right path already exists, it will be deleted.
+
+ - Throws:
+     `FileKitError.DeleteFileFail`,
+     `FileKitError.FileDoesNotExist`,
+     `FileKitError.CreateSymlinkFail`
+*/
 public func ->! (lhs: Path, rhs: Path) throws {
     if rhs.isAny {
         try rhs.deleteFile()
@@ -264,13 +272,14 @@ public func ->! <DataType>(lhs: File<DataType>, rhs: Path) throws {
 
 infix operator +>>
 
-/// Copies the file at the left path to the right path.
-///
-/// Throws an error if the file at the left path could not be copied or if a file
-/// already exists at the right path.
-///
-/// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
-///
+/**
+ Copies the file at the left path to the right path.
+
+ Throws an error if the file at the left path could not be copied or if a file
+ already exists at the right path.
+
+ - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
+*/
 public func +>> (lhs: Path, rhs: Path) throws {
     try lhs.copyFile(to: rhs)
 }
@@ -289,15 +298,16 @@ public func +>> <DataType>(lhs: File<DataType>, rhs: Path) throws {
 
 infix operator +>!
 
-/// Forcibly copies the file at the left path to the right path.
-///
-/// - Warning: If a file at the right path already exists, it will be deleted.
-///
-/// - Throws:
-///     `FileKitError.DeleteFileFail`,
-///     `FileKitError.FileDoesNotExist`,
-///     `FileKitError.CreateSymlinkFail`
-///
+/**
+ Forcibly copies the file at the left path to the right path.
+
+ - Warning: If a file at the right path already exists, it will be deleted.
+
+ - Throws:
+     `FileKitError.DeleteFileFail`,
+     `FileKitError.FileDoesNotExist`,
+     `FileKitError.CreateSymlinkFail`
+*/
 public func +>! (lhs: Path, rhs: Path) throws {
     if rhs.isAny {
         try rhs.deleteFile()
@@ -324,18 +334,19 @@ public func +>! <DataType>(lhs: File<DataType>, rhs: Path) throws {
 
 infix operator =>>
 
-/// Creates a symlink of the left path at the right path.
-///
-/// If the symbolic link path already exists and _is not_ a directory, an
-/// error will be thrown and a link will not be created.
-///
-/// If the symbolic link path already exists and _is_ a directory, the link
-/// will be made to a file in that directory.
-///
-/// - Throws:
-///     `FileKitError.FileDoesNotExist`,
-///     `FileKitError.CreateSymlinkFail`
-///
+/**
+ Creates a symlink of the left path at the right path.
+
+ If the symbolic link path already exists and _is not_ a directory, an
+ error will be thrown and a link will not be created.
+
+ If the symbolic link path already exists and _is_ a directory, the link
+ will be made to a file in that directory.
+
+ - Throws:
+     `FileKitError.FileDoesNotExist`,
+     `FileKitError.CreateSymlinkFail`
+*/
 public func =>> (lhs: Path, rhs: Path) throws {
     try lhs.symlinkFile(to: rhs)
 }
@@ -357,16 +368,17 @@ public func =>> <DataType>(lhs: File<DataType>, rhs: Path) throws {
 
 infix operator =>!
 
-/// Forcibly creates a symlink of the left path at the right path by deleting
-/// anything at the right path before creating the symlink.
-///
-/// - Warning: If the symbolic link path already exists, it will be deleted.
-///
-/// - Throws:
-///     `FileKitError.DeleteFileFail`,
-///     `FileKitError.FileDoesNotExist`,
-///     `FileKitError.CreateSymlinkFail`
-///
+/**
+ Forcibly creates a symlink of the left path at the right path by deleting
+ anything at the right path before creating the symlink.
+
+ - Warning: If the symbolic link path already exists, it will be deleted.
+
+ - Throws:
+     `FileKitError.DeleteFileFail`,
+     `FileKitError.FileDoesNotExist`,
+     `FileKitError.CreateSymlinkFail`
+*/
 public func =>! (lhs: Path, rhs: Path) throws {
     //    guard lhs.exists else {
     //        throw FileKitError.FileDoesNotExist(path: lhs)

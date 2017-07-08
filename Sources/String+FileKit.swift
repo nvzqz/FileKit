@@ -32,7 +32,11 @@ var ReadableWritableStringEncoding = String.Encoding.utf8
 /// Allows String to be used as a ReadableWritable.
 extension String: ReadableWritable {
 
-    /// Creates a string from a path.
+    /**
+     Returns a string read from the given path.
+
+     - Parameter path: The path of a string to be read from.
+    */
     public static func read(from path: Path) throws -> String {
         let possibleContents = try? String(
             contentsOfFile: path._safeRawValue,
@@ -43,22 +47,25 @@ extension String: ReadableWritable {
         return contents
     }
 
-    /// Writes the string to a path atomically.
-    ///
-    /// - Parameter path: The path being written to.
-    ///
+    /**
+     Writes the string to a path atomically.
+
+     - Parameter path: The path being written to.
+    */
     public func write(to path: Path) throws {
         try write(to: path, atomically: true)
     }
 
-    /// Writes the string to a path with `ReadableWritableStringEncoding` encoding.
-    ///
-    /// - Parameter path: The path being written to.
-    /// - Parameter useAuxiliaryFile: If `true`, the data is written to an
-    ///                               auxiliary file that is then renamed to the
-    ///                               file. If `false`, the data is written to
-    ///                               the file directly.
-    ///
+    /**
+     Writes the string to a path with `ReadableWritableStringEncoding` encoding.
+
+     - Parameters:
+         - path: The path being written to.
+         - useAuxiliaryFile: If `true`, the data is written to an
+                             auxiliary file that is then renamed to the
+                             file. If `false`, the data is written to
+                             the file directly.
+    */
     public func write(to path: Path, atomically useAuxiliaryFile: Bool) throws {
         do {
             try self.write(toFile: path._safeRawValue,

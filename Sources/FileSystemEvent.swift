@@ -56,12 +56,16 @@ extension Path {
 
     // MARK: - Watching
 
-    /// Watches a path for filesystem events and handles them in the callback.
-    ///
-    /// - Parameter latency: The latency in seconds.
-    /// - Parameter queue: The queue to be run within.
-    /// - Parameter callback: The callback to handle events.
-    /// - Returns: The `FileSystemWatcher` object.
+    /**
+     Watches a path for filesystem events and handles them in the callback.
+
+     - Parameters:
+         - latency: The latency in seconds.
+         - queue: The queue to be run within.
+         - callback: The callback to handle events.
+
+     - Returns: The `FileSystemWatcher` object.
+    */
     public func watch(_ latency: TimeInterval = 0, queue: DispatchQueue = DispatchQueue.main, callback: @escaping (FileSystemEvent) -> Void) -> FileSystemWatcher {
         let watcher = FileSystemWatcher(paths: [self], latency: latency, queue: queue, callback: callback)
         watcher.watch()
@@ -73,13 +77,17 @@ extension Sequence where Self.Iterator.Element == Path {
 
     // MARK: - Watching
 
-    /// Watches the sequence of paths for filesystem events and handles them in
-    /// the callback.
-    ///
-    /// - Parameter latency: The latency in seconds.
-    /// - Parameter queue: The queue to be run within.
-    /// - Parameter callback: The callback to handle events.
-    /// - Returns: The `FileSystemWatcher` object.
+    /**
+     Watches the sequence of paths for filesystem events and handles them in
+     the callback.
+
+     - Parameters:
+         - latency: The latency in seconds.
+         - queue: The queue to be run within.
+         - callback: The callback to handle events.
+
+     - Returns: The `FileSystemWatcher` object.
+    */
     public func watch(_ latency: TimeInterval = 0, queue: DispatchQueue = DispatchQueue.main, callback: @escaping (FileSystemEvent) -> Void) -> FileSystemWatcher {
         let watcher = FileSystemWatcher(paths: Array(self), latency: latency, queue: queue, callback: callback)
         watcher.watch()
@@ -101,26 +109,32 @@ public struct FileSystemEventFlags: OptionSet, CustomStringConvertible, CustomDe
     /// but all its children, recursively.
     public static let MustScanSubDirs = FileSystemEventFlags(rawValue: kFSEventStreamEventFlagMustScanSubDirs)
 
-    /// May be set in addition to `MustScanSubDirs` indicate that a problem
-    /// occurred in buffering the events (the particular flag set indicates
-    /// where the problem occurred) and that the client must do a full scan of
-    /// any directories (and their subdirectories, recursively) being monitored
-    /// by this stream.
+    /**
+     May be set in addition to `MustScanSubDirs` indicate that a problem
+     occurred in buffering the events (the particular flag set indicates
+     where the problem occurred) and that the client must do a full scan of
+     any directories (and their subdirectories, recursively) being monitored
+     by this stream.
+    */
     public static let UserDropped = FileSystemEventFlags(rawValue: kFSEventStreamEventFlagUserDropped)
 
-    /// May be set in addition to `MustScanSubDirs` indicate that a problem
-    /// occurred in buffering the events (the particular flag set indicates
-    /// where the problem occurred) and that the client must do a full scan of
-    /// any directories (and their subdirectories, recursively) being monitored
-    /// by this stream.
+    /**
+     May be set in addition to `MustScanSubDirs` indicate that a problem
+     occurred in buffering the events (the particular flag set indicates
+     where the problem occurred) and that the client must do a full scan of
+     any directories (and their subdirectories, recursively) being monitored
+     by this stream.
+    */
     public static let KernelDropped = FileSystemEventFlags(rawValue: kFSEventStreamEventFlagKernelDropped)
 
     /// The 64-bit event ID counter wrapped around.
     public static let EventIdsWrapped = FileSystemEventFlags(rawValue: kFSEventStreamEventFlagEventIdsWrapped)
 
-    /// Denotes a sentinel event sent to mark the end of the "historical" events
-    /// sent as a result of specifying a `sinceWhen` value in the
-    /// FSEventStreamCreate...() call that created this event stream.
+    /**
+     Denotes a sentinel event sent to mark the end of the "historical" events
+     sent as a result of specifying a `sinceWhen` value in the
+     FSEventStreamCreate...() call that created this event stream.
+    */
     public static let HistoryDone = FileSystemEventFlags(rawValue: kFSEventStreamEventFlagHistoryDone)
 
     /// Denotes a special event sent when there is a change to one of the
@@ -257,9 +271,11 @@ public struct FileSystemEventFlags: OptionSet, CustomStringConvertible, CustomDe
 
     // MARK: - Initialization
 
-    /// Creates a set of event stream flags from a raw value.
-    ///
-    /// - Parameter rawValue: The raw value to initialize from.
+    /**
+     Creates a set of event stream flags from a raw value.
+
+     - Parameter rawValue: The raw value to initialize from.
+    */
     public init(rawValue: Int) { self.rawValue = rawValue }
 
 }
@@ -331,9 +347,11 @@ public struct FileSystemEventStreamCreateFlags: OptionSet, CustomStringConvertib
 
     // MARK: - Initialization
 
-    /// Creates a set of event stream creation flags from a raw value.
-    ///
-    /// - Parameter rawValue: The raw value to initialize from.
+    /**
+     Creates a set of event stream creation flags from a raw value.
+
+     - Parameter rawValue: The raw value to initialize from.
+    */
     public init(rawValue: Int) { self.rawValue = rawValue }
 
 }

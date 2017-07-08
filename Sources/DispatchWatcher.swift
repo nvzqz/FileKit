@@ -50,48 +50,34 @@ public extension DispatchFileSystemWatcherDelegate {
     // MARK: - Extension
 
     /// Call when the file-system object was deleted from the namespace.
-    public func fsWatcherDidObserveDelete(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveDelete(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object data changed.
-    public func fsWatcherDidObserveWrite(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveWrite(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object changed in size.
-    public func fsWatcherDidObserveExtend(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveExtend(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object metadata changed.
-    public func fsWatcherDidObserveAttrib(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveAttrib(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object link count changed.
-    public func fsWatcherDidObserveLink(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveLink(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object was renamed in the namespace.
-    public func fsWatcherDidObserveRename(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveRename(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object was revoked.
-    public func fsWatcherDidObserveRevoke(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveRevoke(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object was created.
-    public func fsWatcherDidObserveCreate(_ watch: DispatchFileSystemWatcher) {
+    public func fsWatcherDidObserveCreate(_ watch: DispatchFileSystemWatcher) {}
 
-    }
+    /**
+     Call when the directory changed (additions, deletions, and renamings).
 
-    /// Call when the directory changed (additions, deletions, and renamings).
-    ///
-    /// Calls `fsWatcherDidObserveWrite` by default.
+     Calls `fsWatcherDidObserveWrite` by default.
+    */
     public func fsWatcherDidObserveDirectoryChange(_ watch: DispatchFileSystemWatcher) {
         fsWatcherDidObserveWrite(watch)
     }
@@ -139,14 +125,17 @@ open class DispatchFileSystemWatcher {
 
     // MARK: - Initialization
 
-    /// Creates a watcher for the given paths.
-    ///
-    /// - Parameter paths: The paths.
-    /// - Parameter events: The create events.
-    /// - Parameter queue: The queue to be run within.
-    /// - Parameter callback: The callback to be called on changes.
-    ///
-    /// This method does follow links.
+    /**
+     Creates a watcher for the given paths.
+
+     - Parameters:
+         - paths: The paths.
+         - events: The create events.
+         - queue: The queue to be run within.
+         - callback: The callback to be called on changes.
+
+     - Note: This method does follow links.
+    */
     init(path: Path,
          events: DispatchFileSystemEvents,
          queue: DispatchQueue,
@@ -169,11 +158,13 @@ open class DispatchFileSystemWatcher {
 
     // MARK: - Private Methods
 
-    /// Dispatch the event.
-    ///
-    /// If `callback` is set, call the `callback`. Else if `delegate` is set, call the `delegate`
-    ///
-    /// - Parameter eventType: The current event to be watched.
+    /**
+     Dispatch the event.
+
+     If `callback` is set, call the `callback`. Else if `delegate` is set, call the `delegate`
+
+     - Parameter eventType: The current event to be watched.
+    */
     fileprivate func dispatchDelegate(_ eventType: DispatchFileSystemEvents) {
         if let callback = self.callback {
             callback(self)
@@ -212,9 +203,11 @@ open class DispatchFileSystemWatcher {
 
     // MARK: - Methods
 
-    /// Start watching.
-    ///
-    /// This method does follow links.
+    /**
+     Start watching.
+
+     - Note: This method does follow links.
+    */
     @discardableResult
     open func startWatching() -> Bool {
 
@@ -288,9 +281,11 @@ open class DispatchFileSystemWatcher {
 
     }
 
-    /// Stop watching.
-    ///
-    /// **Note:** make sure call this func, or `self` will not release
+    /**
+     Stop watching.
+
+     - Note: make sure to call this func, or `self` will not release
+    */
     open func stopWatching() {
         if source != nil {
             source!.cancel()
@@ -312,12 +307,15 @@ extension Path {
     #if os(OSX) || os(macOS)
     // MARK: - Watching
 
-    /// Watches a path for filesystem events and handles them in the callback or delegate.
-    ///
-    /// - Parameter events: The create events.
-    /// - Parameter queue: The queue to be run within.
-    /// - Parameter delegate: The delegate to call when events happen.
-    /// - Parameter callback: The callback to be called on changes.
+    /**
+     Watches a path for filesystem events and handles them in the callback or delegate.
+
+     - Parameters:
+         - events: The create events.
+         - queue: The queue to be run within.
+         - delegate: The delegate to call when events happen.
+         - callback: The callback to be called on changes.
+    */
     public func watch2(_ events: DispatchFileSystemEvents = .All,
                        queue: DispatchQueue? = nil,
                        delegate: DispatchFileSystemWatcherDelegate? = nil,
@@ -339,12 +337,15 @@ extension Path {
 
     // MARK: - Watching
 
-    /// Watches a path for filesystem events and handles them in the callback or delegate.
-    ///
-    /// - Parameter events: The create events.
-    /// - Parameter queue: The queue to be run within.
-    /// - Parameter delegate: The delegate to call when events happen.
-    /// - Parameter callback: The callback to be called on changes.
+    /**
+     Watches a path for filesystem events and handles them in the callback or delegate.
+
+     - Parameters:
+     - events: The create events.
+     - queue: The queue to be run within.
+     - delegate: The delegate to call when events happen.
+     - callback: The callback to be called on changes.
+    */
     public func watch(_ events: DispatchFileSystemEvents = .All,
                       queue: DispatchQueue = DispatchQueue.global(qos: .default),
                       delegate: DispatchFileSystemWatcherDelegate? = nil,

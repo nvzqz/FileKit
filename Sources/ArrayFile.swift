@@ -27,12 +27,16 @@
 
 import Foundation
 
-/// A representation of a filesystem array file.
-///
-/// The data type is NSArray.
+/**
+ A representation of a filesystem array file.
+
+ The data type is NSArray.
+*/
 public typealias NSArrayFile = File<NSArray>
 
-/// A representation of a filesystem array file.
-///
-/// The data type is Array.
+/**
+ A representation of a filesystem array file.
+
+ The data type is Array.
+*/
 public typealias ArrayFile<T> = File<[T]>

@@ -51,9 +51,11 @@ public enum FileType: String {
     /// The type of the file is unknown.
     case unknown
 
-    /// Creates a FileType from an `FileAttributeType` attribute.
-    ///
-    /// - Parameter rawValue: The raw value to create from.
+    /**
+     Creates a FileType from an `FileAttributeType` attribute.
+
+     - Parameter rawValue: The raw value to create from.
+    */
     public init?(rawValue: String) {
         switch rawValue {
         case FileAttributeType.typeDirectory.rawValue:

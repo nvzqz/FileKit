@@ -40,19 +40,22 @@ public enum FileProtection: String {
     /// from or written to while the device is locked or booting.
     case complete
 
-    /// The file is stored in an encrypted format on disk. Files can be created
-    /// while the device is locked, but once closed, cannot be opened again
-    /// until the device is unlocked.
+    /**
+     The file is stored in an encrypted format on disk. Files can be created
+     while the device is locked, but once closed, cannot be opened again
+     until the device is unlocked.
+    */
     case completeUnlessOpen
 
     /// The file is stored in an encrypted format on disk and cannot be accessed
     /// until after the device has booted.
     case completeUntilFirstUserAuthentication
 
-    /// Initializes `self` from a file protection value.
-    ///
-    /// - Parameter rawValue: The raw value to initialize from.
-    ///
+    /**
+     Initializes `self` from a file protection value.
+
+     - Parameter rawValue: The raw value to initialize from.
+    */
     public init?(rawValue: String) {
         switch rawValue {
         case FileProtectionType.none.rawValue:
@@ -111,14 +114,15 @@ extension Path {
         return protection
     }
 
-    /// Creates a file at path with specified file protection.
-    ///
-    /// - Parameter fileProtection: the protection to apply to the file.
-    ///
-    /// Throws an error if the file cannot be created.
-    ///
-    /// - Throws: `FileKitError.CreateFileFail`
-    ///
+    /**
+     Creates a file at path with specified file protection.
+
+     - Parameter fileProtection: the protection to apply to the file.
+
+     Throws an error if the file cannot be created.
+
+     - Throws: `FileKitError.CreateFileFail`
+    */
     public func createFile(_ fileProtection: FileProtection) throws {
         let manager = FileManager()
         let attributes = [FileAttributeKey.protectionKey.rawValue: fileProtection.rawValue]
@@ -138,14 +142,15 @@ extension File {
         return path.fileProtection
     }
 
-    /// Creates the file with specified file protection.
-    ///
-    /// - Parameter fileProtection: the protection to apply to the file.
-    ///
-    /// Throws an error if the file cannot be created.
-    ///
-    /// - Throws: `FileKitError.CreateFileFail`
-    ///
+    /**
+     Creates the file with specified file protection.
+
+     - Parameter fileProtection: the protection to apply to the file.
+
+     Throws an error if the file cannot be created.
+
+     - Throws: `FileKitError.CreateFileFail`
+    */
     public func create(_ fileProtection: FileProtection) throws {
         try path.createFile(fileProtection)
     }
@@ -154,17 +159,19 @@ extension File {
 
 extension File where DataType: NSData {
 
-    /// Writes data to the file.
-    ///
-    /// - Parameter data: The data to be written to the file.
-    /// - Parameter fileProtection: the protection to apply to the file.
-    /// - Parameter atomically: If `true`, the data is written to an
-    ///                         auxiliary file that is then renamed to the
-    ///                         file. If `false`, the data is written to
-    ///                         the file directly.
-    ///
-    /// - Throws: `FileKitError.WriteToFileFail`
-    ///
+    /**
+     Writes data to the file.
+
+     - Parameters:
+         - data: The data to be written to the file.
+         - fileProtection: the protection to apply to the file.
+         - atomically: If `true`, the data is written to an
+                       auxiliary file that is then renamed to the
+                       file. If `false`, the data is written to
+                       the file directly.
+
+     - Throws: `FileKitError.WriteToFileFail`
+    */
     public func write(_ data: DataType, fileProtection: FileProtection, atomically: Bool = true) throws {
         var options = fileProtection.dataWritingOption
         if atomically {
