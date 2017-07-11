@@ -126,7 +126,10 @@ extension Path {
     public func createFile(_ fileProtection: FileProtection) throws {
         let manager = FileManager()
         let attributes = [FileAttributeKey.protectionKey.rawValue: fileProtection.rawValue]
-        if !manager.createFile(atPath: _safeRawValue, contents: nil, attributes: attributes) {
+        guard manager.createFile(atPath: _safeRawValue,
+                                 contents: nil,
+                                 attributes: attributes)
+        else {
             throw FileKitError.createFileFail(path: self)
         }
     }

@@ -58,11 +58,10 @@ extension NSString: Writable {
                              the file directly.
     */
     public func write(to path: Path, atomically useAuxiliaryFile: Bool) throws {
-        do {
-            try self.write(toFile: path._safeRawValue,
+        guard let _ = try? self.write(toFile: path._safeRawValue,
                            atomically: useAuxiliaryFile,
                            encoding: String.Encoding.utf8.rawValue)
-        } catch {
+        else {
             throw FileKitError.writeToFileFail(path: path)
         }
     }

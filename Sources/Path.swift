@@ -104,7 +104,7 @@ public struct Path {
      Returns [] if path is `.` or `""`
     */
     public var components: [Path] {
-        if rawValue == "" || rawValue == "." {
+        guard rawValue != "" && rawValue != "." else {
             return []
         }
         #if !os(Linux)
@@ -127,12 +127,13 @@ public struct Path {
         let count = comps.count
         let cleanComps: [Path] = comps.enumerated().flatMap { (arg) -> Path? in
             let (i, p) = arg
-            if (p.rawValue != ".." && i < count - 1 && comps[i + 1].rawValue == "..") || (p.rawValue == ".." && i > 0 && comps[i - 1].rawValue != "..") {
+            guard !(p.rawValue != ".." && i < count - 1 && comps[i + 1].rawValue == "..")
+               && !(p.rawValue == ".." && i > 0 && comps[i - 1].rawValue != "..")
+            else {
                 isContinue = true
                 return nil
-            } else {
-                return p
             }
+            return p
         }
         return isContinue ? _cleanComponents(cleanComps) : cleanComps
     }
@@ -154,11 +155,8 @@ public struct Path {
     /// The standardized path string value without expanding tilde
     public var standardWithTilde: Path {
         let comps = components
-        if comps.isEmpty {
-            return Path("")
-        } else {
-            return self[comps.count - 1]
-        }
+        guard !comps.isEmpty else { return Path("") }
+        return self[comps.count - 1]
     }
 
     /// A new path created by resolving all symlinks and standardizing the path.
@@ -382,12 +380,13 @@ extension Path {
 
      - Parameter closure: The block to run while `Path.current` is changed.
     */
-    public func changeDirectory(_ closure: () throws -> Void) rethrows {
+    public func changeDirectory(_ closure: () throws -> Void) throws {
         let previous = Path.current
         defer { Path.current = previous }
-        if Path.fileManager.changeCurrentDirectoryPath(_safeRawValue) {
-            try closure()
+        guard Path.fileManager.changeCurrentDirectoryPath(_safeRawValue) else {
+            throw FileKitError.changeDirectoryFail(from: previous, to: self)
         }
+        try closure()
     }
 
     /**
@@ -412,17 +411,14 @@ extension Path {
                             Default value is `true`.
     */
     public func isChildOfPath(_ path: Path, recursive: Bool = true) -> Bool {
-        if !(isRelative && path.isRelative) && !(isAbsolute && path.isAbsolute) {
+        guard (isRelative && path.isRelative) || (isAbsolute && path.isAbsolute) else {
             return self.absolute.isChildOfPath(path.absolute)
         }
-        if isRoot {
-            return true
-        }
+        guard !isRoot else { return true }
         if recursive {
             return path.isAncestorOfPath(self)
-        } else {
-            return path.parent == self
         }
+        return path.parent == self
     }
 
     /**
@@ -431,16 +427,11 @@ extension Path {
      Relative paths can't be compared return `false`. like `../../path1/path2` and `../path2`
     */
     public func isAncestorOfPath(_ path: Path) -> Bool {
-        if !(isRelative && path.isRelative) && !(isAbsolute && path.isAbsolute) {
+        guard (isRelative && path.isRelative) || (isAbsolute && path.isAbsolute) else {
             return self.absolute.isAncestorOfPath(path.absolute)
         }
-        if path.isRoot {
-            return true
-        }
-        if self != path && self.commonAncestor(path) == path {
-            return true
-        }
-        return false
+        guard !path.isRoot else { return true }
+        return self != path && self.commonAncestor(path) == path
     }
 
     /**
@@ -449,7 +440,7 @@ extension Path {
      Relative path return the most precise path if possible
     */
     public func commonAncestor(_ path: Path) -> Path {
-        if !(isRelative && path.isRelative) && !(isAbsolute && path.isAbsolute) {
+        guard (isRelative && path.isRelative) || (isAbsolute && path.isAbsolute) else {
             return self.absolute.commonAncestor(path.absolute)
         }
         let selfComponents = self.components
@@ -459,7 +450,7 @@ extension Path {
         var total = minCount
 
         for index in 0 ..< total {
-            if selfComponents[index].rawValue != pathComponents[index].rawValue {
+            guard selfComponents[index].rawValue == pathComponents[index].rawValue else {
                 total = index
                 break
             }
@@ -476,49 +467,41 @@ extension Path {
             // count for prefix ".." in components
             var n1 = 0, n2 = 0
             for elem in selfComponents {
-                if elem.rawValue == ".." {
-                    n1 += 1
-                } else {
-                    break
-                }
+                guard elem.rawValue == ".." else { break }
+                n1 += 1
             }
             for elem in pathComponents {
-                if elem.rawValue == ".." {
-                    n2 += 1
-                } else {
-                    break
-                }
+                guard elem.rawValue == ".." else { break }
+                n2 += 1
             }
-            if n1 == n2 {
-                // paths like "../../common/path1" and "../../common/path2"
-                return common
-            } else {    // paths like "../path" and "../../path2/path1"
-                let maxCount = Swift.max(n1, n2)
-                var dotPath: Path = ""
-                for _ in 0..<maxCount {
-                    dotPath += ".."
-                }
-                return dotPath
+
+            // paths like "../../common/path1" and "../../common/path2"
+            guard n1 != n2 else { return common }
+
+            // paths like "../path" and "../../path2/path1"
+            let maxCount = Swift.max(n1, n2)
+            var dotPath: Path = ""
+            for _ in 0..<maxCount {
+                dotPath += ".."
             }
+            return dotPath
         }
     }
 
     /// Returns the relative path type.
     public var relativePathType: RelativePathType {
-        if isAbsolute {
-            return .absolute
-        } else {
-            let comp = self.components
-            switch comp.first?.rawValue {
-            case nil:
-                return .current
-            case ".."? where comp.count > 1:
-                return .ancestor
-            case ".."?:
-                return .parent
-            default:
-                return .normal
-            }
+        guard !isAbsolute else { return .absolute }
+
+        let comp = self.components
+        switch comp.first?.rawValue {
+        case nil:
+            return .current
+        case ".."? where comp.count > 1:
+            return .ancestor
+        case ".."?:
+            return .parent
+        default:
+            return .normal
         }
     }
 
@@ -607,10 +590,10 @@ extension Path {
             throw FileKitError.createSymlinkFail(from: self, to: path)
         }
 
-        do {
-            try Path.fileManager.createSymbolicLink(
-                atPath: linkPath._safeRawValue, withDestinationPath: self._safeRawValue)
-        } catch {
+        guard let _ = try? Path.fileManager.createSymbolicLink(
+            atPath: linkPath._safeRawValue,
+            withDestinationPath: self._safeRawValue)
+        else {
             throw FileKitError.createSymlinkFail(from: self, to: linkPath)
         }
     }
@@ -635,9 +618,9 @@ extension Path {
             throw FileKitError.createHardlinkFail(from: self, to: path)
         }
 
-        do {
-            try Path.fileManager.linkItem(atPath: self._safeRawValue, toPath: linkPath._safeRawValue)
-        } catch {
+        guard let _ = try? Path.fileManager.linkItem(atPath: self._safeRawValue,
+                                                     toPath: linkPath._safeRawValue)
+        else {
             throw FileKitError.createHardlinkFail(from: self, to: path)
         }
     }
@@ -654,7 +637,10 @@ extension Path {
      If a file or symlink exists, this method removes the file or symlink and create regular file
     */
     public func createFile() throws {
-        if !Path.fileManager.createFile(atPath: _safeRawValue, contents: nil, attributes: nil) {
+        guard Path.fileManager.createFile(atPath: _safeRawValue,
+                                          contents: nil,
+                                          attributes: nil)
+        else {
             throw FileKitError.createFileFail(path: self)
         }
     }
@@ -671,13 +657,13 @@ extension Path {
          `FileKitError.AttributesChangeFail`
     */
     public func touch(_ updateModificationDate: Bool = true) throws {
-        if self.exists {
+        guard !self.exists else {
             if updateModificationDate {
                 try _setAttribute(FileAttributeKey.modificationDate, value: Date())
             }
-        } else {
-            try createFile()
+            return
         }
+        try createFile()
     }
 
     // swiftlint:disable line_length
@@ -696,12 +682,11 @@ extension Path {
      - Note: This method does not follow links.
     */
     public func createDirectory(withIntermediateDirectories createIntermediates: Bool = true) throws {
-        do {
-            let manager = Path.fileManager
-            try manager.createDirectory(atPath: _safeRawValue,
+        let manager = Path.fileManager
+        guard let _ = try? manager.createDirectory(atPath: _safeRawValue,
                 withIntermediateDirectories: createIntermediates,
                 attributes: nil)
-        } catch {
+        else {
             throw FileKitError.createDirectoryFail(path: self)
         }
     }
@@ -718,9 +703,7 @@ extension Path {
      - Note: This method does not follow links.
     */
     public func deleteFile() throws {
-        do {
-            try Path.fileManager.removeItem(atPath: _safeRawValue)
-        } catch {
+        guard let _ = try? Path.fileManager.removeItem(atPath: _safeRawValue) else {
             throw FileKitError.deleteFileFail(path: self)
         }
     }
@@ -735,18 +718,16 @@ extension Path {
      - Note: This method does not follow links.
     */
     public func moveFile(to path: Path) throws {
-        if self.isAny {
-            if !path.isAny {
-                do {
-                    try Path.fileManager.moveItem(atPath: self._safeRawValue, toPath: path._safeRawValue)
-                } catch {
-                    throw FileKitError.moveFileFail(from: self, to: path)
-                }
-            } else {
-                throw FileKitError.moveFileFail(from: self, to: path)
-            }
-        } else {
+        guard self.isAny else {
             throw FileKitError.fileDoesNotExist(path: self)
+        }
+        guard !path.isAny else {
+            throw FileKitError.fileAlreadyExists(path: path)
+        }
+        guard let _ = try? Path.fileManager.moveItem(atPath: self._safeRawValue,
+                                                     toPath: path._safeRawValue)
+        else {
+            throw FileKitError.moveFileFail(from: self, to: path)
         }
     }
 
@@ -779,18 +760,16 @@ extension Path {
      - Note: This method does not follow links.
     */
     public func copyFile(to path: Path) throws {
-        if self.isAny {
-            if !path.isAny {
-                do {
-                    try Path.fileManager.copyItem(atPath: self._safeRawValue, toPath: path._safeRawValue)
-                } catch {
-                    throw FileKitError.copyFileFail(from: self, to: path)
-                }
-            } else {
-                throw FileKitError.copyFileFail(from: self, to: path)
-            }
-        } else {
+        guard self.isAny else {
             throw FileKitError.fileDoesNotExist(path: self)
+        }
+        guard !path.isAny else {
+            throw FileKitError.fileAlreadyExists(path: path)
+        }
+        guard let _ = try? Path.fileManager.copyItem(atPath: self._safeRawValue,
+                                                     toPath: path._safeRawValue)
+        else {
+            throw FileKitError.copyFileFail(from: self, to: path)
         }
     }
 
@@ -868,20 +847,21 @@ extension Path { // : Indexable {
     */
     public subscript(position: Int) -> Path {
         let components = self.components
-        if position < 0 || position >= components.count {
-            fatalError("Path index out of range")
-        } else {
-            var result = components.first!
-            for i in 1 ..< position + 1 {
-                result += components[i]
-            }
-            return result
+        guard position >= 0 && position < components.count else {
+            fatalError("Path index '\(position)' out of range")
         }
+        var result = components.first!
+        for i in 1 ..< position + 1 {
+            result += components[i]
+        }
+        return result
     }
 
     public subscript(bounds: Range<Int>) -> Path {
         let components = self.components
-        let bounds = bounds.clamped(to: 0 ..< (components.count - 1))
+        guard bounds.lowerBound >= 0 && bounds.upperBound < components.count else {
+            fatalError("Subscript bounds '\(bounds.lowerBound)..<\(bounds.upperBound)' out of range")
+        }
         var result = components[bounds.lowerBound]
         for i in (bounds.lowerBound + 1) ..< bounds.upperBound {
             result += components[i]
@@ -891,6 +871,9 @@ extension Path { // : Indexable {
 
     public subscript(partialBounds: PartialRangeFrom<Int>) -> Path {
         let components = self.components
+        guard partialBounds.lowerBound >= 0 && partialBounds.lowerBound < components.count else {
+            fatalError("Subscript bounds '\(partialBounds.lowerBound)...' out of range")
+        }
         var result = components[partialBounds.lowerBound]
         for i in (partialBounds.lowerBound + 1) ... (components.count - 1) {
             result += components[i]
@@ -901,8 +884,10 @@ extension Path { // : Indexable {
     public subscript(partialBounds: PartialRangeUpTo<Int>) -> Path {
         let components = self.components
         var result = components[0]
-        let upperBound = partialBounds.upperBound < components.count ? partialBounds.upperBound : components.count - 1
-        for i in 1 ..< upperBound {
+        guard partialBounds.upperBound < components.count else {
+            fatalError("Subscript bounds '..<\(partialBounds.upperBound)' out of range")
+        }
+        for i in 1 ..< partialBounds.upperBound {
             result += components[i]
         }
         return result
@@ -911,8 +896,10 @@ extension Path { // : Indexable {
     public subscript(partialBounds: PartialRangeThrough<Int>) -> Path {
         let components = self.components
         var result = components[0]
-        let upperBound = partialBounds.upperBound < components.count ? partialBounds.upperBound : components.count - 1
-        for i in 1 ... upperBound {
+        guard partialBounds.upperBound < components.count else {
+            fatalError("Subscript bounds '...\(partialBounds.upperBound)' out of range")
+        }
+        for i in 1 ..< partialBounds.upperBound {
             result += components[i]
         }
         return result
@@ -943,9 +930,9 @@ extension Path {
      - Note: This method does not follow links.
     */
     fileprivate func _setAttributes(_ attributes: [FileAttributeKey : Any]) throws {
-        do {
-            try Path.fileManager.setAttributes(attributes, ofItemAtPath: self._safeRawValue)
-        } catch {
+        guard let _ = try? Path.fileManager.setAttributes(attributes,
+                                                          ofItemAtPath: self._safeRawValue)
+        else {
             throw FileKitError.attributesChangeFail(path: self)
         }
     }

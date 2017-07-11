@@ -61,10 +61,9 @@ public struct DispatchFileSystemEvents: OptionSet, CustomStringConvertible, Cust
     public var description: String {
         var result = ""
         for (index, element) in DispatchFileSystemEvents.allEvents.enumerated() {
-            if self.contains(element) {
-                let name = DispatchFileSystemEvents.allEventNames[index]
-                result += result.isEmpty ? "\(name)": ", \(name)"
-            }
+            guard self.contains(element) else { continue }
+            let name = DispatchFileSystemEvents.allEventNames[index]
+            result += result.isEmpty ? "\(name)": ", \(name)"
         }
         return String(describing: type(of: self)) + "[\(result)]"
     }
@@ -73,10 +72,9 @@ public struct DispatchFileSystemEvents: OptionSet, CustomStringConvertible, Cust
     public var debugDescription: String {
         var result = ""
         for (index, element) in DispatchFileSystemEvents.allEvents.enumerated() {
-            if self.contains(element) {
-                let name = DispatchFileSystemEvents.allEventNames[index] + "(\(element.rawValue))"
-                result += result.isEmpty ? "\(name)": ", \(name)"
-            }
+            guard self.contains(element) else { continue }
+            let name = DispatchFileSystemEvents.allEventNames[index] + "(\(element.rawValue))"
+            result += result.isEmpty ? "\(name)": ", \(name)"
         }
         return String(describing: type(of: self)) + "[\(result)]"
     }

@@ -72,9 +72,10 @@ open class TextFile: File<String> {
      - Throws: `FileKitError.WriteToFileFail`
     */
     open override func write(_ data: String, atomically useAuxiliaryFile: Bool) throws {
-        do {
-            try data.write(toFile: path._safeRawValue, atomically: useAuxiliaryFile, encoding: encoding)
-        } catch {
+        guard let _ = try? data.write(toFile: path._safeRawValue,
+                                      atomically: useAuxiliaryFile,
+                                      encoding: encoding)
+        else {
             throw FileKitError.writeToFileFail(path: path)
         }
     }
@@ -220,20 +221,19 @@ open class TextFileStreamReader: TextFileStream {
         var range = buffer.range(of: delimData, options: [], in: 0..<buffer.count)
         while range == nil {
             let tmpData = fileHandle?.readData(ofLength: chunkSize)
-            if tmpData == nil || tmpData!.isEmpty {
+            guard let tmp = tmpData, !tmp.isEmpty else {
                 // EOF or read error.
                 atEOF = true
                 if !buffer.isEmpty {
                     // Buffer contains last line in file (not terminated by delimiter).
                     let line = String(data: buffer, encoding: encoding)
-
                     buffer.count = 0
                     return line
                 }
                 // No more lines.
                 return nil
             }
-            buffer.append(tmpData!)
+            buffer.append(tmp)
             range = buffer.range(of: delimData, options: [], in: 0..<buffer.count)
         }
 
@@ -307,21 +307,20 @@ open class TextFileStreamWriter: TextFileStream {
          - line: the line
          - delim: append the delimiter (default: true)
 
-     - Returns: true if successfully.
+     - Throws: `FileKitError.WriteToFileFail`
     */
-    @discardableResult
     open func write(line: String, delim: Bool = true) -> Bool {
-        if let handle = fileHandle, let data = line.data(using: self.encoding) {
-            if delim && append {
-                handle.write(delimData)
-            }
-            handle.write(data)
-            if delim && !append {
-                handle.write(delimData)
-            }
-            return true
+        guard let handle = fileHandle, let data = line.data(using: self.encoding) else {
+            return false
         }
-        return false
+        if delim && append {
+            handle.write(delimData)
+        }
+        handle.write(data)
+        if delim && !append {
+            handle.write(delimData)
+        }
+        return true
     }
 
     /// Causes all in-memory data and attributes of the file represented by the receiver to be written to permanent storage.

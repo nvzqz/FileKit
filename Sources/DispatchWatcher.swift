@@ -114,13 +114,10 @@ open class DispatchFileSystemWatcher {
 
     /// Current events
     open var currentEvent: DispatchFileSystemEvents? {
-        if let source = source {
-            return DispatchFileSystemEvents(rawValue: source.data)
+        guard let source = source else {
+            return createWatcher != nil ? .Create : nil
         }
-        if createWatcher != nil {
-            return .Create
-        }
-        return nil
+        return DispatchFileSystemEvents(rawValue: source.data)
     }
 
     // MARK: - Initialization
@@ -198,7 +195,6 @@ open class DispatchFileSystemWatcher {
                 delegate.fsWatcherDidObserveCreate(self)
             }
         }
-
     }
 
     // MARK: - Methods
@@ -237,7 +233,6 @@ open class DispatchFileSystemWatcher {
                     return true
                 }
             }
-            return false
         }
 
             // Only watching for regular file and directory
@@ -274,11 +269,8 @@ open class DispatchFileSystemWatcher {
                     return true
                 }
             }
-            return false
-        } else {
-            return false
         }
-
+        return false
     }
 
     /**

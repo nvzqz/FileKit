@@ -38,10 +38,9 @@ extension String: ReadableWritable {
      - Parameter path: The path of a string to be read from.
     */
     public static func read(from path: Path) throws -> String {
-        let possibleContents = try? String(
-            contentsOfFile: path._safeRawValue,
-            encoding: ReadableWritableStringEncoding)
-        guard let contents = possibleContents else {
+        guard let contents = try? String(contentsOfFile: path._safeRawValue,
+                                         encoding: ReadableWritableStringEncoding)
+        else {
             throw FileKitError.readFromFileFail(path: path)
         }
         return contents
@@ -67,11 +66,10 @@ extension String: ReadableWritable {
                              the file directly.
     */
     public func write(to path: Path, atomically useAuxiliaryFile: Bool) throws {
-        do {
-            try self.write(toFile: path._safeRawValue,
+        guard let _ = try? self.write(toFile: path._safeRawValue,
                 atomically: useAuxiliaryFile,
                 encoding: ReadableWritableStringEncoding)
-        } catch {
+        else {
             throw FileKitError.writeToFileFail(path: path)
         }
     }

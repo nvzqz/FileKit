@@ -204,7 +204,7 @@ public func <^> (lhs: Path, rhs: Path) -> Path {
 infix operator </>
 
 /// Runs `closure` with the path as its current working directory.
-public func </> (path: Path, closure: () throws -> Void) rethrows {
+public func </> (path: Path, closure: () throws -> Void) throws {
     try path.changeDirectory(closure)
 }
 

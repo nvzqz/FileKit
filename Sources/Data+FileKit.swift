@@ -86,9 +86,7 @@ extension Data: ReadableWritable {
          - options: Writing options.
     */
     public func write(to path: Path, options: Data.WritingOptions) throws {
-        do {
-            try self.write(to: path.url, options: options)
-        } catch {
+        guard let _ = try? self.write(to: path.url, options: options) else {
             throw FileKitError.writeToFileFail(path: path)
         }
     }

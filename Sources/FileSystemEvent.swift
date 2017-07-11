@@ -249,10 +249,9 @@ public struct FileSystemEventFlags: OptionSet, CustomStringConvertible, CustomDe
     public var description: String {
         var result = ""
         for (index, element) in FileSystemEventFlags.allFlags.enumerated() {
-            if self.contains(element) {
-                let name = FileSystemEventFlags.allFlagNames[index]
-                result += result.isEmpty ? "\(name)": ", \(name)"
-            }
+            guard self.contains(element) else { continue }
+            let name = FileSystemEventFlags.allFlagNames[index]
+            result += result.isEmpty ? "\(name)": ", \(name)"
         }
         return String(describing: type(of: self)) + "[\(result)]"
     }
@@ -261,10 +260,9 @@ public struct FileSystemEventFlags: OptionSet, CustomStringConvertible, CustomDe
     public var debugDescription: String {
         var result = ""
         for (index, element) in FileSystemEventFlags.allFlags.enumerated() {
-            if self.contains(element) {
-                let name = FileSystemEventFlags.allFlagNames[index] + "(\(element.rawValue))"
-                result += result.isEmpty ? "\(name)": ", \(name)"
-            }
+            guard self.contains(element) else { continue }
+            let name = FileSystemEventFlags.allFlagNames[index] + "(\(element.rawValue))"
+            result += result.isEmpty ? "\(name)": ", \(name)"
         }
         return String(describing: type(of: self)) + "[\(result)]"
     }
@@ -325,10 +323,9 @@ public struct FileSystemEventStreamCreateFlags: OptionSet, CustomStringConvertib
     public var description: String {
         var result = ""
         for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerated() {
-            if self.contains(element) {
-                let name = FileSystemEventStreamCreateFlags.allFlagNames[index]
-                result += result.isEmpty ? "\(name)": ", \(name)"
-            }
+            guard self.contains(element) else { continue }
+            let name = FileSystemEventStreamCreateFlags.allFlagNames[index]
+            result += result.isEmpty ? "\(name)": ", \(name)"
         }
         return String(describing: type(of: self)) + "[\(result)]"
     }
@@ -337,10 +334,9 @@ public struct FileSystemEventStreamCreateFlags: OptionSet, CustomStringConvertib
     public var debugDescription: String {
         var result = ""
         for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerated() {
-            if self.contains(element) {
-                let name = FileSystemEventStreamCreateFlags.allFlagNames[index] + "(\(element.rawValue))"
-                result += result.isEmpty ? "\(name)": ", \(name)"
-            }
+            guard self.contains(element) else { continue }
+            let name = FileSystemEventStreamCreateFlags.allFlagNames[index] + "(\(element.rawValue))"
+            result += result.isEmpty ? "\(name)": ", \(name)"
         }
         return String(describing: type(of: self)) + "[\(result)]"
     }

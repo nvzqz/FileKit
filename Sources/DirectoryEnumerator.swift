@@ -40,7 +40,7 @@ public struct DirectoryEnumerator: IteratorProtocol {
     */
     public init(path: Path) {
         _path = path
-        _enumerator = FileManager().enumerator(atPath: path._safeRawValue)
+        _enumerator = Path.fileManager.enumerator(atPath: path._safeRawValue)
     }
 
     /// Returns the next path in the enumeration.

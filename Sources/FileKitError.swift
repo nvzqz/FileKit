@@ -35,6 +35,8 @@ public enum FileKitError: Error {
         switch self {
         case let .fileDoesNotExist(path):
             return "File does not exist at \"\(path)\""
+        case let .fileAlreadyExists(path):
+            return "File already exists at \"\(path)\""
         case let .changeDirectoryFail(fromPath, toPath):
             return "Could not change the directory from \"\(fromPath)\" to \"\(toPath)\""
         case let .createSymlinkFail(fromPath, toPath):
@@ -62,6 +64,9 @@ public enum FileKitError: Error {
 
     /// A file does not exist.
     case fileDoesNotExist(path: Path)
+
+    /// A file already exists.
+    case fileAlreadyExists(path: Path)
 
     /// Could not change the current directory.
     case changeDirectoryFail(from: Path, to: Path)

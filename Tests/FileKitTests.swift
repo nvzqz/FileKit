@@ -187,7 +187,7 @@ class FileKitTests: XCTestCase {
         let p: Path = Path.userTemporary
         let children = p.children()
 
-        guard let child  = children.first else {
+        guard let child = children.first else {
             XCTFail("No child into \(p)")
             return
         }
@@ -329,12 +329,16 @@ class FileKitTests: XCTestCase {
     }
 
     func testChangeDirectory() {
-        Path.userTemporary.changeDirectory {
-            XCTAssertEqual(Path.current, Path.userTemporary)
+        let closure1 = { XCTAssertEqual(Path.current, Path.userTemporary) }
+        guard let _ = try? Path.userTemporary.changeDirectory(closure1) else {
+            XCTFail()
+            return
         }
 
-        Path.userDesktop </> {
-            XCTAssertEqual(Path.current, Path.userDesktop)
+        let closure2 = { XCTAssertEqual(Path.current, Path.userDesktop) }
+        guard let _ = try? Path.userDesktop </> closure2 else {
+            XCTFail()
+            return
         }
 
         XCTAssertNotEqual(Path.current, Path.userTemporary)
