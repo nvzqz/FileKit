@@ -9,6 +9,7 @@
 ## Build generated
 build/
 DerivedData/
+Package.pins
 
 ## Various settings
 *.pbxuser
@@ -60,6 +61,9 @@ xcuserdata/
 
 # IntelliJ
 /out/
+
+# Vim
+*.sw[po]
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
