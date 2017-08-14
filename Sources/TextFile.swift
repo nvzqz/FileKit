@@ -222,13 +222,13 @@ open class TextFileStreamReader: TextFileStream {
         }
 
         // Convert complete line (excluding the delimiter) to a string.
-        let line = NSString(data: buffer.subdata(with: NSRange(location: 0, length: range.location)),
-            encoding: encoding.rawValue)
+        let line = String(data: buffer.subdata(with: NSRange(location: 0, length: range.location)),
+            encoding: encoding)
         // Remove line (and the delimiter) from the buffer.
         let cleaningRange = NSRange(location: 0, length: range.location + range.length)
         buffer.replaceBytes(in: cleaningRange, withBytes: nil, length: 0)
 
-        return line as? String
+        return line
     }
 
     /// Start reading from the beginning of file.

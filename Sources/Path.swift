@@ -418,11 +418,10 @@ extension Path {
         let minCount = Swift.min(selfComponents.count, pathComponents.count)
         var total = minCount
 
-        for index in 0 ..< total {
-            if selfComponents[index].rawValue != pathComponents[index].rawValue {
+        for index in 0 ..< total
+            where selfComponents[index].rawValue != pathComponents[index].rawValue {
                 total = index
                 break
-            }
         }
 
         let ancestorComponents = selfComponents[0..<total]
@@ -1063,6 +1062,7 @@ extension Path {
 
 }
 
+@available(*, deprecated, message: "it will be replaced or redesigned in Swift 4.0.  Instead of conforming to 'ExpressibleByStringInterpolation', consider adding an 'init(_:String)'")
 extension Path: ExpressibleByStringInterpolation {
 
     // MARK: - StringInterpolationConvertible

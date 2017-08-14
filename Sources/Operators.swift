@@ -165,11 +165,13 @@ public func + (lhs: Path, rhs: String) -> Path {
 
 /// Appends the right path to the left path.
 public func += (lhs: inout Path, rhs: Path) {
+    // swiftlint:disable:next shorthand_operator
     lhs = lhs + rhs
 }
 
 /// Appends the path value of the String to the left path.
 public func += (lhs: inout Path, rhs: String) {
+    // swiftlint:disable:next shorthand_operator
     lhs = lhs + rhs
 }
 

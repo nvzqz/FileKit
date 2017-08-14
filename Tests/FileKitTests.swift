@@ -226,18 +226,18 @@ class FileKitTests: XCTestCase {
         }
 
         for p in [a, b] {
-            print(p.creationDate)
-            print(p.modificationDate)
-            print(p.ownerName)
-            print(p.ownerID)
-            print(p.groupName)
-            print(p.groupID)
-            print(p.extensionIsHidden)
-            print(p.posixPermissions)
-            print(p.fileReferenceCount)
-            print(p.fileSize)
-            print(p.filesystemFileNumber)
-            print(p.fileType)
+            print(p.creationDate ?? "-")
+            print(p.modificationDate ?? "-")
+            print(p.ownerName ?? "-")
+            print(p.ownerID ?? "-")
+            print(p.groupName ?? "-")
+            print(p.groupID ?? "-")
+            print(p.extensionIsHidden ?? "-")
+            print(p.posixPermissions ?? "-")
+            print(p.fileReferenceCount ?? "-")
+            print(p.fileSize ?? "-")
+            print(p.filesystemFileNumber ?? "-")
+            print(p.fileType ?? "-")
             print("")
         }
     }
