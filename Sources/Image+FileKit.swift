@@ -25,7 +25,7 @@
 //  THE SOFTWARE.
 //
 
-#if os(OSX)
+#if os(OSX) || os(macOS)
 import Cocoa
 #elseif os(iOS) || os(tvOS)
 import UIKit
@@ -33,7 +33,7 @@ import UIKit
 import WatchKit
 #endif
 
-#if os(OSX)
+#if os(OSX) || os(macOS)
 /// The image type for the current platform.
 public typealias Image = NSImage
 #elseif os(iOS) || os(tvOS) || os(watchOS)
@@ -41,15 +41,16 @@ public typealias Image = NSImage
 public typealias Image = UIImage
 #endif
 
-#if os(OSX) || os(iOS) || os(tvOS) || os(watchOS)
+#if os(OSX) || os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
 
 extension Image: ReadableWritable, WritableConvertible {
 
-    /// Returns an image from the given path.
-    ///
-    /// - Parameter path: The path to be returned the image for.
-    /// - Throws: FileKitError.ReadFromFileFail
-    ///
+    /**
+     Returns an image from the given path.
+
+     - Parameter path: The path to be returned the image for.
+     - Throws: FileKitError.ReadFromFileFail
+    */
     public class func read(from path: Path) throws -> Self {
         guard let contents = self.init(contentsOfFile: path._safeRawValue) else {
             throw FileKitError.readFromFileFail(path: path)
@@ -60,7 +61,7 @@ extension Image: ReadableWritable, WritableConvertible {
     /// Returns `TIFFRepresentation` on OS X and `UIImagePNGRepresentation` on
     /// iOS, watchOS, and tvOS.
     public var writable: Data {
-        #if os(OSX)
+        #if os(OSX) || os(macOS)
         return self.tiffRepresentation ?? Data()
         #else
         return UIImagePNGRepresentation(self) ?? Data()
@@ -69,7 +70,7 @@ extension Image: ReadableWritable, WritableConvertible {
 
     /// Retrieves an image from a URL.
     public convenience init?(url: URL) {
-        #if os(OSX)
+        #if os(OSX) || os(macOS)
             self.init(contentsOf: url)
         #else
             guard let data = try? Data(contentsOf: url) else {

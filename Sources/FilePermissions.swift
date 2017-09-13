@@ -25,8 +25,6 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
-
 /// The permissions of a file.
 public struct FilePermissions: OptionSet, CustomStringConvertible {
 
@@ -63,18 +61,20 @@ public struct FilePermissions: OptionSet, CustomStringConvertible {
         return String(describing: type(of: self)) + "[" + description + "]"
     }
 
-    /// Creates a set of file permissions.
-    ///
-    /// - Parameter rawValue: The raw value to initialize from.
-    ///
+    /**
+     Creates a set of file permissions.
+
+     - Parameter rawValue: The raw value to initialize from.
+    */
     public init(rawValue: Int) {
         self.rawValue = rawValue
     }
 
-    /// Creates a set of permissions for the file at `path`.
-    ///
-    /// - Parameter path: The path to the file to create a set of persmissions for.
-    ///
+    /**
+     Creates a set of permissions for the file at `path`.
+
+     - Parameter path: The path to the file to create a set of persmissions for.
+    */
     public init(forPath path: Path) {
         var permissions = FilePermissions(rawValue: 0)
         if path.isReadable { permissions.formUnion(.read) }
@@ -83,10 +83,12 @@ public struct FilePermissions: OptionSet, CustomStringConvertible {
         self = permissions
     }
 
-    /// Creates a set of permissions for `file`.
-    ///
-    /// - Parameter file: The file to create a set of persmissions for.
-    public init<DataType: ReadableWritable>(forFile file: File<DataType>) {
+    /**
+     Creates a set of permissions for `file`.
+
+     - Parameter file: The file to create a set of persmissions for.
+    */
+    public init<DataType>(forFile file: File<DataType>) {
         self.init(forPath: file.path)
     }
 

@@ -42,10 +42,10 @@ public enum FileKitInfo {
     /// The current version.
     ///
     /// FileKit follows [Semantic Versioning v2.0.0](http://semver.org/).
-    public static let version = "v4.0.1"
+    public static let version = "v4.1"
 
     /// The current release.
-    public static let release = 12
+    public static let release = 13
 
     /// FileKit is licensed under the [MIT License](https://opensource.org/licenses/MIT).
     public static let license = "MIT"

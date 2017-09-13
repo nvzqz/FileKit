@@ -30,11 +30,12 @@ import Foundation
 
 extension Dictionary: ReadableWritable, WritableConvertible {
 
-    /// Returns a dictionary from the given path.
-    ///
-    /// - Parameter path: The path to be returned the dictionary for.
-    /// - Throws: FileKitError.ReadFromFileFail
-    ///
+    /**
+     Returns a dictionary from the given path.
+
+     - Parameter path: The path to be returned the dictionary for.
+     - Throws: FileKitError.ReadFromFileFail
+    */
     public static func read(from path: Path) throws -> Dictionary {
         guard let contents = NSDictionary(contentsOfFile: path._safeRawValue) else {
             throw FileKitError.readFromFileFail(path: path)

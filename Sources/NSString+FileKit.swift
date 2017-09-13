@@ -38,28 +38,30 @@ extension NSString {
 }
 
 extension NSString: Writable {
-    /// Writes the string to a path atomically.
-    ///
-    /// - Parameter path: The path being written to.
-    ///
+    /**
+     Writes the string to a path atomically.
+
+     - Parameter path: The path being written to.
+    */
     public func write(to path: Path) throws {
         try write(to: path, atomically: true)
     }
 
-    /// Writes the string to a path with `NSUTF8StringEncoding` encoding.
-    ///
-    /// - Parameter path: The path being written to.
-    /// - Parameter useAuxiliaryFile: If `true`, the data is written to an
-    ///                               auxiliary file that is then renamed to the
-    ///                               file. If `false`, the data is written to
-    ///                               the file directly.
-    ///
+    /**
+     Writes the string to a path with `NSUTF8StringEncoding` encoding.
+
+     - Parameters
+         - path: The path being written to.
+         - useAuxiliaryFile: If `true`, the data is written to an
+                             auxiliary file that is then renamed to the
+                             file. If `false`, the data is written to
+                             the file directly.
+    */
     public func write(to path: Path, atomically useAuxiliaryFile: Bool) throws {
-        do {
-            try self.write(toFile: path._safeRawValue,
+        guard let _ = try? self.write(toFile: path._safeRawValue,
                            atomically: useAuxiliaryFile,
                            encoding: String.Encoding.utf8.rawValue)
-        } catch {
+        else {
             throw FileKitError.writeToFileFail(path: path)
         }
     }

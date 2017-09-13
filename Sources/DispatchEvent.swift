@@ -6,7 +6,7 @@
 //  Copyright © 2017 Nikolai Vazquez. All rights reserved.
 //
 
-import Foundation
+import Dispatch
 
 /// File System Events.
 public struct DispatchFileSystemEvents: OptionSet, CustomStringConvertible, CustomDebugStringConvertible {
@@ -61,10 +61,9 @@ public struct DispatchFileSystemEvents: OptionSet, CustomStringConvertible, Cust
     public var description: String {
         var result = ""
         for (index, element) in DispatchFileSystemEvents.allEvents.enumerated() {
-            if self.contains(element) {
-                let name = DispatchFileSystemEvents.allEventNames[index]
-                result += result.isEmpty ? "\(name)": ", \(name)"
-            }
+            guard self.contains(element) else { continue }
+            let name = DispatchFileSystemEvents.allEventNames[index]
+            result += result.isEmpty ? "\(name)": ", \(name)"
         }
         return String(describing: type(of: self)) + "[\(result)]"
     }
@@ -73,19 +72,20 @@ public struct DispatchFileSystemEvents: OptionSet, CustomStringConvertible, Cust
     public var debugDescription: String {
         var result = ""
         for (index, element) in DispatchFileSystemEvents.allEvents.enumerated() {
-            if self.contains(element) {
-                let name = DispatchFileSystemEvents.allEventNames[index] + "(\(element.rawValue))"
-                result += result.isEmpty ? "\(name)": ", \(name)"
-            }
+            guard self.contains(element) else { continue }
+            let name = DispatchFileSystemEvents.allEventNames[index] + "(\(element.rawValue))"
+            result += result.isEmpty ? "\(name)": ", \(name)"
         }
         return String(describing: type(of: self)) + "[\(result)]"
     }
 
     // MARK: - Initialization
 
-    /// Creates a set of events from a raw value.
-    ///
-    /// - Parameter rawValue: The raw value to initialize from.
+    /**
+     Creates a set of events from a raw value.
+
+     - Parameter rawValue: The raw value to initialize from.
+    */
     public init(rawValue: UInt) {
         self.rawValue = rawValue
     }

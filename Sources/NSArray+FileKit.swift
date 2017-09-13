@@ -27,11 +27,13 @@
 
 import Foundation
 
-extension NSArray: ReadableWritable, WritableToFile {
+extension NSArray: Readable, WritableToFile {
 
-    /// Returns an array read from the given path.
-    ///
-    /// - Parameter path: The path an array to be read from.
+    /**
+     Returns an array read from the given path.
+
+     - Parameter path: The path of an array to be read from.
+    */
     public class func read(from path: Path) throws -> Self {
         guard let contents = self.init(contentsOfFile: path._safeRawValue) else {
             throw FileKitError.readFromFileFail(path: path)

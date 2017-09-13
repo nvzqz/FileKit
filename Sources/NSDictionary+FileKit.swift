@@ -24,9 +24,13 @@
 
 import Foundation
 
-extension NSDictionary: ReadableWritable, WritableToFile {
+extension NSDictionary: Readable, WritableToFile {
 
-    /// Returns a dictionary read from the given path.
+    /**
+     Returns a dictionary read from the given path.
+
+     - Parameter path: The path of a dictionary to be read from.
+     */
     public class func read(from path: Path) throws -> Self {
         guard let contents = self.init(contentsOfFile: path._safeRawValue) else {
             throw FileKitError.readFromFileFail(path: path)

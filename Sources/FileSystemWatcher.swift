@@ -25,9 +25,9 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
+#if os(OSX) || os(macOS)
 
-#if os(OSX)
+import Foundation
 
 /// Watches a given set of paths and runs a callback per event.
 public class FileSystemWatcher {
@@ -36,24 +36,17 @@ public class FileSystemWatcher {
 
     /// The event stream callback for when events occur.
     private static let _eventCallback: FSEventStreamCallback = {
-        (stream: ConstFSEventStreamRef,
-        contextInfo: UnsafeMutableRawPointer?,
-        numEvents: Int,
-        eventPaths: UnsafeMutableRawPointer,
-        eventFlags: UnsafePointer<FSEventStreamEventFlags>?,
-        eventIds: UnsafePointer<FSEventStreamEventId>?) in
+        (stream, contextInfo, numEvents, eventPaths, eventFlags, eventIds) in
 
         FileSystemWatcher.log("Callback Fired")
 
         let watcher: FileSystemWatcher = unsafeBitCast(contextInfo, to: FileSystemWatcher.self)
 
         defer {
-            if let lastEventId = eventIds?[numEvents - 1] {
-                watcher.lastEventId = lastEventId
-            }
+            watcher.lastEventId = eventIds[numEvents - 1]
         }
 
-        guard let paths = unsafeBitCast(eventPaths, to: NSArray.self) as? [String], let eventFlags = eventFlags, let eventIds = eventIds else {
+        guard let paths = unsafeBitCast(eventPaths, to: NSArray.self) as? [String] else {
             return
         }
 
@@ -104,14 +97,17 @@ public class FileSystemWatcher {
 
     // MARK: - Initialization
 
-    /// Creates a watcher for the given paths.
-    ///
-    /// - Parameter paths: The paths.
-    /// - Parameter sinceWhen: The date to start at.
-    /// - Parameter flags: The create flags.
-    /// - Parameter latency: The latency.
-    /// - Parameter queue: The queue to be run within.
-    /// - Parameter callback: The callback to be called on changes.
+    /**
+     Creates a watcher for the given paths.
+
+     - Parameters:
+         - paths: The paths.
+         - sinceWhen: The date to start at.
+         - flags: The create flags.
+         - latency: The latency.
+         - queue: The queue to be run within.
+         - callback: The callback to be called on changes.
+    */
     public init(paths: [Path],
                 sinceWhen: FSEventStreamEventId = FileSystemEvent.NowEventId,
                 flags: FileSystemEventStreamCreateFlags = [.UseCFTypes, .FileEvents],
@@ -135,17 +131,21 @@ public class FileSystemWatcher {
 
     // MARK: - Private Methods
 
-    /// Processes the event by logging it and then running the callback.
-    ///
-    /// - Parameter event: The file system event to be logged.
+    /**
+     Processes the event by logging it and then running the callback.
+
+     - Parameter event: The file system event to be logged.
+    */
     private func _processEvent(_ event: FileSystemEvent) {
         FileSystemWatcher.log("\t\(event.id) - \(event.flags) - \(event.path)")
         self._callback(event)
     }
 
-    /// Prints the message when in debug mode.
-    ///
-    /// - Parameter message: The message to be logged.
+    /**
+     Prints the message when in debug mode.
+
+     - Parameter message: The message to be logged.
+    */
     private static func log(_ message: String) {
         #if DEBUG
             print(message)
@@ -206,22 +206,26 @@ public class FileSystemWatcher {
         _started = false
     }
 
-    /// Requests that the fseventsd daemon send any events it has already
-    /// buffered (via the latency parameter).
-    ///
-    /// This occurs asynchronously; clients will not have received all the
-    /// callbacks by the time this call returns to them.
+    /**
+     Requests that the fseventsd daemon send any events it has already
+     buffered (via the latency parameter).
+
+     This occurs asynchronously; clients will not have received all the
+     callbacks by the time this call returns to them.
+    */
     public func flushAsync() {
         _stream?.flushAsync()
     }
 
-    /// Requests that the fseventsd daemon send any events it has already
-    /// buffered (via the latency). Then runs the runloop in its private mode
-    /// till all events that have occurred have been reported (via the client's
-    /// callback).
-    ///
-    /// This occurs synchronously; clients will have received all the callbacks
-    /// by the time this call returns to them.
+    /**
+     Requests that the fseventsd daemon send any events it has already
+     buffered (via the latency). Then runs the runloop in its private mode
+     till all events that have occurred have been reported (via the client's
+     callback).
+
+     This occurs synchronously; clients will have received all the callbacks
+     by the time this call returns to them.
+    */
     public func flushSync() {
         _stream?.flushSync()
     }

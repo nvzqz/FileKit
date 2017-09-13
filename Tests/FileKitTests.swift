@@ -49,35 +49,36 @@ class FileKitTests: XCTestCase {
         }
     }
 
-    func testPathFileManagerDelegate() {
-        do {
-            var sourcePath = .userTemporary + "filekit_test_filemanager_delegate"
-            let destinationPath = Path("\(sourcePath)1")
-            try sourcePath.createFile()
-
-            var delegate: Delegate {
-                let delegate = Delegate()
-                delegate.expectedSourcePath = sourcePath
-                delegate.expectedDestinationPath = destinationPath
-                return delegate
-            }
-
-            let d1 = delegate
-            sourcePath.fileManagerDelegate = d1
-            XCTAssertTrue(d1 === sourcePath.fileManagerDelegate)
-
-            try sourcePath +>! destinationPath
-
-            var secondSourcePath = sourcePath
-            secondSourcePath.fileManagerDelegate = delegate
-            XCTAssertFalse(sourcePath.fileManagerDelegate === secondSourcePath.fileManagerDelegate)
-            try secondSourcePath +>! destinationPath
-
-        } catch {
-            XCTFail(String(describing: error))
-        }
-
-    }
+    // Removed the _FMWrapper. This test is no longer relevant
+//    func testPathFileManagerDelegate() {
+//        do {
+//            var sourcePath = .userTemporary + "filekit_test_filemanager_delegate"
+//            let destinationPath = Path("\(sourcePath)1")
+//            try sourcePath.createFile()
+//
+//            var delegate: Delegate {
+//                let delegate = Delegate()
+//                delegate.expectedSourcePath = sourcePath
+//                delegate.expectedDestinationPath = destinationPath
+//                return delegate
+//            }
+//
+//            let d1 = delegate
+//            sourcePath.fileManagerDelegate = d1
+//            XCTAssertTrue(d1 === sourcePath.fileManagerDelegate)
+//
+//            try sourcePath +>! destinationPath
+//
+//            var secondSourcePath = sourcePath
+//            secondSourcePath.fileManagerDelegate = delegate
+//            XCTAssertFalse(sourcePath.fileManagerDelegate === secondSourcePath.fileManagerDelegate)
+//            try secondSourcePath +>! destinationPath
+//
+//        } catch {
+//            XCTFail(String(describing: error))
+//        }
+//
+//    }
 
     func testFindingPaths() {
         let homeFolders = Path.userHome.find(searchDepth: 0) { $0.isDirectory }
@@ -186,7 +187,7 @@ class FileKitTests: XCTestCase {
         let p: Path = Path.userTemporary
         let children = p.children()
 
-        guard let child  = children.first else {
+        guard let child = children.first else {
             XCTFail("No child into \(p)")
             return
         }
@@ -226,18 +227,18 @@ class FileKitTests: XCTestCase {
         }
 
         for p in [a, b] {
-            print(p.creationDate)
-            print(p.modificationDate)
-            print(p.ownerName)
-            print(p.ownerID)
-            print(p.groupName)
-            print(p.groupID)
-            print(p.extensionIsHidden)
-            print(p.posixPermissions)
-            print(p.fileReferenceCount)
-            print(p.fileSize)
-            print(p.filesystemFileNumber)
-            print(p.fileType)
+            print(String(describing: p.creationDate))
+            print(String(describing: p.modificationDate))
+            print(String(describing: p.ownerName))
+            print(String(describing: p.ownerID))
+            print(String(describing: p.groupName))
+            print(String(describing: p.groupID))
+            print(String(describing: p.extensionIsHidden))
+            print(String(describing: p.posixPermissions))
+            print(String(describing: p.fileReferenceCount))
+            print(String(describing: p.fileSize))
+            print(String(describing: p.filesystemFileNumber))
+            print(String(describing: p.fileType))
             print("")
         }
     }
@@ -328,12 +329,16 @@ class FileKitTests: XCTestCase {
     }
 
     func testChangeDirectory() {
-        Path.userTemporary.changeDirectory {
-            XCTAssertEqual(Path.current, Path.userTemporary)
+        let closure1 = { XCTAssertEqual(Path.current, Path.userTemporary) }
+        guard let _ = try? Path.userTemporary.changeDirectory(closure1) else {
+            XCTFail()
+            return
         }
 
-        Path.userDesktop </> {
-            XCTAssertEqual(Path.current, Path.userDesktop)
+        let closure2 = { XCTAssertEqual(Path.current, Path.userDesktop) }
+        guard let _ = try? Path.userDesktop </> closure2 else {
+            XCTFail()
+            return
         }
 
         XCTAssertNotEqual(Path.current, Path.userTemporary)
@@ -530,8 +535,7 @@ class FileKitTests: XCTestCase {
 
             try text |>> textFile
             contents = try textFile.read()
-            XCTAssertTrue(contents.hasSuffix(text + "\n" + text))
-
+            XCTAssertTrue(contents.hasSuffix("\(text)\n\(text)"))
         } catch {
             XCTFail(String(describing: error))
         }

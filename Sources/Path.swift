@@ -29,10 +29,11 @@
 
 import Foundation
 
-/// A representation of a filesystem path.
-///
-/// An Path instance lets you manage files in a much easier way.
-///
+/**
+ A representation of a filesystem path.
+
+ An Path instance lets you manage files in a much easier way.
+*/
 
 public struct Path {
 
@@ -47,66 +48,44 @@ public struct Path {
     /// The path of the program's current working directory.
     public static var current: Path {
         get {
-            return Path(FileManager.default.currentDirectoryPath)
+            return Path(Path.fileManager.currentDirectoryPath)
         }
         set {
-            FileManager.default.changeCurrentDirectoryPath(newValue._safeRawValue)
+            Path.fileManager.changeCurrentDirectoryPath(newValue._safeRawValue)
         }
     }
 
     /// The paths of the mounted volumes available.
     public static func volumes(_ options: FileManager.VolumeEnumerationOptions = []) -> [Path] {
-        let volumes = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: nil,
+        let volumes = Path.fileManager.mountedVolumeURLs(includingResourceValuesForKeys: nil,
             options: options)
         return (volumes ?? []).flatMap { Path(url: $0) }
     }
 
     // MARK: - Properties
 
-    fileprivate var _fmWraper = _FMWrapper()
-
-    fileprivate class _FMWrapper {
-        let unsafeFileManager = FileManager()
-        weak var delegate: FileManagerDelegate?
-        /// Safe way to use fileManager
-        var fileManager: FileManager {
-            //if delegate == nil {
-            //   print("\n\nDelegate is nil\n\n")
-            //}
-            unsafeFileManager.delegate = delegate
-            return unsafeFileManager
-        }
-    }
-
-    /// The delegate for the file manager used by the path.
-    ///
-    /// **Note:** no strong reference stored in path, so make sure keep the delegate or it will be `nil`
-    public var fileManagerDelegate: FileManagerDelegate? {
-        get {
-            return _fmWraper.delegate
-        }
-        set {
-            if !isKnownUniquelyReferenced(&_fmWraper) {
-                _fmWraper = _FMWrapper()
-            }
-            _fmWraper.delegate = newValue
-        }
-    }
+    public static let fileManager: FileManager = FileManager.default
 
     /// The stored path string value.
     public fileprivate(set) var rawValue: String
 
-    /// The non-empty path string value. For internal use only.
-    ///
-    /// Some NSAPI may throw `NSInvalidArgumentException` when path is `""`, which can't catch in swift
-    /// and cause crash
+    /**
+     The non-empty path string value. For internal use only.
+
+     - Note: Some NSAPI may throw `NSInvalidArgumentException` when path is `""`, which can't catch in swift
+     and cause crash
+    */
     internal var _safeRawValue: String {
         return rawValue.isEmpty ? "." : rawValue
     }
 
     /// The standardized path string value
     public var standardRawValue: String {
-        return (self.rawValue as NSString).standardizingPath
+        #if !os(Linux)
+            return (self.rawValue as NSString).standardizingPath
+        #else
+            return NSString(string: self.rawValue).standardizingPath
+        #endif
     }
 
     /// The standardized path string value without expanding tilde
@@ -119,38 +98,42 @@ public struct Path {
         }
     }
 
-    /// The components of the path.
-    ///
-    /// Return [] if path is `.` or `""`
+    /**
+     The components of the path.
+
+     Returns [] if path is `.` or `""`
+    */
     public var components: [Path] {
-        if rawValue == "" || rawValue == "." {
+        guard rawValue != "" && rawValue != "." else {
             return []
         }
-        if isAbsolute {
-            return (absolute.rawValue as NSString).pathComponents.enumerated().flatMap {
-                (($0 == 0 || $1 != "/") && $1 != ".") ? Path($1) : nil
-            }
-        } else {
-            let comps = (self.rawValue as NSString).pathComponents.enumerated()
-            // remove extraneous `/` and `.`
-            let cleanComps = comps.flatMap {
-                (($0 == 0 || $1 != "/") && $1 != ".") ? Path($1) : nil
-            }
-            return _cleanComponents(cleanComps)
+        #if !os(Linux)
+            let nsstr = (self.rawValue as NSString)
+        #else
+            let nsstr = NSString(string: self.rawValue)
+        #endif
+        // remove extraneous `/` and `.`
+        let cleanComps = nsstr.pathComponents.enumerated().flatMap { (arg) -> Path? in
+            let (i, p) = arg
+            return ((i == 0 || p != "/") && p != ".") ? Path(p) : nil
         }
+        guard !isAbsolute else { return cleanComps }
+        return _cleanComponents(cleanComps)
     }
 
     /// resolving `..` if possible
     fileprivate func _cleanComponents(_ comps: [Path]) -> [Path] {
         var isContinue = false
         let count = comps.count
-        let cleanComps: [Path] = comps.enumerated().flatMap {
-            if ($1.rawValue != ".." && $0 < count - 1 && comps[$0 + 1].rawValue == "..") || ($1.rawValue == ".." && $0 > 0 && comps[$0 - 1].rawValue != "..") {
+        let cleanComps: [Path] = comps.enumerated().flatMap { (arg) -> Path? in
+            let (i, p) = arg
+            guard !(p.rawValue != ".." && i < count - 1 && comps[i + 1].rawValue == "..")
+               && !(p.rawValue == ".." && i > 0 && comps[i - 1].rawValue != "..")
+            else {
                 isContinue = true
                 return nil
-            } else {
-                return $1
             }
+            return p
         }
         return isContinue ? _cleanComponents(cleanComps) : cleanComps
     }
@@ -162,31 +145,37 @@ public struct Path {
 
     /// A new path created by removing extraneous components from the path.
     public var standardized: Path {
-        return Path((self.rawValue as NSString).standardizingPath)
+        #if !os(Linux)
+            return Path((self.rawValue as NSString).standardizingPath)
+        #else
+            return Path(NSString(string: self.rawValue).standardizingPath)
+        #endif
     }
 
     /// The standardized path string value without expanding tilde
     public var standardWithTilde: Path {
         let comps = components
-        if comps.isEmpty {
-            return Path("")
-        } else {
-            return self[comps.count - 1]
-        }
+        guard !comps.isEmpty else { return Path("") }
+        return self[comps.count - 1]
     }
 
     /// A new path created by resolving all symlinks and standardizing the path.
     public var resolved: Path {
-        return Path((self.rawValue as NSString).resolvingSymlinksInPath)
+        #if !os(Linux)
+            return Path((self.rawValue as NSString).resolvingSymlinksInPath)
+        #else
+            return Path(NSString(string: self.rawValue).resolvingSymlinksInPath)
+        #endif
     }
 
-    /// A new path created by making the path absolute.
-    ///
-    /// - Returns: If `self` begins with "/", then the standardized path is
-    ///            returned. Otherwise, the path is assumed to be relative to
-    ///            the current working directory and the standardized version of
-    ///            the path added to the current working directory is returned.
-    ///
+    /**
+     A new path created by making the path absolute.
+
+     - Returns: If `self` begins with "/", then the standardized path is
+                returned. Otherwise, the path is assumed to be relative to
+                the current working directory and the standardized version of
+                the path added to the current working directory is returned.
+    */
     public var absolute: Path {
         return self.isAbsolute
             ? self.standardized
@@ -208,85 +197,112 @@ public struct Path {
         return !isAbsolute
     }
 
-    /// Returns `true` if a file or directory exists at the path.
-    ///
-    /// this method does follow links.
+    /**
+     Returns `true` if a file or directory exists at the path.
+
+     - Note: This method does follow links.
+    */
     public var exists: Bool {
-        return _fmWraper.fileManager.fileExists(atPath: _safeRawValue)
+        return Path.fileManager.fileExists(atPath: _safeRawValue)
     }
 
-    /// Returns `true` if a file or directory or symbolic link exists at the path
-    ///
-    /// this method does **not** follow links.
+    /**
+     Returns `true` if a file or directory or symbolic link exists at the path
+
+     - Note: This method does **not** follow links.
+    */
 //    public var existsOrLink: Bool {
-//        return self.isSymbolicLink || _fmWraper.fileManager.fileExistsAtPath(_safeRawValue)
+//        return self.isSymbolicLink || Path.fileManager.fileExistsAtPath(_safeRawValue)
 //    }
 
-    /// Returns `true` if the current process has write privileges for the file
-    /// at the path.
-    ///
-    /// this method does follow links.
+    /**
+     Returns `true` if the current process has write privileges for the file
+     at the path.
+
+     - Note: This method does follow links.
+    */
     public var isWritable: Bool {
-        return _fmWraper.fileManager.isWritableFile(atPath: _safeRawValue)
+        return Path.fileManager.isWritableFile(atPath: _safeRawValue)
     }
 
-    /// Returns `true` if the current process has read privileges for the file
-    /// at the path.
-    ///
-    /// this method does follow links.
+    /**
+     Returns `true` if the current process has read privileges for the file
+     at the path.
+
+     - Note: This method does follow links.
+    */
     public var isReadable: Bool {
-        return _fmWraper.fileManager.isReadableFile(atPath: _safeRawValue)
+        return Path.fileManager.isReadableFile(atPath: _safeRawValue)
     }
 
-    /// Returns `true` if the current process has execute privileges for the
-    /// file at the path.
-    ///
-    /// this method does follow links.
+    /**
+     Returns `true` if the current process has execute privileges for the
+     file at the path.
+
+     - Note: This method does follow links.
+    */
     public var isExecutable: Bool {
-        return  _fmWraper.fileManager.isExecutableFile(atPath: _safeRawValue)
+        return  Path.fileManager.isExecutableFile(atPath: _safeRawValue)
     }
 
-    /// Returns `true` if the current process has delete privileges for the file
-    /// at the path.
-    ///
-    /// this method does **not** follow links.
+    /**
+     Returns `true` if the current process has delete privileges for the file
+     at the path.
+
+     - Note: This method does **not** follow links.
+    */
     public var isDeletable: Bool {
-        return  _fmWraper.fileManager.isDeletableFile(atPath: _safeRawValue)
+        return  Path.fileManager.isDeletableFile(atPath: _safeRawValue)
     }
 
-    /// Returns `true` if the path points to a directory.
-    ///
-    /// this method does follow links.
+    /**
+     Returns `true` if the path points to a directory.
+
+     - Note: This method does follow links.
+    */
     public var isDirectory: Bool {
         var isDirectory: ObjCBool = false
-        return _fmWraper.fileManager.fileExists(atPath: _safeRawValue, isDirectory: &isDirectory)
-            && isDirectory.boolValue
+        #if !os(Linux)
+            return Path.fileManager.fileExists(atPath: _safeRawValue, isDirectory: &isDirectory)
+                && isDirectory.boolValue
+        #else
+            return Path.fileManager.fileExists(atPath: _safeRawValue, isDirectory: &isDirectory)
+                && isDirectory
+        #endif
     }
 
-    /// Returns `true` if the path is a directory file.
-    ///
-    /// this method does not follow links.
+    /**
+     Returns `true` if the path is a directory file.
+
+     - Note: This method does not follow links.
+    */
     public var isDirectoryFile: Bool {
         return fileType == .directory
     }
 
-    /// Returns `true` if the path is a symbolic link.
-    ///
-    /// this method does not follow links.
+    /**
+     Returns `true` if the path is a symbolic link.
+
+     - Note: This method does not follow links.
+    */
     public var isSymbolicLink: Bool {
         return fileType == .symbolicLink
     }
 
-    /// Returns `true` if the path is a regular file.
-    ///
-    /// this method does not follow links.
+    /**
+     Returns `true` if the path is a regular file.
+
+     - Note: This method does not follow links.
+    */
     public var isRegular: Bool {
         return fileType == .regular
     }
 
-    /// Returns `true` if the path exists any fileType item.
-    ///
-    /// this method does not follow links.
+    /**
+     Returns `true` if the path exists any fileType item.
+
+     - Note: This method does not follow links.
+    */
     public var isAny: Bool {
         return fileType != nil
     }
@@ -294,10 +310,18 @@ public struct Path {
     /// The path's extension.
     public var pathExtension: String {
         get {
-            return (rawValue as NSString).pathExtension
+            #if !os(Linux)
+                return (rawValue as NSString).pathExtension
+            #else
+                return NSString(string: rawValue).pathExtension
+            #endif
         }
         set {
-            let path = (rawValue as NSString).deletingPathExtension
+            #if !os(Linux)
+                let path = (rawValue as NSString).deletingPathExtension
+            #else
+                let path = NSString(string: rawValue).deletingPathExtension
+            #endif
             rawValue = path + ".\(newValue)"
         }
     }
@@ -305,7 +329,11 @@ public struct Path {
     /// The path's parent path.
     public var parent: Path {
         if isAbsolute {
-            return Path((absolute.rawValue as NSString).deletingLastPathComponent)
+            #if !os(Linux)
+                return Path((rawValue as NSString).deletingLastPathComponent)
+            #else
+                return Path(NSString(string: rawValue).deletingLastPathComponent)
+            #endif
         } else {
             let comps = components
             if comps.isEmpty {
@@ -331,7 +359,11 @@ public struct Path {
     public init(_ path: String, expandingTilde: Bool = false) {
         // empty path may cause crash
         if expandingTilde {
-            self.rawValue = (path as NSString).expandingTildeInPath
+            #if !os(Linux)
+                self.rawValue = (path as NSString).expandingTildeInPath
+            #else
+                self.rawValue = NSString(string: path).expandingTildeInPath
+            #endif
         } else {
             self.rawValue = path
         }
@@ -343,73 +375,72 @@ extension Path {
 
     // MARK: - Methods
 
-    /// Runs `closure` with `self` as its current working directory.
-    ///
-    /// - Parameter closure: The block to run while `Path.Current` is changed.
-    ///
-    public func changeDirectory(_ closure: () throws -> Void) rethrows {
+    /**
+     Runs `closure` with `self` as its current working directory.
+
+     - Parameter closure: The block to run while `Path.current` is changed.
+    */
+    public func changeDirectory(_ closure: () throws -> Void) throws {
         let previous = Path.current
         defer { Path.current = previous }
-        if _fmWraper.fileManager.changeCurrentDirectoryPath(_safeRawValue) {
-            try closure()
+        guard Path.fileManager.changeCurrentDirectoryPath(_safeRawValue) else {
+            throw FileKitError.changeDirectoryFail(from: previous, to: self)
         }
+        try closure()
     }
 
-    /// Returns the path's children paths.
-    ///
-    /// - Parameter recursive: Whether to obtain the paths recursively.
-    ///                        Default value is `false`.
-    ///
-    /// this method follow links if recursive is `false`, otherwise not follow links
+    /**
+     Returns the path's children paths.
+
+     - Parameter recursive: Whether to obtain the paths recursively.
+                            Default value is `false`.
+
+     - Note: This method follow links if recursive is `false`, otherwise not follow links
+    */
     public func children(recursive: Bool = false) -> [Path] {
         let obtainFunc = recursive
-            ? _fmWraper.fileManager.subpathsOfDirectory(atPath:)
-            : _fmWraper.fileManager.contentsOfDirectory(atPath:)
+            ? Path.fileManager.subpathsOfDirectory(atPath:)
+            : Path.fileManager.contentsOfDirectory(atPath:)
         return (try? obtainFunc(_safeRawValue))?.map { self + Path($0) } ?? []
     }
 
-    /// Returns true if `path` is a child of `self`.
-    ///
-    /// - Parameter recursive: Whether to check the paths recursively.
-    ///                        Default value is `true`.
-    ///
+    /**
+     Returns true if `path` is a child of `self`.
+
+     - Parameter recursive: Whether to check the paths recursively.
+                            Default value is `true`.
+    */
     public func isChildOfPath(_ path: Path, recursive: Bool = true) -> Bool {
-        if !(isRelative && path.isRelative) && !(isAbsolute && path.isAbsolute) {
+        guard (isRelative && path.isRelative) || (isAbsolute && path.isAbsolute) else {
             return self.absolute.isChildOfPath(path.absolute)
         }
-        if isRoot {
-            return true
-        }
+        guard !isRoot else { return true }
         if recursive {
             return path.isAncestorOfPath(self)
-        } else {
-            return path.parent == self
         }
+        return path.parent == self
     }
 
-    /// Returns true if `path` is a parent of `self`.
-    ///
-    /// Relative paths can't be compared return `false`. like `../../path1/path2` and `../path2`
-    ///
+    /**
+     Returns true if `path` is a parent of `self`.
+
+     Relative paths can't be compared return `false`. like `../../path1/path2` and `../path2`
+    */
     public func isAncestorOfPath(_ path: Path) -> Bool {
-        if !(isRelative && path.isRelative) && !(isAbsolute && path.isAbsolute) {
+        guard (isRelative && path.isRelative) || (isAbsolute && path.isAbsolute) else {
             return self.absolute.isAncestorOfPath(path.absolute)
         }
-        if path.isRoot {
-            return true
-        }
-        if self != path && self.commonAncestor(path) == path {
-            return true
-        }
-        return false
+        guard !path.isRoot else { return true }
+        return self != path && self.commonAncestor(path) == path
     }
 
-    /// Returns the common ancestor between `self` and `path`.
-    ///
-    /// Relative path return the most precise path if possible
-    ///
+    /**
+     Returns the common ancestor between `self` and `path`.
+
+     Relative path return the most precise path if possible
+    */
     public func commonAncestor(_ path: Path) -> Path {
-        if !(isRelative && path.isRelative) && !(isAbsolute && path.isAbsolute) {
+        guard (isRelative && path.isRelative) || (isAbsolute && path.isAbsolute) else {
             return self.absolute.commonAncestor(path.absolute)
         }
         let selfComponents = self.components
@@ -419,7 +450,7 @@ extension Path {
         var total = minCount
 
         for index in 0 ..< total {
-            if selfComponents[index].rawValue != pathComponents[index].rawValue {
+            guard selfComponents[index].rawValue == pathComponents[index].rawValue else {
                 total = index
                 break
             }
@@ -436,83 +467,79 @@ extension Path {
             // count for prefix ".." in components
             var n1 = 0, n2 = 0
             for elem in selfComponents {
-                if elem.rawValue == ".." {
-                    n1 += 1
-                } else {
-                    break
-                }
+                guard elem.rawValue == ".." else { break }
+                n1 += 1
             }
             for elem in pathComponents {
-                if elem.rawValue == ".." {
-                    n2 += 1
-                } else {
-                    break
-                }
+                guard elem.rawValue == ".." else { break }
+                n2 += 1
             }
-            if n1 == n2 {
-                // paths like "../../common/path1" and "../../common/path2"
-                return common
-            } else {    // paths like "../path" and "../../path2/path1"
-                let maxCount = Swift.max(n1, n2)
-                var dotPath: Path = ""
-                for _ in 0..<maxCount {
-                    dotPath += ".."
-                }
-                return dotPath
+
+            // paths like "../../common/path1" and "../../common/path2"
+            guard n1 != n2 else { return common }
+
+            // paths like "../path" and "../../path2/path1"
+            let maxCount = Swift.max(n1, n2)
+            var dotPath: Path = ""
+            for _ in 0..<maxCount {
+                dotPath += ".."
             }
+            return dotPath
         }
     }
 
     /// Returns the relative path type.
-    ///
     public var relativePathType: RelativePathType {
-        if isAbsolute {
-            return .absolute
-        } else {
-            let comp = self.components
-            switch comp.first?.rawValue {
-            case nil:
-                return .current
-            case ".."? where comp.count > 1:
-                return .ancestor
-            case ".."?:
-                return .parent
-            default:
-                return .normal
-            }
+        guard !isAbsolute else { return .absolute }
+
+        let comp = self.components
+        switch comp.first?.rawValue {
+        case nil:
+            return .current
+        case ".."? where comp.count > 1:
+            return .ancestor
+        case ".."?:
+            return .parent
+        default:
+            return .normal
         }
     }
 
     // swiftlint:disable line_length
 
-    /// Returns paths in `self` that match a condition.
-    ///
-    /// - Parameter searchDepth: How deep to search before exiting. A negative
-    ///                          value will cause the search to exit only when
-    ///                          every subdirectory has been searched through.
-    ///                          Default value is `-1`.
-    /// - Parameter condition: If `true`, the path is added.
-    ///
-    /// - Returns: An Array containing the paths in `self` that match the
-    ///            condition.
-    ///
+    /**
+     Returns paths in `self` that match a condition.
+
+     - Parameters:
+         - searchDepth: How deep to search before exiting. A negative
+                        value will cause the search to exit only when
+                        every subdirectory has been searched through.
+                        Default value is `-1`.
+         - condition: If `true`, the path is added.
+
+     - Returns: An Array containing the paths in `self` that match the
+                condition.
+
+    */
     public func find(searchDepth depth: Int = -1, condition: (Path) throws -> Bool) rethrows -> [Path] {
         return try self.find(searchDepth: depth) { path in
             try condition(path) ? path : nil
         }
     }
 
-    /// Returns non-nil values for paths found in `self`.
-    ///
-    /// - Parameter searchDepth: How deep to search before exiting. A negative
-    ///                          value will cause the search to exit only when
-    ///                          every subdirectory has been searched through.
-    ///                          Default value is `-1`.
-    /// - Parameter transform: The transform run on each path found.
-    ///
-    /// - Returns: An Array containing the non-nil values for paths found in
-    ///            `self`.
-    ///
+    /**
+     Returns non-nil values for paths found in `self`.
+
+     - Parameters:
+         - searchDepth: How deep to search before exiting. A negative
+                        value will cause the search to exit only when
+                        every subdirectory has been searched through.
+                        Default value is `-1`.
+         - transform: The transform run on each path found.
+
+     - Returns: An Array containing the non-nil values for paths found in
+                `self`.
+    */
     public func find<T>(searchDepth depth: Int = -1, transform: (Path) throws -> T?) rethrows -> [T] {
         return try self.children().reduce([]) { values, child in
             if let value = try transform(child) {
@@ -537,18 +564,19 @@ extension Path {
         self = self.resolved
     }
 
-    /// Creates a symbolic link at a path that points to `self`.
-    ///
-    /// - Parameter path: The Path to which at which the link of the file at
-    ///                   `self` will be created.
-    ///                   If `path` exists and is a directory, then the link
-    ///                   will be made inside of `path`. Otherwise, an error
-    ///                   will be thrown.
-    ///
-    /// - Throws:
-    ///     `FileKitError.FileDoesNotExist`,
-    ///     `FileKitError.CreateSymlinkFail`
-    ///
+    /**
+     Creates a symbolic link at a path that points to `self`.
+
+     - Parameter path: The Path to which at which the link of the file at
+                       `self` will be created.
+                       If `path` exists and is a directory, then the link
+                       will be made inside of `path`. Otherwise, an error
+                       will be thrown.
+
+     - Throws:
+         `FileKitError.FileDoesNotExist`,
+         `FileKitError.CreateSymlinkFail`
+    */
     public func symlinkFile(to path: Path) throws {
         // it's possible to create symbolic links to locations that do not yet exist.
 //        guard self.exists else {
@@ -562,26 +590,27 @@ extension Path {
             throw FileKitError.createSymlinkFail(from: self, to: path)
         }
 
-        do {
-            try _fmWraper.fileManager.createSymbolicLink(
-                atPath: linkPath._safeRawValue, withDestinationPath: self._safeRawValue)
-        } catch {
+        guard let _ = try? Path.fileManager.createSymbolicLink(
+            atPath: linkPath._safeRawValue,
+            withDestinationPath: self._safeRawValue)
+        else {
             throw FileKitError.createSymlinkFail(from: self, to: linkPath)
         }
     }
 
-    /// Creates a hard link at a path that points to `self`.
-    ///
-    /// - Parameter path: The Path to which the link of the file at
-    ///                   `self` will be created.
-    ///                   If `path` exists and is a directory, then the link
-    ///                   will be made inside of `path`. Otherwise, an error
-    ///                   will be thrown.
-    ///
-    /// - Throws:
-    ///     `FileKitError.FileDoesNotExist`,
-    ///     `FileKitError.CreateHardlinkFail`
-    ///
+    /**
+     Creates a hard link at a path that points to `self`.
+
+     - Parameter path: The Path to which the link of the file at
+                       `self` will be created.
+                       If `path` exists and is a directory, then the link
+                       will be made inside of `path`. Otherwise, an error
+                       will be thrown.
+
+     - Throws:
+         `FileKitError.FileDoesNotExist`,
+         `FileKitError.CreateHardlinkFail`
+    */
     public func hardlinkFile(to path: Path) throws {
         let linkPath = path.isDirectory ? path + self.fileName : path
 
@@ -589,134 +618,158 @@ extension Path {
             throw FileKitError.createHardlinkFail(from: self, to: path)
         }
 
-        do {
-            try _fmWraper.fileManager.linkItem(atPath: self._safeRawValue, toPath: linkPath._safeRawValue)
-        } catch {
+        guard let _ = try? Path.fileManager.linkItem(atPath: self._safeRawValue,
+                                                     toPath: linkPath._safeRawValue)
+        else {
             throw FileKitError.createHardlinkFail(from: self, to: path)
         }
     }
 
-    /// Creates a file at path.
-    ///
-    /// Throws an error if the file cannot be created.
-    ///
-    /// - Throws: `FileKitError.CreateFileFail`
-    ///
-    /// this method does not follow links.
-    ///
-    /// If a file or symlink exists, this method removes the file or symlink and create regular file
+    /**
+     Creates a file at path.
+
+     Throws an error if the file cannot be created.
+
+     - Throws: `FileKitError.CreateFileFail`
+
+     - Note: This method does not follow links.
+
+     If a file or symlink exists, this method removes the file or symlink and create regular file
+    */
     public func createFile() throws {
-        if !_fmWraper.fileManager.createFile(atPath: _safeRawValue, contents: nil, attributes: nil) {
+        guard Path.fileManager.createFile(atPath: _safeRawValue,
+                                          contents: nil,
+                                          attributes: nil)
+        else {
             throw FileKitError.createFileFail(path: self)
         }
     }
 
-    /// Creates a file at path if not exist
-    /// or update the modification date.
-    ///
-    /// Throws an error if the file cannot be created
-    /// or if modification date could not be modified.
-    ///
-    /// - Throws:
-    ///     `FileKitError.CreateFileFail`,
-    ///     `FileKitError.AttributesChangeFail`
-    ///
+    /**
+     Creates a file at path if not exist
+     or update the modification date.
+
+     Throws an error if the file cannot be created
+     or if modification date could not be modified.
+
+     - Throws:
+         `FileKitError.CreateFileFail`,
+         `FileKitError.AttributesChangeFail`
+    */
     public func touch(_ updateModificationDate: Bool = true) throws {
-        if self.exists {
+        guard !self.exists else {
             if updateModificationDate {
                 try _setAttribute(FileAttributeKey.modificationDate, value: Date())
             }
-        } else {
-            try createFile()
+            return
         }
+        try createFile()
     }
 
     // swiftlint:disable line_length
 
-    /// Creates a directory at the path.
-    ///
-    /// Throws an error if the directory cannot be created.
-    ///
-    /// - Parameter createIntermediates: If `true`, any non-existent parent
-    ///                                  directories are created along with that
-    ///                                  of `self`. Default value is `true`.
-    ///
-    /// - Throws: `FileKitError.CreateDirectoryFail`
-    ///
-    /// this method does not follow links.
-    ///
+    /**
+     Creates a directory at the path.
+
+     Throws an error if the directory cannot be created.
+
+     - Parameter createIntermediates: If `true`, any non-existent parent
+                                      directories are created along with that
+                                      of `self`. Default value is `true`.
+
+     - Throws: `FileKitError.CreateDirectoryFail`
+
+     - Note: This method does not follow links.
+    */
     public func createDirectory(withIntermediateDirectories createIntermediates: Bool = true) throws {
-        do {
-            let manager = _fmWraper.fileManager
-            try manager.createDirectory(atPath: _safeRawValue,
+        let manager = Path.fileManager
+        guard let _ = try? manager.createDirectory(atPath: _safeRawValue,
                 withIntermediateDirectories: createIntermediates,
                 attributes: nil)
-        } catch {
+        else {
             throw FileKitError.createDirectoryFail(path: self)
         }
     }
 
     // swiftlint:enable line_length
 
-    /// Deletes the file or directory at the path.
-    ///
-    /// Throws an error if the file or directory cannot be deleted.
-    ///
-    /// - Throws: `FileKitError.DeleteFileFail`
-    ///
-    /// this method does not follow links.
+    /**
+     Deletes the file or directory at the path.
+
+     Throws an error if the file or directory cannot be deleted.
+
+     - Throws: `FileKitError.DeleteFileFail`
+
+     - Note: This method does not follow links.
+    */
     public func deleteFile() throws {
-        do {
-            try _fmWraper.fileManager.removeItem(atPath: _safeRawValue)
-        } catch {
+        guard let _ = try? Path.fileManager.removeItem(atPath: _safeRawValue) else {
             throw FileKitError.deleteFileFail(path: self)
         }
     }
 
-    /// Moves the file at `self` to a path.
-    ///
-    /// Throws an error if the file cannot be moved.
-    ///
-    /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.MoveFileFail`
-    ///
-    /// this method does not follow links.
+    /**
+     Moves the file at `self` to a path.
+
+     Throws an error if the file cannot be moved.
+
+     - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.MoveFileFail`
+
+     - Note: This method does not follow links.
+    */
     public func moveFile(to path: Path) throws {
-        if self.isAny {
-            if !path.isAny {
-                do {
-                    try _fmWraper.fileManager.moveItem(atPath: self._safeRawValue, toPath: path._safeRawValue)
-                } catch {
-                    throw FileKitError.moveFileFail(from: self, to: path)
-                }
-            } else {
-                throw FileKitError.moveFileFail(from: self, to: path)
-            }
-        } else {
+        guard self.isAny else {
             throw FileKitError.fileDoesNotExist(path: self)
+        }
+        guard !path.isAny else {
+            throw FileKitError.fileAlreadyExists(path: path)
+        }
+        guard let _ = try? Path.fileManager.moveItem(atPath: self._safeRawValue,
+                                                     toPath: path._safeRawValue)
+        else {
+            throw FileKitError.moveFileFail(from: self, to: path)
         }
     }
 
-    /// Copies the file at `self` to a path.
-    ///
-    /// Throws an error if the file at `self` could not be copied or if a file
-    /// already exists at the destination path.
-    ///
-    /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
-    ///
-    /// this method does not follow links.
+    /**
+     Renames the file at `self` to a new name.
+
+     Throws an error if the file cannot be moved.
+
+     - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.MoveFileFail`
+
+     - Note: This method does not follow links.
+    */
+    public func renameFile(to newName: Path) throws {
+        #if !os(Linux)
+            let newPath = (self.rawValue as NSString).deletingLastPathComponent + newName
+        #else
+            let newPath = NSString(self.rawValue).deletingLastPathComponent + newName
+        #endif
+        try self.moveFile(to: newPath)
+    }
+
+    /**
+     Copies the file at `self` to a path.
+
+     Throws an error if the file at `self` could not be copied or if a file
+     already exists at the destination path.
+
+     - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
+
+     - Note: This method does not follow links.
+    */
     public func copyFile(to path: Path) throws {
-        if self.isAny {
-            if !path.isAny {
-                do {
-                    try _fmWraper.fileManager.copyItem(atPath: self._safeRawValue, toPath: path._safeRawValue)
-                } catch {
-                    throw FileKitError.copyFileFail(from: self, to: path)
-                }
-            } else {
-                throw FileKitError.copyFileFail(from: self, to: path)
-            }
-        } else {
+        guard self.isAny else {
             throw FileKitError.fileDoesNotExist(path: self)
+        }
+        guard !path.isAny else {
+            throw FileKitError.fileAlreadyExists(path: path)
+        }
+        guard let _ = try? Path.fileManager.copyItem(atPath: self._safeRawValue,
+                                                     toPath: path._safeRawValue)
+        else {
+            throw FileKitError.copyFileFail(from: self, to: path)
         }
     }
 
@@ -751,9 +804,11 @@ extension Path: RawRepresentable {
 
     // MARK: - RawRepresentable
 
-    /// Initializes a path to the string value.
-    ///
-    /// - Parameter rawValue: The raw value to initialize from.
+    /*
+     Initializes a path to the string value.
+
+     - Parameter rawValue: The raw value to initialize from.
+    */
     public init(rawValue: String) {
         self.rawValue = rawValue
     }
@@ -785,30 +840,66 @@ extension Path { // : Indexable {
         return components.endIndex
     }
 
-    /// The path's subscript. (read-only)
-    ///
-    /// - Returns: All of the path's elements up to and including the index.
-    ///
+    /**
+     The path's subscript. (read-only)
+
+     - Returns: All of the path's elements up to and including the index.
+    */
     public subscript(position: Int) -> Path {
         let components = self.components
-        if position < 0 || position >= components.count {
-            fatalError("Path index out of range")
-        } else {
-            var result = components.first!
-            for i in 1 ..< position + 1 {
-                result += components[i]
-            }
-            return result
+        guard position >= 0 && position < components.count else {
+            fatalError("Path index '\(position)' out of range")
         }
+        var result = components.first!
+        for i in 1 ..< position + 1 {
+            result += components[i]
+        }
+        return result
     }
 
     public subscript(bounds: Range<Int>) -> Path {
         let components = self.components
-        if bounds.lowerBound < 0 || bounds.upperBound >= components.count {
-            fatalError("Path bounds out of range")
+        guard bounds.lowerBound >= 0 && bounds.upperBound < components.count else {
+            fatalError("Subscript bounds '\(bounds.lowerBound)..<\(bounds.upperBound)' out of range")
         }
         var result = components[bounds.lowerBound]
         for i in (bounds.lowerBound + 1) ..< bounds.upperBound {
+            result += components[i]
+        }
+        return result
+    }
+
+    public subscript(partialBounds: PartialRangeFrom<Int>) -> Path {
+        let components = self.components
+        guard partialBounds.lowerBound >= 0 && partialBounds.lowerBound < components.count else {
+            fatalError("Subscript bounds '\(partialBounds.lowerBound)...' out of range")
+        }
+        var result = components[partialBounds.lowerBound]
+        for i in (partialBounds.lowerBound + 1) ... (components.count - 1) {
+            result += components[i]
+        }
+        return result
+    }
+
+    public subscript(partialBounds: PartialRangeUpTo<Int>) -> Path {
+        let components = self.components
+        var result = components[0]
+        guard partialBounds.upperBound < components.count else {
+            fatalError("Subscript bounds '..<\(partialBounds.upperBound)' out of range")
+        }
+        for i in 1 ..< partialBounds.upperBound {
+            result += components[i]
+        }
+        return result
+    }
+
+    public subscript(partialBounds: PartialRangeThrough<Int>) -> Path {
+        let components = self.components
+        var result = components[0]
+        guard partialBounds.upperBound < components.count else {
+            fatalError("Subscript bounds '...\(partialBounds.upperBound)' out of range")
+        }
+        for i in 1 ..< partialBounds.upperBound {
             result += components[i]
         }
         return result
@@ -824,20 +915,24 @@ extension Path {
 
     // MARK: - Attributes
 
-    /// Returns the path's attributes.
-    ///
-    /// this method does not follow links.
+    /**
+     Returns the path's attributes.
+
+     - Note: This method does not follow links.
+    */
     public var attributes: [FileAttributeKey : Any] {
-        return (try? _fmWraper.fileManager.attributesOfItem(atPath: _safeRawValue)) ?? [:]
+        return (try? Path.fileManager.attributesOfItem(atPath: _safeRawValue)) ?? [:]
     }
 
-    /// Modify attributes
-    ///
-    /// this method does not follow links.
+    /**
+     Modify attributes
+
+     - Note: This method does not follow links.
+    */
     fileprivate func _setAttributes(_ attributes: [FileAttributeKey : Any]) throws {
-        do {
-            try _fmWraper.fileManager.setAttributes(attributes, ofItemAtPath: self._safeRawValue)
-        } catch {
+        guard let _ = try? Path.fileManager.setAttributes(attributes,
+                                                          ofItemAtPath: self._safeRawValue)
+        else {
             throw FileKitError.attributesChangeFail(path: self)
         }
     }
@@ -953,9 +1048,11 @@ extension Path {
 
     // MARK: - NSURL
 
-    /// Creates a new path with given url if possible.
-    ///
-    /// - Parameter url: The url to create a path for.
+    /**
+     Creates a new path with given url if possible.
+
+     - Parameter url: The url to create a path for.
+    */
     public init?(url: URL) {
         guard url.isFileURL else {
             return nil
@@ -970,13 +1067,17 @@ extension Path {
 
 }
 
+// The following two extensions contain functionality not available on linux...yet
+#if !os(Linux)
 extension Path {
 
     // MARK: - BookmarkData
 
-    /// Creates a new path with given url if possible.
-    ///
-    /// - Parameter bookmarkData: The bookmark data to create a path for.
+    /**
+     Creates a new path with given url if possible.
+
+     - Parameter bookmarkData: The bookmark data to create a path for.
+    */
     public init?(bookmarkData bookData: Data) {
         var isStale: ObjCBool = false
         let url = try? (NSURL(
@@ -1004,9 +1105,11 @@ extension Path {
 
     // MARK: - SecurityApplicationGroupIdentifier
 
-    /// Returns the container directory associated with the specified security application group ID.
-    ///
-    /// - Parameter groupIdentifier: The group identifier.
+    /**
+     Returns the container directory associated with the specified security application group ID.
+
+     - Parameter groupIdentifier: The group identifier.
+    */
     public init?(groupIdentifier: String) {
         guard let url = FileManager().containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier) else {
             return nil
@@ -1015,6 +1118,7 @@ extension Path {
     }
 
 }
+#endif
 
 extension Path {
 
@@ -1050,13 +1154,14 @@ extension Path {
         return InputStream(fileAtPath: absolute._safeRawValue)
     }
 
-    /// Returns an output stream for writing to the file at the path, or `nil`
-    /// if no file exists.
-    ///
-    /// - Parameter shouldAppend: `true` if newly written data should be
-    ///                           appended to any existing file contents,
-    ///                           `false` otherwise. Default value is `false`.
-    ///
+    /**
+     Returns an output stream for writing to the file at the path, or `nil`
+     if no file exists.
+
+     - Parameter shouldAppend: `true` if newly written data should be
+                               appended to any existing file contents,
+                               `false` otherwise. Default value is `false`.
+    */
     public func outputStream(append shouldAppend: Bool = false) -> OutputStream? {
         return OutputStream(toFileAtPath: absolute._safeRawValue, append: shouldAppend)
     }
@@ -1080,7 +1185,6 @@ extension Path: ExpressibleByStringInterpolation {
             self = Path(String(describing: expr))
         }
     }
-
 }
 
 extension Path: CustomStringConvertible {
@@ -1203,7 +1307,7 @@ extension Path {
         return _pathInUserDomain(.sharedPublicDirectory)
     }
 
-    #if os(OSX)
+    #if os(OSX) || os(macOS)
 
     /// Returns the path to the user scripts folder for the calling application
     public static var userApplicationScripts: Path {
