@@ -37,10 +37,10 @@ extension Dictionary: ReadableWritable, WritableConvertible {
     ///
     public static func read(from path: Path) throws -> Dictionary {
         guard let contents = NSDictionary(contentsOfFile: path._safeRawValue) else {
-            throw FileKitError.readFromFileFail(path: path)
+            throw FileKitError.readFromFileFail(path: path, error: FileKitError.ReasonError.conversion(NSDictionary.self))
         }
         guard let dict = contents as? Dictionary else {
-             throw FileKitError.readFromFileFail(path: path)
+             throw FileKitError.readFromFileFail(path: path, error: FileKitError.ReasonError.conversion(Dictionary.self))
         }
         return dict
     }

@@ -37,10 +37,10 @@ extension Array: ReadableWritable, WritableConvertible {
     ///
     public static func read(from path: Path) throws -> Array {
         guard let contents = NSArray(contentsOfFile: path._safeRawValue) else {
-            throw FileKitError.readFromFileFail(path: path)
+            throw FileKitError.readFromFileFail(path: path, error: FileKitError.ReasonError.conversion(NSArray.self))
         }
         guard let dict = contents as? Array else {
-            throw FileKitError.readFromFileFail(path: path)
+            throw FileKitError.readFromFileFail(path: path, error: FileKitError.ReasonError.conversion(Array.self))
         }
         return dict
     }

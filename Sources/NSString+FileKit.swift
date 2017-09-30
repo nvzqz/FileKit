@@ -60,7 +60,7 @@ extension NSString: Writable {
                            atomically: useAuxiliaryFile,
                            encoding: String.Encoding.utf8.rawValue)
         } catch {
-            throw FileKitError.writeToFileFail(path: path)
+            throw FileKitError.writeToFileFail(path: path, error: error)
         }
     }
 

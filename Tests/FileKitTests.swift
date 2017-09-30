@@ -186,7 +186,7 @@ class FileKitTests: XCTestCase {
         let p: Path = Path.userTemporary
         let children = p.children()
 
-        guard let child  = children.first else {
+        guard let child = children.first else {
             XCTFail("No child into \(p)")
             return
         }
@@ -226,18 +226,18 @@ class FileKitTests: XCTestCase {
         }
 
         for p in [a, b] {
-            print(p.creationDate)
-            print(p.modificationDate)
-            print(p.ownerName)
-            print(p.ownerID)
-            print(p.groupName)
-            print(p.groupID)
-            print(p.extensionIsHidden)
-            print(p.posixPermissions)
-            print(p.fileReferenceCount)
-            print(p.fileSize)
-            print(p.filesystemFileNumber)
-            print(p.fileType)
+            print(String(describing: p.creationDate))
+            print(String(describing: p.modificationDate))
+            print(String(describing: p.ownerName))
+            print(String(describing: p.ownerID))
+            print(String(describing: p.groupName))
+            print(String(describing: p.groupID))
+            print(String(describing: p.extensionIsHidden))
+            print(String(describing: p.posixPermissions))
+            print(String(describing: p.fileReferenceCount))
+            print(String(describing: p.fileSize))
+            print(String(describing: p.filesystemFileNumber))
+            print(String(describing: p.fileType))
             print("")
         }
     }
@@ -530,7 +530,7 @@ class FileKitTests: XCTestCase {
 
             try text |>> textFile
             contents = try textFile.read()
-            XCTAssertTrue(contents.hasSuffix(text + "\n" + text))
+            XCTAssertTrue(contents.hasSuffix("\(text)\n\(text)"))
 
         } catch {
             XCTFail(String(describing: error))
@@ -546,21 +546,17 @@ class FileKitTests: XCTestCase {
             ]
             let separator = "\n"
             try expectedLines.joined(separator: separator) |> textFile
-
-            if let reader = textFile.streamReader() {
-                defer {
-                    reader.close()
-                }
-                var lines = [String]()
-                for line in reader {
-                    lines.append(line)
-                }
-                XCTAssertEqual(expectedLines, lines)
-
-            } else {
-                XCTFail("Failed to create reader")
+            
+            let reader = try textFile.streamReader() 
+            defer {
+                reader.close()
             }
-
+            var lines = [String]()
+            for line in reader {
+                lines.append(line)
+            }
+            XCTAssertEqual(expectedLines, lines)
+            
         } catch {
             XCTFail(String(describing: error))
         }
@@ -617,22 +613,18 @@ class FileKitTests: XCTestCase {
             ]
             let separator = "\n"
             
-            if let writer = textFile.streamWriter(separator) {
-                defer {
-                    writer.close()
-                }
-                for line in lines {
-                    let delim = line != lines.last
-                    writer.write(line: line, delim: delim)
-                }
-                
-                let expected = try textFile.read()
-                let expectedLines = expected.components(separatedBy: separator)
-                XCTAssertEqual(expectedLines, lines)
-                
-            } else {
-                XCTFail("Failed to create writer")
+            let writer = try textFile.streamWriter(separator)
+            defer {
+                writer.close()
             }
+            for line in lines {
+                let delim = line != lines.last
+                writer.write(line: line, delim: delim)
+            }
+            
+            let expected = try textFile.read()
+            let expectedLines = expected.components(separatedBy: separator)
+            XCTAssertEqual(expectedLines, lines)
             
         } catch {
             XCTFail(String(describing: error))

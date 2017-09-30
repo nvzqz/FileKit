@@ -32,7 +32,7 @@ extension NSData: ReadableWritable, WritableToFile {
     /// Returns data read from the given path.
     public class func read(from path: Path) throws -> Self {
         guard let contents = self.init(contentsOfFile: path._safeRawValue) else {
-            throw FileKitError.readFromFileFail(path: path)
+            throw FileKitError.readFromFileFail(path: path, error: FileKitError.ReasonError.conversion(NSData.self))
         }
         return contents
     }
@@ -42,7 +42,7 @@ extension NSData: ReadableWritable, WritableToFile {
         do {
             return try self.init(contentsOfFile: path._safeRawValue, options: options)
         } catch {
-            throw FileKitError.readFromFileFail(path: path)
+            throw FileKitError.readFromFileFail(path: path, error: error)
         }
     }
 

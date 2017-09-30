@@ -35,7 +35,7 @@ extension Data: ReadableWritable {
         do {
             return try self.init(contentsOf: path.url, options: [])
         } catch {
-            throw FileKitError.readFromFileFail(path: path)
+            throw FileKitError.readFromFileFail(path: path, error: error)
         }
     }
 
@@ -44,7 +44,7 @@ extension Data: ReadableWritable {
         do {
             return try self.init(contentsOf: path.url, options: options)
         } catch {
-            throw FileKitError.readFromFileFail(path: path)
+            throw FileKitError.readFromFileFail(path: path, error: error)
         }
     }
 
@@ -75,7 +75,7 @@ extension Data: ReadableWritable {
         do {
             try self.write(to: path.url, options: options)
         } catch {
-            throw FileKitError.writeToFileFail(path: path)
+            throw FileKitError.writeToFileFail(path: path, error: error)
         }
     }
 

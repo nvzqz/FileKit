@@ -34,13 +34,12 @@ extension String: ReadableWritable {
 
     /// Creates a string from a path.
     public static func read(from path: Path) throws -> String {
-        let possibleContents = try? String(
-            contentsOfFile: path._safeRawValue,
-            encoding: ReadableWritableStringEncoding)
-        guard let contents = possibleContents else {
-            throw FileKitError.readFromFileFail(path: path)
+        do {
+            return try String(contentsOfFile: path._safeRawValue,
+                              encoding: ReadableWritableStringEncoding)
+        } catch {
+            throw FileKitError.readFromFileFail(path: path, error: error)
         }
-        return contents
     }
 
     /// Writes the string to a path atomically.
@@ -65,7 +64,7 @@ extension String: ReadableWritable {
                 atomically: useAuxiliaryFile,
                 encoding: ReadableWritableStringEncoding)
         } catch {
-            throw FileKitError.writeToFileFail(path: path)
+            throw FileKitError.writeToFileFail(path: path, error: error)
         }
     }
 

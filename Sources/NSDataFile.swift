@@ -56,7 +56,7 @@ extension File where DataType: NSData {
         do {
             try data.write(toFile: self.path._safeRawValue, options: options)
         } catch {
-            throw FileKitError.writeToFileFail(path: self.path)
+            throw FileKitError.writeToFileFail(path: self.path, error: error)
         }
     }
 

@@ -418,11 +418,10 @@ extension Path {
         let minCount = Swift.min(selfComponents.count, pathComponents.count)
         var total = minCount
 
-        for index in 0 ..< total {
-            if selfComponents[index].rawValue != pathComponents[index].rawValue {
+        for index in 0 ..< total
+            where selfComponents[index].rawValue != pathComponents[index].rawValue {
                 total = index
                 break
-            }
         }
 
         let ancestorComponents = selfComponents[0..<total]
@@ -482,8 +481,6 @@ extension Path {
             }
         }
     }
-
-    // swiftlint:disable line_length
 
     /// Returns paths in `self` that match a condition.
     ///
@@ -546,8 +543,8 @@ extension Path {
     ///                   will be thrown.
     ///
     /// - Throws:
-    ///     `FileKitError.FileDoesNotExist`,
-    ///     `FileKitError.CreateSymlinkFail`
+    ///     `FileKitError.fileAlreadyExists`,
+    ///     `FileKitError.createSymlinkFail`
     ///
     public func symlinkFile(to path: Path) throws {
         // it's possible to create symbolic links to locations that do not yet exist.
@@ -559,14 +556,14 @@ extension Path {
 
         // Throws if linking to an existing non-directory file.
         guard !linkPath.isAny else {
-            throw FileKitError.createSymlinkFail(from: self, to: path)
+            throw  FileKitError.fileAlreadyExists(path: linkPath)
         }
 
         do {
             try _fmWraper.fileManager.createSymbolicLink(
                 atPath: linkPath._safeRawValue, withDestinationPath: self._safeRawValue)
         } catch {
-            throw FileKitError.createSymlinkFail(from: self, to: linkPath)
+            throw FileKitError.createSymlinkFail(from: self, to: linkPath, error: error)
         }
     }
 
@@ -579,20 +576,20 @@ extension Path {
     ///                   will be thrown.
     ///
     /// - Throws:
-    ///     `FileKitError.FileDoesNotExist`,
-    ///     `FileKitError.CreateHardlinkFail`
+    ///     `FileKitError.fileAlreadyExists`,
+    ///     `FileKitError.createHardlinkFail`
     ///
     public func hardlinkFile(to path: Path) throws {
         let linkPath = path.isDirectory ? path + self.fileName : path
 
         guard !linkPath.isAny else {
-            throw FileKitError.createHardlinkFail(from: self, to: path)
+            throw FileKitError.fileAlreadyExists(path: linkPath)
         }
 
         do {
             try _fmWraper.fileManager.linkItem(atPath: self._safeRawValue, toPath: linkPath._safeRawValue)
         } catch {
-            throw FileKitError.createHardlinkFail(from: self, to: path)
+            throw FileKitError.createHardlinkFail(from: self, to: path, error: error)
         }
     }
 
@@ -631,8 +628,6 @@ extension Path {
         }
     }
 
-    // swiftlint:disable line_length
-
     /// Creates a directory at the path.
     ///
     /// Throws an error if the directory cannot be created.
@@ -652,7 +647,7 @@ extension Path {
                 withIntermediateDirectories: createIntermediates,
                 attributes: nil)
         } catch {
-            throw FileKitError.createDirectoryFail(path: self)
+            throw FileKitError.createDirectoryFail(path: self, error: error)
         }
     }
 
@@ -669,7 +664,7 @@ extension Path {
         do {
             try _fmWraper.fileManager.removeItem(atPath: _safeRawValue)
         } catch {
-            throw FileKitError.deleteFileFail(path: self)
+            throw FileKitError.deleteFileFail(path: self, error: error)
         }
     }
 
@@ -677,7 +672,7 @@ extension Path {
     ///
     /// Throws an error if the file cannot be moved.
     ///
-    /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.MoveFileFail`
+    /// - Throws: `FileKitError.fileDoesNotExist`, `FileKitError.fileAlreadyExists`, `FileKitError.moveFileFail`
     ///
     /// this method does not follow links.
     public func moveFile(to path: Path) throws {
@@ -686,10 +681,10 @@ extension Path {
                 do {
                     try _fmWraper.fileManager.moveItem(atPath: self._safeRawValue, toPath: path._safeRawValue)
                 } catch {
-                    throw FileKitError.moveFileFail(from: self, to: path)
+                    throw FileKitError.moveFileFail(from: self, to: path, error: error)
                 }
             } else {
-                throw FileKitError.moveFileFail(from: self, to: path)
+                throw FileKitError.fileAlreadyExists(path: path)
             }
         } else {
             throw FileKitError.fileDoesNotExist(path: self)
@@ -701,7 +696,7 @@ extension Path {
     /// Throws an error if the file at `self` could not be copied or if a file
     /// already exists at the destination path.
     ///
-    /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
+    /// - Throws: `FileKitError.fileDoesNotExist`, `FileKitError.fileAlreadyExists`, `FileKitError.copyFileFail`
     ///
     /// this method does not follow links.
     public func copyFile(to path: Path) throws {
@@ -710,10 +705,10 @@ extension Path {
                 do {
                     try _fmWraper.fileManager.copyItem(atPath: self._safeRawValue, toPath: path._safeRawValue)
                 } catch {
-                    throw FileKitError.copyFileFail(from: self, to: path)
+                    throw FileKitError.copyFileFail(from: self, to: path, error: error)
                 }
             } else {
-                throw FileKitError.copyFileFail(from: self, to: path)
+                throw FileKitError.fileAlreadyExists(path: path)
             }
         } else {
             throw FileKitError.fileDoesNotExist(path: self)
@@ -838,7 +833,7 @@ extension Path {
         do {
             try _fmWraper.fileManager.setAttributes(attributes, ofItemAtPath: self._safeRawValue)
         } catch {
-            throw FileKitError.attributesChangeFail(path: self)
+            throw FileKitError.attributesChangeFail(path: self, error: error)
         }
     }
 
@@ -1036,6 +1031,46 @@ extension Path {
     /// or `nil` if no file exists.
     public var fileHandleForUpdating: FileHandle? {
         return FileHandle(forUpdatingAtPath: absolute._safeRawValue)
+    }
+
+}
+
+extension FileHandle {
+
+    /// Specifies how the operating system should open a file.
+    public enum Mode {
+        case read
+        case write
+        case update
+    }
+}
+
+extension Path {
+
+    /// Returns a file handle for specific mode to the file at the path,
+    /// or `nil` if no file exists.
+    /// - Parameter mode: How the operating system should open the file.
+    public func fileHandle(for mode: FileHandle.Mode) throws -> FileHandle {
+        switch mode {
+        case .read:
+            do {
+                return try FileHandle(forReadingFrom: absolute.url)
+            } catch {
+                throw FileKitError.readFromFileFail(path: self, error: error)
+            }
+        case .write:
+            do {
+                return try FileHandle(forWritingTo: absolute.url)
+            } catch {
+                throw FileKitError.writeToFileFail(path: self, error: error)
+            }
+        case .update:
+            do {
+                return try FileHandle(forUpdating: absolute.url)
+            } catch {
+                throw FileKitError.writeToFileFail(path: self, error: error)
+            }
+        }
     }
 
 }

@@ -29,7 +29,7 @@
 
 import Foundation
 
-fileprivate func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
+private func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
     switch (lhs, rhs) {
     case let (l?, r?):
         return l < r
@@ -44,13 +44,13 @@ fileprivate func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 /// Returns `true` if both files' paths are the same.
 
-public func ==<DataType: ReadableWritable>(lhs: File<DataType>, rhs: File<DataType>) -> Bool {
+public func ==<DataType>(lhs: File<DataType>, rhs: File<DataType>) -> Bool {
     return lhs.path == rhs.path
 }
 
 /// Returns `true` if `lhs` is smaller than `rhs` in size.
 
-public func < <DataType: ReadableWritable>(lhs: File<DataType>, rhs: File<DataType>) -> Bool {
+public func < <DataType>(lhs: File<DataType>, rhs: File<DataType>) -> Bool {
     return lhs.size < rhs.size
 }
 
@@ -60,7 +60,7 @@ infix operator |>
 ///
 /// - Throws: `FileKitError.WriteToFileFail`
 ///
-public func |> <DataType: ReadableWritable>(data: DataType, file: File<DataType>) throws {
+public func |> <DataType>(data: DataType, file: File<DataType>) throws {
     try file.write(data)
 }
 
@@ -82,12 +82,17 @@ infix operator |>>
 /// - Throws: `FileKitError.WriteToFileFail`
 ///
 public func |>> (data: String, file: TextFile) throws {
-    // TODO use TextFileStreamWritter
-    var data = data
-    if let contents = try? file.read() {
-        data = contents + "\n" + data
+    let textStreamWriter = try file.streamWriter(append: true)
+
+    guard textStreamWriter.writeDelimiter(), textStreamWriter.write(line: data, delim: false) else {
+        let reason: FileKitError.ReasonError
+        if textStreamWriter.isClosed {
+            reason = .closed
+        } else {
+            reason = .encoding(textStreamWriter.encoding, data: data)
+        }
+        throw FileKitError.writeToFileFail(path: file.path, error: reason)
     }
-    try data |> file
 }
 
 /// Return lines of file that match the motif.
@@ -107,7 +112,7 @@ infix operator |~
 /// Return lines of file that match the regex motif.
 
 public func |~ (file: TextFile, motif: String) -> [String] {
-    return file.grep(motif, options: NSString.CompareOptions.regularExpression)
+    return file.grep(motif, options: .regularExpression)
 }
 
 // MARK: - Path
@@ -142,7 +147,7 @@ public func + (lhs: Path, rhs: Path) -> Path {
     if rhs.rawValue.isEmpty || rhs.rawValue == "." { return lhs }
     switch (lhs.rawValue.hasSuffix(Path.separator), rhs.rawValue.hasPrefix(Path.separator)) {
     case (true, true):
-        let rhsRawValue = rhs.rawValue.substring(from: rhs.rawValue.characters.index(after: rhs.rawValue.startIndex))
+        let rhsRawValue = rhs.dropFirst()
         return Path("\(lhs.rawValue)\(rhsRawValue)")
     case (false, false):
         return Path("\(lhs.rawValue)\(Path.separator)\(rhs.rawValue)")
@@ -165,11 +170,13 @@ public func + (lhs: Path, rhs: String) -> Path {
 
 /// Appends the right path to the left path.
 public func += (lhs: inout Path, rhs: Path) {
+    // swiftlint:disable:next shorthand_operator
     lhs = lhs + rhs
 }
 
 /// Appends the path value of the String to the left path.
 public func += (lhs: inout Path, rhs: String) {
+    // swiftlint:disable:next shorthand_operator
     lhs = lhs + rhs
 }
 
@@ -240,7 +247,7 @@ public func ->> (lhs: Path, rhs: Path) throws {
 ///
 /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.MoveFileFail`
 ///
-public func ->> <DataType: ReadableWritable>(lhs: File<DataType>, rhs: Path) throws {
+public func ->> <DataType>(lhs: File<DataType>, rhs: Path) throws {
     try lhs.move(to: rhs)
 }
 
@@ -271,7 +278,7 @@ public func ->! (lhs: Path, rhs: Path) throws {
 ///     `FileKitError.FileDoesNotExist`,
 ///     `FileKitError.CreateSymlinkFail`
 ///
-public func ->! <DataType: ReadableWritable>(lhs: File<DataType>, rhs: Path) throws {
+public func ->! <DataType>(lhs: File<DataType>, rhs: Path) throws {
     if rhs.isAny {
         try rhs.deleteFile()
     }
@@ -298,7 +305,7 @@ public func +>> (lhs: Path, rhs: Path) throws {
 ///
 /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CopyFileFail`
 ///
-public func +>> <DataType: ReadableWritable>(lhs: File<DataType>, rhs: Path) throws {
+public func +>> <DataType>(lhs: File<DataType>, rhs: Path) throws {
     try lhs.copy(to: rhs)
 }
 
@@ -329,7 +336,7 @@ public func +>! (lhs: Path, rhs: Path) throws {
 ///     `FileKitError.FileDoesNotExist`,
 ///     `FileKitError.CreateSymlinkFail`
 ///
-public func +>! <DataType: ReadableWritable>(lhs: File<DataType>, rhs: Path) throws {
+public func +>! <DataType>(lhs: File<DataType>, rhs: Path) throws {
     if rhs.isAny {
         try rhs.deleteFile()
     }
@@ -364,7 +371,7 @@ public func =>> (lhs: Path, rhs: Path) throws {
 ///
 /// - Throws: `FileKitError.FileDoesNotExist`, `FileKitError.CreateSymlinkFail`
 ///
-public func =>> <DataType: ReadableWritable>(lhs: File<DataType>, rhs: Path) throws {
+public func =>> <DataType>(lhs: File<DataType>, rhs: Path) throws {
     try lhs.symlink(to: rhs)
 }
 
@@ -401,7 +408,7 @@ public func =>! (lhs: Path, rhs: Path) throws {
 ///     `FileKitError.FileDoesNotExist`,
 ///     `FileKitError.CreateSymlinkFail`
 ///
-public func =>! <DataType: ReadableWritable>(lhs: File<DataType>, rhs: Path) throws {
+public func =>! <DataType>(lhs: File<DataType>, rhs: Path) throws {
     try lhs.path =>! rhs
 }
 

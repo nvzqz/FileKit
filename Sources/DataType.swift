@@ -115,7 +115,7 @@ extension WritableToFile {
     ///
     public func write(to path: Path, atomically useAuxiliaryFile: Bool) throws {
         guard write(toFile: path._safeRawValue, atomically: useAuxiliaryFile) else {
-            throw FileKitError.writeToFileFail(path: path)
+            throw FileKitError.writeToFileFail(path: path, error: FileKitError.ReasonError.conversion(type(of: self)))
         }
     }
 

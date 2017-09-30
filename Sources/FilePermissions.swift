@@ -86,7 +86,7 @@ public struct FilePermissions: OptionSet, CustomStringConvertible {
     /// Creates a set of permissions for `file`.
     ///
     /// - Parameter file: The file to create a set of persmissions for.
-    public init<DataType: ReadableWritable>(forFile file: File<DataType>) {
+    public init<DataType>(forFile file: File<DataType>) {
         self.init(forPath: file.path)
     }
 

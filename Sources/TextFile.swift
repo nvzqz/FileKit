@@ -66,7 +66,7 @@ open class TextFile: File<String> {
         do {
             try data.write(toFile: path._safeRawValue, atomically: useAuxiliaryFile, encoding: encoding)
         } catch {
-            throw FileKitError.writeToFileFail(path: path)
+            throw FileKitError.writeToFileFail(path: path, error: error)
         }
     }
 
@@ -82,10 +82,12 @@ extension TextFile {
     /// - Parameter chunkSize: size of buffer (default: 4096)
     ///
     /// - Returns: the `TextFileStreamReader`
-
+    ///
+    /// - Throws:
+    ///     `FileKitError.readFromFileFail`
     public func streamReader(_ delimiter: String = "\n",
-                             chunkSize: Int = 4096) -> TextFileStreamReader? {
-            return TextFileStreamReader(
+                             chunkSize: Int = 4096) throws -> TextFileStreamReader {
+            return try TextFileStreamReader(
                 path: self.path,
                 delimiter: delimiter,
                 encoding: encoding,
@@ -101,8 +103,8 @@ extension TextFile {
     ///
     /// - Returns: the lines
     public func grep(_ motif: String, include: Bool = true,
-                     options: NSString.CompareOptions = []) -> [String] {
-            guard let reader = streamReader() else {
+                     options: String.CompareOptions = []) -> [String] {
+            guard let reader = try? streamReader() else {
                 return []
             }
             defer {
@@ -119,21 +121,18 @@ open class TextFileStream {
     /// The text encoding.
     open let encoding: String.Encoding
 
-    let delimData: Data!
+    let delimData: Data
     var fileHandle: FileHandle?
 
     // MARK: - Initialization
-    public init?(
+    public init(
         fileHandle: FileHandle,
-        delimiter: String,
+        delimiter: Data,
         encoding: String.Encoding = .utf8
-        ) {
+        ) throws {
         self.encoding = encoding
         self.fileHandle = fileHandle
-        guard let delimData = delimiter.data(using: encoding) else {
-              return nil
-        }
-        self.delimData = delimData
+        self.delimData = delimiter
     }
 
     // MARK: - Deinitialization
@@ -157,6 +156,11 @@ open class TextFileStream {
         fileHandle?.closeFile()
         fileHandle = nil
     }
+
+    /// Return true if file handle closed.
+    open var isClosed: Bool {
+        return fileHandle == nil
+    }
 }
 
 /// A class to read `TextFile` line by line.
@@ -168,7 +172,7 @@ open class TextFileStreamReader: TextFileStream {
     /// Tells if the position is at the end of file.
     open var atEOF: Bool = false
 
-    let buffer: NSMutableData!
+    var buffer: Data!
 
     // MARK: - Initialization
 
@@ -176,20 +180,20 @@ open class TextFileStreamReader: TextFileStream {
     /// - Parameter delimiter: the line delimiter (default: \n)
     /// - Parameter encoding: file encoding (default: .utf8)
     /// - Parameter chunkSize: size of buffer (default: 4096)
-    public init?(
+    public init(
         path: Path,
         delimiter: String = "\n",
         encoding: String.Encoding = .utf8,
         chunkSize: Int = 4096
-    ) {
+        ) throws {
         self.chunkSize = chunkSize
-        guard let fileHandle = path.fileHandleForReading,
-            let buffer = NSMutableData(capacity: chunkSize) else {
-                self.buffer = nil
-                return nil
+        let fileHandle = try path.fileHandle(for: .read)
+        self.buffer = Data(capacity: chunkSize)
+
+        guard let delimData = delimiter.data(using: encoding) else {
+            throw FileKitError.ReasonError.encoding(encoding, data: delimiter)
         }
-        self.buffer = buffer
-        super.init(fileHandle: fileHandle, delimiter: delimiter, encoding: encoding)
+        try super.init(fileHandle: fileHandle, delimiter: delimData, encoding: encoding)
     }
 
     // MARK: - public methods
@@ -201,40 +205,39 @@ open class TextFileStreamReader: TextFileStream {
         }
 
         // Read data chunks from file until a line delimiter is found.
-        var range = buffer.range(of: delimData, options: [], in: NSRange(location: 0, length: buffer.length))
-        while range.location == NSNotFound {
-            let tmpData = fileHandle?.readData(ofLength: chunkSize)
-            if tmpData == nil || tmpData!.isEmpty {
+        var range = buffer.range(of: delimData, options: [], in: 0..<buffer.count)
+        while range == nil {
+            guard let tmpData = fileHandle?.readData(ofLength: chunkSize), !tmpData.isEmpty else {
                 // EOF or read error.
                 atEOF = true
-                if buffer.length > 0 {
+                if !buffer.isEmpty {
                     // Buffer contains last line in file (not terminated by delimiter).
-                    let line = NSString(data: buffer as Data, encoding: encoding.rawValue)
+                    let line = String(data: buffer, encoding: encoding)
 
-                    buffer.length = 0
-                    return line as String?
+                    buffer.count = 0
+                    return line
                 }
                 // No more lines.
                 return nil
             }
-            buffer.append(tmpData!)
-            range = buffer.range(of: delimData, options: [], in: NSRange(location: 0, length: buffer.length))
+            buffer.append(tmpData)
+            range = buffer.range(of: delimData, options: [], in: 0..<buffer.count)
         }
 
         // Convert complete line (excluding the delimiter) to a string.
-        let line = NSString(data: buffer.subdata(with: NSRange(location: 0, length: range.location)),
-            encoding: encoding.rawValue)
-        // Remove line (and the delimiter) from the buffer.
-        let cleaningRange = NSRange(location: 0, length: range.location + range.length)
-        buffer.replaceBytes(in: cleaningRange, withBytes: nil, length: 0)
+        let line = String(data: buffer.subdata(in: 0..<range!.lowerBound), encoding: encoding)
 
-        return line as? String
+        // Remove line (and the delimiter) from the buffer.
+        let cleaningRange: Range<Data.Index> = 0..<range!.upperBound
+        buffer.replaceSubrange(cleaningRange, with: Data())
+
+        return line
     }
 
     /// Start reading from the beginning of file.
     open func rewind() {
         fileHandle?.seek(toFileOffset: 0)
-        buffer.length = 0
+        buffer.count = 0
         atEOF = false
     }
 
@@ -254,6 +257,8 @@ extension TextFileStreamReader : Sequence {
 /// A class to write a `TextFile` line by line.
 open class TextFileStreamWriter: TextFileStream {
 
+    public let append: Bool
+
     // MARK: - Initialization
 
     /// - Parameter path:      the file path
@@ -261,23 +266,26 @@ open class TextFileStreamWriter: TextFileStream {
     /// - Parameter encoding: file encoding (default: .utf8)
     /// - Parameter append: if true append at file end (default: false)
     /// - Parameter createIfNotExist: if true create file if not exixt (default: true)
-    public init?(
+    public init(
         path: Path,
         delimiter: String = "\n",
         encoding: String.Encoding = .utf8,
         append: Bool = false,
         createIfNotExist: Bool = true
-        ) {
+        ) throws {
+
         if createIfNotExist && !path.exists {
-            try? path.createFile()
+            try path.createFile()
         }
-        guard let fileHandle = path.fileHandleForWriting else {
-            return nil
-        }
+        self.append = append
+        let fileHandle = try path.fileHandle(for: .write)
         if append {
             fileHandle.seekToEndOfFile()
         }
-        super.init(fileHandle: fileHandle, delimiter: delimiter, encoding: encoding)
+        guard let delimData = delimiter.data(using: encoding) else {
+            throw FileKitError.ReasonError.encoding(encoding, data: delimiter)
+        }
+        try super.init(fileHandle: fileHandle, delimiter: delimData, encoding: encoding)
     }
 
     /// Write a new line in file
@@ -297,6 +305,17 @@ open class TextFileStreamWriter: TextFileStream {
         return false
     }
 
+    /// Write a line delimiter.
+    ///
+    /// - Returns: true if successfully.
+    open func writeDelimiter() -> Bool {
+        if let handle = fileHandle {
+            handle.write(delimData)
+            return true
+        }
+        return false
+    }
+
     /// Causes all in-memory data and attributes of the file represented by the receiver to be written to permanent storage.
     open func synchronize() {
         fileHandle?.synchronizeFile()
@@ -311,9 +330,12 @@ extension TextFile {
     /// - Parameter append: if true append at file end (default: false)
     ///
     /// - Returns: the `TextFileStreamWriter`
-
-    public func streamWriter(_ delimiter: String = "\n", append: Bool = false) -> TextFileStreamWriter? {
-        return TextFileStreamWriter(
+    ///
+    /// - Throws:
+    ///     `FileKitError.CreateFileFail`,
+    ///     `FileKitError.writeToFileFail`
+    public func streamWriter(_ delimiter: String = "\n", append: Bool = false) throws -> TextFileStreamWriter {
+        return try TextFileStreamWriter(
             path: self.path,
             delimiter: delimiter,
             encoding: encoding,

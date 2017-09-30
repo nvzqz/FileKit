@@ -50,44 +50,28 @@ public extension DispatchFileSystemWatcherDelegate {
     // MARK: - Extension
 
     /// Call when the file-system object was deleted from the namespace.
-    public func fsWatcherDidObserveDelete(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveDelete(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object data changed.
-    public func fsWatcherDidObserveWrite(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveWrite(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object changed in size.
-    public func fsWatcherDidObserveExtend(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveExtend(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object metadata changed.
-    public func fsWatcherDidObserveAttrib(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveAttrib(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object link count changed.
-    public func fsWatcherDidObserveLink(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveLink(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object was renamed in the namespace.
-    public func fsWatcherDidObserveRename(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveRename(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object was revoked.
-    public func fsWatcherDidObserveRevoke(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveRevoke(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object was created.
-    public func fsWatcherDidObserveCreate(_ watch: DispatchFileSystemWatcher) {
-
-    }
+    public func fsWatcherDidObserveCreate(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the directory changed (additions, deletions, and renamings).
     ///
@@ -242,7 +226,6 @@ open class DispatchFileSystemWatcher {
                     return true
                 }
             }
-            return false
         }
 
             // Only watching for regular file and directory
@@ -279,11 +262,9 @@ open class DispatchFileSystemWatcher {
                     return true
                 }
             }
-            return false
-        } else {
-            return false
         }
 
+        return false
     }
 
     /// Stop watching.
@@ -321,13 +302,13 @@ extension Path {
                        delegate: DispatchFileSystemWatcherDelegate? = nil,
                        callback: ((DispatchFileSystemWatcher) -> Void)? = nil
         ) -> DispatchFileSystemWatcher {
-        let dispathQueue: DispatchQueue
+        let dispatchQueue: DispatchQueue
         if #available(OSX 10.10, *) {
-            dispathQueue = queue ?? DispatchQueue.global(qos: .default)
+            dispatchQueue = queue ?? DispatchQueue.global(qos: .default)
         } else {
-            dispathQueue = queue ?? DispatchQueue.global(priority: .default)
+            dispatchQueue = queue ?? DispatchQueue.global(priority: .default)
         }
-        let watcher = DispatchFileSystemWatcher(path: self, events: events, queue: dispathQueue, callback: callback)
+        let watcher = DispatchFileSystemWatcher(path: self, events: events, queue: dispatchQueue, callback: callback)
         watcher.delegate = delegate
         watcher.startWatching()
         return watcher
