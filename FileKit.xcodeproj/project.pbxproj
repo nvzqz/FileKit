@@ -114,6 +114,14 @@
 		52BF6BB21B99322000F07E13 /* FileKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BF6BB01B99322000F07E13 /* FileKitError.swift */; };
 		82F4F2BD1CA95480002C8393 /* FileSystemWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F4F2BC1CA95480002C8393 /* FileSystemWatcher.swift */; };
 		82F4F2C01CA956F2002C8393 /* FileSystemEventStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F4F2BF1CA956F2002C8393 /* FileSystemEventStream.swift */; };
+		C411910C1F804C8300978BA4 /* JSONType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41191091F804A6000978BA4 /* JSONType.swift */; };
+		C411910D1F804C8300978BA4 /* JSONType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41191091F804A6000978BA4 /* JSONType.swift */; };
+		C411910E1F804C8300978BA4 /* JSONType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41191091F804A6000978BA4 /* JSONType.swift */; };
+		C411910F1F804C8400978BA4 /* JSONType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41191091F804A6000978BA4 /* JSONType.swift */; };
+		C41191101F804C8600978BA4 /* PropertyListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C411910A1F804A6000978BA4 /* PropertyListType.swift */; };
+		C41191111F804C8600978BA4 /* PropertyListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C411910A1F804A6000978BA4 /* PropertyListType.swift */; };
+		C41191131F804C8700978BA4 /* PropertyListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C411910A1F804A6000978BA4 /* PropertyListType.swift */; };
+		C41191141F804C8800978BA4 /* PropertyListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C411910A1F804A6000978BA4 /* PropertyListType.swift */; };
 		C41FC73A1D9BDCB400C3A0F1 /* Data+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41FC7391D9BDCB400C3A0F1 /* Data+FileKit.swift */; };
 		C41FC73B1D9BDCD100C3A0F1 /* Data+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41FC7391D9BDCB400C3A0F1 /* Data+FileKit.swift */; };
 		C41FC73C1D9BDCD100C3A0F1 /* Data+FileKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41FC7391D9BDCB400C3A0F1 /* Data+FileKit.swift */; };
@@ -185,6 +193,8 @@
 		82F4F2BB1CA94DEC002C8393 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		82F4F2BC1CA95480002C8393 /* FileSystemWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystemWatcher.swift; sourceTree = "<group>"; };
 		82F4F2BF1CA956F2002C8393 /* FileSystemEventStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystemEventStream.swift; sourceTree = "<group>"; };
+		C41191091F804A6000978BA4 /* JSONType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONType.swift; sourceTree = "<group>"; };
+		C411910A1F804A6000978BA4 /* PropertyListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyListType.swift; sourceTree = "<group>"; };
 		C41FC7391D9BDCB400C3A0F1 /* Data+FileKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+FileKit.swift"; sourceTree = "<group>"; };
 		C41FC73E1D9BE44A00C3A0F1 /* Dictionary+File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+File.swift"; sourceTree = "<group>"; };
 		C41FC7401D9BE4DB00C3A0F1 /* DataFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataFile.swift; sourceTree = "<group>"; };
@@ -270,9 +280,10 @@
 				52255DCA1C042D6E00AC1DA5 /* FilePermissions.swift */,
 				52A016C31C013F3D0045A9C8 /* DirectoryEnumerator.swift */,
 				523C33981B9B764600AB70E4 /* DataType.swift */,
+				C411910B1F804A9000978BA4 /* Codable Types */,
+				52F3AFA71CDFB48600C2BBBD /* File Types */,
 				52BF6BB01B99322000F07E13 /* FileKitError.swift */,
 				523C33A61B9B894A00AB70E4 /* Operators.swift */,
-				52F3AFA71CDFB48600C2BBBD /* File Types */,
 				52F3AFA61CDFB46300C2BBBD /* Watching */,
 				52F3AFA51CDFB45100C2BBBD /* Extensions */,
 			);
@@ -338,6 +349,15 @@
 				52B938C81BF402ED001B7AEB /* ImageFile.swift */,
 			);
 			name = "File Types";
+			sourceTree = "<group>";
+		};
+		C411910B1F804A9000978BA4 /* Codable Types */ = {
+			isa = PBXGroup;
+			children = (
+				C41191091F804A6000978BA4 /* JSONType.swift */,
+				C411910A1F804A6000978BA4 /* PropertyListType.swift */,
+			);
+			name = "Codable Types";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -634,6 +654,7 @@
 				82F4F2C01CA956F2002C8393 /* FileSystemEventStream.swift in Sources */,
 				52A016C41C013F3D0045A9C8 /* DirectoryEnumerator.swift in Sources */,
 				524D315F1BC7A02A008B93D0 /* Image+FileKit.swift in Sources */,
+				C411910C1F804C8300978BA4 /* JSONType.swift in Sources */,
 				C41FC73F1D9BE44A00C3A0F1 /* Dictionary+File.swift in Sources */,
 				524D315B1BC79331008B93D0 /* NSDataFile.swift in Sources */,
 				520E0E301C110CA900BAEA99 /* Process+FileKit.swift in Sources */,
@@ -642,6 +663,7 @@
 				C41FC7411D9BE4DB00C3A0F1 /* DataFile.swift in Sources */,
 				52A017001C01AD4A0045A9C8 /* NSData+FileKit.swift in Sources */,
 				52A016F61C01ACE50045A9C8 /* NSDictionary+FileKit.swift in Sources */,
+				C41191131F804C8700978BA4 /* PropertyListType.swift in Sources */,
 				C41FC7461D9BEEC000C3A0F1 /* Array+File.swift in Sources */,
 				52B938C91BF402ED001B7AEB /* ImageFile.swift in Sources */,
 				17217D5E1CDCD74000723D11 /* DispatchEvent.swift in Sources */,
@@ -673,12 +695,14 @@
 				524D315C1BC79331008B93D0 /* NSDataFile.swift in Sources */,
 				52A0170B1C01D5400045A9C8 /* FileType.swift in Sources */,
 				523C33A81B9B894A00AB70E4 /* Operators.swift in Sources */,
+				C411910D1F804C8300978BA4 /* JSONType.swift in Sources */,
 				C41FC74D1D9BF05A00C3A0F1 /* Dictionary+File.swift in Sources */,
 				C41FC7471D9BEEF300C3A0F1 /* Array+File.swift in Sources */,
 				52A017111C024D840045A9C8 /* NSString+FileKit.swift in Sources */,
 				520E0E311C110CA900BAEA99 /* Process+FileKit.swift in Sources */,
 				523C33791B9A7EFC00AB70E4 /* TextFile.swift in Sources */,
 				52A017011C01AD4A0045A9C8 /* NSData+FileKit.swift in Sources */,
+				C41191141F804C8800978BA4 /* PropertyListType.swift in Sources */,
 				5263A8FD1B96B94D00635A93 /* Path.swift in Sources */,
 				52A016C51C013F3D0045A9C8 /* DirectoryEnumerator.swift in Sources */,
 				524D31601BC7A02A008B93D0 /* Image+FileKit.swift in Sources */,
@@ -718,12 +742,14 @@
 				524D315D1BC79331008B93D0 /* NSDataFile.swift in Sources */,
 				52A0170C1C01D5400045A9C8 /* FileType.swift in Sources */,
 				5276124D1BAEA43600503D0A /* DictionaryFile.swift in Sources */,
+				C411910E1F804C8300978BA4 /* JSONType.swift in Sources */,
 				C41FC74C1D9BF05A00C3A0F1 /* Dictionary+File.swift in Sources */,
 				C41FC74A1D9BEEF400C3A0F1 /* Array+File.swift in Sources */,
 				52A017121C024D840045A9C8 /* NSString+FileKit.swift in Sources */,
 				520E0E321C110CA900BAEA99 /* Process+FileKit.swift in Sources */,
 				5276124B1BAEA43600503D0A /* File.swift in Sources */,
 				52A017021C01AD4A0045A9C8 /* NSData+FileKit.swift in Sources */,
+				C41191111F804C8600978BA4 /* PropertyListType.swift in Sources */,
 				5276124C1BAEA43600503D0A /* TextFile.swift in Sources */,
 				52A016C61C013F3D0045A9C8 /* DirectoryEnumerator.swift in Sources */,
 				524D31611BC7A02A008B93D0 /* Image+FileKit.swift in Sources */,
@@ -755,12 +781,14 @@
 				52B938C41BF3C42A001B7AEB /* Operators.swift in Sources */,
 				52A016F41C0184CA0045A9C8 /* FileProtection.swift in Sources */,
 				52B938BD1BF3C42A001B7AEB /* TextFile.swift in Sources */,
+				C411910F1F804C8400978BA4 /* JSONType.swift in Sources */,
 				C41FC74B1D9BF05A00C3A0F1 /* Dictionary+File.swift in Sources */,
 				C41FC7491D9BEEF400C3A0F1 /* Array+File.swift in Sources */,
 				52B938C11BF3C42A001B7AEB /* Path.swift in Sources */,
 				52A016F91C01ACE50045A9C8 /* NSDictionary+FileKit.swift in Sources */,
 				52A0170D1C01D5400045A9C8 /* FileType.swift in Sources */,
 				52B938BE1BF3C42A001B7AEB /* DictionaryFile.swift in Sources */,
+				C41191101F804C8600978BA4 /* PropertyListType.swift in Sources */,
 				520E0E331C110CA900BAEA99 /* Process+FileKit.swift in Sources */,
 				52A017031C01AD4A0045A9C8 /* NSData+FileKit.swift in Sources */,
 				52A016C71C013F3D0045A9C8 /* DirectoryEnumerator.swift in Sources */,

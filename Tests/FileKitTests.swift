@@ -847,4 +847,87 @@ class FileKitTests: XCTestCase {
         operation()
         self.waitForExpectations(timeout: 10, handler: nil)
     }
+
+    // MARK: - Codable
+
+    func testJSONCodable() {
+        let encodable = TestJSONCodable(string: "test", integer: 9)
+        let path: Path = .userTemporary + "testcodable.json"
+        let codableFile = File<TestJSONCodable>(path: path)
+
+        do {
+            try codableFile.write(encodable)
+            let decodable: TestJSONCodable = try codableFile.read()
+            XCTAssertEqual(decodable, encodable)
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+    
+    func testCodable() {
+        let encodable = TestCodable(string: "test", integer: 9)
+        let path: Path = .userTemporary + "testcodable.plist"
+
+        do {
+            try FileKit.write(encodable, to: path)
+            let decodable: TestCodable = try FileKit.read(from: path)
+            XCTAssertEqual(decodable, encodable)
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+
+    func testCodableArray() {
+        let encodable = [TestCodable(string: "test", integer: 9), TestCodable(string: "test3", integer: 8)]
+        let path: Path = .userTemporary + "testcodablearray.plist"
+
+        do {
+            try FileKit.write(encodable, to: path)
+            let decodable: [TestCodable] = try FileKit.read(from: path)
+            XCTAssertEqual(decodable, encodable)
+        } catch {
+            XCTFail(String(describing: error))
+        }
+    }
+
 }
+
+// MARK: Test objects
+
+struct TestCodable: Codable {
+    let string: String
+    let integer: Int
+}
+
+extension TestCodable: Equatable {
+    static func == (l: TestCodable, r: TestCodable) -> Bool {
+        return l.string == r.string && l.integer == r.integer
+    }
+}
+
+struct TestJSONCodable: Codable {
+    let string: String
+    let integer: Int
+}
+
+extension TestJSONCodable: JSONWritable, JSONReadable {}
+
+extension TestJSONCodable: Equatable {
+    static func == (l: TestJSONCodable, r: TestJSONCodable) -> Bool {
+        return l.string == r.string && l.integer == r.integer
+    }
+}
+
+struct TestPropertyListCodable: Codable {
+    let string: String
+    let integer: Int
+}
+
+extension TestPropertyListCodable: PropertyListWritable, PropertyListReadable {}
+
+extension TestPropertyListCodable: Equatable {
+    static func == (l: TestPropertyListCodable, r: TestPropertyListCodable) -> Bool {
+        return l.string == r.string && l.integer == r.integer
+    }
+}
+
