@@ -31,9 +31,9 @@
 ///
 /// - Copyright: [MIT License](https://opensource.org/licenses/MIT)
 ///
-/// - Version: [v4.0.1](https://github.com/nvzqz/FileKit/releases/tag/v4.0.1)
+/// - Version: [v5.0.0](https://github.com/nvzqz/FileKit/releases/tag/v4.0.0)
 ///
-/// - Requires: Xcode 8, Swift 3.0
+/// - Requires: Xcode 9, Swift 4.0
 ///
 public enum FileKitInfo {
 
