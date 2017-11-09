@@ -35,10 +35,10 @@ public struct FileSystemEvent {
     // MARK: - Static Properties
 
     /// All of the event IDs.
-    static let AllEventId = 0
+    public static let AllEventId = 0
 
     /// The last event ID since now.
-    static let NowEventId = FSEventStreamEventId(kFSEventStreamEventIdSinceNow)
+    public static let NowEventId = FSEventStreamEventId(kFSEventStreamEventIdSinceNow)
 
     // MARK: - Properties
 
