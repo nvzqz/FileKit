@@ -367,6 +367,23 @@ The `DataFile` class allows for reading and writing `Data` to a file.
 Although it is a subclass of `File<Data>`, `DataFile` offers some functionality
 that `File<Data>` doesn't. You could specify `Data.ReadingOptions` and `Data.WritingOptions`
 
+#### Encodable/Decodable
+
+You can use any `Codable` object with `File`.
+
+```swift
+let codableFile = File<AnyCodableClass>(path: path)
+try codableFile.write(toEncode)
+let decoded: AnyCodableClass = try codableFile.read()
+```
+
+Alternatively you can use utility methods
+
+```swift
+try FileKit.write(toEncode, to: path)
+let decoded: AnyCodableClass = try FileKit.read(from: path)
+```
+
 ### File Permissions
 
 The `FilePermissions` struct allows for seeing the permissions of the current
