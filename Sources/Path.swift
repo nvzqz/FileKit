@@ -822,14 +822,14 @@ extension Path {
     /// Returns the path's attributes.
     ///
     /// this method does not follow links.
-    public var attributes: [FileAttributeKey : Any] {
+    public var attributes: [FileAttributeKey: Any] {
         return (try? _fmWraper.fileManager.attributesOfItem(atPath: _safeRawValue)) ?? [:]
     }
 
     /// Modify attributes
     ///
     /// this method does not follow links.
-    fileprivate func _setAttributes(_ attributes: [FileAttributeKey : Any]) throws {
+    fileprivate func _setAttributes(_ attributes: [FileAttributeKey: Any]) throws {
         do {
             try _fmWraper.fileManager.setAttributes(attributes, ofItemAtPath: self._safeRawValue)
         } catch {
