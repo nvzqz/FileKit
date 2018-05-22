@@ -58,7 +58,7 @@ public struct Path {
     public static func volumes(_ options: FileManager.VolumeEnumerationOptions = []) -> [Path] {
         let volumes = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: nil,
             options: options)
-        return (volumes ?? []).flatMap { Path(url: $0) }
+        return (volumes ?? []).compactMap { Path(url: $0) }
     }
 
     // MARK: - Properties
@@ -127,13 +127,13 @@ public struct Path {
             return []
         }
         if isAbsolute {
-            return (absolute.rawValue as NSString).pathComponents.enumerated().flatMap {
+            return (absolute.rawValue as NSString).pathComponents.enumerated().compactMap {
                 (($0 == 0 || $1 != "/") && $1 != ".") ? Path($1) : nil
             }
         } else {
             let comps = (self.rawValue as NSString).pathComponents.enumerated()
             // remove extraneous `/` and `.`
-            let cleanComps = comps.flatMap {
+            let cleanComps = comps.compactMap {
                 (($0 == 0 || $1 != "/") && $1 != ".") ? Path($1) : nil
             }
             return _cleanComponents(cleanComps)
@@ -144,7 +144,7 @@ public struct Path {
     fileprivate func _cleanComponents(_ comps: [Path]) -> [Path] {
         var isContinue = false
         let count = comps.count
-        let cleanComps: [Path] = comps.enumerated().flatMap {
+        let cleanComps: [Path] = comps.enumerated().compactMap {
             if ($1.rawValue != ".." && $0 < count - 1 && comps[$0 + 1].rawValue == "..") || ($1.rawValue == ".." && $0 > 0 && comps[$0 - 1].rawValue != "..") {
                 isContinue = true
                 return nil
