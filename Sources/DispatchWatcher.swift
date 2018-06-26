@@ -87,10 +87,10 @@ open class DispatchFileSystemWatcher {
     // MARK: - Properties
 
     /// The paths being watched.
-    open let path: Path
+    public let path: Path
 
     /// The events used to create the watcher.
-    open let events: DispatchFileSystemEvents
+    public let events: DispatchFileSystemEvents
 
     /// The delegate to call when events happen
     weak var delegate: DispatchFileSystemWatcherDelegate?
