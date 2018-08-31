@@ -119,7 +119,7 @@ extension TextFile {
 open class TextFileStream {
 
     /// The text encoding.
-    open let encoding: String.Encoding
+    public let encoding: String.Encoding
 
     let delimData: Data
     var fileHandle: FileHandle?
@@ -167,7 +167,7 @@ open class TextFileStream {
 open class TextFileStreamReader: TextFileStream {
 
     /// The chunk size when reading.
-    open let chunkSize: Int
+    public let chunkSize: Int
 
     /// Tells if the position is at the end of file.
     open var atEOF: Bool = false
