@@ -372,6 +372,8 @@ that `File<Data>` doesn't. You could specify `Data.ReadingOptions` and `Data.Wri
 You can use any `Codable` object with `File`.
 
 ```swift
+extension AnyCodableClass: JSONReadableWritable {} // if you want json encoding/decoding
+
 let codableFile = File<AnyCodableClass>(path: path)
 try codableFile.write(toEncode)
 let decoded: AnyCodableClass = try codableFile.read()
