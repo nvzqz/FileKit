@@ -8,6 +8,8 @@
 
 import Foundation
 
+public typealias JSONReadableWritable = JSONReadable & JSONWritable
+
 // MARK: JSONReadable
 
 /// A JSON readable object is `Decodable`and provide it`s own decoder

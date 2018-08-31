@@ -8,6 +8,8 @@
 
 import Foundation
 
+public typealias PropertyListReadableWritable = PropertyListReadable & PropertyListWritable
+
 // MARK: PropertyListReadable
 
 /// A PropertyList readable object is `Decodable`and provide it`s own decoder
