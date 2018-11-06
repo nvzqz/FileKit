@@ -1,8 +1,8 @@
-<p align="center">
+<div align="center">
     <img src="https://github.com/nvzqz/FileKit/raw/assets/banner.png">
-</p>
+</div>
 
-<p align="center">
+<div align="center">
     <img src="https://img.shields.io/badge/platform-osx%20%7C%20ios%20%7C%20watchos%20%7C%20tvos-lightgrey.svg"
          alt="Platform">
     <img src="https://img.shields.io/badge/language-swift-orange.svg"
@@ -28,14 +28,21 @@
     </a>
     <img src="https://img.shields.io/badge/license-MIT-000000.svg"
          alt="License">
-</p>
+    <br>
+    <a href="https://www.patreon.com/nvzqz">
+        <img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patron!" height="35">
+    </a>
+    <a href="https://www.paypal.me/nvzqz">
+        <img src="https://buymecoffee.intm.org/img/button-paypal-white.png" alt="Buy me a coffee" height="35">
+    </a>
+</div>
 
-<p align="center">
+<div align="center">
     <a href="#installation">Installation</a>
   • <a href="#usage">Usage</a>
   • <a href="#license">License</a>
   • <a href="https://nvzqz.github.io/FileKit/docs/">Documentation</a>
-</p>
+</div>
 
 
 FileKit is a Swift framework that allows for simple and expressive file management.
