@@ -63,7 +63,7 @@ extension Image: ReadableWritable, WritableConvertible {
         #if os(OSX)
         return self.tiffRepresentation ?? Data()
         #else
-        return self.pngData() ?? Data()
+        return UIImagePNGRepresentation(self) ?? Data()
         #endif
     }
 
