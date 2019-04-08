@@ -759,9 +759,9 @@ extension Path: Hashable {
 
     // MARK: - Hashable
 
-    /// The hash value of the path.
-    public var hashValue: Int {
-        return rawValue.hashValue
+    /// To compute the hash value of the path.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(rawValue)
     }
 
 }
