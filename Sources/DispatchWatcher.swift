@@ -50,33 +50,33 @@ public extension DispatchFileSystemWatcherDelegate {
     // MARK: - Extension
 
     /// Call when the file-system object was deleted from the namespace.
-    public func fsWatcherDidObserveDelete(_ watch: DispatchFileSystemWatcher) {}
+    func fsWatcherDidObserveDelete(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object data changed.
-    public func fsWatcherDidObserveWrite(_ watch: DispatchFileSystemWatcher) {}
+    func fsWatcherDidObserveWrite(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object changed in size.
-    public func fsWatcherDidObserveExtend(_ watch: DispatchFileSystemWatcher) {}
+    func fsWatcherDidObserveExtend(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object metadata changed.
-    public func fsWatcherDidObserveAttrib(_ watch: DispatchFileSystemWatcher) {}
+    func fsWatcherDidObserveAttrib(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object link count changed.
-    public func fsWatcherDidObserveLink(_ watch: DispatchFileSystemWatcher) {}
+    func fsWatcherDidObserveLink(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object was renamed in the namespace.
-    public func fsWatcherDidObserveRename(_ watch: DispatchFileSystemWatcher) {}
+    func fsWatcherDidObserveRename(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object was revoked.
-    public func fsWatcherDidObserveRevoke(_ watch: DispatchFileSystemWatcher) {}
+    func fsWatcherDidObserveRevoke(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the file-system object was created.
-    public func fsWatcherDidObserveCreate(_ watch: DispatchFileSystemWatcher) {}
+    func fsWatcherDidObserveCreate(_ watch: DispatchFileSystemWatcher) {}
 
     /// Call when the directory changed (additions, deletions, and renamings).
     ///
     /// Calls `fsWatcherDidObserveWrite` by default.
-    public func fsWatcherDidObserveDirectoryChange(_ watch: DispatchFileSystemWatcher) {
+    func fsWatcherDidObserveDirectoryChange(_ watch: DispatchFileSystemWatcher) {
         fsWatcherDidObserveWrite(watch)
     }
 }
