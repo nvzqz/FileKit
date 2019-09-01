@@ -47,7 +47,7 @@ extension Readable {
     ///
     /// - Parameter path: The path being read from.
     ///
-    public init(contentsOfPath path: Path) throws { // swiftlint:disable:this valid_docs
+    public init(contentsOfPath path: Path) throws {
         self = try Self.read(from: path)
     }
 
@@ -77,7 +77,7 @@ extension Writable {
     ///
     /// - Parameter path: The path being written to.
     ///
-    public func write(to path: Path) throws { // swiftlint:disable:this valid_docs
+    public func write(to path: Path) throws {
         try write(to: path, atomically: true)
     }
 
