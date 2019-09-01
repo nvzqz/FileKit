@@ -3,8 +3,6 @@ included:
 
 # rule identifiers to exclude from running
 disabled_rules:
-    - valid_docs
-    - function_body_length
     - cyclomatic_complexity
     - variable_name
     - type_name
