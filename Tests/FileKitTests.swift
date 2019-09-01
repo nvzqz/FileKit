@@ -199,7 +199,11 @@ class FileKitTests: XCTestCase {
 
         let directories = children.filter { $0.isDirectory }
 
-        guard let directory  = directories.first, let childOfChild = directory.children().first else {
+        if let directory = directories.first, directory.children().isEmpty {
+            try? (directory + "childOfChild").createDirectory()
+        }
+
+        guard let directory = directories.first, let childOfChild = directory.children().first else {
             XCTFail("No child of child into \(p)")
             return
         }
