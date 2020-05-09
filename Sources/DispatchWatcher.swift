@@ -10,8 +10,8 @@ import Foundation
 #if os(Linux)
 import Dispatch
 import Glibc
-public let O_EVTONLY = Glibc.O_RDONLY // TODO: no O_EVTONLY on Linux?
-#endif
+public let O_EVTONLY = Glibc.O_RDONLY // no O_EVTONLY on Linux?
+#else
 
 /// Delegate for `DispatchFileSystemWatcher`
 public protocol DispatchFileSystemWatcherDelegate: class {
@@ -241,7 +241,8 @@ open class DispatchFileSystemWatcher {
                 if fileDescriptor == -1 { return false }
                 var _events = events
                 _events.remove(.Create)
-                source = DispatchSource.makeFileSystemObjectSource(fileDescriptor: fileDescriptor, eventMask: DispatchSource.FileSystemEvent(rawValue: _events.rawValue), queue: queue)
+                let eventMask = DispatchSource.FileSystemEvent(rawValue: _events.rawValue)
+                source = DispatchSource.makeFileSystemObjectSource(fileDescriptor: fileDescriptor, eventMask: eventMask, queue: queue)
 
                 // Recheck if open success and source create success
                 if source != nil && fileDescriptor != -1 {
@@ -298,6 +299,7 @@ open class DispatchFileSystemWatcher {
     }
 
 }
+#endif
 
 extension Path {
 
@@ -327,6 +329,8 @@ extension Path {
         return watcher
     }
 
+    #elseif os(Linux)
+    
     #else
 
     // MARK: - Watching
