@@ -470,13 +470,14 @@ class FileKitTests: XCTestCase {
     }
 
     func testWellKnownDirectories() {
-        var paths: [Path] = [
+        var paths: [Path] = [.userHome, .userTemporary]
+        #if !os(Linux)
+        paths += [
             .userHome, .userTemporary, .userCaches, .userDesktop, .userDocuments,
             .userAutosavedInformation, .userDownloads, .userLibrary, .userMovies,
             .userMusic, .userPictures, .userApplicationSupport, .userApplications,
             .userSharedPublic
         ]
-        #if !os(Linux)
         paths += [
             .systemApplications, .systemApplicationSupport, .systemLibrary,
             .systemCoreServices, .systemPreferencePanes /* .systemPrinterDescription,*/
