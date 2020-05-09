@@ -27,7 +27,6 @@
 
 import Foundation
 
-#if !os(Linux)
 extension NSArray: ReadableWritable, WritableToFile {
 
     /// Returns an array read from the given path.
@@ -41,4 +40,3 @@ extension NSArray: ReadableWritable, WritableToFile {
     }
 
 }
-#endif
