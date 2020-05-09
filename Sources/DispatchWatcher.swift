@@ -232,9 +232,7 @@ open class DispatchFileSystemWatcher {
                 }
             }
         }
-
-            // Only watching for regular file and directory
-        else if path.isRegular || path.isDirectoryFile {
+        else if path.isRegular || path.isDirectoryFile { // Only watching for regular file and directory
 
             if source == nil && fileDescriptor == -1 {
                 fileDescriptor = open(path._safeRawValue, O_EVTONLY)
@@ -273,7 +271,6 @@ open class DispatchFileSystemWatcher {
                 }
             }
         }
-
         return false
     }
 
@@ -330,7 +327,7 @@ extension Path {
     }
 
     #elseif os(Linux)
-    
+
     #else
 
     // MARK: - Watching

@@ -38,15 +38,19 @@ class FileKitTests: XCTestCase {
     class Delegate: NSObject, FileManagerDelegate {
         var expectedSourcePath: Path = ""
         var expectedDestinationPath: Path = ""
-        func fileManager(
-            _ fileManager: FileManager,
-            shouldCopyItemAtPath srcPath: String,
-            toPath dstPath: String
-        ) -> Bool {
+        #if os(Linux)
+        func fileManager( _ fileManager: FileManager, shouldCopyItemAt srcPath: String, to dstPath: String) -> Bool {
             XCTAssertEqual(srcPath, expectedSourcePath.rawValue)
             XCTAssertEqual(dstPath, expectedDestinationPath.rawValue)
             return true
         }
+        #else
+        func fileManager( _ fileManager: FileManager, shouldCopyItemAtPath srcPath: String, toPath dstPath: String) -> Bool {
+            XCTAssertEqual(srcPath, expectedSourcePath.rawValue)
+            XCTAssertEqual(dstPath, expectedDestinationPath.rawValue)
+            return true
+        }
+        #endif
     }
 
     func testPathFileManagerDelegate() {
