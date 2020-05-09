@@ -8,7 +8,9 @@
 
 import Foundation
 #if os(Linux)
+import Dispatch
 import Glibc
+public let O_EVTONLY = Glibc.O_RDONLY // TODO: no O_EVTONLY on Linux?
 #endif
 
 /// Delegate for `DispatchFileSystemWatcher`
