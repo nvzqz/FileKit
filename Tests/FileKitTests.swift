@@ -110,7 +110,11 @@ class FileKitTests: XCTestCase {
 
     func testStandardizingPath() {
         let a: Path = "~/.."
+        #if os(Linux)
+        let b: Path = "/home"
+        #else
         let b: Path = "/Users"
+        #endif
         XCTAssertEqual(a.standardized, b.standardized)
     }
 
@@ -523,6 +527,7 @@ class FileKitTests: XCTestCase {
 
     func testTextFileExists() {
         do {
+            print("\(textFile)")
             try textFile.create()
             XCTAssertTrue(textFile.exists)
         } catch {
