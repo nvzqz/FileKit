@@ -24,6 +24,7 @@
 
 import Foundation
 
+#if !os(Linux)
 extension NSDictionary: ReadableWritable, WritableToFile {
 
     /// Returns a dictionary read from the given path.
@@ -35,3 +36,4 @@ extension NSDictionary: ReadableWritable, WritableToFile {
     }
 
 }
+#endif

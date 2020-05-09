@@ -27,6 +27,7 @@
 
 import Foundation
 
+#if !os(Linux)
 extension NSString {
 
     /// Returns an String object initialized by copying the characters from
@@ -81,3 +82,5 @@ extension NSString: Writable {
  }
  }
  */
+
+#endif
