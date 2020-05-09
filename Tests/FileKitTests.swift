@@ -35,22 +35,15 @@ class FileKitTests: XCTestCase {
 
     // MARK: - Path
 
+    #if !os(Linux)
     class Delegate: NSObject, FileManagerDelegate {
         var expectedSourcePath: Path = ""
         var expectedDestinationPath: Path = ""
-        #if os(Linux)
-        func fileManager( _ fileManager: FileManager, shouldCopyItemAt srcPath: String, to dstPath: String) -> Bool {
-            XCTAssertEqual(srcPath, expectedSourcePath.rawValue)
-            XCTAssertEqual(dstPath, expectedDestinationPath.rawValue)
-            return true
-        }
-        #else
         func fileManager( _ fileManager: FileManager, shouldCopyItemAtPath srcPath: String, toPath dstPath: String) -> Bool {
             XCTAssertEqual(srcPath, expectedSourcePath.rawValue)
             XCTAssertEqual(dstPath, expectedDestinationPath.rawValue)
             return true
         }
-        #endif
     }
 
     func testPathFileManagerDelegate() {
@@ -80,8 +73,8 @@ class FileKitTests: XCTestCase {
         } catch {
             XCTFail(String(describing: error))
         }
-
     }
+    #endif
 
     func testFindingPaths() {
         let homeFolders = Path.userHome.find(searchDepth: 0) { $0.isDirectory }
