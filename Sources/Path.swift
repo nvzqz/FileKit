@@ -965,6 +965,7 @@ extension Path {
 
 }
 
+#if !os(Linux)
 extension Path {
 
     // MARK: - BookmarkData
@@ -1010,6 +1011,7 @@ extension Path {
     }
 
 }
+#endif
 
 extension Path {
 
