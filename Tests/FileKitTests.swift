@@ -473,7 +473,7 @@ class FileKitTests: XCTestCase {
         var paths: [Path] = [.userHome, .userTemporary]
         #if !os(Linux)
         paths += [
-            .userHome, .userTemporary, .userCaches, .userDesktop, .userDocuments,
+            .userCaches, .userDesktop, .userDocuments,
             .userAutosavedInformation, .userDownloads, .userLibrary, .userMovies,
             .userMusic, .userPictures, .userApplicationSupport, .userApplications,
             .userSharedPublic
@@ -492,6 +492,7 @@ class FileKitTests: XCTestCase {
         }
     }
 
+    #if !os(Linux)
     // all
     func testWellKnownDirectoriesAll() {
         XCTAssertTrue(Path.allLibraries.contains(.userLibrary))
@@ -499,6 +500,7 @@ class FileKitTests: XCTestCase {
         XCTAssertTrue(Path.allApplications.contains(.userApplications))
         XCTAssertTrue(Path.allApplications.contains(.systemApplications))
     }
+    #endif
 
     // temporary
     func testWellKnownDirectoriesTemporary() {
