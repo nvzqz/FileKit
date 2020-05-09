@@ -32,9 +32,9 @@ import Foundation
 ///
 /// The data type is NSArray.
 public typealias NSArrayFile = File<NSArray>
-#endif
 
 /// A representation of a filesystem array file.
 ///
 /// The data type is Array.
 public typealias ArrayFile<T> = File<[T]>
+#endif

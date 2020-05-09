@@ -32,9 +32,9 @@ import Foundation
 ///
 /// The data type is NSDictionary.
 public typealias NSDictionaryFile = File<NSDictionary>
-#endif
 
 /// A representation of a filesystem dictionary file.
 ///
 /// The data type is DictionaryFile.
 public typealias DictionaryFile<K: Hashable, V> = File<[K: V]>
+#endif
