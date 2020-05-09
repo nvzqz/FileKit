@@ -115,7 +115,11 @@ class FileKitTests: XCTestCase {
     }
 
     func testPathIsDirectory() {
+        #if os(Linux)
+        let p: Path = "/usr"
+        #else
         let d = Path.systemApplications
+        #endif
         XCTAssertTrue(d.isDirectory)
     }
 
@@ -147,7 +151,11 @@ class FileKitTests: XCTestCase {
     }
 
     func testPathChildren() {
+        #if os(Linux)
+        let p: Path = "/usr"
+        #else
         let p: Path = "/Users"
+        #endif
         XCTAssertNotEqual(p.children(), [])
     }
 
