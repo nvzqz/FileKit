@@ -111,7 +111,12 @@ class FileKitTests: XCTestCase {
     func testStandardizingPath() {
         let a: Path = "~/.."
         #if os(Linux)
-        let b: Path = "/home"
+        let test: Path = "~/"
+        if test.standardized.rawValue.contains("root") {
+            let b: Path = "/"
+        } else {
+            let b: Path = "/home"
+        }
         #else
         let b: Path = "/Users"
         #endif

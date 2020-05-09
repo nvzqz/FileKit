@@ -603,7 +603,7 @@ extension Path {
     ///
     /// If a file or symlink exists, this method removes the file or symlink and create regular file
     public func createFile() throws {
-        if !_fmWraper.fileManager.createFile(atPath: _safeRawValue, contents: nil, attributes: nil) {
+        if !_fmWraper.fileManager.createFile(atPath: _safeRawValue, contents: Data(), attributes: nil) {
             throw FileKitError.createFileFail(path: self)
         }
     }
