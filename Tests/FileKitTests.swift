@@ -371,7 +371,8 @@ class FileKitTests: XCTestCase {
             XCTFail("Not able to create Path from URL")
         }
     }
-
+    
+    #if !os(Linux)
     func testBookmarkData() {
         let path: Path = .userTemporary
         XCTAssertNotNil(path.bookmarkData)
@@ -389,6 +390,7 @@ class FileKitTests: XCTestCase {
         let path = Path(groupIdentifier: "com.nikolaivazquez.FileKitTests")
         XCTAssertNotNil(path, "Not able to create Path from group identifier")
     }
+    #endif
 
     func testTouch() {
         let path: Path = .userTemporary + "filekit_test.touch"
@@ -814,7 +816,8 @@ class FileKitTests: XCTestCase {
     }
 
     // MARK: - Image
-
+    
+    #if !os(Linux)
     func testImageWriting() {
         let url = URL(string: "https://raw.githubusercontent.com/nvzqz/FileKit/assets/logo.png")!
         let img = Image(contentsOf: url) ?? Image()
@@ -853,6 +856,7 @@ class FileKitTests: XCTestCase {
         operation()
         self.waitForExpectations(timeout: 10, handler: nil)
     }
+    #endif
 
     // MARK: - Codable
 
