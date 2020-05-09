@@ -118,9 +118,9 @@ class FileKitTests: XCTestCase {
         #if os(Linux)
         let p: Path = "/usr"
         #else
-        let d = Path.systemApplications
+        let p = Path.systemApplications
         #endif
-        XCTAssertTrue(d.isDirectory)
+        XCTAssertTrue(p.isDirectory)
     }
 
     func testSequence() {
