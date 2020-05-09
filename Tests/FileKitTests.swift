@@ -476,10 +476,12 @@ class FileKitTests: XCTestCase {
             .userMusic, .userPictures, .userApplicationSupport, .userApplications,
             .userSharedPublic
         ]
+        #if !os(Linux)
         paths += [
             .systemApplications, .systemApplicationSupport, .systemLibrary,
             .systemCoreServices, .systemPreferencePanes /* .systemPrinterDescription,*/
         ]
+        #endif
         #if os(OSX)
             paths += [.userTrash] // .userApplicationScripts (not testable)
         #endif
@@ -487,15 +489,18 @@ class FileKitTests: XCTestCase {
         for path in paths {
             XCTAssertTrue(path.exists, path.rawValue)
         }
+    }
 
-        // all
-
+    // all
+    func testWellKnownDirectoriesAll() {
         XCTAssertTrue(Path.allLibraries.contains(.userLibrary))
         XCTAssertTrue(Path.allLibraries.contains(.systemLibrary))
         XCTAssertTrue(Path.allApplications.contains(.userApplications))
         XCTAssertTrue(Path.allApplications.contains(.systemApplications))
+    }
 
-        // temporary
+    // temporary
+    func testWellKnownDirectoriesTemporary() {
         XCTAssertFalse(Path.processTemporary.exists)
         XCTAssertFalse(Path.uniqueTemporary.exists)
         XCTAssertNotEqual(Path.uniqueTemporary, Path.uniqueTemporary)
