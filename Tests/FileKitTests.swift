@@ -114,13 +114,15 @@ class FileKitTests: XCTestCase {
         let test: Path = "~/"
         if test.standardized.rawValue.contains("root") {
             let b: Path = "/"
+            XCTAssertEqual(a.standardized, b.standardized)
         } else {
             let b: Path = "/home"
+            XCTAssertEqual(a.standardized, b.standardized)
         }
         #else
         let b: Path = "/Users"
-        #endif
         XCTAssertEqual(a.standardized, b.standardized)
+        #endif
     }
 
     func testPathIsDirectory() {
