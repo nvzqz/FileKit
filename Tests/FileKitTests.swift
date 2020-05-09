@@ -670,6 +670,7 @@ class FileKitTests: XCTestCase {
 
     // MARK: - DictionaryFile
 
+    #if !os(Linux)
     let nsDictionaryFile = NSDictionaryFile(path: .userTemporary + "filekit_test_nsdictionary.plist")
 
     func testWriteToNSDictionaryFile() {
@@ -723,7 +724,6 @@ class FileKitTests: XCTestCase {
 
     // MARK: - ArrayFile
     
-    #if !os(Linux)
     let nsArrayFile = NSArrayFile(path: .userTemporary + "filekit_test_nsarray.plist")
 
     func testWriteToNSArrayFile() {
@@ -738,7 +738,6 @@ class FileKitTests: XCTestCase {
             XCTFail(String(describing: error))
         }
     }
-    #endif
 
     // MARK: - ArrayFile
 
@@ -757,7 +756,6 @@ class FileKitTests: XCTestCase {
         }
     }
 
-    #if !os(Linux)
     // MARK: - NSDataFile
 
     let nsDataFile = NSDataFile(path: .userTemporary + "filekit_test_nsdata")
