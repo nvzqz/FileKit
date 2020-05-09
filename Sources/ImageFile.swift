@@ -25,9 +25,9 @@
 //  THE SOFTWARE.
 //
 
+#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
 import Foundation
 
-#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
 /// A representation of a filesystem image file.
 ///
 /// The data type is Image.

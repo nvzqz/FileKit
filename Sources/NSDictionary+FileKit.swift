@@ -22,6 +22,7 @@
 //  THE SOFTWARE.
 //
 
+#if !os(Linux)
 import Foundation
 
 extension NSDictionary: ReadableWritable, WritableToFile {
@@ -35,3 +36,4 @@ extension NSDictionary: ReadableWritable, WritableToFile {
     }
 
 }
+#endif

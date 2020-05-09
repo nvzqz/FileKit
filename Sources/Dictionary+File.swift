@@ -26,6 +26,7 @@
 //  THE SOFTWARE.
 //
 
+#if !os(Linux)
 import Foundation
 
 extension Dictionary: ReadableWritable, WritableConvertible {
@@ -51,3 +52,4 @@ extension Dictionary: ReadableWritable, WritableConvertible {
     }
 
 }
+#endif

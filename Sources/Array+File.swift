@@ -28,6 +28,7 @@
 
 import Foundation
 
+#if !os(Linux)
 extension Array: ReadableWritable, WritableConvertible {
 
     /// Returns an array from the given path.
@@ -51,3 +52,4 @@ extension Array: ReadableWritable, WritableConvertible {
     }
 
 }
+#endif

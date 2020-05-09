@@ -25,9 +25,9 @@
 //  THE SOFTWARE.
 //
 
+#if !os(Linux)
 import Foundation
 
-#if !os(Linux)
 extension NSString {
 
     /// Returns an String object initialized by copying the characters from
