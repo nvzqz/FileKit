@@ -27,10 +27,12 @@
 
 import Foundation
 
+#if !os(Linux)
 /// A representation of a filesystem dictionary file.
 ///
 /// The data type is NSDictionary.
 public typealias NSDictionaryFile = File<NSDictionary>
+#endif
 
 /// A representation of a filesystem dictionary file.
 ///

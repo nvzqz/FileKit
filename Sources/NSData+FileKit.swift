@@ -27,6 +27,7 @@
 
 import Foundation
 
+#if !os(Linux)
 extension NSData: ReadableWritable, WritableToFile {
 
     /// Returns data read from the given path.
@@ -47,3 +48,4 @@ extension NSData: ReadableWritable, WritableToFile {
     }
 
 }
+#endif

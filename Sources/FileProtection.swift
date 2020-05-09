@@ -83,7 +83,7 @@ public enum FileProtection: String {
     }
 
     ///  Return the equivalent Data.WritingOptions
-    public var dataWritingOption: NSData.WritingOptions {
+    public var dataWritingOption: Data.WritingOptions {
         switch self {
         case .none:
             return .noFileProtection

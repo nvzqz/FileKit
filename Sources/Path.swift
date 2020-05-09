@@ -946,7 +946,7 @@ extension Path {
 
 extension Path {
 
-    // MARK: - NSURL
+    // MARK: - URL
 
     /// Creates a new path with given url if possible.
     ///
@@ -973,8 +973,8 @@ extension Path {
     ///
     /// - Parameter bookmarkData: The bookmark data to create a path for.
     public init?(bookmarkData bookData: Data) {
-        var isStale: ObjCBool = false
-        let url = try? (NSURL(
+        var isStale: Bool = false
+        let url = try? (URL(
             resolvingBookmarkData: bookData,
             options: [],
             relativeTo: nil,

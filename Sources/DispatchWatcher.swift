@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if os(Linux)
+import Glibc
+#endif
 
 /// Delegate for `DispatchFileSystemWatcher`
 public protocol DispatchFileSystemWatcherDelegate: class {
@@ -252,7 +255,11 @@ open class DispatchFileSystemWatcher {
 
                     // Define a cancel handler to ensure the path is closed when the source is cancelled.
                     source!.setCancelHandler { //[unowned self] () in
+                        #if os(Linux)
+                        _ = Glibc.close(self.fileDescriptor)
+                        #else
                         _ = Darwin.close(self.fileDescriptor)
+                        #endif
                         self.fileDescriptor = -1
                         self.source = nil
                     }
@@ -279,7 +286,11 @@ open class DispatchFileSystemWatcher {
     /// Closes the watcher.
     open func close() {
         createWatcher?.stopWatching()
+        #if os(Linux)
+        _ = Glibc.close(self.fileDescriptor)
+        #else
         _ = Darwin.close(self.fileDescriptor)
+        #endif
         self.fileDescriptor = -1
         self.source = nil
     }

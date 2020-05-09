@@ -27,10 +27,12 @@
 
 import Foundation
 
+#if !os(Linux)
 /// A representation of a filesystem array file.
 ///
 /// The data type is NSArray.
 public typealias NSArrayFile = File<NSArray>
+#endif
 
 /// A representation of a filesystem array file.
 ///

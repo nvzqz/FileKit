@@ -25,6 +25,7 @@
 //  THE SOFTWARE.
 //
 
+#if !os(Linux)
 import Foundation
 
 /// A representation of a filesystem data file.
@@ -61,3 +62,4 @@ extension File where DataType: NSData {
     }
 
 }
+#endif
