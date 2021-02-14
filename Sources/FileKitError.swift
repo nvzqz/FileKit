@@ -114,7 +114,7 @@ extension FileKitError {
             return "Could not move file at \"\(fromPath)\" to \"\(toPath)\""
         case let .copyFileFail(fromPath, toPath, _):
             return "Could not copy file from \"\(fromPath)\" to \"\(toPath)\""
-        case let .attributesChangeFail(path):
+        case let .attributesChangeFail(path, _):
             return "Could not change file attrubutes at \"\(path)\""
         }
     }
