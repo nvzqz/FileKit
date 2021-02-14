@@ -44,6 +44,11 @@ open class File<DataType: ReadableWritable>: Comparable {
         return path.fileName
     }
 
+    /// The file's name without extension.
+    open var nameWithoutExtension: String {
+        return path.fileNameWithoutExtension
+    }
+
     /// The file's filesystem path extension.
     public final var pathExtension: String {
         get {

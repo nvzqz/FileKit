@@ -160,6 +160,11 @@ public struct Path {
         return self.absolute.components.last?.rawValue ?? ""
     }
 
+    /// The name of the file without extension.
+    public var fileNameWithoutExtension: String {
+        return ((rawValue as NSString).lastPathComponent as NSString).deletingPathExtension
+    }
+
     /// A new path created by removing extraneous components from the path.
     public var standardized: Path {
         return Path((self.rawValue as NSString).standardizingPath)
@@ -300,6 +305,9 @@ public struct Path {
             let path = (rawValue as NSString).deletingPathExtension
             rawValue = path + ".\(newValue)"
         }
+    }
+    mutating func appendToExtension(_ toAppend: String) {
+        self.pathExtension = pathExtension + toAppend
     }
 
     /// The path's parent path.

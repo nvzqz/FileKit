@@ -497,6 +497,7 @@ class FileKitTests: XCTestCase {
     // MARK: - TextFile
     let testFilePath: Path = .userTemporary + "filekit_test.txt"
     let textFile = TextFile(path: .userTemporary + "filekit_test.txt")
+    let textFileWithoutExt = TextFile(path: .userTemporary + "filekit_test")
 
     func testFileName() {
         XCTAssertEqual(TextFile(path: "/Users/").name, "Users")
@@ -504,6 +505,11 @@ class FileKitTests: XCTestCase {
 
     func testTextFileExtension() {
         XCTAssertEqual(textFile.pathExtension, "txt")
+    }
+
+    func testTextFileWihoutExtension() {
+        XCTAssertEqual(textFile.nameWithoutExtension, "filekit_test")
+        XCTAssertEqual(textFileWithoutExt.nameWithoutExtension, "filekit_test")
     }
 
     func testTextFileExists() {
