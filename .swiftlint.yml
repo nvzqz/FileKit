@@ -6,6 +6,7 @@ disabled_rules:
     - cyclomatic_complexity
     - variable_name
     - type_name
+    - todo
 
 shorthand_operator: warning
 superfluous_disable_command: warning

@@ -145,7 +145,7 @@ open class DispatchFileSystemWatcher {
     // MARK: - Deinitialization
 
     deinit {
-        //print("\(path): Deinit")
+        // print("\(path): Deinit")
         close()
     }
 
@@ -217,7 +217,7 @@ open class DispatchFileSystemWatcher {
                         // stop watching when path created
                         if self?.path.isRegular == true || self?.path.isDirectoryFile == true {
                             self?.dispatchDelegate(.Create)
-                            //self.delegate?.fsWatcherDidObserveCreate(self)
+                            // self.delegate?.fsWatcherDidObserveCreate(self)
                             self?.createWatcher = nil
                             self?.startWatching()
                             watch.stopWatching()
@@ -245,13 +245,13 @@ open class DispatchFileSystemWatcher {
                     }
 
                     // Define the block to call when a file change is detected.
-                    source!.setEventHandler { //[unowned self] () in
+                    source!.setEventHandler { // [unowned self] () in
                         let eventType = DispatchFileSystemEvents(rawValue: self.source!.data)
                         self.dispatchDelegate(eventType)
                     }
 
                     // Define a cancel handler to ensure the path is closed when the source is cancelled.
-                    source!.setCancelHandler { //[unowned self] () in
+                    source!.setCancelHandler { // [unowned self] () in
                         _ = Darwin.close(self.fileDescriptor)
                         self.fileDescriptor = -1
                         self.source = nil

@@ -70,9 +70,9 @@ public struct Path {
         weak var delegate: FileManagerDelegate?
         /// Safe way to use fileManager
         var fileManager: FileManager {
-            //if delegate == nil {
+            // if delegate == nil {
             //   print("\n\nDelegate is nil\n\n")
-            //}
+            // }
             unsafeFileManager.delegate = delegate
             return unsafeFileManager
         }

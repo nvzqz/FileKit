@@ -35,13 +35,13 @@ public class FileSystemWatcher {
     // MARK: - Private Static Properties
 
     /// The event stream callback for when events occur.
-    private static let _eventCallback: FSEventStreamCallback = {
+    private static let _eventCallback: FSEventStreamCallback = { // swiftlint:disable all
         (stream: ConstFSEventStreamRef,
-        contextInfo: UnsafeMutableRawPointer?,
-        numEvents: Int,
-        eventPaths: UnsafeMutableRawPointer,
-        eventFlags: UnsafePointer<FSEventStreamEventFlags>,
-        eventIds: UnsafePointer<FSEventStreamEventId>) in
+         contextInfo: UnsafeMutableRawPointer?,
+         numEvents: Int,
+         eventPaths: UnsafeMutableRawPointer,
+         eventFlags: UnsafePointer<FSEventStreamEventFlags>,
+         eventIds: UnsafePointer<FSEventStreamEventId>) in  // swiftlint:enable all
 
         FileSystemWatcher.log("Callback Fired")
 
