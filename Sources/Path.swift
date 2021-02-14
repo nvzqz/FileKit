@@ -1005,6 +1005,70 @@ extension Path {
 
 extension Path {
 
+    // MARK: - Ubiquity Container
+
+    /// Create a path  for the iCloud container associated with the specified identifier and establishes access to that container.
+    public init?(ubiquityContainerIdentifier containerIdentifier: String) {
+        guard let url = FileManager.default.url(forUbiquityContainerIdentifier: containerIdentifier) else {
+            return nil
+        }
+        self.init(url: url)
+    }
+
+    /// - Returns: a Boolean indicating whether the item is targeted for storage in iCloud.
+    public var isUbiquitousItem: Bool {
+        return _fmWraper.fileManager.isUbiquitousItem(at: self.url)
+    }
+
+    /// Removes the local copy of the specified item that’s stored in iCloud.
+    public func evictUbiquitousItem() throws {
+        do {
+            return try _fmWraper.fileManager.evictUbiquitousItem(at: self.url)
+        } catch {
+            throw FileKitError.deleteFileFail(path: self, error: error)
+        }
+    }
+
+    /// Returns a URL that can be emailed to users to allow them to download a copy of a flat file item from iCloud.
+    /// It return also the expiration date.
+    func publicUbiquitousURL() throws -> (URL, Date?) {
+        var expiration: NSDate?
+        let url = try _fmWraper.fileManager.url(forPublishingUbiquitousItemAt: self.url, expiration: &expiration)
+        guard let date = expiration else {
+            return (url, nil)
+        }
+        // TODO need to encapsulate error before exposing it
+        return (url, date as Date)
+    }
+
+    /// Indicates whether the current file should be stored in iCloud.
+    public func setUbiquitous(destination: Path) throws {
+        do {
+            try _fmWraper.fileManager.setUbiquitous(true, itemAt: self.url, destinationURL: destination.url)
+        } catch {
+            throw FileKitError.attributesChangeFail(path: self, error: error)
+        }
+    }
+
+    /// Indicates whether the current file should no more be stored in iCloud.
+    public func unsetUbiquitous() throws {
+        do {
+            try _fmWraper.fileManager.setUbiquitous(false, itemAt: self.url, destinationURL: self.url)
+        } catch {
+            throw FileKitError.attributesChangeFail(path: self, error: error)
+        }
+    }
+
+    /// Starts downloading (if necessary) the specified item to the local system.
+    func startDownloadingUbiquitous() throws {
+        try _fmWraper.fileManager.startDownloadingUbiquitousItem(at: self.url)
+        // TODO need to encapsulate error before exposing it
+    }
+
+}
+
+extension Path {
+
     // MARK: - SecurityApplicationGroupIdentifier
 
     /// Returns the container directory associated with the specified security application group ID.
