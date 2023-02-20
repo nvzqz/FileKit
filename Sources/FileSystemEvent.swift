@@ -43,7 +43,7 @@ public struct FileSystemEvent {
     // MARK: - Properties
 
     /// The ID of the event.
-    public var id: FSEventStreamEventId // swiftlint:disable:this variable_name
+    public var id: FSEventStreamEventId // swiftlint:disable:this identifier_name
 
     /// The path for the event.
     public var path: Path
@@ -234,11 +234,9 @@ public struct FileSystemEventFlags: OptionSet, CustomStringConvertible, CustomDe
     /// A textual representation of `self`.
     public var description: String {
         var result = ""
-        for (index, element) in FileSystemEventFlags.allFlags.enumerated() {
-            if self.contains(element) {
-                let name = FileSystemEventFlags.allFlagNames[index]
-                result += result.isEmpty ? "\(name)": ", \(name)"
-            }
+        for (index, element) in FileSystemEventFlags.allFlags.enumerated() where self.contains(element) {
+            let name = FileSystemEventFlags.allFlagNames[index]
+            result += result.isEmpty ? "\(name)": ", \(name)"
         }
         return String(describing: type(of: self)) + "[\(result)]"
     }
@@ -246,11 +244,9 @@ public struct FileSystemEventFlags: OptionSet, CustomStringConvertible, CustomDe
     /// A textual representation of `self`, suitable for debugging.
     public var debugDescription: String {
         var result = ""
-        for (index, element) in FileSystemEventFlags.allFlags.enumerated() {
-            if self.contains(element) {
-                let name = FileSystemEventFlags.allFlagNames[index] + "(\(element.rawValue))"
-                result += result.isEmpty ? "\(name)": ", \(name)"
-            }
+        for (index, element) in FileSystemEventFlags.allFlags.enumerated() where self.contains(element) {
+            let name = FileSystemEventFlags.allFlagNames[index] + "(\(element.rawValue))"
+            result += result.isEmpty ? "\(name)": ", \(name)"
         }
         return String(describing: type(of: self)) + "[\(result)]"
     }
@@ -308,11 +304,9 @@ public struct FileSystemEventStreamCreateFlags: OptionSet, CustomStringConvertib
     /// A textual representation of `self`.
     public var description: String {
         var result = ""
-        for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerated() {
-            if self.contains(element) {
-                let name = FileSystemEventStreamCreateFlags.allFlagNames[index]
-                result += result.isEmpty ? "\(name)": ", \(name)"
-            }
+        for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerated() where self.contains(element) {
+            let name = FileSystemEventStreamCreateFlags.allFlagNames[index]
+            result += result.isEmpty ? "\(name)": ", \(name)"
         }
         return String(describing: type(of: self)) + "[\(result)]"
     }
@@ -320,11 +314,9 @@ public struct FileSystemEventStreamCreateFlags: OptionSet, CustomStringConvertib
     /// A textual representation of `self`, suitable for debugging.
     public var debugDescription: String {
         var result = ""
-        for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerated() {
-            if self.contains(element) {
-                let name = FileSystemEventStreamCreateFlags.allFlagNames[index] + "(\(element.rawValue))"
-                result += result.isEmpty ? "\(name)": ", \(name)"
-            }
+        for (index, element) in FileSystemEventStreamCreateFlags.allFlags.enumerated() where self.contains(element) {
+            let name = FileSystemEventStreamCreateFlags.allFlagNames[index] + "(\(element.rawValue))"
+            result += result.isEmpty ? "\(name)": ", \(name)"
         }
         return String(describing: type(of: self)) + "[\(result)]"
     }

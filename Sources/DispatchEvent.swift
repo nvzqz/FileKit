@@ -60,11 +60,9 @@ public struct DispatchFileSystemEvents: OptionSet, CustomStringConvertible, Cust
     /// A textual representation of `self`.
     public var description: String {
         var result = ""
-        for (index, element) in DispatchFileSystemEvents.allEvents.enumerated() {
-            if self.contains(element) {
-                let name = DispatchFileSystemEvents.allEventNames[index]
-                result += result.isEmpty ? "\(name)": ", \(name)"
-            }
+        for (index, element) in DispatchFileSystemEvents.allEvents.enumerated() where self.contains(element) {
+            let name = DispatchFileSystemEvents.allEventNames[index]
+            result += result.isEmpty ? "\(name)": ", \(name)"
         }
         return String(describing: type(of: self)) + "[\(result)]"
     }
@@ -72,11 +70,9 @@ public struct DispatchFileSystemEvents: OptionSet, CustomStringConvertible, Cust
     /// A textual representation of `self`, suitable for debugging.
     public var debugDescription: String {
         var result = ""
-        for (index, element) in DispatchFileSystemEvents.allEvents.enumerated() {
-            if self.contains(element) {
-                let name = DispatchFileSystemEvents.allEventNames[index] + "(\(element.rawValue))"
-                result += result.isEmpty ? "\(name)": ", \(name)"
-            }
+        for (index, element) in DispatchFileSystemEvents.allEvents.enumerated() where self.contains(element) {
+            let name = DispatchFileSystemEvents.allEventNames[index] + "(\(element.rawValue))"
+            result += result.isEmpty ? "\(name)": ", \(name)"
         }
         return String(describing: type(of: self)) + "[\(result)]"
     }

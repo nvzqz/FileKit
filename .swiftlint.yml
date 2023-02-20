@@ -4,7 +4,7 @@ included:
 # rule identifiers to exclude from running
 disabled_rules:
     - cyclomatic_complexity
-    - variable_name
+    - identifier_name
     - type_name
     - todo
 

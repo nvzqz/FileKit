@@ -9,7 +9,7 @@
 import Foundation
 
 /// Delegate for `DispatchFileSystemWatcher`
-public protocol DispatchFileSystemWatcherDelegate: class {
+public protocol DispatchFileSystemWatcherDelegate: AnyObject {
 
     // MARK: - Protocol
 
